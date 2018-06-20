@@ -1,3 +1,4 @@
 lxml
 pyopenssl
+requests
 validators

@@ -1,6 +1,8 @@
 import OpenSSL.crypto
 import base64
 import lxml.objectify
+import os
+import re
 import sys
 import unittest
 import validators
@@ -8,7 +10,8 @@ import validators
 from io import BytesIO
 from lxml import etree as ET
 
-METADATA_FILE = './data/metadata.xml'
+METADATA = os.getenv('METADATA', None)
+DATA_DIR = os.getenv('DATA_DIR', './data')
 
 ATTRIBUTES = [
     'address',
@@ -63,7 +66,10 @@ class TestSPMetadata(unittest.TestCase):
     longMessage = False
 
     def setUp(self):
-        with open(METADATA_FILE, 'rb') as md_file:
+        if not METADATA:
+            self.fail('METADATA not set')
+
+        with open(METADATA, 'rb') as md_file:
             md = md_file.read()
             self.doc = ET.parse(BytesIO(md))
             md_file.close()
@@ -88,7 +94,7 @@ class TestSPMetadata(unittest.TestCase):
             self.assertGreaterEqual(len(certs), 1)
 
             for cert in certs:
-                b64 = cert.text.rstrip()
+                b64 = re.sub(r'[\s]', '', cert.text)
                 pem = []
                 n = 72
                 pem.append('-----BEGIN CERTIFICATE-----')
@@ -101,7 +107,7 @@ class TestSPMetadata(unittest.TestCase):
                 )
 
                 dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-                fname = './data/%s.pem' % dgst[0:16]
+                fname = '%s/%s.pem' % (DATA_DIR, dgst[0:16])
 
                 with open(fname, 'w') as f:
                     f.write('\n'.join(pem))
@@ -118,6 +124,27 @@ class TestSPMetadata(unittest.TestCase):
 
         alg = method[0].get('Algorithm')
         self.assertIn(alg, SIGN_ALGS, alg)
+
+        cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
+
+        b64 = re.sub(r'[\s]', '', cert.text)
+        pem = []
+        n = 72
+        pem.append('-----BEGIN CERTIFICATE-----')
+        [pem.append(b64[i:i+n]) for i in range(0, len(b64), n)]
+        pem.append('-----END CERTIFICATE-----')
+
+        x509 = OpenSSL.crypto.load_certificate(
+            OpenSSL.crypto.FILETYPE_ASN1,
+            base64.b64decode(b64)
+        )
+
+        dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
+        fname = '%s/%s.sign.pem' % (DATA_DIR, dgst[0:16])
+
+        with open(fname, 'w') as f:
+            f.write('\n'.join(pem))
+            f.close()
 
     def test_SPSSODescriptor(self):
         del_ns(self.doc)
@@ -141,7 +168,6 @@ class TestSPMetadata(unittest.TestCase):
                               '/AssertionConsumerService')
         self.assertGreaterEqual(len(acss), 1)
 
-        curl_cmd = []
         for acs in acss:
             self.assertGreaterEqual(int(acs.get('index')), 0)
 
@@ -153,19 +179,9 @@ class TestSPMetadata(unittest.TestCase):
             self.assertRegex(location, regex, location)
             self.assertTrue(validators.url(location), location)
 
-            curl_cmd.append('echo ""')
-            curl_cmd.append('echo "# ----------------------"')
-            curl_cmd.append('echo "# Checking %s"' % location)
-            curl_cmd.append('echo "# ----------------------"')
-            curl_cmd.append('curl -ILSs -m5 %s' % location)
-
         acs = acss[0]
         self.assertEqual(int(acs.get('index')), 0)
         self.assertEqual(acs.get('isDefault'), 'true')
-
-        with open('./data/acs.curl.sh', 'w') as f:
-            f.write('\n'.join(curl_cmd))
-            f.close()
 
     def test_AttributeConsumingService(self):
         del_ns(self.doc)
@@ -221,7 +237,6 @@ class TestSPMetadata(unittest.TestCase):
                               '/SingleLogoutService')
         self.assertGreaterEqual(len(slos), 1)
 
-        curl_cmd = []
         for slo in slos:
             binding = slo.get('Binding')
             self.assertIn(binding, BINDINGS, binding)
@@ -230,13 +245,3 @@ class TestSPMetadata(unittest.TestCase):
             regex = r'^https://.*'
             self.assertRegex(location, regex, location)
             self.assertTrue(validators.url(location), location)
-
-            curl_cmd.append('echo ""')
-            curl_cmd.append('echo "# ----------------------"')
-            curl_cmd.append('echo "# Checking %s"' % location)
-            curl_cmd.append('echo "# ----------------------"')
-            curl_cmd.append('curl -ILSs -m5 %s' % location)
-
-        with open('./data/sls.curl.sh', 'w') as f:
-            f.write('\n'.join(curl_cmd))
-            f.close()

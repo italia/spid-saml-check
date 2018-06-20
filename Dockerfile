@@ -1,5 +1,9 @@
 FROM debian:buster
 
+ENV \
+    METADATA=/data/metadata.xml \
+    DATA_DIR=/data
+
 RUN apt-get update \
     && apt-get install -y \
         curl \
@@ -12,6 +16,7 @@ RUN apt-get update \
     && pip3 install \
         tox
 
+RUN mkdir /data
 WORKDIR /usr/src/app
 COPY . .
 
