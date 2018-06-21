@@ -3,7 +3,6 @@ import base64
 import lxml.objectify
 import os
 import re
-import sys
 import unittest
 import validators
 
