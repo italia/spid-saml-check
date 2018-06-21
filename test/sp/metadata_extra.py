@@ -131,15 +131,15 @@ class TestSPMetadataExtra(unittest.TestCase):
                 c += 1
                 msg = (('[ERROR] AssertionConsumerService, %s, (%s)') %
                        (t[1], data['statusMessage']))
-                sys.stderr.write('\n%s\n' % msg)
+                sys.stderr.write('\n\t%s' % msg)
             elif data['status'] == 'READY':
                 grade = data['endpoints'][0]['grade']
                 msg = '[%s] AssertionConsumerService, %s' % (grade, t[1])
-                sys.stderr.write('\n%s\n' % msg)
+                sys.stderr.write('\n\t%s' % msg)
                 if grade not in ['A+', 'A', 'A-']:
                     c += 1
             else:
-                sys.stderr.write('\n%s\n' % data['status'])
+                sys.stderr.write('\n\t%s' % data['status'])
                 pass
 
         locations = []
@@ -161,17 +161,18 @@ class TestSPMetadataExtra(unittest.TestCase):
                 c += 1
                 msg = (('[ERROR] SingleLogoutService, %s, (%s)') %
                        (t[1], data['statusMessage']))
-                sys.stderr.write('\n%s\n' % msg)
+                sys.stderr.write('\n\t%s' % msg)
             elif data['status'] == 'READY':
                 grade = data['endpoints'][0]['grade']
                 msg = '[%s] SingleLogoutService, %s' % (grade, t[1])
-                sys.stderr.write('\n%s\n' % msg)
+                sys.stderr.write('\n\t%s' % msg)
                 if grade not in ['A+', 'A', 'A-']:
                     c += 1
             else:
-                sys.stderr.write('\n%s\n' % data['status'])
+                sys.stderr.write('\n\t%s' % data['status'])
                 pass
 
+        sys.stderr.write('\n')
         self.assertEqual(
             c,
             0,

@@ -106,7 +106,34 @@ class TestSPMetadata(unittest.TestCase):
                 )
 
                 dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-                fname = '%s/%s.pem' % (DATA_DIR, dgst[0:16])
+                fname = '%s/%s.signing.pem' % (DATA_DIR, dgst[0:16])
+
+                with open(fname, 'w') as f:
+                    f.write('\n'.join(pem))
+                    f.close()
+
+        kds = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
+                             '/KeyDescriptor[@use="encryption"]')
+
+        for kd in kds:
+            certs = kd.xpath('./KeyInfo/X509Data/X509Certificate')
+            self.assertGreaterEqual(len(certs), 1)
+
+            for cert in certs:
+                b64 = re.sub(r'[\s]', '', cert.text)
+                pem = []
+                n = 72
+                pem.append('-----BEGIN CERTIFICATE-----')
+                [pem.append(b64[i:i+n]) for i in range(0, len(b64), n)]
+                pem.append('-----END CERTIFICATE-----')
+
+                x509 = OpenSSL.crypto.load_certificate(
+                    OpenSSL.crypto.FILETYPE_ASN1,
+                    base64.b64decode(b64)
+                )
+
+                dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
+                fname = '%s/%s.encryption.pem' % (DATA_DIR, dgst[0:16])
 
                 with open(fname, 'w') as f:
                     f.write('\n'.join(pem))
@@ -139,7 +166,7 @@ class TestSPMetadata(unittest.TestCase):
         )
 
         dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-        fname = '%s/%s.sign.pem' % (DATA_DIR, dgst[0:16])
+        fname = '%s/%s.signature.pem' % (DATA_DIR, dgst[0:16])
 
         with open(fname, 'w') as f:
             f.write('\n'.join(pem))
