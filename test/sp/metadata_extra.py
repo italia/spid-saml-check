@@ -1,19 +1,67 @@
-import unittest
 import lxml.objectify
-import requests
-import ssl
-import sys
-import warnings
-import validators
 import os
-
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.poolmanager import PoolManager
+import requests
+import sys
+import time
+import unittest
+import validators
+import warnings
+import urllib.parse
 
 from io import BytesIO
 from lxml import etree as ET
 
 METADATA_FILE = os.getenv('METADATA', None)
+
+API = 'https://api.ssllabs.com/api/v2/'
+
+
+def ssllabs_api(path, payload={}):
+    url = API + path
+
+    try:
+        response = requests.get(url, params=payload)
+    except requests.exception.RequestException:
+        sys.stderr.write('Request failed.')
+        sys.exit(1)
+
+    data = response.json()
+    return data
+
+
+def ssllabs_from_cache(host, publish='off', startNew='off', fromCache='on',
+                       all='done'):
+    path = 'analyze'
+    payload = {
+                'host': host,
+                'publish': publish,
+                'startNew': startNew,
+                'fromCache': fromCache,
+                'all': all
+              }
+    data = ssllabs_api(path, payload)
+    return data
+
+
+def ssllabs_new_scan(host, publish='off', startNew='on', all='done',
+                     ignoreMismatch='on'):
+    path = 'analyze'
+    payload = {
+                'host': host,
+                'publish': publish,
+                'startNew': startNew,
+                'all': all,
+                'ignoreMismatch': ignoreMismatch
+              }
+    results = ssllabs_api(path, payload)
+
+    payload.pop('startNew')
+
+    while results['status'] != 'READY' and results['status'] != 'ERROR':
+        time.sleep(30)
+        results = ssllabs_api(path, payload)
+
+    return results
 
 
 def del_ns(tree):
@@ -25,20 +73,6 @@ def del_ns(tree):
         if i >= 0:
             elem.tag = elem.tag[i+1:]
     lxml.objectify.deannotate(root, cleanup_namespaces=True)
-
-
-class TLSAdapter(HTTPAdapter):
-    def __init__(self, ssl_version, **kwargs):
-        self.ssl_version = ssl_version
-        super(TLSAdapter, self).__init__(**kwargs)
-
-    def init_poolmanager(self, connections, maxsize, block=False):
-        self.poolmanager = PoolManager(
-            num_pools=connections,
-            maxsize=maxsize,
-            block=block,
-            ssl_version=self.ssl_version
-        )
 
 
 class TestSPMetadataExtra(unittest.TestCase):
@@ -74,139 +108,73 @@ class TestSPMetadataExtra(unittest.TestCase):
         self.assertTrue(eid.startswith('https://'))
         self.assertTrue(validators.url(eid))
 
-    def test_tls1_0(self):
+    def test_ssllabs(self):
         del_ns(self.doc)
 
-        name = 'AssertionConsumerService'
-        with self.subTest(name=name):
-            acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
-                                  '/AssertionConsumerService')
-            for acs in acss:
-                url = acs.get('Location')
-                with self.subTest(url=url):
-                    s = requests.Session()
-                    s.mount('https://', TLSAdapter(ssl.PROTOCOL_TLSv1))
+        locations = []
+        c = 0
+        acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
+                              '/AssertionConsumerService')
+        for acs in acss:
+            url = acs.get('Location')
+            locations.append(url)
 
-                    not_supported = True
-                    try:
-                        r = s.head(url, timeout=2)
-                        not_supported = False
-                    except Exception:
-                        pass
-                    self.assertTrue(
-                        not_supported,
-                        (('%s, %s available on TLS v1.0') %
-                         (name, url))
-                    )
+        to_check = [(urllib.parse.urlparse(location).netloc, location)
+                    for location in locations]
+        for t in to_check:
+            data = ssllabs_from_cache(t[0])
+            while data['status'] != 'ERROR' and data['status'] != 'READY':
+                time.sleep(30)
+                data = ssllabs_from_cache(t[0])
 
-        name = 'SingleLogoutService'
-        with self.subTest(name=name):
-            slos = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
-                                  '/SingleLogoutService')
-            for slo in slos:
-                url = slo.get('Location')
-                with self.subTest(url=url):
-                    s = requests.Session()
-                    s.mount('https://', TLSAdapter(ssl.PROTOCOL_TLSv1))
+            if data['status'] == 'ERROR':
+                c += 1
+                msg = (('[ERROR] AssertionConsumerService, %s, (%s)') %
+                       (t[1], data['statusMessage']))
+                sys.stderr.write('\n%s\n' % msg)
+            elif data['status'] == 'READY':
+                grade = data['endpoints'][0]['grade']
+                msg = '[%s] AssertionConsumerService, %s' % (grade, t[1])
+                sys.stderr.write('\n%s\n' % msg)
+                if grade not in ['A+', 'A', 'A-']:
+                    c += 1
+            else:
+                sys.stderr.write('\n%s\n' % data['status'])
+                pass
 
-                    not_supported = True
-                    try:
-                        r = s.head(url, timeout=2)
-                        not_supported = False
-                    except Exception:
-                        pass
-                    self.assertTrue(
-                        not_supported,
-                        (('%s, %s available on TLS v1.0') %
-                         (name, url))
-                    )
+        locations = []
+        slos = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
+                              '/SingleLogoutService')
+        for slo in slos:
+            url = slo.get('Location')
+            locations.append(url)
 
-    def test_tls1_1(self):
-        del_ns(self.doc)
+        to_check = [(urllib.parse.urlparse(location).netloc, location)
+                    for location in locations]
+        for t in to_check:
+            data = ssllabs_from_cache(t[0])
+            while data['status'] != 'ERROR' and data['status'] != 'READY':
+                time.sleep(30)
+                data = ssllabs_from_cache(t[0])
 
-        name = 'AssertionConsumerService'
-        with self.subTest(name=name):
-            acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
-                                  '/AssertionConsumerService')
-            for acs in acss:
-                url = acs.get('Location')
-                with self.subTest(url=url):
-                    s = requests.Session()
-                    s.mount('https://', TLSAdapter(ssl.PROTOCOL_TLSv1_1))
+            if data['status'] == 'ERROR':
+                c += 1
+                msg = (('[ERROR] SingleLogoutService, %s, (%s)') %
+                       (t[1], data['statusMessage']))
+                sys.stderr.write('\n%s\n' % msg)
+            elif data['status'] == 'READY':
+                grade = data['endpoints'][0]['grade']
+                msg = '[%s] SingleLogoutService, %s' % (grade, t[1])
+                sys.stderr.write('\n%s\n' % msg)
+                if grade not in ['A+', 'A', 'A-']:
+                    c += 1
+            else:
+                sys.stderr.write('\n%s\n' % data['status'])
+                pass
 
-                    not_supported = True
-                    try:
-                        r = s.head(url, timeout=2)
-                        not_supported = False
-                    except Exception:
-                        pass
-                    self.assertTrue(
-                        not_supported,
-                        (('%s, %s available on TLS v1.1') %
-                         (name, url))
-                    )
-
-        name = 'SingleLogoutService'
-        with self.subTest(name=name):
-            slos = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
-                                  '/SingleLogoutService')
-            for slo in slos:
-                url = slo.get('Location')
-                with self.subTest(url=url):
-                    s = requests.Session()
-                    s.mount('https://', TLSAdapter(ssl.PROTOCOL_TLSv1_1))
-
-                    not_supported = True
-                    try:
-                        r = s.head(url, timeout=2)
-                        not_supported = False
-                    except Exception:
-                        pass
-                    self.assertTrue(
-                        not_supported,
-                        (('%s, %s available on TLS v1.1') %
-                         (name, url)))
-
-    def test_tls1_2(self):
-        del_ns(self.doc)
-
-        name = 'AssertionConsumerService'
-        with self.subTest(name=name):
-            acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
-                                  '/AssertionConsumerService')
-            for acs in acss:
-                url = acs.get('Location')
-                with self.subTest(url=url):
-                    s = requests.Session()
-                    s.mount('https://', TLSAdapter(ssl.PROTOCOL_TLSv1_2))
-
-                    is_supported = True
-                    try:
-                        r = s.head(url, timeout=2)
-                    except Exception:
-                        is_supported = False
-                    self.assertTrue(
-                        is_supported,
-                        (('%s, %s not available on TLS v1.2 or invalid') %
-                         (name, url))
-                    )
-
-        name = 'SingleLogoutService'
-        with self.subTest(name=name):
-            slos = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
-                                  '/SingleLogoutService')
-            for slo in slos:
-                url = slo.get('Location')
-                with self.subTest(url=url):
-                    s = requests.Session()
-                    s.mount('https://', TLSAdapter(ssl.PROTOCOL_TLSv1_2))
-
-                    not_supported = True
-                    try:
-                        r = s.head(url, timeout=2)
-                    except Exception:
-                        is_supported = False
-                    self.assertTrue(
-                        is_supported,
-                        (('%s, %s not available on TLS v1.2 or invalid') %
-                         (name, url)))
+        self.assertEqual(
+            c,
+            0,
+            'One or more AssertionConsumerService/ServiceLogoutService URLs '
+            'have weak TLS configuration or are not reachable'
+        )
