@@ -199,9 +199,9 @@ class TestSPMetadata(unittest.TestCase):
             self.assertRegex(location, regex, location)
             self.assertTrue(validators.url(location), location)
 
-        acs = acss[0]
-        self.assertEqual(int(acs.get('index')), 0)
-        self.assertEqual(acs.get('isDefault'), 'true')
+        acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
+                              '/AssertionConsumerService[@isDefault="true"]')
+        self.assertEqual(len(acss), 1)
 
     def test_AttributeConsumingService(self):
         del_ns(self.doc)
