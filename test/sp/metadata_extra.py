@@ -105,9 +105,57 @@ class TestSPMetadataExtra(unittest.TestCase):
         ed = self.doc.xpath('//EntityDescriptor')[0]
         eid = ed.get('entityID')
 
-        self.assertTrue(eid.startswith('https://'))
-        self.assertTrue(validators.url(eid))
+        with self.subTest('entityID must be an HTTPS uri'):
+            self.assertTrue(eid.startswith('https://'))
+            self.assertTrue(validators.url(eid))
 
+    def test_SPSSODescriptor(self):
+        del_ns(self.doc)
+
+        spsso = self.doc.xpath('//EntityDescriptor/SPSSODescriptor')
+
+        with self.subTest('protocolSuportEnumeration must be '
+                          'urn:oasis:names:tc:SAML:2.0:protocol'):
+            pse = spsso[0].get('protocolSupportEnumeration')
+            self.assertEqual(pse, 'urn:oasis:names:tc:SAML:2.0:protocol')
+
+        with self.subTest('WantAssertionsSigned must be true'):
+            was = spsso[0].get('WantAssertionsSigned')
+            self.assertEqual(was, 'true')
+
+    def test_Organization(self):
+        del_ns(self.doc)
+
+        org = self.doc.xpath('//EntityDescriptor/Organization')[0]
+
+        with self.subTest('must have OrganizationName localized as IT'):
+            oname = org.xpath(
+                './OrganizationName[@xml:lang="it"]',
+                namespaces={
+                    'xml': 'http://www.w3.org/XML/1998/namespace',
+                }
+            )
+            self.assertEqual(len(oname), 1)
+
+        with self.subTest('must have OrganizationURL localized as IT'):
+            ourl = org.xpath(
+                './OrganizationURL[@xml:lang="it"]',
+                namespaces={
+                    'xml': 'http://www.w3.org/XML/1998/namespace',
+                }
+            )
+            self.assertEqual(len(ourl), 1)
+
+        with self.subTest('must have OrganizationDisplayName localized as IT'):
+            odn = org.xpath(
+                './OrganizationDisplayName[@xml:lang="it"]',
+                namespaces={
+                    'xml': 'http://www.w3.org/XML/1998/namespace',
+                }
+            )
+            self.assertEqual(len(odn), 1)
+
+    @unittest.skip('devel')
     def test_ssllabs(self):
         del_ns(self.doc)
 

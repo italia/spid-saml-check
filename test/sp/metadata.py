@@ -178,14 +178,8 @@ class TestSPMetadata(unittest.TestCase):
         spsso = self.doc.xpath('//EntityDescriptor/SPSSODescriptor')
         self.assertEqual(len(spsso), 1)
 
-        pse = spsso[0].get('protocolSupportEnumeration')
-        self.assertEqual(pse, 'urn:oasis:names:tc:SAML:2.0:protocol')
-
         ars = spsso[0].get('AuthnRequestsSigned')
         self.assertIn(ars, ['true', '1', True, 1])
-
-        was = spsso[0].get('WantAssertionsSigned')
-        self.assertEqual(was, 'true')
 
     def test_AssertionConsumerService(self):
         del_ns(self.doc)
