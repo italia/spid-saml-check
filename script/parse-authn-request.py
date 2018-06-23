@@ -32,7 +32,7 @@ params = urllib.parse.parse_qs(request.decode('utf-8'))
 # save the authentication request parametes/fields in separate files
 for par in ['SAMLRequest', 'RelayState', 'Signature', 'SigAlg']:
     if par in params:
-        content = params[par][0]
+        content = re.sub(r'[\s]', '', params[par][0])
     else:
         content = ''
 
