@@ -3,9 +3,16 @@
 _DATA_DIR=${DATA_DIR:-"./data"}
 
 SAMLRequest=`cat ${_DATA_DIR}/SAMLRequest.b64.txt`
+echo -e "\n[SAMLRequest]\n\n${SAMLRequest}"
+
 RelayState=`cat ${_DATA_DIR}/RelayState.b64.txt`
+echo -e "\n[RelayState]\n\n${RelayState}"
+
 Signature=`cat ${_DATA_DIR}/Signature.b64.txt`
+echo -e "\n[Signature]\n\n${Signature}"
+
 SigAlg=`cat ${_DATA_DIR}/SigAlg.b64.txt`
+echo -e "\n[SigAlg]\n\n${SigAlg}\n"
 
 
 if [ "X${Signature}" == "X" ]; then # HTTP-POST
