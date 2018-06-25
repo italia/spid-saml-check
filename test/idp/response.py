@@ -5,6 +5,7 @@ import re
 import unittest
 import urllib.parse
 import validators
+import OpenSSL
 
 from io import BytesIO
 from lxml import etree as ET
@@ -359,6 +360,29 @@ class TestResponse(unittest.TestCase):
                 a = e.get('Algorithm')
                 self.assertIn(a, SIGN_ALGS, _found(a))
 
+            # save the grubbed certificate for future alanysis
+            cert = self.doc.xpath('//Response/Assertion/Signature/'
+                                  'KeyInfo/X509Data/X509Certificate')[0]
+
+            b64 = re.sub(r'[\s]', '', cert.text)
+            pem = []
+            n = 72
+            pem.append('-----BEGIN CERTIFICATE-----')
+            [pem.append(b64[i:i+n]) for i in range(0, len(b64), n)]
+            pem.append('-----END CERTIFICATE-----')
+
+            x509 = OpenSSL.crypto.load_certificate(
+                OpenSSL.crypto.FILETYPE_ASN1,
+                base64.b64decode(b64)
+            )
+
+            dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
+            fname = '%s/%s.response.signature.pem' % (DATA_DIR, dgst[0:16])
+
+            with open(fname, 'w') as f:
+                f.write('\n'.join(pem))
+                f.close()
+
         with self.subTest('Advice element could be present'):
             e = self.doc.xpath('//Response/Assertion/Advice')
             self.assertLessEqual(len(e), 1)
@@ -370,3 +394,26 @@ class TestResponse(unittest.TestCase):
     def test_Signature(self):
         e = self.doc.xpath('//Response/Signature')
         self.assertLessEqual(len(e), 1, 'Signature element could be present')
+
+        if len(e) == 1:
+            # save the grubbed certificate for future alanysis
+            cert = e[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
+
+            b64 = re.sub(r'[\s]', '', cert.text)
+            pem = []
+            n = 72
+            pem.append('-----BEGIN CERTIFICATE-----')
+            [pem.append(b64[i:i+n]) for i in range(0, len(b64), n)]
+            pem.append('-----END CERTIFICATE-----')
+
+            x509 = OpenSSL.crypto.load_certificate(
+                OpenSSL.crypto.FILETYPE_ASN1,
+                base64.b64decode(b64)
+            )
+
+            dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
+            fname = '%s/%s.response.signature.pem' % (DATA_DIR, dgst[0:16])
+
+            with open(fname, 'w') as f:
+                f.write('\n'.join(pem))
+                f.close()
