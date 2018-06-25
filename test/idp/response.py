@@ -177,81 +177,130 @@ class TestResponse(unittest.TestCase):
             )
 
     def test_Assertion(self):
-        # TODO: deal with "failed" responses
+        sc = self.doc.xpath('//Response/Status/StatusCode')
+        v = sc[0].get('Value')
 
         e = self.doc.xpath('//Response/Assertion')
-        self.assertEqual(len(e), 1, 'Assertion element must be present')
 
-        e = e[0]
-        with self.subTest('ID attribute must be present'):
-            a = e.get('ID')
-            self.assertIsNotNone(a)
+        if v != 'urn:oasis:names:tc:SAML:2.0:status:Success':
+            self.assertEqual(len(e), 0, 'Assertion element '
+                                        'must not be present')
+        else:
+            self.assertEqual(len(e), 1, 'Assertion element must be present')
+            e = e[0]
 
-        with self.subTest('Version attribute must be set to 2.0'):
-            a = e.get('Version')
-            self.assertIsNotNone(a)
-            self.assertEqual(a, '2.0', _found(a))
+            with self.subTest('ID attribute must be present'):
+                a = e.get('ID')
+                self.assertIsNotNone(a)
 
-        with self.subTest('IssueInstant attribute must be '
-                          'a valid UTC string'):
-            regex = re.compile(_RE_UTC)
-            a = e.get('IssueInstant')
-            self.assertIsNotNone(a)
-            self.assertTrue(bool(regex.search(a)), _found(a))
+            with self.subTest('Version attribute must be set to 2.0'):
+                a = e.get('Version')
+                self.assertIsNotNone(a)
+                self.assertEqual(a, '2.0', _found(a))
 
-        with self.subTest('Subject element must be present'):
-            e = self.doc.xpath('//Response/Assertion/Subject')
-            self.assertEqual(len(e), 1, 'Subject element must be present')
+            with self.subTest('IssueInstant attribute must be '
+                              'a valid UTC string'):
+                regex = re.compile(_RE_UTC)
+                a = e.get('IssueInstant')
+                self.assertIsNotNone(a)
+                self.assertTrue(bool(regex.search(a)), _found(a))
 
-            with self.subTest('NameID element must be present and valid'):
-                e = self.doc.xpath('//Response/Assertion/Subject/NameID')
+            with self.subTest('Subject element must be present'):
+                e = self.doc.xpath('//Response/Assertion/Subject')
                 self.assertEqual(len(e), 1, 'Subject element must be present')
+
+                with self.subTest('NameID element must be present and valid'):
+                    e = self.doc.xpath('//Response/Assertion/Subject/NameID')
+                    self.assertEqual(len(e), 1, 'Subject element '
+                                                'must be present')
+                    e = e[0]
+
+                    with self.subTest('Format attribute must be '
+                                      'urn:oasis:names:tc:SAML:2.0:'
+                                      'nameid-format:transient'):
+                        a = e.get('Format')
+                        self.assertIsNotNone(a)
+                        self.assertEqual(
+                            a,
+                            'urn:oasis:names:tc:SAML:2.0:'
+                            'nameid-format:transient',
+                            _found(a)
+                        )
+
+                    with self.subTest('NameID element must be '
+                                      'present and valid'):
+                        a = e.get('NameQualifier')
+                        self.assertIsNotNone(a)
+
+                with self.subTest('SubjectConfirmation element must be '
+                                  'present and valid'):
+                    e = self.doc.xpath('//Response/Assertion/Subject'
+                                       '/SubjectConfirmation')
+                    self.assertEqual(len(e), 1, 'SubjectConfirmation element '
+                                                'must be present')
+                    e = e[0]
+
+                    with self.subTest('Method attribute must be '
+                                      'urn:oasis:names:tc:'
+                                      'SAML:2.0:cm:bearer'):
+                        a = e.get('Method')
+                        self.assertEqual(
+                            a,
+                            'urn:oasis:names:tc:SAML:2.0:cm:bearer',
+                            _found(a)
+                        )
+
+                with self.subTest('SubjectConfirmationData element must be '
+                                  'present and valid'):
+                    e = self.doc.xpath('//Response/Assertion/Subject'
+                                       '/SubjectConfirmation'
+                                       '/SubjectConfirmationData')
+                    self.assertEqual(len(e), 1, 'SubjectConfirmation element '
+                                                'must be present')
+                    e = e[0]
+
+                    with self.subTest('Recipient attribute must be present'):
+                        a = e.get('Recipient')
+                        self.assertIsNotNone(a)
+
+                    with self.subTest('NotOnOrAfter attribute '
+                                      'must be present'):
+                        regex = re.compile(_RE_UTC)
+                        a = e.get('NotOnOrAfter')
+                        self.assertIsNotNone(a)
+                        self.assertTrue(bool(regex.search(a)), _found(a))
+
+                    with self.subTest('InResponseTo attribute '
+                                      'must be present'):
+                        a = e.get('InResponseTo')
+                        self.assertIsNotNone(a)
+
+            with self.subTest('Issuer element must be present'):
+                e = self.doc.xpath('//Response/Assertion/Issuer')
+                self.assertEqual(len(e), 1, 'Issuer element must be present')
                 e = e[0]
 
                 with self.subTest('Format attribute must be '
                                   'urn:oasis:names:tc:SAML:2.0:'
-                                  'nameid-format:transient'):
+                                  'nameid-format:entity'):
                     a = e.get('Format')
-                    self.assertIsNotNone(a)
                     self.assertEqual(
                         a,
-                        'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
+                        'urn:oasis:names:tc:SAML:2.0:nameid-format:entity',
                         _found(a)
                     )
 
-                with self.subTest('NameID element must be present and valid'):
-                    a = e.get('NameQualifier')
-                    self.assertIsNotNone(a)
-
-            with self.subTest('SubjectConfirmation element must be '
-                              'present and valid'):
-                e = self.doc.xpath('//Response/Assertion/Subject'
-                                   '/SubjectConfirmation')
-                self.assertEqual(len(e), 1, 'SubjectConfirmation element '
+            with self.subTest('Conditions element must be present'):
+                e = self.doc.xpath('//Response/Assertion/Conditions')
+                self.assertEqual(len(e), 1, 'Conditions element '
                                             'must be present')
                 e = e[0]
 
-                with self.subTest('Method attribute must be '
-                                  'urn:oasis:names:tc:SAML:2.0:cm:bearer'):
-                    a = e.get('Method')
-                    self.assertEqual(
-                        a,
-                        'urn:oasis:names:tc:SAML:2.0:cm:bearer',
-                        _found(a)
-                    )
-
-            with self.subTest('SubjectConfirmationData element must be '
-                              'present and valid'):
-                e = self.doc.xpath('//Response/Assertion/Subject'
-                                   '/SubjectConfirmation'
-                                   '/SubjectConfirmationData')
-                self.assertEqual(len(e), 1, 'SubjectConfirmation element '
-                                            'must be present')
-                e = e[0]
-
-                with self.subTest('Recipient attribute must be present'):
-                    a = e.get('Recipient')
+                with self.subTest('NotBefore attribute must be present'):
+                    regex = re.compile(_RE_UTC)
+                    a = e.get('NotBefore')
                     self.assertIsNotNone(a)
+                    self.assertTrue(bool(regex.search(a)), _found(a))
 
                 with self.subTest('NotOnOrAfter attribute must be present'):
                     regex = re.compile(_RE_UTC)
@@ -259,137 +308,111 @@ class TestResponse(unittest.TestCase):
                     self.assertIsNotNone(a)
                     self.assertTrue(bool(regex.search(a)), _found(a))
 
-                with self.subTest('InResponseTo attribute must be present'):
-                    a = e.get('InResponseTo')
-                    self.assertIsNotNone(a)
-
-        with self.subTest('Issuer element must be present'):
-            e = self.doc.xpath('//Response/Assertion/Issuer')
-            self.assertEqual(len(e), 1, 'Issuer element must be present')
-            e = e[0]
-
-            with self.subTest('Format attribute must be '
-                              'urn:oasis:names:tc:SAML:2.0:'
-                              'nameid-format:entity'):
-                a = e.get('Format')
-                self.assertEqual(
-                    a,
-                    'urn:oasis:names:tc:SAML:2.0:nameid-format:entity',
-                    _found(a)
-                )
-
-        with self.subTest('Conditions element must be present'):
-            e = self.doc.xpath('//Response/Assertion/Conditions')
-            self.assertEqual(len(e), 1, 'Conditions element must be present')
-            e = e[0]
-
-            with self.subTest('NotBefore attribute must be present'):
-                regex = re.compile(_RE_UTC)
-                a = e.get('NotBefore')
-                self.assertIsNotNone(a)
-                self.assertTrue(bool(regex.search(a)), _found(a))
-
-            with self.subTest('NotOnOrAfter attribute must be present'):
-                regex = re.compile(_RE_UTC)
-                a = e.get('NotOnOrAfter')
-                self.assertIsNotNone(a)
-                self.assertTrue(bool(regex.search(a)), _found(a))
-
-            with self.subTest('AudienceRestriction element must be present'):
-                e = self.doc.xpath('//Response/Assertion/Conditions'
-                                   '/AudienceRestriction')
-                self.assertEqual(len(e), 1, 'AudienceRestriction element '
-                                            'must be present')
-                e = e[0]
-
-                with self.subTest('Audience element must be present'):
+                with self.subTest('AudienceRestriction element '
+                                  'must be present'):
                     e = self.doc.xpath('//Response/Assertion/Conditions'
-                                       '/AudienceRestriction/Audience')
-                    self.assertEqual(len(e), 1, 'Audience element '
+                                       '/AudienceRestriction')
+                    self.assertEqual(len(e), 1, 'AudienceRestriction element '
                                                 'must be present')
                     e = e[0]
-                    self.assertIsNotNone(e.text, _found(e.text))
 
-        with self.subTest('AuthnStatement element must be present'):
-            e = self.doc.xpath('//Response/Assertion/AuthnStatement')
-            self.assertGreaterEqual(len(e), 1, 'At least one AuthnStatement '
-                                               'element must be present')
+                    with self.subTest('Audience element must be present'):
+                        e = self.doc.xpath('//Response/Assertion/Conditions'
+                                           '/AudienceRestriction/Audience')
+                        self.assertEqual(len(e), 1, 'Audience element '
+                                                    'must be present')
+                        e = e[0]
+                        self.assertIsNotNone(e.text, _found(e.text))
 
-            with self.subTest('AuthnContext element must be present'):
-                e = self.doc.xpath('//Response/Assertion/AuthnStatement'
-                                   '/AuthnContext')
-                self.assertEqual(len(e), 1)
+            with self.subTest('AuthnStatement element must be present'):
+                e = self.doc.xpath('//Response/Assertion/AuthnStatement')
+                self.assertGreaterEqual(len(e), 1, 'At least one '
+                                                   'AuthnStatement element '
+                                                   'must be present')
 
-                with self.subTest('AuthnContextClassRef element '
-                                  'must be present'):
-                    regex = re.compile(_RE_SPID_L)
+                with self.subTest('AuthnContext element must be present'):
                     e = self.doc.xpath('//Response/Assertion/AuthnStatement'
-                                       '/AuthnContext/AuthnContextClassRef')
+                                       '/AuthnContext')
                     self.assertEqual(len(e), 1)
-                    self.assertTrue(
-                        bool(regex.search(e[0].text)), _found(e[0].text)
-                    )
 
-            with self.subTest('AttributeStatement element could be present'):
-                e = self.doc.xpath('//Response/Assertion/AttributeStatement')
+                    with self.subTest('AuthnContextClassRef element '
+                                      'must be present'):
+                        regex = re.compile(_RE_SPID_L)
+                        e = self.doc.xpath('//Response/Assertion'
+                                           '/AuthnStatement/AuthnContext'
+                                           '/AuthnContextClassRef')
+                        self.assertEqual(len(e), 1)
+                        self.assertTrue(
+                            bool(regex.search(e[0].text)), _found(e[0].text)
+                        )
+
+                with self.subTest('AttributeStatement element '
+                                  'could be present'):
+                    e = self.doc.xpath('//Response/Assertion'
+                                       '/AttributeStatement')
+                    self.assertLessEqual(len(e), 1)
+
+                    if len(e) == 1:
+                        attributes = self.doc.xpath('//Response/Assertion'
+                                                    '/AttributeStatement'
+                                                    '/Attribute')
+                        for attribute in attributes:
+                            with self.subTest('Attribute element '
+                                              'must be valid'):
+                                with self.subTest('Name attribute '
+                                                  'must be valid'):
+                                    a = attribute.get('Name')
+                                    self.assertIn(a, ATTRIBUTES, _found(a))
+
+                                with self.subTest('AttributeValue element '
+                                                  'must be present '
+                                                  'and valid'):
+                                    e = attribute.xpath('./AttributeValue')
+                                    self.assertIsNotNone(e[0].text)
+
+            with self.subTest('Signature element must be present'):
+                e = self.doc.xpath('//Response/Assertion/Signature/SignedInfo'
+                                   '/SignatureMethod')
+                self.assertEqual(len(e), 1)
+                e = e[0]
+
+                with self.subTest('Algorithm attribute must have '
+                                  'an allowed value'):
+                    a = e.get('Algorithm')
+                    self.assertIn(a, SIGN_ALGS, _found(a))
+
+                # save the grubbed certificate for future alanysis
+                cert = self.doc.xpath('//Response/Assertion/Signature/'
+                                      'KeyInfo/X509Data/X509Certificate')[0]
+
+                b64 = re.sub(r'[\s]', '', cert.text)
+                pem = []
+                n = 72
+                pem.append('-----BEGIN CERTIFICATE-----')
+                [pem.append(b64[i:i+n]) for i in range(0, len(b64), n)]
+                pem.append('-----END CERTIFICATE-----')
+
+                x509 = OpenSSL.crypto.load_certificate(
+                    OpenSSL.crypto.FILETYPE_ASN1,
+                    base64.b64decode(b64)
+                )
+
+                dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
+                fname = (('%s/%s.response.signature.pem') %
+                         (DATA_DIR, dgst[0:16]))
+
+                with open(fname, 'w') as f:
+                    f.write('\n'.join(pem))
+                    f.close()
+
+            with self.subTest('Advice element could be present'):
+                e = self.doc.xpath('//Response/Assertion/Advice')
                 self.assertLessEqual(len(e), 1)
 
                 if len(e) == 1:
-                    attributes = self.doc.xpath('//Response/Assertion'
-                                                '/AttributeStatement'
-                                                '/Attribute')
-                    for attribute in attributes:
-                        with self.subTest('Attribute element must be valid'):
-                            with self.subTest('Name attribute must be valid'):
-                                a = attribute.get('Name')
-                                self.assertIn(a, ATTRIBUTES, _found(a))
-
-                            with self.subTest('AttributeValue element must '
-                                              'be present and valid'):
-                                e = attribute.xpath('./AttributeValue')
-                                self.assertIsNotNone(e[0].text)
-
-        with self.subTest('Signature element must be present'):
-            e = self.doc.xpath('//Response/Assertion/Signature/SignedInfo'
-                               '/SignatureMethod')
-            self.assertEqual(len(e), 1)
-            e = e[0]
-
-            with self.subTest('Algorithm attribute must have '
-                              'an allowed value'):
-                a = e.get('Algorithm')
-                self.assertIn(a, SIGN_ALGS, _found(a))
-
-            # save the grubbed certificate for future alanysis
-            cert = self.doc.xpath('//Response/Assertion/Signature/'
-                                  'KeyInfo/X509Data/X509Certificate')[0]
-
-            b64 = re.sub(r'[\s]', '', cert.text)
-            pem = []
-            n = 72
-            pem.append('-----BEGIN CERTIFICATE-----')
-            [pem.append(b64[i:i+n]) for i in range(0, len(b64), n)]
-            pem.append('-----END CERTIFICATE-----')
-
-            x509 = OpenSSL.crypto.load_certificate(
-                OpenSSL.crypto.FILETYPE_ASN1,
-                base64.b64decode(b64)
-            )
-
-            dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-            fname = '%s/%s.response.signature.pem' % (DATA_DIR, dgst[0:16])
-
-            with open(fname, 'w') as f:
-                f.write('\n'.join(pem))
-                f.close()
-
-        with self.subTest('Advice element could be present'):
-            e = self.doc.xpath('//Response/Assertion/Advice')
-            self.assertLessEqual(len(e), 1)
-
-            if len(e) == 1:
-                e = self.doc.xpath('//Response/Assertion/Advice/Assertion')
-                self.assertGreaterEqual(len(e), 1)
+                    e = self.doc.xpath('//Response/Assertion'
+                                       '/Advice/Assertion')
+                    self.assertGreaterEqual(len(e), 1)
 
     def test_Signature(self):
         e = self.doc.xpath('//Response/Signature')
