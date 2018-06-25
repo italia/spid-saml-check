@@ -76,7 +76,7 @@ if 'SigAlg' in params:
             base64.b64decode(b64)
         )
         dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-        fname = '%s/%s.signature.pem' % (DATA_DIR, dgst[0:16])
+        fname = '%s/%s.request.signature.pem' % (DATA_DIR, dgst[0:16])
         with open(fname, 'w') as f:
             f.write('\n'.join(pem))
             f.close()
