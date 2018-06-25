@@ -62,7 +62,10 @@ class TestAuthnRequest(unittest.TestCase):
             self.fail('SAMLRequest is missing')
 
         if self.IS_HTTP_REDIRECT:
-            xml = zlib.decompress(base64.b64decode(self.params['SAMLRequest'][0]), -15)
+            xml = zlib.decompress(
+                base64.b64decode(self.params['SAMLRequest'][0]),
+                -15
+            )
         else:
             xml = base64.b64decode(self.params['SAMLRequest'][0])
 
