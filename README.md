@@ -45,3 +45,23 @@ Set of Python tools to check the compliance of the SPID specifications.
     ```.bash
     $ METADATA=./data/metadata.xml DATA_DIR=./data tox
     ```
+
+## Quick Start
+
+HTTP-POST scenario
+
+```.bash
+$ DATA_DIR=./example/http-post \
+  METADATA=./example/http-post/metadata.xml \
+  REQUEST=./example/http-post/request.txt \
+  tox
+```
+
+HTTP-Redirect scenario
+
+```.bash
+$ DATA_DIR=./example/http-redirect \
+  METADATA=./example/http-redirect/metadata.xml \
+  REQUEST=./example/http-redirect/request.txt \
+  tox
+```

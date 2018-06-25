@@ -11,7 +11,10 @@ import urllib.parse
 from io import BytesIO
 from lxml import etree as ET
 
-METADATA_FILE = os.getenv('METADATA', None)
+METADATA = os.getenv('METADATA', None)
+SSLLABS_FORCE_NEW = int(os.getenv('SSLLABS_FORCE_NEW', 0))
+SSLLABS_SKIP = int(os.getenv('SSLLABS_SKIP', 0))
+
 
 API = 'https://api.ssllabs.com/api/v2/'
 
@@ -57,9 +60,10 @@ def ssllabs_new_scan(host, publish='off', startNew='on', all='done',
 
     payload.pop('startNew')
 
-    while results['status'] != 'READY' and results['status'] != 'ERROR':
-        time.sleep(30)
-        results = ssllabs_api(path, payload)
+    if 'status' in results:
+        while results['status'] != 'READY' and results['status'] != 'ERROR':
+            time.sleep(30)
+            results = ssllabs_api(path, payload)
 
     return results
 
@@ -78,10 +82,10 @@ def del_ns(tree):
 class TestSPMetadataExtra(unittest.TestCase):
 
     def setUp(self):
-        if not METADATA_FILE:
-            self.fail('METADATA_FILE not set')
+        if not METADATA:
+            self.fail('METADATA not set')
 
-        with open(METADATA_FILE, 'rb') as md_file:
+        with open(METADATA, 'rb') as md_file:
             md = md_file.read()
             self.doc = ET.parse(BytesIO(md))
             md_file.close()
@@ -155,7 +159,7 @@ class TestSPMetadataExtra(unittest.TestCase):
             )
             self.assertEqual(len(odn), 1)
 
-    @unittest.skip('devel')
+    @unittest.skipIf(SSLLABS_SKIP == 1, 'x')
     def test_ssllabs(self):
         del_ns(self.doc)
 
@@ -170,25 +174,32 @@ class TestSPMetadataExtra(unittest.TestCase):
         to_check = [(urllib.parse.urlparse(location).netloc, location)
                     for location in locations]
         for t in to_check:
-            data = ssllabs_from_cache(t[0])
-            while data['status'] != 'ERROR' and data['status'] != 'READY':
-                time.sleep(30)
-                data = ssllabs_from_cache(t[0])
-
-            if data['status'] == 'ERROR':
-                c += 1
-                msg = (('[ERROR] AssertionConsumerService, %s, (%s)') %
-                       (t[1], data['statusMessage']))
-                sys.stderr.write('\n\t%s' % msg)
-            elif data['status'] == 'READY':
-                grade = data['endpoints'][0]['grade']
-                msg = '[%s] AssertionConsumerService, %s' % (grade, t[1])
-                sys.stderr.write('\n\t%s' % msg)
-                if grade not in ['A+', 'A', 'A-']:
-                    c += 1
+            if (SSLLABS_FORCE_NEW == 1):
+                data = ssllabs_new_scan(t[0])
             else:
-                sys.stderr.write('\n\t%s' % data['status'])
-                pass
+                data = ssllabs_from_cache(t[0])
+                while data['status'] != 'ERROR' and data['status'] != 'READY':
+                    time.sleep(30)
+                    data = ssllabs_from_cache(t[0])
+
+            if 'status' in data:
+                if data['status'] == 'ERROR':
+                    c += 1
+                    msg = (('[ERROR] AssertionConsumerService, %s, (%s)') %
+                           (t[1], data['statusMessage']))
+                    sys.stderr.write('\n\t%s' % msg)
+                elif data['status'] == 'READY':
+                    grade = data['endpoints'][0]['grade']
+                    msg = '[%s] AssertionConsumerService, %s' % (grade, t[1])
+                    sys.stderr.write('\n\t%s' % msg)
+                    if grade not in ['A+', 'A', 'A-']:
+                        c += 1
+                else:
+                    sys.stderr.write('\n\t%s' % data['status'])
+            else:
+                c += 1
+                for err in data['errors']:
+                    sys.stderr.write('\n\t%s: %s' % (err['field'], err['message']))
 
         locations = []
         slos = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
@@ -200,25 +211,32 @@ class TestSPMetadataExtra(unittest.TestCase):
         to_check = [(urllib.parse.urlparse(location).netloc, location)
                     for location in locations]
         for t in to_check:
-            data = ssllabs_from_cache(t[0])
-            while data['status'] != 'ERROR' and data['status'] != 'READY':
-                time.sleep(30)
-                data = ssllabs_from_cache(t[0])
-
-            if data['status'] == 'ERROR':
-                c += 1
-                msg = (('[ERROR] SingleLogoutService, %s, (%s)') %
-                       (t[1], data['statusMessage']))
-                sys.stderr.write('\n\t%s' % msg)
-            elif data['status'] == 'READY':
-                grade = data['endpoints'][0]['grade']
-                msg = '[%s] SingleLogoutService, %s' % (grade, t[1])
-                sys.stderr.write('\n\t%s' % msg)
-                if grade not in ['A+', 'A', 'A-']:
-                    c += 1
+            if (SSLLABS_FORCE_NEW == 1):
+                data = ssllabs_new_scan(t[0])
             else:
-                sys.stderr.write('\n\t%s' % data['status'])
-                pass
+                data = ssllabs_from_cache(t[0])
+                while data['status'] != 'ERROR' and data['status'] != 'READY':
+                    time.sleep(30)
+                    data = ssllabs_from_cache(t[0])
+
+            if 'status' in data:
+                if data['status'] == 'ERROR':
+                    c += 1
+                    msg = (('[ERROR] SingleLogoutService, %s, (%s)') %
+                           (t[1], data['statusMessage']))
+                    sys.stderr.write('\n\t%s' % msg)
+                elif data['status'] == 'READY':
+                    grade = data['endpoints'][0]['grade']
+                    msg = '[%s] SingleLogoutService, %s' % (grade, t[1])
+                    sys.stderr.write('\n\t%s' % msg)
+                    if grade not in ['A+', 'A', 'A-']:
+                        c += 1
+                else:
+                    sys.stderr.write('\n\t%s' % data['status'])
+            else:
+                c += 1
+                for err in data['errors']:
+                    sys.stderr.write('\n\t%s: %s' % (err['field'], err['message']))
 
         sys.stderr.write('\n')
         self.assertEqual(
