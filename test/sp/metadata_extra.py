@@ -12,7 +12,7 @@ from io import BytesIO
 from lxml import etree as ET
 
 METADATA = os.getenv('METADATA', None)
-NO_SSLLABS = int(os.getenv('NO_SSLLABS', 0))
+SSLLABS_SKIP = int(os.getenv('SSLLABS_SKIP', 0))
 
 
 API = 'https://api.ssllabs.com/api/v2/'
@@ -157,7 +157,7 @@ class TestSPMetadataExtra(unittest.TestCase):
             )
             self.assertEqual(len(odn), 1)
 
-    @unittest.skipIf(NO_SSLLABS == 1, 'x')
+    @unittest.skipIf(SSLLABS_SKIP == 1, 'x')
     def test_ssllabs(self):
         del_ns(self.doc)
 
