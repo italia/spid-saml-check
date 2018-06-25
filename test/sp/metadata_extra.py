@@ -11,7 +11,9 @@ import urllib.parse
 from io import BytesIO
 from lxml import etree as ET
 
-METADATA_FILE = os.getenv('METADATA', None)
+METADATA = os.getenv('METADATA', None)
+NO_SSLLABS = int(os.getenv('NO_SSLLABS', 0))
+
 
 API = 'https://api.ssllabs.com/api/v2/'
 
@@ -78,10 +80,10 @@ def del_ns(tree):
 class TestSPMetadataExtra(unittest.TestCase):
 
     def setUp(self):
-        if not METADATA_FILE:
-            self.fail('METADATA_FILE not set')
+        if not METADATA:
+            self.fail('METADATA not set')
 
-        with open(METADATA_FILE, 'rb') as md_file:
+        with open(METADATA, 'rb') as md_file:
             md = md_file.read()
             self.doc = ET.parse(BytesIO(md))
             md_file.close()
@@ -155,7 +157,7 @@ class TestSPMetadataExtra(unittest.TestCase):
             )
             self.assertEqual(len(odn), 1)
 
-    @unittest.skip('devel')
+    @unittest.skipIf(NO_SSLLABS == 1, 'x')
     def test_ssllabs(self):
         del_ns(self.doc)
 
