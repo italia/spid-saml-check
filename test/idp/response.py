@@ -8,15 +8,12 @@ import validators
 
 from common import dump_pem
 from common import constants
+from common import regex
 from io import BytesIO
 from lxml import etree as ET
 
 RESPONSE = os.getenv('RESPONSE', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
-
-_RE_UTC = r'^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(\.\d{3})?Z$'
-_RE_SPID_L = (r'(https:\/\/www\.spid\.gov\.it\/'
-              r'|urn:oasis:names:tc:SAML:2\.0:ac:classes:)SpidL[1-3]')
 
 
 def del_ns(tree):
@@ -80,10 +77,9 @@ class TestResponse(unittest.TestCase):
 
         with self.subTest('IssueInstant attribute must be '
                           'a valid UTC string'):
-            regex = re.compile(_RE_UTC)
             a = e.get('IssueInstant')
             self.assertIsNotNone(a)
-            self.assertTrue(bool(regex.search(a)), _found(a))
+            self.assertTrue(bool(regex.UTC_STRING.search(a)), _found(a))
 
         with self.subTest('InResponseTo attribute must be present'):
             a = e.get('InResponseTo')
@@ -169,10 +165,9 @@ class TestResponse(unittest.TestCase):
 
             with self.subTest('IssueInstant attribute must be '
                               'a valid UTC string'):
-                regex = re.compile(_RE_UTC)
                 a = e.get('IssueInstant')
                 self.assertIsNotNone(a)
-                self.assertTrue(bool(regex.search(a)), _found(a))
+                self.assertTrue(bool(regex.UTC_STRING.search(a)), _found(a))
 
             with self.subTest('Subject element must be present'):
                 e = self.doc.xpath('//Response/Assertion/Subject')
@@ -234,10 +229,10 @@ class TestResponse(unittest.TestCase):
 
                     with self.subTest('NotOnOrAfter attribute '
                                       'must be present'):
-                        regex = re.compile(_RE_UTC)
                         a = e.get('NotOnOrAfter')
                         self.assertIsNotNone(a)
-                        self.assertTrue(bool(regex.search(a)), _found(a))
+                        self.assertTrue(bool(regex.UTC_STRING.search(a)),
+                                        _found(a))
 
                     with self.subTest('InResponseTo attribute '
                                       'must be present'):
@@ -266,16 +261,16 @@ class TestResponse(unittest.TestCase):
                 e = e[0]
 
                 with self.subTest('NotBefore attribute must be present'):
-                    regex = re.compile(_RE_UTC)
                     a = e.get('NotBefore')
                     self.assertIsNotNone(a)
-                    self.assertTrue(bool(regex.search(a)), _found(a))
+                    self.assertTrue(bool(regex.UTC_STRING.search(a)),
+                                    _found(a))
 
                 with self.subTest('NotOnOrAfter attribute must be present'):
-                    regex = re.compile(_RE_UTC)
                     a = e.get('NotOnOrAfter')
                     self.assertIsNotNone(a)
-                    self.assertTrue(bool(regex.search(a)), _found(a))
+                    self.assertTrue(bool(regex.UTC_STRING.search(a)),
+                                    _found(a))
 
                 with self.subTest('AudienceRestriction element '
                                   'must be present'):
@@ -306,14 +301,12 @@ class TestResponse(unittest.TestCase):
 
                     with self.subTest('AuthnContextClassRef element '
                                       'must be present'):
-                        regex = re.compile(_RE_SPID_L)
                         e = self.doc.xpath('//Response/Assertion'
                                            '/AuthnStatement/AuthnContext'
                                            '/AuthnContextClassRef')
                         self.assertEqual(len(e), 1)
-                        self.assertTrue(
-                            bool(regex.search(e[0].text)), _found(e[0].text)
-                        )
+                        self.assertIn(e[0].text, constants.SPID_LEVELS,
+                                      _found(e[0].text))
 
                 with self.subTest('AttributeStatement element '
                                   'could be present'):

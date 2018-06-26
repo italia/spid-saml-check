@@ -7,17 +7,12 @@ import urllib.parse
 import validators
 import zlib
 
+from common import regex
 from io import BytesIO
 from lxml import etree as ET
 
 REQUEST = os.getenv('REQUEST', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
-
-_RE_UTC = r'^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(\.\d{3})?Z$'
-_RE_SPID_L23 = (r'(https:\/\/www\.spid\.gov\.it\/'
-                r'|urn:oasis:names:tc:SAML:2\.0:ac:classes:)SpidL[2-3]')
-_RE_SPID_L = (r'(https:\/\/www\.spid\.gov\.it\/'
-              r'|urn:oasis:names:tc:SAML:2\.0:ac:classes:)SpidL[1-3]')
 
 
 def del_ns(tree):
@@ -88,10 +83,9 @@ class TestAuthnRequest(unittest.TestCase):
             self.assertEqual(a, '2.0', _found(a))
 
         with self.subTest('IssueInstant attribute must be UTC time'):
-            regex = re.compile(_RE_UTC)
             a = req.get('IssueInstant')
             self.assertIsNotNone(a)
-            self.assertTrue(bool(regex.search(a)), _found(a))
+            self.assertTrue(bool(regex.UTC_STRING.search(a)), _found(a))
 
         with self.subTest('Destination attribute must be present'):
             a = req.get('Destination')
@@ -102,9 +96,8 @@ class TestAuthnRequest(unittest.TestCase):
             level = req.xpath('//RequestedAuthnContext'
                               '/AuthnContextClassRef')[0].text
             a = req.get('ForceAuthn')
-            regex = re.compile(_RE_SPID_L23)
 
-            if bool(regex.search(level)):
+            if bool(regex.SPID_LEVEL_23.search(level)):
                 self.assertIsNotNone(a)
                 self.assertEqual(a, 'true', _found(a))
 
@@ -213,19 +206,19 @@ class TestAuthnRequest(unittest.TestCase):
         if len(e) > 0:
             e = e[0]
 
-            regex = re.compile(_RE_UTC)
-
             if e.get('NotBefore'):
                 with self.subTest('NotBefore must be a valid UTC date'):
                     a = e.get('NotBefore')
                     self.assertIsNotNone(a)
-                    self.assertTrue(bool(regex.search(a)), _found(a))
+                    self.assertTrue(bool(regex.UTC_STRING.search(a)),
+                                    _found(a))
 
             if e.get('NotOnOrAfter'):
                 with self.subTest('NotOnOrAfter must be a valid UTC date'):
                     a = e.get('NotOnOrAfter')
                     self.assertIsNotNone(a)
-                    self.assertTrue(bool(regex.search(a)), _found(a))
+                    self.assertTrue(bool(regex.UTC_STRING.search(a)),
+                                    _found(a))
 
     def test_RequestedAuthnContext(self):
         del_ns(self.doc)
@@ -257,9 +250,8 @@ class TestAuthnRequest(unittest.TestCase):
             )
 
             level = e[0].text
-            regex = re.compile(_RE_SPID_L)
-
-            self.assertTrue(bool(regex.search(level)), _found(level))
+            self.assertTrue(bool(regex.SPID_LEVEL_ALL.search(level)),
+                            _found(level))
 
     def test_Signature(self):
         if not self.IS_HTTP_REDIRECT:
