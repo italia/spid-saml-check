@@ -37,3 +37,7 @@ def dump_response_pem(xml_elem, use, data_dir):
 
 def dump_assertion_pem(xml_elem, use, data_dir):
     _dump_pem(xml_elem, data_dir, 'assertion', use)
+
+
+def dump_logout_request_pem(xml_elem, use, data_dir):
+    _dump_pem(xml_elem, data_dir, 'logout-request', use)
