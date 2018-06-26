@@ -1,14 +1,14 @@
-import OpenSSL
-import base64
 import lxml.objectify
 import os
 import re
 import sys
 import urllib.parse
-import zlib
 
 from io import BytesIO
 from lxml import etree as ET
+
+sys.path.append(os.getcwd())
+from common import dump_pem  # noqa
 
 REQUEST = os.getenv('REQUEST', None)
 METADATA = os.getenv('METADATA', None)
@@ -64,19 +64,4 @@ if 'SigAlg' in params:
     certs = doc.xpath('//SPSSODescriptor/KeyDescriptor[@use="signing"]'
                       '/KeyInfo/X509Data/X509Certificate')
     for cert in certs:
-        b64 = re.sub(r'[\s]', '', cert.text)
-        pem = []
-        n = 72
-        pem.append('-----BEGIN CERTIFICATE-----')
-        [pem.append(b64[i:i+n]) for i in range(0, len(b64), n)]
-        pem.append('-----END CERTIFICATE-----')
-
-        x509 = OpenSSL.crypto.load_certificate(
-            OpenSSL.crypto.FILETYPE_ASN1,
-            base64.b64decode(b64)
-        )
-        dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-        fname = '%s/%s.request.signature.pem' % (DATA_DIR, dgst[0:16])
-        with open(fname, 'w') as f:
-            f.write('\n'.join(pem))
-            f.close()
+        dump_pem.dump_request_pem(cert, 'signature', DATA_DIR)
