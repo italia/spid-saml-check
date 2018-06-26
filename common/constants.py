@@ -3,6 +3,11 @@ ALLOWED_BINDINGS = [
     'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
 ]
 
+ALLOWED_FORMATS = [
+    'urn:oasis:names:tc:SAML:2.0:attrname-format:basic',
+    'urn:oasis:names:tc:SAML:2.0:attrname-format:uri'
+]
+
 ALLOWED_STATUS_CODES = [
     'urn:oasis:names:tc:SAML:2.0:status:AuthnFailed',
     'urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext',
