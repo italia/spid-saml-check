@@ -11,6 +11,7 @@ from io import BytesIO
 from lxml import etree as ET
 
 import common.helpers
+import common.constants
 
 METADATA = os.getenv('METADATA', None)
 SSLLABS_FORCE_NEW = int(os.getenv('SSLLABS_FORCE_NEW', 0))
@@ -231,3 +232,15 @@ class TestSPMetadataExtra(unittest.TestCase):
             'One or more AssertionConsumerService/ServiceLogoutService URLs '
             'have weak TLS configuration or are not reachable'
         )
+
+    def test_AttributeConsumingService(self):
+        acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
+                              '/AttributeConsumingService')
+        for acs in acss:
+            ras = acs.xpath('./RequestedAttribute')
+            for ra in ras:
+                with self.subTest('NameFormat attribute must be valid'):
+                    a = ra.get('NameFormat')
+                    if a is not None:
+                        self.assertIn(a, common.constants.ALLOWED_FORMATS,
+                                      common.helpers.found(a))
