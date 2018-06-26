@@ -1,34 +1,20 @@
 import base64
-import lxml.objectify
 import os
 import re
 import unittest
 import urllib.parse
 import validators
 
-from common import dump_pem
-from common import constants
-from common import regex
 from io import BytesIO
 from lxml import etree as ET
 
+import common.helpers
+from common import dump_pem
+from common import constants
+from common import regex
+
 RESPONSE = os.getenv('RESPONSE', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
-
-
-def del_ns(tree):
-    root = tree.getroot()
-    for elem in root.getiterator():
-        if not hasattr(elem.tag, 'find'):
-            continue
-        i = elem.tag.find('}')
-        if i >= 0:
-            elem.tag = elem.tag[i+1:]
-    lxml.objectify.deannotate(root, cleanup_namespaces=True)
-
-
-def _found(val):
-    return 'Found: %s' % val
 
 
 class TestResponse(unittest.TestCase):
@@ -54,7 +40,7 @@ class TestResponse(unittest.TestCase):
 
         xml = base64.b64decode(self.params['SAMLResponse'][0])
         self.doc = ET.parse(BytesIO(xml))
-        del_ns(self.doc)
+        common.helpers.del_ns(self.doc)
 
     def tearDown(self):
         pass
@@ -73,13 +59,14 @@ class TestResponse(unittest.TestCase):
         with self.subTest('Version attribute must be set to 2.0'):
             a = e.get('Version')
             self.assertIsNotNone(a)
-            self.assertEqual(a, '2.0', _found(a))
+            self.assertEqual(a, '2.0', common.helpers.found(a))
 
         with self.subTest('IssueInstant attribute must be '
                           'a valid UTC string'):
             a = e.get('IssueInstant')
             self.assertIsNotNone(a)
-            self.assertTrue(bool(regex.UTC_STRING.search(a)), _found(a))
+            self.assertTrue(bool(regex.UTC_STRING.search(a)),
+                            common.helpers.found(a))
 
         with self.subTest('InResponseTo attribute must be present'):
             a = e.get('InResponseTo')
@@ -89,8 +76,8 @@ class TestResponse(unittest.TestCase):
                           'be present and HTTPS URI'):
             a = e.get('Destination')
             self.assertIsNotNone(a)
-            self.assertTrue(a.startswith('https://'), _found(a))
-            self.assertTrue(validators.url(a), _found(a))
+            self.assertTrue(a.startswith('https://'), common.helpers.found(a))
+            self.assertTrue(validators.url(a), common.helpers.found(a))
 
     def test_Status(self):
         # TODO: deal with (status_code, error_code) tuple
@@ -104,17 +91,8 @@ class TestResponse(unittest.TestCase):
                                         'be present')
 
             a = e[0].get('Value')
-            allowed_status_codes = [
-                'urn:oasis:names:tc:SAML:2.0:status:AuthnFailed',
-                'urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext',
-                'urn:oasis:names:tc:SAML:2.0:status:NoPassive',
-                'urn:oasis:names:tc:SAML:2.0:status:RequestDenied',
-                'urn:oasis:names:tc:SAML:2.0:status:RequestUnsupported',
-                'urn:oasis:names:tc:SAML:2.0:status:Requester',
-                'urn:oasis:names:tc:SAML:2.0:status:Success',
-                'urn:oasis:names:tc:SAML:2.0:status:VersionMismatch',
-            ]
-            self.assertIn(a, allowed_status_codes, _found(a))
+            self.assertIn(a, constants.ALLOWED_STATUS_CODES,
+                          common.helpers.found(a))
 
         with self.subTest('StatusMessage element must be valid (if present)'):
             e = self.doc.xpath('//Response/Status/StatusMessage')
@@ -138,7 +116,7 @@ class TestResponse(unittest.TestCase):
             self.assertEqual(
                 a,
                 'urn:oasis:names:tc:SAML:2.0:nameid-format:entity',
-                _found(a)
+                common.helpers.found(a)
             )
 
     def test_Assertion(self):
@@ -161,13 +139,14 @@ class TestResponse(unittest.TestCase):
             with self.subTest('Version attribute must be set to 2.0'):
                 a = e.get('Version')
                 self.assertIsNotNone(a)
-                self.assertEqual(a, '2.0', _found(a))
+                self.assertEqual(a, '2.0', common.helpers.found(a))
 
             with self.subTest('IssueInstant attribute must be '
                               'a valid UTC string'):
                 a = e.get('IssueInstant')
                 self.assertIsNotNone(a)
-                self.assertTrue(bool(regex.UTC_STRING.search(a)), _found(a))
+                self.assertTrue(bool(regex.UTC_STRING.search(a)),
+                                common.helpers.found(a))
 
             with self.subTest('Subject element must be present'):
                 e = self.doc.xpath('//Response/Assertion/Subject')
@@ -188,7 +167,7 @@ class TestResponse(unittest.TestCase):
                             a,
                             'urn:oasis:names:tc:SAML:2.0:'
                             'nameid-format:transient',
-                            _found(a)
+                            common.helpers.found(a)
                         )
 
                     with self.subTest('NameID element must be '
@@ -211,7 +190,7 @@ class TestResponse(unittest.TestCase):
                         self.assertEqual(
                             a,
                             'urn:oasis:names:tc:SAML:2.0:cm:bearer',
-                            _found(a)
+                            common.helpers.found(a)
                         )
 
                 with self.subTest('SubjectConfirmationData element must be '
@@ -232,7 +211,7 @@ class TestResponse(unittest.TestCase):
                         a = e.get('NotOnOrAfter')
                         self.assertIsNotNone(a)
                         self.assertTrue(bool(regex.UTC_STRING.search(a)),
-                                        _found(a))
+                                        common.helpers.found(a))
 
                     with self.subTest('InResponseTo attribute '
                                       'must be present'):
@@ -251,7 +230,7 @@ class TestResponse(unittest.TestCase):
                     self.assertEqual(
                         a,
                         'urn:oasis:names:tc:SAML:2.0:nameid-format:entity',
-                        _found(a)
+                        common.helpers.found(a)
                     )
 
             with self.subTest('Conditions element must be present'):
@@ -264,13 +243,13 @@ class TestResponse(unittest.TestCase):
                     a = e.get('NotBefore')
                     self.assertIsNotNone(a)
                     self.assertTrue(bool(regex.UTC_STRING.search(a)),
-                                    _found(a))
+                                    common.helpers.found(a))
 
                 with self.subTest('NotOnOrAfter attribute must be present'):
                     a = e.get('NotOnOrAfter')
                     self.assertIsNotNone(a)
                     self.assertTrue(bool(regex.UTC_STRING.search(a)),
-                                    _found(a))
+                                    common.helpers.found(a))
 
                 with self.subTest('AudienceRestriction element '
                                   'must be present'):
@@ -286,7 +265,8 @@ class TestResponse(unittest.TestCase):
                         self.assertEqual(len(e), 1, 'Audience element '
                                                     'must be present')
                         e = e[0]
-                        self.assertIsNotNone(e.text, _found(e.text))
+                        self.assertIsNotNone(e.text,
+                                             common.helpers.found(e.text))
 
             with self.subTest('AuthnStatement element must be present'):
                 e = self.doc.xpath('//Response/Assertion/AuthnStatement')
@@ -306,7 +286,7 @@ class TestResponse(unittest.TestCase):
                                            '/AuthnContextClassRef')
                         self.assertEqual(len(e), 1)
                         self.assertIn(e[0].text, constants.SPID_LEVELS,
-                                      _found(e[0].text))
+                                      common.helpers.found(e[0].text))
 
                 with self.subTest('AttributeStatement element '
                                   'could be present'):
@@ -326,7 +306,7 @@ class TestResponse(unittest.TestCase):
                                     a = attribute.get('Name')
                                     self.assertIn(a,
                                                   constants.SPID_ATTRIBUTES,
-                                                  _found(a))
+                                                  common.helpers.found(a))
 
                                 with self.subTest('AttributeValue element '
                                                   'must be present '
@@ -343,7 +323,8 @@ class TestResponse(unittest.TestCase):
                 with self.subTest('Algorithm attribute must have '
                                   'an allowed value'):
                     a = e.get('Algorithm')
-                    self.assertIn(a, constants.ALLOWED_XMLDSIG_ALGS, _found(a))
+                    self.assertIn(a, constants.ALLOWED_XMLDSIG_ALGS,
+                                  common.helpers.found(a))
 
                 # save the grubbed certificate for future alanysis
                 cert = self.doc.xpath('//Response/Assertion/Signature/'
@@ -369,7 +350,8 @@ class TestResponse(unittest.TestCase):
                               'an allowed value'):
                 sm = e.xpath('./SignedInfo/SignatureMethod')[0]
                 a = sm.get('Algorithm')
-                self.assertIn(a, constants.ALLOWED_XMLDSIG_ALGS, _found(a))
+                self.assertIn(a, constants.ALLOWED_XMLDSIG_ALGS,
+                              common.helpers.found(a))
 
             # save the grubbed certificate for future alanysis
             cert = e.xpath('./KeyInfo/X509Data/X509Certificate')[0]

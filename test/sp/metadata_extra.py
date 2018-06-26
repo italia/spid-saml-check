@@ -1,4 +1,3 @@
-import lxml.objectify
 import os
 import requests
 import sys
@@ -10,6 +9,8 @@ import urllib.parse
 
 from io import BytesIO
 from lxml import etree as ET
+
+import common.helpers
 
 METADATA = os.getenv('METADATA', None)
 SSLLABS_FORCE_NEW = int(os.getenv('SSLLABS_FORCE_NEW', 0))
@@ -68,17 +69,6 @@ def ssllabs_new_scan(host, publish='off', startNew='on', all='done',
     return results
 
 
-def del_ns(tree):
-    root = tree.getroot()
-    for elem in root.getiterator():
-        if not hasattr(elem.tag, 'find'):
-            continue
-        i = elem.tag.find('}')
-        if i >= 0:
-            elem.tag = elem.tag[i+1:]
-    lxml.objectify.deannotate(root, cleanup_namespaces=True)
-
-
 class TestSPMetadataExtra(unittest.TestCase):
 
     def setUp(self):
@@ -87,8 +77,10 @@ class TestSPMetadataExtra(unittest.TestCase):
 
         with open(METADATA, 'rb') as md_file:
             md = md_file.read()
-            self.doc = ET.parse(BytesIO(md))
             md_file.close()
+
+        self.doc = ET.parse(BytesIO(md))
+        common.helpers.del_ns(self.doc)
 
         warnings.filterwarnings(
             action="ignore",
@@ -104,8 +96,6 @@ class TestSPMetadataExtra(unittest.TestCase):
         )
 
     def test_entityID(self):
-        del_ns(self.doc)
-
         ed = self.doc.xpath('//EntityDescriptor')[0]
         eid = ed.get('entityID')
 
@@ -114,8 +104,6 @@ class TestSPMetadataExtra(unittest.TestCase):
             self.assertTrue(validators.url(eid))
 
     def test_SPSSODescriptor(self):
-        del_ns(self.doc)
-
         spsso = self.doc.xpath('//EntityDescriptor/SPSSODescriptor')
 
         with self.subTest('protocolSuportEnumeration must be '
@@ -128,8 +116,6 @@ class TestSPMetadataExtra(unittest.TestCase):
             self.assertEqual(was, 'true')
 
     def test_Organization(self):
-        del_ns(self.doc)
-
         org = self.doc.xpath('//EntityDescriptor/Organization')[0]
 
         with self.subTest('must have OrganizationName localized as IT'):
@@ -161,8 +147,6 @@ class TestSPMetadataExtra(unittest.TestCase):
 
     @unittest.skipIf(SSLLABS_SKIP == 1, 'x')
     def test_ssllabs(self):
-        del_ns(self.doc)
-
         locations = []
         c = 0
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
