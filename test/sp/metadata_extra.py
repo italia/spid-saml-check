@@ -199,7 +199,8 @@ class TestSPMetadataExtra(unittest.TestCase):
             else:
                 c += 1
                 for err in data['errors']:
-                    sys.stderr.write('\n\t%s: %s' % (err['field'], err['message']))
+                    sys.stderr.write(('\n\t%s: %s') %
+                                     (err['field'], err['message']))
 
         locations = []
         slos = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
@@ -236,7 +237,8 @@ class TestSPMetadataExtra(unittest.TestCase):
             else:
                 c += 1
                 for err in data['errors']:
-                    sys.stderr.write('\n\t%s: %s' % (err['field'], err['message']))
+                    sys.stderr.write(('\n\t%s: %s') %
+                                     (err['field'], err['message']))
 
         sys.stderr.write('\n')
         self.assertEqual(

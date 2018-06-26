@@ -10,37 +10,33 @@ import zlib
 from io import BytesIO
 from lxml import etree as ET
 
-REQUEST = os.getenv('REQUEST', None)
-METADATA = os.getenv('METADATA', None)
-
+RESPONSE = os.getenv('RESPONSE', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
 
 # check if envvars are set
-if not REQUEST:
+if not RESPONSE:
     sys.exit(1)
 
-if not METADATA:
-    sys.exit(1)
-
-# parse the captured authentication request
-request = None
-with open(REQUEST, 'rb') as f:
-    request = f.read()
+# parse the captured authentication response
+response = None
+with open(RESPONSE, 'rb') as f:
+    response = f.read()
     f.close()
-params = urllib.parse.parse_qs(request.decode('utf-8'))
+params = urllib.parse.parse_qs(response.decode('utf-8'))
 
-# save the authentication request parametes/fields in separate files
-for par in ['SAMLRequest', 'RelayState', 'Signature', 'SigAlg']:
+# save the authentication response parametes/fields in separate files
+for par in ['SAMLResponse', 'RelayState', 'Signature', 'SigAlg']:
     if par in params:
         content = re.sub(r'[\s]', '', params[par][0])
     else:
         content = ''
 
-    fname = '%s/%s.b64.txt' % (DATA_DIR, par)
+    fname = '%s/%s.response.b64.txt' % (DATA_DIR, par)
     with open(fname, 'w') as f:
         f.write(content)
         f.close()
 
+'''
 # if HTTP-Redirect extract the signing certificate(s) from the metadata
 if 'SigAlg' in params:
 
@@ -76,7 +72,8 @@ if 'SigAlg' in params:
             base64.b64decode(b64)
         )
         dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-        fname = '%s/%s.request.signature.pem' % (DATA_DIR, dgst[0:16])
+        fname = '%s/%s.signature.pem' % (DATA_DIR, dgst[0:16])
         with open(fname, 'w') as f:
             f.write('\n'.join(pem))
             f.close()
+'''

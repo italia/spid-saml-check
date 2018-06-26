@@ -80,7 +80,7 @@ else # HTTP-Redirect
     # verify the signature with all the "signing" certificates that were
     # published within the metadata
     sign_ok=0
-    for cert in `find ${_DATA_DIR} -type f -name *.signature.pem | tr '\n' ' '`; do
+    for cert in `find ${_DATA_DIR} -type f -name *.metadata.signing.pem | tr '\n' ' '`; do
         pubkey=`mktemp`
         openssl x509 -in ${cert} -noout -pubkey > ${pubkey}
 

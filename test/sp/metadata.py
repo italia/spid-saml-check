@@ -113,7 +113,7 @@ class TestSPMetadata(unittest.TestCase):
                 )
 
                 dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-                fname = '%s/%s.signing.pem' % (DATA_DIR, dgst[0:16])
+                fname = '%s/%s.metadata.signing.pem' % (DATA_DIR, dgst[0:16])
 
                 with open(fname, 'w') as f:
                     f.write('\n'.join(pem))
@@ -142,7 +142,8 @@ class TestSPMetadata(unittest.TestCase):
                 )
 
                 dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-                fname = '%s/%s.encryption.pem' % (DATA_DIR, dgst[0:16])
+                fname = (('%s/%s.metadata.encryption.pem') %
+                         (DATA_DIR, dgst[0:16]))
 
                 with open(fname, 'w') as f:
                     f.write('\n'.join(pem))
@@ -179,7 +180,7 @@ class TestSPMetadata(unittest.TestCase):
         )
 
         dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-        fname = '%s/%s.signature.pem' % (DATA_DIR, dgst[0:16])
+        fname = '%s/%s.metadata.signature.pem' % (DATA_DIR, dgst[0:16])
 
         with open(fname, 'w') as f:
             f.write('\n'.join(pem))
