@@ -7,6 +7,7 @@ import urllib.parse
 import validators
 
 from common import dump_pem
+from common import constants
 from io import BytesIO
 from lxml import etree as ET
 
@@ -16,38 +17,6 @@ DATA_DIR = os.getenv('DATA_DIR', './data')
 _RE_UTC = r'^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(\.\d{3})?Z$'
 _RE_SPID_L = (r'(https:\/\/www\.spid\.gov\.it\/'
               r'|urn:oasis:names:tc:SAML:2\.0:ac:classes:)SpidL[1-3]')
-
-ATTRIBUTES = [
-    'address',
-    'companyName',
-    'countyOfBirth',
-    'dateOfBirth',
-    'digitalAddress',
-    'email',
-    'expirationDate',
-    'familyName',
-    'fiscalNumber',
-    'gender',
-    'idCard',
-    'ivaCode',
-    'mobilePhone',
-    'name',
-    'placeOfBirth',
-    'registeredOffice',
-    'spidCode',
-]
-
-SIGN_ALGS = [
-    'http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256',
-    'http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha384',
-    'http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512',
-    'http://www.w3.org/2001/04/xmldsig-more#hmac-sha256',
-    'http://www.w3.org/2001/04/xmldsig-more#hmac-sha384',
-    'http://www.w3.org/2001/04/xmldsig-more#hmac-sha512',
-    'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
-    'http://www.w3.org/2001/04/xmldsig-more#rsa-sha384',
-    'http://www.w3.org/2001/04/xmldsig-more#rsa-sha512',
-]
 
 
 def del_ns(tree):
@@ -362,7 +331,9 @@ class TestResponse(unittest.TestCase):
                                 with self.subTest('Name attribute '
                                                   'must be valid'):
                                     a = attribute.get('Name')
-                                    self.assertIn(a, ATTRIBUTES, _found(a))
+                                    self.assertIn(a,
+                                                  constants.SPID_ATTRIBUTES,
+                                                  _found(a))
 
                                 with self.subTest('AttributeValue element '
                                                   'must be present '
@@ -379,7 +350,7 @@ class TestResponse(unittest.TestCase):
                 with self.subTest('Algorithm attribute must have '
                                   'an allowed value'):
                     a = e.get('Algorithm')
-                    self.assertIn(a, SIGN_ALGS, _found(a))
+                    self.assertIn(a, constants.ALLOWED_XMLDSIG_ALGS, _found(a))
 
                 # save the grubbed certificate for future alanysis
                 cert = self.doc.xpath('//Response/Assertion/Signature/'
@@ -400,6 +371,13 @@ class TestResponse(unittest.TestCase):
         self.assertLessEqual(len(e), 1, 'Signature element could be present')
 
         if len(e) == 1:
+            e = e[0]
+            with self.subTest('Algorithm attribute must have '
+                              'an allowed value'):
+                sm = e.xpath('./SignedInfo/SignatureMethod')[0]
+                a = sm.get('Algorithm')
+                self.assertIn(a, constants.ALLOWED_XMLDSIG_ALGS, _found(a))
+
             # save the grubbed certificate for future alanysis
-            cert = e[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
+            cert = e.xpath('./KeyInfo/X509Data/X509Certificate')[0]
             dump_pem.dump_response_pem(cert, 'signature', DATA_DIR)

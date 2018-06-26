@@ -6,47 +6,11 @@ import validators
 from io import BytesIO
 from lxml import etree as ET
 
+from common import constants
 from common import dump_pem
 
 METADATA = os.getenv('METADATA', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
-
-ATTRIBUTES = [
-    'address',
-    'companyName',
-    'countyOfBirth',
-    'dateOfBirth',
-    'digitalAddress',
-    'email',
-    'expirationDate',
-    'familyName',
-    'fiscalNumber',
-    'gender',
-    'idCard',
-    'ivaCode',
-    'mobilePhone',
-    'name',
-    'placeOfBirth',
-    'registeredOffice',
-    'spidCode',
-]
-
-BINDINGS = [
-    'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
-    'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
-]
-
-SIGN_ALGS = [
-    'http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256',
-    'http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha384',
-    'http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512',
-    'http://www.w3.org/2001/04/xmldsig-more#hmac-sha256',
-    'http://www.w3.org/2001/04/xmldsig-more#hmac-sha384',
-    'http://www.w3.org/2001/04/xmldsig-more#hmac-sha512',
-    'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
-    'http://www.w3.org/2001/04/xmldsig-more#rsa-sha384',
-    'http://www.w3.org/2001/04/xmldsig-more#rsa-sha512',
-]
 
 
 def del_ns(tree):
@@ -126,7 +90,7 @@ class TestSPMetadata(unittest.TestCase):
 
         with self.subTest('Algorithm attribute must be valid'):
             alg = method[0].get('Algorithm')
-            self.assertIn(alg, SIGN_ALGS, _found(alg))
+            self.assertIn(alg, constants.ALLOWED_XMLDSIG_ALGS, _found(alg))
 
         # save the grubbed certificate for future alanysis
         cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
@@ -159,7 +123,8 @@ class TestSPMetadata(unittest.TestCase):
             with self.subTest('Binding attribute must have an '
                               'allowed binding'):
                 binding = acs.get('Binding')
-                self.assertIn(acs.get('Binding'), BINDINGS, _found(binding))
+                self.assertIn(acs.get('Binding'), constants.ALLOWED_BINDINGS,
+                              _found(binding))
 
             with self.subTest('Location attribute must be an HTTPS URL'):
                 regex = r'^https://.*'
@@ -200,7 +165,7 @@ class TestSPMetadata(unittest.TestCase):
                     with self.subTest('Name attribute must be valid'):
                         self.assertIn(
                             ra.get('Name'),
-                            ATTRIBUTES,
+                            constants.SPID_ATTRIBUTES,
                             _found(ra.get('Name'))
                         )
 
@@ -253,7 +218,8 @@ class TestSPMetadata(unittest.TestCase):
         for slo in slos:
             with self.subTest('Binding attribute must be an allowed binding'):
                 binding = slo.get('Binding')
-                self.assertIn(binding, BINDINGS, _found(binding))
+                self.assertIn(binding, constants.ALLOWED_BINDINGS,
+                              _found(binding))
 
             with self.subTest('Location attribute must be a valid HTTPS URL'):
                 location = slo.get('Location')
