@@ -1,13 +1,12 @@
-import OpenSSL.crypto
-import base64
 import lxml.objectify
 import os
-import re
 import unittest
 import validators
 
 from io import BytesIO
 from lxml import etree as ET
+
+from common import dump_pem
 
 METADATA = os.getenv('METADATA', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
@@ -100,24 +99,7 @@ class TestSPMetadata(unittest.TestCase):
 
             # save the grubbed certificate for future alanysis
             for cert in certs:
-                b64 = re.sub(r'[\s]', '', cert.text)
-                pem = []
-                n = 72
-                pem.append('-----BEGIN CERTIFICATE-----')
-                [pem.append(b64[i:i+n]) for i in range(0, len(b64), n)]
-                pem.append('-----END CERTIFICATE-----')
-
-                x509 = OpenSSL.crypto.load_certificate(
-                    OpenSSL.crypto.FILETYPE_ASN1,
-                    base64.b64decode(b64)
-                )
-
-                dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-                fname = '%s/%s.metadata.signing.pem' % (DATA_DIR, dgst[0:16])
-
-                with open(fname, 'w') as f:
-                    f.write('\n'.join(pem))
-                    f.close()
+                dump_pem.dump_metadata_pem(cert, 'signing', DATA_DIR)
 
         kds = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                              '/KeyDescriptor[@use="encryption"]')
@@ -129,25 +111,7 @@ class TestSPMetadata(unittest.TestCase):
 
             # save the grubbed certificate for future alanysis
             for cert in certs:
-                b64 = re.sub(r'[\s]', '', cert.text)
-                pem = []
-                n = 72
-                pem.append('-----BEGIN CERTIFICATE-----')
-                [pem.append(b64[i:i+n]) for i in range(0, len(b64), n)]
-                pem.append('-----END CERTIFICATE-----')
-
-                x509 = OpenSSL.crypto.load_certificate(
-                    OpenSSL.crypto.FILETYPE_ASN1,
-                    base64.b64decode(b64)
-                )
-
-                dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-                fname = (('%s/%s.metadata.encryption.pem') %
-                         (DATA_DIR, dgst[0:16]))
-
-                with open(fname, 'w') as f:
-                    f.write('\n'.join(pem))
-                    f.close()
+                dump_pem.dump_metadata_pem(cert, 'encryption', DATA_DIR)
 
     def test_Signature(self):
         del_ns(self.doc)
@@ -166,25 +130,7 @@ class TestSPMetadata(unittest.TestCase):
 
         # save the grubbed certificate for future alanysis
         cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
-
-        b64 = re.sub(r'[\s]', '', cert.text)
-        pem = []
-        n = 72
-        pem.append('-----BEGIN CERTIFICATE-----')
-        [pem.append(b64[i:i+n]) for i in range(0, len(b64), n)]
-        pem.append('-----END CERTIFICATE-----')
-
-        x509 = OpenSSL.crypto.load_certificate(
-            OpenSSL.crypto.FILETYPE_ASN1,
-            base64.b64decode(b64)
-        )
-
-        dgst = x509.digest('sha256').decode('utf-8').replace(':', '')
-        fname = '%s/%s.metadata.signature.pem' % (DATA_DIR, dgst[0:16])
-
-        with open(fname, 'w') as f:
-            f.write('\n'.join(pem))
-            f.close()
+        dump_pem.dump_metadata_pem(cert, 'signature', DATA_DIR)
 
     def test_SPSSODescriptor(self):
         del_ns(self.doc)
