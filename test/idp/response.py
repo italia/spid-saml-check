@@ -170,10 +170,12 @@ class TestResponse(unittest.TestCase):
                             common.helpers.found(a)
                         )
 
-                    with self.subTest('NameID element must be '
-                                      'present and valid'):
-                        a = e.get('NameQualifier')
-                        self.assertIsNotNone(a)
+                    # NOTE: it seems to be out of SAML standard
+                    #
+                    # with self.subTest('NameID element must be '
+                    #                   'present and valid'):
+                    #     a = e.get('NameQualifier')
+                    #     self.assertIsNotNone(a)
 
                 with self.subTest('SubjectConfirmation element must be '
                                   'present and valid'):
