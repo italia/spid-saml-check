@@ -10,7 +10,7 @@ from io import BytesIO
 from lxml import etree as ET
 
 import common.constants
-import common.dump_pem as dump_pem
+import common.dump_pem
 import common.helpers
 import common.regex
 
@@ -157,4 +157,4 @@ class TestLogoutRequest(unittest.TestCase):
 
             # save the grubbed certificate for future alanysis
             cert = sign.xpath('./KeyInfo/X509Data/X509Certificate')[0]
-            dump_pem.dump_logout_request_pem(cert, 'signature', DATA_DIR)
+            common.dump_pem.dump_request_pem(cert, 'logout', 'signature', DATA_DIR)

@@ -1,25 +1,41 @@
 #!/bin/bash
 
 _DATA_DIR=${DATA_DIR:-"./data"}
+_DEBUG=${DEBUG:-0}
 
-SAMLRequest=`cat ${_DATA_DIR}/SAMLRequest.b64.txt`
-echo -e "\n[SAMLRequest]\n\n${SAMLRequest}"
+CTX=${1}
+FROM=${2}
 
-RelayState=`cat ${_DATA_DIR}/RelayState.b64.txt`
-echo -e "\n[RelayState]\n\n${RelayState}"
+SAMLRequest=`cat ${_DATA_DIR}/SAMLRequest.${CTX}.request.txt`
+if [ ${_DEBUG} -eq 1 ]; then
+    echo -e "\n[SAMLRequest]\n\n${SAMLRequest}"
+fi
 
-Signature=`cat ${_DATA_DIR}/Signature.b64.txt`
-echo -e "\n[Signature]\n\n${Signature}"
+RelayState=`cat ${_DATA_DIR}/RelayState.${CTX}.request.txt`
+if [ ${_DEBUG} -eq 1 ]; then
+    echo -e "\n[RelayState]\n\n${RelayState}"
+fi
 
-SigAlg=`cat ${_DATA_DIR}/SigAlg.b64.txt`
-echo -e "\n[SigAlg]\n\n${SigAlg}\n"
+Signature=`cat ${_DATA_DIR}/Signature.${CTX}.request.txt`
+if [ ${_DEBUG} -eq 1 ]; then
+    echo -e "\n[Signature]\n\n${Signature}"
+fi
 
+SigAlg=`cat ${_DATA_DIR}/SigAlg.${CTX}.request.txt`
+if [ ${_DEBUG} -eq 1 ]; then
+    echo -e "\n[SigAlg]\n\n${SigAlg}\n"
+fi
 
-if [ "X${Signature}" == "X" ]; then # HTTP-POST
+if [ "X${Signature}" == "X" -a "X${SigAlg}" == "X" ]; then # HTTP-POST
 
     # decode SAMLRequest
     req=`mktemp`
     echo -n ${SAMLRequest} | base64 -d > ${req}
+
+
+    if [ ${_DEBUG} -eq 1 ]; then
+        echo -e "\n[SAMLRequest]\n\n`xmllint --format ${req}`"
+    fi
 
     # verify against XSD
     xmllint --noout --schema ./xsd/saml-schema-protocol-2.0.xsd ${req}
@@ -29,10 +45,19 @@ if [ "X${Signature}" == "X" ]; then # HTTP-POST
     fi
 
     # verify XML signature
+    if [ "${CTX}" == "authn" ]; then
+        elem="urn:oasis:names:tc:SAML:2.0:protocol:AuthnRequest"
+    elif [ "${CTX}" == "logout" ]; then
+        elem="urn:oasis:names:tc:SAML:2.0:protocol:LogoutRequest"
+    else
+        rm ${req}
+        exit 1
+    fi
+
     xmlsec1 \
         --verify \
         --insecure \
-        --id-attr:ID urn:oasis:names:tc:SAML:2.0:protocol:AuthnRequest \
+        --id-attr:ID ${elem} \
         ${req}
     if [ $? -ne 0 ]; then
         rm ${req}
@@ -49,6 +74,10 @@ else # HTTP-Redirect
         | python -c "import sys, zlib;\
                      sys.stdout.write(zlib.decompress(sys.stdin.buffer.read(), -15).decode('utf-8'))" \
         > ${req}
+
+    if [ ${_DEBUG} -eq 1 ]; then
+        echo -e "\n[SAMLRequest]\n\n`xmllint --format ${req}`"
+    fi
 
     # verify against XSD
     xmllint --noout --schema ./xsd/saml-schema-protocol-2.0.xsd ${req}
@@ -81,7 +110,7 @@ else # HTTP-Redirect
     # published within the metadata
     sign_ok=0
     dgst=`echo ${SigAlg} | grep -oP 'sha(256|384|512)'`
-    for cert in `find ${_DATA_DIR} -type f -name *.metadata.signing.pem | tr '\n' ' '`; do
+    for cert in `find ${_DATA_DIR} -type f -name *.${FROM}.metadata.signing.pem | tr '\n' ' '`; do
         pubkey=`mktemp`
         openssl x509 -in ${cert} -noout -pubkey > ${pubkey}
 

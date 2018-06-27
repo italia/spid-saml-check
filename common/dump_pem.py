@@ -23,21 +23,17 @@ def _dump_pem(xml_elem, data_dir, context, use):
         f.close()
 
 
-def dump_metadata_pem(xml_elem, use, data_dir):
-    _dump_pem(xml_elem, data_dir, 'metadata', use)
+def dump_metadata_pem(xml_elem, context, use, data_dir):
+    _dump_pem(xml_elem, data_dir, '%s.metadata' % context, use)
 
 
-def dump_request_pem(xml_elem, use, data_dir):
-    _dump_pem(xml_elem, data_dir, 'request', use)
+def dump_request_pem(xml_elem, context, use, data_dir):
+    _dump_pem(xml_elem, data_dir, '%s.request' % context, use)
 
 
-def dump_response_pem(xml_elem, use, data_dir):
-    _dump_pem(xml_elem, data_dir, 'response', use)
+def dump_response_pem(xml_elem, context, use, data_dir):
+    _dump_pem(xml_elem, data_dir, '%s.response' % context, use)
 
 
-def dump_assertion_pem(xml_elem, use, data_dir):
-    _dump_pem(xml_elem, data_dir, 'assertion', use)
-
-
-def dump_logout_request_pem(xml_elem, use, data_dir):
-    _dump_pem(xml_elem, data_dir, 'logout-request', use)
+def dump_assertion_pem(xml_elem, context, use, data_dir):
+    _dump_pem(xml_elem, data_dir, '%s.assertion' % context, use)

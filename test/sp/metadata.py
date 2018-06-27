@@ -9,7 +9,7 @@ import common.helpers
 from common import constants
 from common import dump_pem
 
-METADATA = os.getenv('METADATA', None)
+METADATA = os.getenv('SP_METADATA', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
 
 
@@ -18,7 +18,7 @@ class TestSPMetadata(unittest.TestCase):
 
     def setUp(self):
         if not METADATA:
-            self.fail('METADATA not set')
+            self.fail('SP_METADATA not set')
 
         with open(METADATA, 'rb') as md_file:
             md = md_file.read()
@@ -46,7 +46,7 @@ class TestSPMetadata(unittest.TestCase):
 
             # save the grubbed certificate for future alanysis
             for cert in certs:
-                dump_pem.dump_metadata_pem(cert, 'signing', DATA_DIR)
+                dump_pem.dump_metadata_pem(cert, 'sp', 'signing', DATA_DIR)
 
         kds = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                              '/KeyDescriptor[@use="encryption"]')
@@ -58,7 +58,7 @@ class TestSPMetadata(unittest.TestCase):
 
             # save the grubbed certificate for future alanysis
             for cert in certs:
-                dump_pem.dump_metadata_pem(cert, 'encryption', DATA_DIR)
+                dump_pem.dump_metadata_pem(cert, 'sp', 'encryption', DATA_DIR)
 
     def test_Signature(self):
         with self.subTest('Signature element must be present'):
@@ -76,7 +76,7 @@ class TestSPMetadata(unittest.TestCase):
 
         # save the grubbed certificate for future alanysis
         cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
-        dump_pem.dump_metadata_pem(cert, 'signature', DATA_DIR)
+        dump_pem.dump_metadata_pem(cert, 'sp', 'signature', DATA_DIR)
 
     def test_SPSSODescriptor(self):
         with self.subTest('SPSSODescriptor element must be present'):
