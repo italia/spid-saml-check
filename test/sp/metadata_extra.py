@@ -13,7 +13,7 @@ from lxml import etree as ET
 import common.helpers
 import common.constants
 
-METADATA = os.getenv('METADATA', None)
+METADATA = os.getenv('SP_METADATA', None)
 SSLLABS_FORCE_NEW = int(os.getenv('SSLLABS_FORCE_NEW', 0))
 SSLLABS_SKIP = int(os.getenv('SSLLABS_SKIP', 0))
 
@@ -74,7 +74,7 @@ class TestSPMetadataExtra(unittest.TestCase):
 
     def setUp(self):
         if not METADATA:
-            self.fail('METADATA not set')
+            self.fail('SP_METADATA not set')
 
         with open(METADATA, 'rb') as md_file:
             md = md_file.read()

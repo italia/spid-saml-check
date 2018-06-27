@@ -6,13 +6,13 @@ import urllib.parse
 import validators
 import zlib
 
-import common.helpers
-
-from common import regex
 from io import BytesIO
 from lxml import etree as ET
 
-REQUEST = os.getenv('REQUEST', None)
+import common.regex
+import common.helpers
+
+REQUEST = os.getenv('AUTHN_REQUEST', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
 
 
@@ -21,7 +21,7 @@ class TestAuthnRequest(unittest.TestCase):
 
     def setUp(self):
         if not REQUEST:
-            self.fail('REQUEST not set')
+            self.fail('AUTHN_REQUEST not set')
 
         req = None
         with open(REQUEST, 'rb') as f:
@@ -70,7 +70,7 @@ class TestAuthnRequest(unittest.TestCase):
         with self.subTest('IssueInstant attribute must be UTC time'):
             a = req.get('IssueInstant')
             self.assertIsNotNone(a)
-            self.assertTrue(bool(regex.UTC_STRING.search(a)),
+            self.assertTrue(bool(common.regex.UTC_STRING.search(a)),
                             common.helpers.found(a))
 
         with self.subTest('Destination attribute must be present'):
@@ -83,7 +83,7 @@ class TestAuthnRequest(unittest.TestCase):
                               '/AuthnContextClassRef')[0].text
             a = req.get('ForceAuthn')
 
-            if bool(regex.SPID_LEVEL_23.search(level)):
+            if bool(common.regex.SPID_LEVEL_23.search(level)):
                 self.assertIsNotNone(a)
                 self.assertEqual(a, 'true', common.helpers.found(a))
 
@@ -189,14 +189,14 @@ class TestAuthnRequest(unittest.TestCase):
                 with self.subTest('NotBefore must be a valid UTC date'):
                     a = e.get('NotBefore')
                     self.assertIsNotNone(a)
-                    self.assertTrue(bool(regex.UTC_STRING.search(a)),
+                    self.assertTrue(bool(common.regex.UTC_STRING.search(a)),
                                     common.helpers.found(a))
 
             if e.get('NotOnOrAfter'):
                 with self.subTest('NotOnOrAfter must be a valid UTC date'):
                     a = e.get('NotOnOrAfter')
                     self.assertIsNotNone(a)
-                    self.assertTrue(bool(regex.UTC_STRING.search(a)),
+                    self.assertTrue(bool(common.regex.UTC_STRING.search(a)),
                                     common.helpers.found(a))
 
     def test_RequestedAuthnContext(self):
@@ -227,7 +227,7 @@ class TestAuthnRequest(unittest.TestCase):
             )
 
             level = e[0].text
-            self.assertTrue(bool(regex.SPID_LEVEL_ALL.search(level)),
+            self.assertTrue(bool(common.regex.SPID_LEVEL_ALL.search(level)),
                             common.helpers.found(level))
 
     def test_Signature(self):

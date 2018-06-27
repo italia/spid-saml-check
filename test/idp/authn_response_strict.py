@@ -13,7 +13,7 @@ from common import dump_pem
 from common import constants
 from common import regex
 
-RESPONSE = os.getenv('RESPONSE', None)
+RESPONSE = os.getenv('AUTHN_RESPONSE', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
 
 
@@ -22,7 +22,7 @@ class TestResponse(unittest.TestCase):
 
     def setUp(self):
         if not RESPONSE:
-            self.fail('RESPONSE not set')
+            self.fail('AUTHN_RESPONSE not set')
 
         res = None
         with open(RESPONSE, 'rb') as f:
@@ -331,7 +331,7 @@ class TestResponse(unittest.TestCase):
                 # save the grubbed certificate for future alanysis
                 cert = self.doc.xpath('//Response/Assertion/Signature/'
                                       'KeyInfo/X509Data/X509Certificate')[0]
-                dump_pem.dump_assertion_pem(cert, 'signature', DATA_DIR)
+                dump_pem.dump_assertion_pem(cert, 'authn', 'signature', DATA_DIR)
 
             with self.subTest('Advice element could be present'):
                 e = self.doc.xpath('//Response/Assertion/Advice')
@@ -357,4 +357,4 @@ class TestResponse(unittest.TestCase):
 
             # save the grubbed certificate for future alanysis
             cert = e.xpath('./KeyInfo/X509Data/X509Certificate')[0]
-            dump_pem.dump_response_pem(cert, 'signature', DATA_DIR)
+            dump_pem.dump_response_pem(cert, 'authn', 'signature', DATA_DIR)

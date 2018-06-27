@@ -1,32 +1,37 @@
+import lxml.objectify
 import os
 import re
 import sys
 import urllib.parse
 
+from io import BytesIO
+from lxml import etree as ET
+
+sys.path.append(os.getcwd())
+import common.dump_pem  # noqa
+
 DATA_DIR = os.getenv('DATA_DIR', './data')
 
 
-def main(ctx, res_file, meta_file):
-    # parse response
-    response = None
-    with open(res_file, 'rb') as f:
-        response = f.read()
+def main(ctx, req_file, meta_file):
+    # parse request
+    request = None
+    with open(req_file, 'rb') as f:
+        request = f.read()
         f.close()
-    params = urllib.parse.parse_qs(response.decode('utf-8'))
+    params = urllib.parse.parse_qs(request.decode('utf-8'))
 
-    # save the authentication response parametes/fields in separate files
-    for par in ['SAMLResponse', 'RelayState', 'Signature', 'SigAlg']:
+    # save the authentication request parametes/fields in separate files
+    for par in ['SAMLRequest', 'RelayState', 'Signature', 'SigAlg']:
         if par in params:
             content = re.sub(r'[\s]', '', params[par][0])
         else:
             content = ''
-
-        fname = '%s/%s.%s.response.txt' % (DATA_DIR, par, ctx)
+        fname = '%s/%s.%s.request.txt' % (DATA_DIR, par, ctx)
         with open(fname, 'w') as f:
             f.write(content)
             f.close()
 
-    '''
     # if HTTP-Redirect extract the signing certificate(s) from the metadata
     if ('Signature' in params) and ('SigAlg' in params):
         # load metadata file
@@ -49,8 +54,8 @@ def main(ctx, res_file, meta_file):
         certs = doc.xpath('//SPSSODescriptor/KeyDescriptor[@use="signing"]'
                           '/KeyInfo/X509Data/X509Certificate')
         for cert in certs:
-            common.dump_pem.dump_response_pem(cert, ctx, 'signature', DATA_DIR)
-    '''
+            common.dump_pem.dump_request_pem(cert, ctx, 'signature', DATA_DIR)
+
 
 if __name__ == '__main__':
     main(sys.argv[1], sys.argv[2], sys.argv[3])
