@@ -49,7 +49,7 @@ if [ "X${Signature}" == "X" ]; then # HTTP-POST
         rm ${res}
         exit 1
     fi
-    
+
     rm ${res}
 fi
 #else # HTTP-Redirect

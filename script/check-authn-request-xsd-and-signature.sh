@@ -38,7 +38,7 @@ if [ "X${Signature}" == "X" ]; then # HTTP-POST
         rm ${req}
         exit 1
     fi
-    
+
     rm ${req}
 else # HTTP-Redirect
 
@@ -49,7 +49,7 @@ else # HTTP-Redirect
         | python -c "import sys, zlib;\
                      sys.stdout.write(zlib.decompress(sys.stdin.buffer.read(), -15).decode('utf-8'))" \
         > ${req}
-    
+
     # verify against XSD
     xmllint --noout --schema ./xsd/saml-schema-protocol-2.0.xsd ${req}
     if [ $? -ne 0 ]; then
@@ -65,11 +65,11 @@ else # HTTP-Redirect
     request=`echo -n ${SAMLRequest} \
         | python -c "import sys, urllib.parse as p;\
                      sys.stdout.write(p.quote_plus(sys.stdin.read()))"`
-    
+
     relay_state=`echo -n ${RelayState} \
         | python -c "import sys, urllib.parse as p;\
                      sys.stdout.write(p.quote_plus(sys.stdin.read()))"`
-    
+
     sig_alg=`echo -n ${SigAlg} \
         | python -c "import sys, urllib.parse as p;\
                      sys.stdout.write(p.quote_plus(sys.stdin.read()))"`
@@ -80,11 +80,12 @@ else # HTTP-Redirect
     # verify the signature with all the "signing" certificates that were
     # published within the metadata
     sign_ok=0
+    dgst=`echo ${SigAlg} | grep -oP 'sha(256|384|512)'`
     for cert in `find ${_DATA_DIR} -type f -name *.metadata.signing.pem | tr '\n' ' '`; do
         pubkey=`mktemp`
         openssl x509 -in ${cert} -noout -pubkey > ${pubkey}
 
-        openssl dgst -verify ${pubkey} -signature ${signature} ${payload}
+        openssl dgst -${dgst} -verify ${pubkey} -signature ${signature} ${payload}
         if [ $? -eq 0 ]; then
             sign_ok=1
         fi
@@ -95,6 +96,6 @@ else # HTTP-Redirect
         rm ${payload} ${signature} ${req}
         exit 1
     fi
-    
+
     rm ${payload} ${signature} ${req}
 fi
