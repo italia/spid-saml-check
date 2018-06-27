@@ -28,7 +28,7 @@ class TestLogoutRequest(unittest.TestCase):
         self.assertEqual(found, expect, msg)
 
     def _attr_expect_not_none(self, attr, found):
-        msg = (('%s attribute must be not present (found: %s)') %
+        msg = (('%s attribute must be not None (found: %s)') %
                (attr, found))
         self.assertIsNotNone(found, msg)
 
@@ -103,16 +103,17 @@ class TestLogoutRequest(unittest.TestCase):
             e = req.xpath('./Issuer')
             self.assertEqual(len(e), 1)
             e = e[0]
-            print(e.tag)
 
-            attr = 'Format'
-            expect = 'urn:oasis:names:tc:SAML:2.0:nameid-format:entity'
-            found = e.get(attr)
-            self._attr_expect(attr, found, expect)
-
-            attr = 'NameQualifier'
-            found = e.get(attr)
-            self._attr_expect_not_none(attr, found)
+            # NOTE: it seems to be out of SAML standard
+            #
+            # attr = 'Format'
+            # expect = 'urn:oasis:names:tc:SAML:2.0:nameid-format:entity'
+            # found = e.get(attr)
+            # self._attr_expect(attr, found, expect)
+            #
+            # attr = 'NameQualifier'
+            # found = e.get(attr)
+            # self._attr_expect_not_none(attr, found)
 
             self.assertIsNotNone(e.text,
                                  'element %s must have a value' % e.tag)
@@ -127,9 +128,11 @@ class TestLogoutRequest(unittest.TestCase):
             found = e.get(attr)
             self._attr_expect(attr, found, expect)
 
-            attr = 'NameQualifier'
-            found = e.get(attr)
-            self._attr_expect_not_none(attr, found)
+            # NOTE: it seems to be out of SAML standard
+            #
+            # attr = 'NameQualifier'
+            # found = e.get(attr)
+            # self._attr_expect_not_none(attr, found)
 
             self.assertIsNotNone(e.text,
                                  'element %s must have a value' % e.tag)
