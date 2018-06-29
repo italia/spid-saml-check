@@ -157,4 +157,5 @@ class TestLogoutRequest(unittest.TestCase):
 
             # save the grubbed certificate for future alanysis
             cert = sign.xpath('./KeyInfo/X509Data/X509Certificate')[0]
-            common.dump_pem.dump_request_pem(cert, 'logout', 'signature', DATA_DIR)
+            common.dump_pem.dump_request_pem(cert, 'logout', 'signature',
+                                             DATA_DIR)

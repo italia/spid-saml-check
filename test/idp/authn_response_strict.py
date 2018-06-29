@@ -331,7 +331,8 @@ class TestResponse(unittest.TestCase):
                 # save the grubbed certificate for future alanysis
                 cert = self.doc.xpath('//Response/Assertion/Signature/'
                                       'KeyInfo/X509Data/X509Certificate')[0]
-                dump_pem.dump_assertion_pem(cert, 'authn', 'signature', DATA_DIR)
+                dump_pem.dump_assertion_pem(cert, 'authn', 'signature',
+                                            DATA_DIR)
 
             with self.subTest('Advice element could be present'):
                 e = self.doc.xpath('//Response/Assertion/Advice')

@@ -52,6 +52,7 @@ def main(ctx, res_file, meta_file):
             common.dump_pem.dump_response_pem(cert, ctx, 'signature', DATA_DIR)
     '''
 
+
 if __name__ == '__main__':
     main(sys.argv[1], sys.argv[2], sys.argv[3])
     sys.exit(0)
