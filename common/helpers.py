@@ -14,3 +14,13 @@ def del_ns(tree):
 
 def found(val):
     return "Found: %s" % val
+
+
+def dump_failures(failures):
+    return '\n'.join([
+        '\n',
+        '>' * 70,
+        '\n'.join(failures),
+        '<' * 70,
+        '\n\n\n',
+    ])
