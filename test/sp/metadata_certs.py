@@ -3,6 +3,7 @@ import os
 import subprocess
 import unittest
 
+import common.helpers
 import common.wrap
 
 DATA_DIR = os.getenv('DATA_DIR', './data')
@@ -34,7 +35,8 @@ class TestSPCertificates(unittest.TestCase, common.wrap.TestCaseWrap):
             c += 1
 
     def tearDown(self):
-        self.assertEqual([], self.failures)
+        if self.failures:
+            self.fail(common.helpers.dump_failures(self.failures))
 
     def _test_certificates(self, use):
         cmd = ['find',
@@ -52,23 +54,48 @@ class TestSPCertificates(unittest.TestCase, common.wrap.TestCaseWrap):
                 cmd = ['bash', './script/check-certificate.sh',
                        cert_path]
                 is_valid = True
+                msg = 'the %s certificate must be valid' % cert_path
                 try:
-                    subprocess.run(cmd, check=True)
+                    subprocess.run(cmd, check=True, stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
                 except subprocess.CalledProcessError as err:
                     is_valid = False
-                self._assertTrue(
-                    is_valid,
-                    'the %s certificate must be valid' % cert_path
-                )
+                    lines = [msg]
+                    if err.stderr:
+                        stderr = (
+                            'stderr: ' +
+                            '\nstderr: '.join(
+                                list(
+                                    filter(
+                                        None,
+                                        err.stderr.decode('utf-8').split('\n')
+                                    )
+                                )
+                            )
+                        )
+                        lines.append(stderr)
+                    if err.stdout:
+                        stdout = (
+                            'stdout: ' +
+                            '\nstdout: '.join(
+                                list(
+                                    filter(
+                                        None,
+                                        err.stdout.decode('utf-8').split('\n')
+                                    )
+                                )
+                            )
+                        )
+                        lines.append(stdout)
+                    msg = '\n'.join(lines)
+
+                self._assertTrue(is_valid, msg)
 
     def test_signature_certificates(self):
-        '''check signature certificates'''
         self._test_certificates('signature')
 
     def test_signing_certificates(self):
-        '''check signing certificates'''
         self._test_certificates('signing')
 
     def test_encryption_certificates(self):
-        '''check encryption certificates'''
         self._test_certificates('encryption')
