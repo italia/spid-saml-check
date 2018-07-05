@@ -31,6 +31,12 @@ ALLOWED_XMLDSIG_ALGS = [
     'http://www.w3.org/2001/04/xmldsig-more#rsa-sha512',
 ]
 
+ALLOWED_DGST_ALGS = [
+    'http://www.w3.org/2001/04/xmlenc#sha256',
+    'http://www.w3.org/2001/04/xmlenc#sha384',
+    'http://www.w3.org/2001/04/xmlenc#sha512',
+]
+
 SPID_ATTRIBUTES = [
     'address',
     'companyName',
