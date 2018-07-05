@@ -11,6 +11,7 @@ The environment is organised in test suites, which are labeled as
 *   `sp-metadata-strict`
 *   `sp-metadata-certs`
 *   `sp-metadata-extra`
+*   `sp-metadata-json-report`
 *   `sp-authn-request-strict`
 *   `sp-authn-request-certs`
 *   `sp-authn-request-extra`
@@ -34,7 +35,8 @@ follows
     *   `SSLLABS_FORCE_NEW` (Force new scan in SSL Labs tests, default: 0)
     *   `SSLLABS_SKIP` (skip SSL Labs tests, default: 0)
 
-*   `sp-metadata-strict`, `sp-metadata-certs`, `sp-metadata-extra`
+*   `sp-metadata-strict`, `sp-metadata-certs`, `sp-metadata-extra`,
+    `sp-metadata-json-report`
 
     *   `SP_METADATA` (path to metadata file)
 
@@ -66,7 +68,7 @@ For instance, to check only the SP metadata compliance, you have to run
 
 ```.bash
 $ DATA_DIR=./data SP_METADATA=./data/metadata.xml \
-    tox -e sp-metadata-strict,sp-metadata-certs,sp-metadata-extra
+    tox -e cleanup,sp-metadata-strict,sp-metadata-certs,sp-metadata-extra,sp-metadata-json-report
 ```
 
 ## How to dump requests and responses
@@ -108,6 +110,7 @@ SAMLResponse=<URL-Encoded Base64 string>&RelayState=<URL-Encoded string>&SigAlg=
     $ sudo apt-get install \
         curl \
         gcc \
+        jq \
         libffi-devel \
         libiconv-devel \
         libxml2-devel \
@@ -165,5 +168,5 @@ SAMLResponse=<URL-Encoded Base64 string>&RelayState=<URL-Encoded string>&SigAlg=
     metadata), list them as follows
 
     ```.bash
-    $ source myenv.rc && tox -e sp-metadata-strict,sp-metadata-certs,sp-metadata-extra
+    $ source myenv.rc && tox -e cleanup,sp-metadata-strict,sp-metadata-certs,sp-metadata-extra
     ```
