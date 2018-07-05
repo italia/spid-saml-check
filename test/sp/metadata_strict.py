@@ -54,22 +54,53 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
         common.helpers.del_ns(self.doc)
 
     def tearDown(self):
-        self.assertEqual([], self.failures)
+        if self.failures:
+            self.fail(common.helpers.dump_failures(self.failures))
 
-    def test_xsd_and_signature(self):
+    def test_xsd(self):
         cmd = ' '.join(['xmllint',
                         '--noout',
                         '--schema ./xsd/saml-schema-metadata-2.0.xsd',
                         METADATA])
         is_valid = True
+        msg = 'the metadata must validate against the XSD'
         try:
-            subprocess.run(cmd, shell=True, check=True)
+            subprocess.run(cmd, shell=True, check=True, stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE)
         except subprocess.CalledProcessError as err:
             is_valid = False
+            lines = [msg]
+            if err.stderr:
+                stderr = (
+                    'stderr: ' +
+                    '\nstderr: '.join(
+                        list(
+                            filter(
+                                None,
+                                err.stderr.decode('utf-8').split('\n')
+                            )
+                        )
+                    )
+                )
+                lines.append(stderr)
+            if err.stdout:
+                stdout = (
+                    'stdout: ' +
+                    '\nstdout: '.join(
+                        list(
+                            filter(
+                                None,
+                                err.stdout.decode('utf-8').split('\n')
+                            )
+                        )
+                    )
+                )
+                lines.append(stdout)
+            msg = '\n'.join(lines)
 
-        self._assertTrue(is_valid,
-                         'the metadata must validate against the XSD')
+        self._assertTrue(is_valid, msg)
 
+    def test_xmldsig(self):
         cmd = ' '.join(['xmlsec1',
                         '--verify',
                         '--insecure',
@@ -78,12 +109,42 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                         'EntityDescriptor',
                         METADATA])
         is_valid = True
+        msg = 'the metadata signature must be valid'
         try:
-            subprocess.run(cmd, shell=True, check=True)
+            subprocess.run(cmd, shell=True, check=True, stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE)
         except subprocess.CalledProcessError as err:
             is_valid = False
+            lines = [msg]
+            if err.stderr:
+                stderr = (
+                    'stderr: ' +
+                    '\nstderr: '.join(
+                        list(
+                            filter(
+                                None,
+                                err.stderr.decode('utf-8').split('\n')
+                            )
+                        )
+                    )
+                )
+                lines.append(stderr)
+            if err.stdout:
+                stdout = (
+                    'stdout: ' +
+                    '\nstdout: '.join(
+                        list(
+                            filter(
+                                None,
+                                err.stdout.decode('utf-8').split('\n')
+                            )
+                        )
+                    )
+                )
+                lines.append(stdout)
+            msg = '\n'.join(lines)
 
-        self._assertTrue(is_valid, 'the metadata signature must be valid')
+        self._assertTrue(is_valid, msg)
 
     def test_entityID(self):
         e = self.doc.xpath('//EntityDescriptor')[0]
