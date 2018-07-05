@@ -27,7 +27,7 @@ class TestCaseWrap(object):
             else:
                 cb(f, m)
         except AssertionError as e:
-            self.failures.append(str(e))
+            self.failures.append('[FAIL] %s' % str(e))
             r = FAILURE
 
         _report = self.__class__.report
@@ -48,6 +48,34 @@ class TestCaseWrap(object):
 
         self._assert(cb,
                      first=first,
+                     msg=msg)
+
+    def _assertIsTLSGrade(self, first, second, msg=None):
+        def cb(first, second, msg):
+            location = first['location']
+            service = first['service']
+            data = first['data']
+            if 'status' in data:
+                if data['status'] == 'ERROR':
+                    raise AssertionError(
+                        '%s (%s, %s)' % (msg, service, data['status'])
+                    )
+                elif data['status'] == 'READY':
+                    grade = data['endpoints'][0]['grade']
+                    if grade not in second:
+                        raise AssertionError(
+                            '%s (%s, %s)' % (msg, service, grade)
+                        )
+                else:
+                    raise AssertionError(
+                        '%s (%s, %s)' % (msg, service, data['status'])
+                    )
+            else:
+                raise AssertionError('%s (%s, !)' % (msg, service))
+
+        self._assert(cb,
+                     first=first,
+                     second=second,
                      msg=msg)
 
     def _assertTrue(self, first, msg=None):
