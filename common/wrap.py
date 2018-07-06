@@ -50,6 +50,15 @@ class TestCaseWrap(object):
                      first=first,
                      msg=msg)
 
+    def _assertIsValidHttpUrl(self, first, msg=None):
+        def cb(first, msg):
+            if not validators.url(first, public=True):
+                raise AssertionError(msg)
+
+        self._assert(cb,
+                     first=first,
+                     msg=msg)
+
     def _assertIsTLSGrade(self, first, second, msg=None):
         def cb(first, second, msg):
             location = first['location']
