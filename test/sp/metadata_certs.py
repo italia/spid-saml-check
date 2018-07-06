@@ -54,7 +54,7 @@ class TestSPCertificates(unittest.TestCase, common.wrap.TestCaseWrap):
                 cmd = ['bash', './script/check-certificate.sh',
                        cert_path]
                 is_valid = True
-                msg = 'the %s certificate must be valid' % cert_path
+                msg = 'The %s certificate must be valid' % cert_path
                 try:
                     subprocess.run(cmd, check=True, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE)
@@ -92,10 +92,13 @@ class TestSPCertificates(unittest.TestCase, common.wrap.TestCaseWrap):
                 self._assertTrue(is_valid, msg)
 
     def test_signature_certificates(self):
+        '''Test the compliance of signature certificate(s)'''
         self._test_certificates('signature')
 
     def test_signing_certificates(self):
+        '''Test the compliance of signing certificate(s)'''
         self._test_certificates('signing')
 
     def test_encryption_certificates(self):
+        '''Test the compliance of encryption certificate(s)'''
         self._test_certificates('encryption')

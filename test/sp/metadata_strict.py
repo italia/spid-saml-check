@@ -58,6 +58,8 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
             self.fail(common.helpers.dump_failures(self.failures))
 
     def test_xsd(self):
+        '''Validate the SP metadata against the SAML 2.0 Medadata XSD'''
+
         cmd = ' '.join(['xmllint',
                         '--noout',
                         '--schema ./xsd/saml-schema-metadata-2.0.xsd',
@@ -101,6 +103,8 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
         self._assertTrue(is_valid, msg)
 
     def test_xmldsig(self):
+        '''Verify the SP metadata signature'''
+
         cmd = ' '.join(['xmlsec1',
                         '--verify',
                         '--insecure',
@@ -146,26 +150,31 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
 
         self._assertTrue(is_valid, msg)
 
-    def test_entityID(self):
-        e = self.doc.xpath('//EntityDescriptor')[0]
-        a = e.get('entityID')
-        self._assertIsNotNone(a, 'entityID must be present')
+    def test_EntityDescriptor(self):
+        '''Test the compliance of EntityDescriptor element'''
 
-    def test_KeyDescriptor_signing(self):
+        e = self.doc.xpath('//EntityDescriptor')
+        self._assertEqual(len(e), 1,
+                          'Only one EntityDescriptor element must be present')
+        self._assertTrue(('entityID' in e[0].attrib),
+                         'The entityID attribute must be present')
+        a = e[0].get('entityID')
+        self._assertIsNotNone(a, 'The entityID attribute must have a value')
+
+    def test_KeyDescriptor(self):
+        '''Test the compliance of KeyDescriptor element(s)'''
+
         kds = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                              '/KeyDescriptor[@use="signing"]')
-        self._assertGreaterEqual(
-            len(kds),
-            1,
-            'at least one signing KeyDescriptor must be present')
+        self._assertGreaterEqual(len(kds), 1,
+                                 'At least one signing KeyDescriptor '
+                                 'must be present')
 
         for kd in kds:
             certs = kd.xpath('./KeyInfo/X509Data/X509Certificate')
-            self._assertGreaterEqual(
-                len(certs),
-                1,
-                'at least one signing x509 must be present'
-            )
+            self._assertGreaterEqual(len(certs), 1,
+                                     'At least one signing x509 '
+                                     'must be present')
 
             # save the grubbed certificate for future alanysis
             for cert in certs:
@@ -176,157 +185,235 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
 
         for kd in kds:
             certs = kd.xpath('./KeyInfo/X509Data/X509Certificate')
-            self._assertGreaterEqual(
-                len(certs),
-                1,
-                'if encryption KeyDescriptor, at least one encryption '
-                'x509 must be present'
-            )
+            self._assertGreaterEqual(len(certs), 1,
+                                     'At least one encryption x509 '
+                                     'must be present')
 
             # save the grubbed certificate for future alanysis
             for cert in certs:
                 dump_pem.dump_metadata_pem(cert, 'sp', 'encryption', DATA_DIR)
 
     def test_Signature(self):
+        '''Test the compliance of Signature element'''
+
         sign = self.doc.xpath('//EntityDescriptor/Signature')
-        self._assertEqual(len(sign), 1,
-                          'the Signature element must be present')
+        self._assertTrue((len(sign) == 1),
+                         'The Signature element must be present')
 
         method = sign[0].xpath('./SignedInfo/SignatureMethod')
-        self._assertEqual(len(method), 1,
-                          'the SignatureMethod element must be present')
+        self._assertTrue((len(method) == 1),
+                         'The SignatureMethod element must be present')
+
+        self._assertTrue(('Algorithm' in method[0].attrib),
+                         'The Algorithm attribute must be present '
+                         'in SignatureMethod element')
 
         alg = method[0].get('Algorithm')
         self._assertIn(alg, constants.ALLOWED_XMLDSIG_ALGS,
-                       'the algorithm used for the signature must be allowed')
+                       (('The signature algorithm must be one of [%s]') %
+                        (', '.join(constants.ALLOWED_XMLDSIG_ALGS))))
 
         method = sign[0].xpath('./SignedInfo/Reference/DigestMethod')
-        self._assertEqual(len(method), 1,
-                          'DigestMethod element must be present')
+        self._assertTrue((len(method) == 1),
+                         'The DigestMethod element must be present')
+
+        self._assertTrue(('Algorithm' in method[0].attrib),
+                         'The Algorithm attribute must be present '
+                         'in DigestMethod element')
+
         alg = method[0].get('Algorithm')
         self._assertIn(alg, constants.ALLOWED_DGST_ALGS,
-                       'the digest algorithm used in the signature '
-                       'must be allowed')
+                       (('The digest algorithm must be one of [%s]') %
+                        (', '.join(constants.ALLOWED_DGST_ALGS))))
 
         # save the grubbed certificate for future alanysis
         cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
         dump_pem.dump_metadata_pem(cert, 'sp', 'signature', DATA_DIR)
 
     def test_SPSSODescriptor(self):
-        spsso = self.doc.xpath('//EntityDescriptor/SPSSODescriptor')
-        self._assertEqual(len(spsso), 1,
-                          'only one SPSSODescriptor element must be present')
+        '''Test the compliance of SPSSODescriptor element'''
 
-        ars = spsso[0].get('AuthnRequestsSigned')
-        self._assertEqual(ars.lower(), 'true',
-                          'AuthnRequestsSigned attribute must be present '
-                          'and set to true')
+        spsso = self.doc.xpath('//EntityDescriptor/SPSSODescriptor')
+        self._assertTrue((len(spsso) == 1),
+                         'Only one SPSSODescriptor element must be present')
+
+        for attr in ['protocolSupportEnumeration', 'AuthnRequestsSigned']:
+            self._assertTrue((attr in spsso[0].attrib),
+                             'The %s attribute must be present' % attr)
+
+            a = spsso[0].get(attr)
+            self._assertIsNotNone(
+                a,
+                'The %s attribute must have a value' % attr
+            )
+
+            if attr == 'AuthnRequestsSigned':
+                self._assertEqual(
+                    a.lower(),
+                    'true',
+                    'The %s attribute must be true' % attr
+                )
 
     def test_AssertionConsumerService(self):
+        '''Test the compliance of AssertionConsumerService element(s)'''
+
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                               '/AssertionConsumerService')
         self._assertGreaterEqual(len(acss), 1,
-                                 'one or more AssertionConsumerService '
+                                 'At least one AssertionConsumerService '
                                  'must be present')
 
         for acs in acss:
-            self._assertGreaterEqual(int(acs.get('index')), 0,
-                                     'index attribute must be >= 0')
-
-            binding = acs.get('Binding')
-            self._assertIn(acs.get('Binding'), constants.ALLOWED_BINDINGS,
-                           'Binding attribute must have an allowed value')
-
-            location = acs.get('Location')
-            self._assertIsValidHttpsUrl(location,
-                                        'Location attribute must have a '
-                                        'valid HTTPS url')
+            for attr in ['index', 'Binding', 'Location']:
+                self._assertTrue((attr in acs.attrib),
+                                 'The %s attribute must be present' % attr)
+                a = acs.get(attr)
+                if attr == 'index':
+                    self._assertGreaterEqual(
+                        int(a),
+                        0,
+                        'The %s attribute must be >= 0' % attr
+                    )
+                elif attr == 'Binding':
+                    self._assertIn(a, constants.ALLOWED_BINDINGS,
+                                   (('The %s attribute must be one of [%s]') %
+                                    (attr,
+                                     ', '.join(constants.ALLOWED_BINDINGS))))
+                elif attr == 'Location':
+                    self._assertIsValidHttpsUrl(a,
+                                                'The %s attribute must be a '
+                                                'valid HTTPS url' % attr)
+                else:
+                    pass
 
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                               '/AssertionConsumerService'
                               '[@isDefault="true"]')
-        self._assertEqual(len(acss), 1,
-                          'only one default AssertionConsumerService '
-                          'must be present')
+        self._assertTrue((len(acss) == 1),
+                         'Only one default AssertionConsumerService '
+                         'must be present')
 
     def test_AttributeConsumingService(self):
+        '''Test the compliance of AttributeConsumingService element(s)'''
+
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                               '/AttributeConsumingService')
-        self._assertGreaterEqual(len(acss), 1,
-                                 'one or more AttributeConsumingService '
-                                 'must be oresent')
+        self._assertGreaterEqual(
+            len(acss),
+            1,
+            'One or more AttributeConsumingService elements must be present'
+        )
 
         for acs in acss:
-            self._assertGreaterEqual(int(acs.get('index')), 0,
-                                     'index attribute must be >= 0')
+            self._assertTrue(('index' in acs.attrib),
+                             'The index attribute '
+                             'in AttributeConsumigService element '
+                             'must be present')
+
+            idx = int(acs.get('index'))
+            self._assertGreaterEqual(
+                idx,
+                0,
+                'The index attribute in AttributeConsumigService '
+                'element must be >= 0'
+            )
 
             sn = acs.xpath('./ServiceName')
-            self._assertEqual(len(sn), 1,
-                              'ServiceName elemenet must be present')
+            self._assertTrue((len(sn) == 1),
+                             'The ServiceName element must be present')
             self._assertIsNotNone(sn[0].text,
-                                  'ServiceName value must be present')
+                                  'The ServiceName element must have a value')
 
             ras = acs.xpath('./RequestedAttribute')
-            self._assertGreaterEqual(len(ras), 1,
-                                     'one or more RequestedAttribute '
-                                     'element must be present')
+            self._assertGreaterEqual(
+                len(ras),
+                1,
+                'One or more RequestedAttribute elements must be present'
+            )
             for ra in ras:
+                self._assertTrue(('Name' in ra.attrib),
+                                 'The Name attribute in '
+                                 'RequestedAttribute element '
+                                 'must be present')
+
                 self._assertIn(ra.get('Name'), constants.SPID_ATTRIBUTES,
-                               'Name attribute must have an allowed value')
+                               (('The Name attribute '
+                                 'in RequestedAttribute element '
+                                 'must be one of [%s]') %
+                                (', '.join(constants.SPID_ATTRIBUTES))))
 
     def test_Organization(self):
+        '''Test the compliance of Organization element'''
+
         orgs = self.doc.xpath('//EntityDescriptor/Organization')
-        self._assertEqual(len(orgs), 1,
-                          'Organization element must be present')
+        self._assertTrue((len(orgs) <= 1),
+                         'Only one Organization element can be present')
 
         if len(orgs) == 1:
             org = orgs[0]
-            onames = org.xpath('./OrganizationName')
-            for oname in onames:
-                self._assertIsNotNone(
-                    oname.get('{http://www.w3.org/XML/1998/namespace}lang'),
-                    'lang attribute must be present'
-                )
-                self._assertIsNotNone(
-                    oname.text,
-                    'OrganizationName must not be empty'
+            for ename in ['OrganizationName', 'OrganizationDisplayName',
+                          'OrganizationURL']:
+                elements = org.xpath('./%s' % ename)
+                self._assertGreater(
+                    len(elements),
+                    0,
+                    'One or more %s elements must be present' % ename
                 )
 
-            ourls = org.xpath('./OrganizationURL')
-            for ourl in ourls:
-                self._assertIsNotNone(
-                    ourl.get('{http://www.w3.org/XML/1998/namespace}lang'),
-                    'lang attribute must be present'
-                )
-                self._assertTrue(
-                    validators.url(ourl.text),
-                    'OrganizationURL element must be a valid URL'
-                )
+                for element in elements:
+                    self._assertTrue(
+                        ('{http://www.w3.org/XML/1998/namespace}lang' in element.attrib),  # noqa
+                        'The lang attribute in %s element must be present' % ename  # noqa
+                    )
 
-            odns = org.xpath('./OrganizationDisplayName')
-            for odn in odns:
-                self._assertIsNotNone(
-                    odn.get('{http://www.w3.org/XML/1998/namespace}lang'),
-                    'lang attribute must be present'
-                )
-                self._assertIsNotNone(
-                    odn.text,
-                    'OrganizationDisplayName must not be empty'
-                )
+                    self._assertIsNotNone(
+                        element.text,
+                        'The %s element must have a value' % ename
+                    )
+
+                    if ename == 'OrganizationURL':
+                        self._assertIsValidHttpUrl(
+                            element.text,
+                            'The %s element must be a valid URL' % ename
+                        )
 
     def test_SingleLogoutService(self):
+        '''Test the compliance of SingleLogoutService element(s)'''
+
         slos = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                               '/SingleLogoutService')
-        self._assertGreaterEqual(len(slos), 1,
-                                 'one or more SingleLogoutService element '
-                                 'must be present')
+        self._assertGreaterEqual(
+            len(slos),
+            1,
+            'One or more SingleLogoutService elements must be present'
+        )
 
         for slo in slos:
-            binding = slo.get('Binding')
-            self._assertIn(binding, constants.ALLOWED_BINDINGS,
-                           'Binding attribute must have an allowed value')
+            for attr in ['Binding', 'Location']:
+                self._assertTrue((attr in slo.attrib),
+                                 'The %s attribute '
+                                 'in SingleLogoutService element '
+                                 'must be present' % attr)
 
-            location = slo.get('Location')
-            self._assertIsValidHttpsUrl(location,
-                                        'Location attribute must have a '
-                                        'valid HTTPS url')
+                a = slo.get(attr)
+                self._assertIsNotNone(
+                    a,
+                    'The %s attribute '
+                    'in SingleLogoutService element '
+                    'must have a value' % attr
+                )
+
+                if attr == 'Binding':
+                    self._assertIn(
+                        a,
+                        constants.ALLOWED_BINDINGS,
+                        (('The %s attribute in SingleLogoutService element must be one of [%s]') %  # noqa
+                         (attr, ', '.join(constants.ALLOWED_BINDINGS)))  # noqa
+                    )
+                if attr == 'Location':
+                    self._assertIsValidHttpsUrl(
+                        a,
+                        'The %s attribute '
+                        'in SingleLogoutService element '
+                        'must be a valid URL' % attr
+                    )

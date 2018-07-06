@@ -124,30 +124,49 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
         if self.failures:
             self.fail(common.helpers.dump_failures(self.failures))
 
-    def test_entityID(self):
+    def test_EntityDescriptor(self):
+        '''Test the compliance of EntityDescriptor element'''
+
         ed = self.doc.xpath('//EntityDescriptor')[0]
         eid = ed.get('entityID')
         self._assertIsValidHttpsUrl(
             eid,
-            'the entityID attribute must be a valid HTTPS url'
+            'The entityID attribute must be a valid HTTPS url'
         )
 
     def test_SPSSODescriptor(self):
-        spsso = self.doc.xpath('//EntityDescriptor/SPSSODescriptor')
+        '''Test the compliance of SPSSODescriptor element'''
 
-        pse = spsso[0].get('protocolSupportEnumeration')
-        self._assertEqual(
-            pse,
-            'urn:oasis:names:tc:SAML:2.0:protocol',
-            'the protocolSupportEnumeration attribute must be '
-            'urn:oasis:names:tc:SAML:2.0:protocol'
-        )
+        spsso = self.doc.xpath('//EntityDescriptor/SPSSODescriptor')[0]
+        for attr in ['protocolSupportEnumeration', 'WantAssertionsSigned']:
+            self._assertTrue(
+                (attr in spsso.attrib),
+                'The %s attribute must be present' % attr
+            )
 
-        was = spsso[0].get('WantAssertionsSigned')
-        self._assertEqual(was.lower(), 'true',
-                          'the WantAssertionsSigned attribute must be true')
+            a = spsso.get(attr)
+            self._assertIsNotNone(
+                a,
+                'The %s attribute must have a value' % attr
+            )
+
+            if attr == 'protocolSupportEnumeration':
+                self._assertEqual(
+                    a,
+                    'urn:oasis:names:tc:SAML:2.0:protocol',
+                    'The %s attribute must be '
+                    'urn:oasis:names:tc:SAML:2.0:protocol' % attr
+                )
+
+            if attr == 'WantAssertionsSigned':
+                self._assertEqual(
+                    a.lower(),
+                    'true',
+                    'The %s attribute must be true' % attr
+                )
 
     def test_Organization(self):
+        '''Test the compliance of Organization element'''
         org = self.doc.xpath('//EntityDescriptor/Organization')[0]
 
         for elem in ['Name', 'URL', 'DisplayName']:
@@ -157,14 +176,15 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
                     'xml': 'http://www.w3.org/XML/1998/namespace',
                 }
             )
-            self._assertEqual(
-                len(e),
-                1,
-                'an IT localised Organization%s must be present' % elem
+            self._assertTrue(
+                (len(e) == 1),
+                'An IT localised Organization%s must be present' % elem
             )
 
     @unittest.skipIf(SSLLABS_SKIP == 1, 'x')
     def test_ssllabs(self):
+        '''Test the TLS configuration of Locations URL'''
+
         locations = []
         c = 0
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
@@ -217,6 +237,8 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
             )
 
     def test_AttributeConsumingService(self):
+        '''Test the compliance of Organization element'''
+
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                               '/AttributeConsumingService')
         for acs in acss:
@@ -224,5 +246,11 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
             for ra in ras:
                 a = ra.get('NameFormat')
                 if a is not None:
-                    self._assertIn(a, common.constants.ALLOWED_FORMATS,
-                                   'NameFormat attribute must be valid')
+                    self._assertIn(
+                        a,
+                        common.constants.ALLOWED_FORMATS,
+                        (('The NameFormat attribute '
+                          'in RequestedAttribute element '
+                          'must be one of [%s]') %
+                         (', '.join(common.constants.ALLOWED_FORMATS)))
+                    )
