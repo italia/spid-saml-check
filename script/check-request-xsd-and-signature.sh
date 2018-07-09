@@ -8,22 +8,22 @@ FROM=${2}
 
 SAMLRequest=`cat ${_DATA_DIR}/SAMLRequest.${CTX}.request.txt`
 if [ ${_DEBUG} -eq 1 ]; then
-    echo -e "\n[SAMLRequest]\n\n${SAMLRequest}"
+    echo -e "[SAMLRequest]\n${SAMLRequest}"
 fi
 
 RelayState=`cat ${_DATA_DIR}/RelayState.${CTX}.request.txt`
 if [ ${_DEBUG} -eq 1 ]; then
-    echo -e "\n[RelayState]\n\n${RelayState}"
+    echo -e "[RelayState]\n${RelayState}"
 fi
 
 Signature=`cat ${_DATA_DIR}/Signature.${CTX}.request.txt`
 if [ ${_DEBUG} -eq 1 ]; then
-    echo -e "\n[Signature]\n\n${Signature}"
+    echo -e "[Signature]\n${Signature}"
 fi
 
 SigAlg=`cat ${_DATA_DIR}/SigAlg.${CTX}.request.txt`
 if [ ${_DEBUG} -eq 1 ]; then
-    echo -e "\n[SigAlg]\n\n${SigAlg}\n"
+    echo -e "[SigAlg]\n${SigAlg}\n"
 fi
 
 if [ "X${Signature}" == "X" -a "X${SigAlg}" == "X" ]; then # HTTP-POST
@@ -34,7 +34,7 @@ if [ "X${Signature}" == "X" -a "X${SigAlg}" == "X" ]; then # HTTP-POST
 
 
     if [ ${_DEBUG} -eq 1 ]; then
-        echo -e "\n[SAMLRequest]\n\n`xmllint --format ${req}`"
+        echo -e "[SAMLRequest]\n`xmllint --format ${req}`"
     fi
 
     # verify against XSD
@@ -76,7 +76,7 @@ else # HTTP-Redirect
         > ${req}
 
     if [ ${_DEBUG} -eq 1 ]; then
-        echo -e "\n[SAMLRequest]\n\n`xmllint --format ${req}`"
+        echo -e "[SAMLRequest]\n`xmllint --format ${req}`"
     fi
 
     # verify against XSD

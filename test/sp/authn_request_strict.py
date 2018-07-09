@@ -2,6 +2,7 @@ import base64
 import json
 import os
 import re
+import subprocess
 import unittest
 import urllib.parse
 import validators
@@ -17,6 +18,7 @@ import common.wrap
 
 REQUEST = os.getenv('AUTHN_REQUEST', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
+DEBUG = int(os.getenv('DEBUG', 0))
 
 
 class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
@@ -83,13 +85,67 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         if self.failures:
             self.fail(common.helpers.dump_failures(self.failures))
 
-    def test_xsd(self):
-        '''Validate the SP metadata against the SAML 2.0 Medadata XSD'''
-        pass
+    def test_xsd_and_xmldsig(self):
+        '''Test if the XSD validates and if the signature is valid'''
 
-    def test_xmldsig(self):
-        '''Verify the SP metadata signature'''
-        pass
+        msg = ('The AuthnRequest must validate against XSD ' +
+               'and must have a valid signature')
+
+        cmd = ['bash',
+               './script/check-request-xsd-and-signature.sh',
+               'authn',
+               'sp']
+
+        is_valid = True
+        try:
+            p = subprocess.run(cmd, check=True, stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+            if DEBUG:
+                stdout = '\n'.join(
+                    list(
+                        filter(None, p.stdout.decode('utf-8').split('\n'))
+                    )
+                )
+                print('\n' + stdout)
+                stderr = '\n'.join(
+                    list(
+                        filter(None, p.stderr.decode('utf-8').split('\n'))
+                    )
+                )
+                print('\n' + stderr)
+
+        except subprocess.CalledProcessError as err:
+            is_valid = False
+            lines = [msg]
+            if err.stderr:
+                stderr = (
+                    'stderr: ' +
+                    '\nstderr: '.join(
+                        list(
+                            filter(
+                                None,
+                                err.stderr.decode('utf-8').split('\n')
+                            )
+                        )
+                    )
+                )
+                lines.append(stderr)
+            if err.stdout:
+                stdout = (
+                    'stdout: ' +
+                    '\nstdout: '.join(
+                        list(
+                            filter(
+                                None,
+                                err.stdout.decode('utf-8').split('\n')
+                            )
+                        )
+                    )
+                )
+                lines.append(stdout)
+            msg = '\n'.join(lines)
+
+        self._assertTrue(is_valid, msg)
 
     def test_AuthnRequest(self):
         '''Test the compliance of AuthnRequest element'''
