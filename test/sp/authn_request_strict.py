@@ -10,6 +10,7 @@ import zlib
 from io import BytesIO
 from lxml import etree as ET
 
+import common.dump_pem as dump_pem
 import common.helpers
 import common.regex
 import common.wrap
@@ -412,9 +413,42 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         )
 
     def test_Signature(self):
+        '''Test the compliance of Signature element'''
+
         if not self.IS_HTTP_REDIRECT:
-            e = self.doc.xpath('//AuthnRequest/Signature')
-            self.assertEqual(len(e), 1, 'Signature element must be present')
+            sign = self.doc.xpath('//AuthnRequest/Signature')
+            self._assertTrue((len(sign) == 1),
+                             'The Signature element must be present')
+
+            method = sign[0].xpath('./SignedInfo/SignatureMethod')
+            self._assertTrue((len(method) == 1),
+                             'The SignatureMethod element must be present')
+
+            self._assertTrue(('Algorithm' in method[0].attrib),
+                             'The Algorithm attribute must be present '
+                             'in SignatureMethod element')
+
+            alg = method[0].get('Algorithm')
+            self._assertIn(alg, constants.ALLOWED_XMLDSIG_ALGS,
+                           (('The signature algorithm must be one of [%s]') %
+                            (', '.join(constants.ALLOWED_XMLDSIG_ALGS))))
+
+            method = sign[0].xpath('./SignedInfo/Reference/DigestMethod')
+            self._assertTrue((len(method) == 1),
+                             'The DigestMethod element must be present')
+
+            self._assertTrue(('Algorithm' in method[0].attrib),
+                             'The Algorithm attribute must be present '
+                             'in DigestMethod element')
+
+            alg = method[0].get('Algorithm')
+            self._assertIn(alg, constants.ALLOWED_DGST_ALGS,
+                           (('The digest algorithm must be one of [%s]') %
+                            (', '.join(constants.ALLOWED_DGST_ALGS))))
+
+            # save the grubbed certificate for future alanysis
+            cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
+            dump_pem.dump_request_pem(cert, 'authn', 'signature', DATA_DIR)
 
     def test_Scoping(self):
         e = self.doc.xpath('//AuthnRequest/Scoping')
