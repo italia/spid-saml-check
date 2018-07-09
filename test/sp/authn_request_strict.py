@@ -330,23 +330,35 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             )
 
     def test_Conditions(self):
+        '''Test the compliance of Conditions element'''
         e = self.doc.xpath('//AuthnRequest/Conditions')
-        if len(e) > 0:
+
+        if len(e) > 1:
+            self._assertEqual(
+                len(1),
+                1,
+                'Only one Conditions element is allowed'
+            )
+
+        if len(e) == 1:
             e = e[0]
+            for attr in ['NotBefore', 'NotOnOrAfter']:
+                self._assertTrue(
+                    (attr in e.attrib),
+                    'The %s attribute must be present' % attr
+                )
 
-            if e.get('NotBefore'):
-                with self.subTest('NotBefore must be a valid UTC date'):
-                    a = e.get('NotBefore')
-                    self.assertIsNotNone(a)
-                    self.assertTrue(bool(common.regex.UTC_STRING.search(a)),
-                                    common.helpers.found(a))
+                value = e.get(attr)
 
-            if e.get('NotOnOrAfter'):
-                with self.subTest('NotOnOrAfter must be a valid UTC date'):
-                    a = e.get('NotOnOrAfter')
-                    self.assertIsNotNone(a)
-                    self.assertTrue(bool(common.regex.UTC_STRING.search(a)),
-                                    common.helpers.found(a))
+                self._assertIsNotNone(
+                    value,
+                    'The %s attribute must have a value' % attr
+                )
+
+                self._assertTrue(
+                    bool(common.regex.UTC_STRING.search(value)),
+                    'The %s attribute must have avalid UTC string' % attr
+                )
 
     def test_RequestedAuthnContext(self):
         e = self.doc.xpath('//AuthnRequest/RequestedAuthnContext')
