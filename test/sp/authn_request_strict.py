@@ -361,35 +361,55 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                 )
 
     def test_RequestedAuthnContext(self):
+        '''Test the compliance of RequestedAuthnContext element'''
+
         e = self.doc.xpath('//AuthnRequest/RequestedAuthnContext')
-        self.assertEqual(
+        self._assertEqual(
             len(e),
             1,
-            'RequestedAuthnContext element must be present'
+            'Only one RequestedAuthnContex element must be present'
         )
 
         e = e[0]
 
-        with self.subTest('Comparison must be present and valid'):
-            a = e.get('Comparison')
-            self.assertIsNotNone(a)
-            self.assertIn(
-                a,
-                ['exact', 'minimum', 'better', 'maximum'],
-                common.helpers.found(a)
-            )
+        attr = 'Comparison'
+        self._assertTrue(
+            (attr in e.attrib),
+            'The %s attribute must be present' % attr
+        )
 
-        with self.subTest('AuthnContextClassRef must be present and valid'):
-            e = e.xpath('./AuthnContextClassRef')
-            self.assertEqual(
-                len(e),
-                1,
-                'AuthnContextClassRef element must be present'
-            )
+        value = e.get(attr)
+        self._assertIsNotNone(
+            value,
+            'The %s attribute must have a value' % attr
+        )
 
-            level = e[0].text
-            self.assertTrue(bool(common.regex.SPID_LEVEL_ALL.search(level)),
-                            common.helpers.found(level))
+        allowed = ['exact', 'minimum', 'better', 'maximum']
+        self._assertIn(
+            value,
+            allowed,
+            (('The %s attribute must be one of [%s]') %
+             (attr, ', '.join(allowed)))
+        )
+
+        acr = e.xpath('./AuthnContextClassRef')
+        self._assertEqual(
+            len(acr),
+            1,
+            'Only one AuthnContexClassRef element must be present'
+        )
+
+        acr = acr[0]
+
+        self._assertIsNotNone(
+            acr.text,
+            'The AuthnContexClassRef element must have a value'
+        )
+
+        self._assertTrue(
+            bool(common.regex.SPID_LEVEL_ALL.search(acr.text)),
+            'The AuthnContextClassRef element must have a valid SPID level'
+        )
 
     def test_Signature(self):
         if not self.IS_HTTP_REDIRECT:
