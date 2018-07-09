@@ -258,26 +258,26 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
     def test_Issuer(self):
         '''Test the compliance of Issuer element'''
 
-        iss = self.doc.xpath('//AuthnRequest/Issuer')
+        e = self.doc.xpath('//AuthnRequest/Issuer')
         self._assertTrue(
-            (len(iss) == 1),
+            (len(e) == 1),
             'One Issuer element must be present'
         )
 
-        iss = iss[0]
+        e = e[0]
 
         self._assertIsNotNone(
-            iss.text,
+            e.text,
             'The Issuer element must have a value'
         )
 
         for attr in ['Format', 'NameQualifier']:
             self._assertTrue(
-                (attr in iss.attrib),
+                (attr in e.attrib),
                 'The %s attribute must be present' % attr
             )
 
-            value = iss.get(attr)
+            value = e.get(attr)
 
             self._assertIsNotNone(
                 value,
@@ -293,18 +293,40 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                 )
 
     def test_NameIDPolicy(self):
+        '''Test the compliance of NameIDPolicy element'''
+
         e = self.doc.xpath('//AuthnRequest/NameIDPolicy')
-        self.assertEqual(len(e), 1, 'NameIDPolicy element must be present')
+        self._assertTrue(
+            (len(e) == 1),
+            'One Issuer element must be present'
+        )
 
         e = e[0]
 
-        with self.subTest('Format attribute must be present and valid'):
-            a = e.get('Format')
-            self.assertIsNotNone(a)
-            self.assertEqual(
-                a,
-                'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
-                common.helpers.found(a)
+        self._assertTrue(
+            ('AllowCreate' not in e.attrib),
+            'The AllowCreate attribute must not be present'
+        )
+
+        attr = 'Format'
+        self._assertTrue(
+            (attr in e.attrib),
+            'The %s attribute must be present' % attr
+        )
+
+        value = e.get(attr)
+
+        self._assertIsNotNone(
+            value,
+            'The %s attribute must have a value' % attr
+        )
+
+        if attr == 'Format':
+            exp = 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient'
+            self._assertEqual(
+                value,
+                exp,
+                'The %s attribute must be %s' % (attr, exp)
             )
 
     def test_Conditions(self):
