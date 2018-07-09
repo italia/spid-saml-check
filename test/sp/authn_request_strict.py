@@ -214,31 +214,46 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             )
 
     def test_Subject(self):
+        '''Test the compliance of Subject element'''
+
         subj = self.doc.xpath('//AuthnRequest/Subject')
-        if len(subj) > 0:
+        if len(subj) > 1:
+            self._assertEqual(
+                len(subj),
+                1,
+                'Only one Subject element can be present'
+            )
+
+        if len(subj) == 1:
             subj = subj[0]
+            name_id = subj.xpath('./NameID')
+            self._assertEqual(
+                len(name_id),
+                1,
+                'One NameID element in Subject element must be present'
+            )
+            name_id = name_id[0]
+            for attr in ['Format', 'NameQualifier']:
+                self._assertTrue(
+                    (attr in req.attrib),
+                    'The %s attribute must be present' % attr
+                )
 
-            with self.subTest('NameID element must be present and valid'):
-                e = subj.xpath('./NameID')
-                self.assertGreater(len(e), 0)
+                value = name_id.get(attr)
 
-                e = e[0]
+                self._assertIsNotNone(
+                    value,
+                    'The %s attribute must have a value' % attr
+                )
 
-                with self.subTest('Format attribute '
-                                  'must be present and valid'):
-                    a = e.get('Format')
-                    self.assertIsNotNone(a)
-                    self.assertEqual(
-                        a,
-                        'urn:oasis:names:tc:SAML:1.1:nameid-format'
-                        ':unspecified',
-                        common.helpers.found(a)
+                if attr == 'Format':
+                    exp = ('urn:oasis:names:tc:SAML:1.1:nameid-format'
+                           ':unspecified')
+                    self._assertEqual(
+                        value,
+                        exp,
+                        'The % attribute must be %s' % (attr, exp)
                     )
-
-                with self.subTest('NameQualifier attribute '
-                                  'must be present and valid'):
-                    a = e.get('NameQualifier')
-                    self.assertIsNotNone(a)
 
     def test_Issuer(self):
         e = self.doc.xpath('//AuthnRequest/Issuer')
