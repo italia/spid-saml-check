@@ -235,7 +235,7 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             name_id = name_id[0]
             for attr in ['Format', 'NameQualifier']:
                 self._assertTrue(
-                    (attr in req.attrib),
+                    (attr in name_id.attrib),
                     'The %s attribute must be present' % attr
                 )
 
@@ -256,24 +256,41 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                     )
 
     def test_Issuer(self):
-        e = self.doc.xpath('//AuthnRequest/Issuer')
-        self.assertEqual(len(e), 1, 'Issuer element must be present')
+        '''Test the compliance of Issuer element'''
 
-        e = e[0]
+        iss = self.doc.xpath('//AuthnRequest/Issuer')
+        self._assertTrue(
+            (len(iss) == 1),
+            'One Issuer element must be present'
+        )
 
-        with self.subTest('Format attribute must be present and valid'):
-            a = e.get('Format')
-            self.assertIsNotNone(a)
-            self.assertEqual(
-                a,
-                'urn:oasis:names:tc:SAML:2.0:nameid-format:entity',
-                common.helpers.found(a)
+        iss = iss[0]
+
+        self._assertIsNotNone(
+            iss.text,
+            'The Issuer element must have a value'
+        )
+
+        for attr in ['Format', 'NameQualifier']:
+            self._assertTrue(
+                (attr in iss.attrib),
+                'The %s attribute must be present' % attr
             )
 
-        with self.subTest('NameQualifier attribute '
-                          'must be present and valid'):
-            a = e.get('NameQualifier')
-            self.assertIsNotNone(a)
+            value = iss.get(attr)
+
+            self._assertIsNotNone(
+                value,
+                'The %s attribute must have a value' % attr
+            )
+
+            if attr == 'Format':
+                exp = 'urn:oasis:names:tc:SAML:2.0:nameid-format:entity'
+                self._assertEqual(
+                    value,
+                    exp,
+                    'The %s attribute must be %s' % (attr, exp)
+                )
 
     def test_NameIDPolicy(self):
         e = self.doc.xpath('//AuthnRequest/NameIDPolicy')
