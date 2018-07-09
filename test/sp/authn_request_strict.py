@@ -1,4 +1,5 @@
 import base64
+import json
 import os
 import re
 import unittest
@@ -9,17 +10,41 @@ import zlib
 from io import BytesIO
 from lxml import etree as ET
 
-import common.regex
 import common.helpers
+import common.regex
+import common.wrap
 
 REQUEST = os.getenv('AUTHN_REQUEST', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
 
 
-class TestAuthnRequest(unittest.TestCase):
+class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
     longMessage = False
 
+    @classmethod
+    def tearDownClass(cls):
+        fname = '%s/sp-authn-request-strict.json' % DATA_DIR
+        with open(fname, 'w') as f:
+            f.write(json.dumps(cls.report, indent=2))
+            f.close()
+
     def setUp(self):
+        self.failures = []
+        _report = self.__class__.report
+        paths = self.id().split('.')
+        c = 1
+        for path in paths:
+            if path not in _report:
+                if c == len(paths):
+                    _report[path] = {
+                        'description': self.shortDescription(),
+                        'assertions': [],
+                    }
+                else:
+                    _report[path] = {}
+            _report = _report[path]
+            c += 1
+
         if not REQUEST:
             self.fail('AUTHN_REQUEST not set')
 
@@ -53,70 +78,140 @@ class TestAuthnRequest(unittest.TestCase):
         self.doc = ET.parse(BytesIO(xml))
         common.helpers.del_ns(self.doc)
 
+    def tearDown(self):
+        if self.failures:
+            self.fail(common.helpers.dump_failures(self.failures))
+
+    def test_xsd(self):
+        '''Validate the SP metadata against the SAML 2.0 Medadata XSD'''
+        pass
+
+    def test_xmldsig(self):
+        '''Verify the SP metadata signature'''
+        pass
+
     def test_AuthnRequest(self):
-        req = self.doc.xpath('/AuthnRequest')[0]
+        '''Test the compliance of AuthnRequest element'''
+        req = self.doc.xpath('/AuthnRequest')
+        self._assertTrue(
+            (len(req) == 1),
+            'One AuthnRequest element must be present'
+        )
 
-        with self.subTest('ID attribute must be present'):
-            self.assertIsNotNone(req.get('ID'))
+        req = req[0]
 
-        with self.subTest('IsPassive attribute must not be present'):
-            self.assertIsNone(req.get('IsPassive'))
+        for attr in ['ID', 'Version', 'IssueInstant', 'Destination']:
+            self._assertTrue(
+                (attr in req.attrib),
+                'The %s attribute must be present' % attr
+            )
 
-        with self.subTest('Version attribute must be 2.0'):
-            a = req.get('Version')
-            self.assertIsNotNone(a)
-            self.assertEqual(a, '2.0', common.helpers.found(a))
-
-        with self.subTest('IssueInstant attribute must be UTC time'):
-            a = req.get('IssueInstant')
-            self.assertIsNotNone(a)
-            self.assertTrue(bool(common.regex.UTC_STRING.search(a)),
-                            common.helpers.found(a))
-
-        with self.subTest('Destination attribute must be present'):
-            a = req.get('Destination')
-            self.assertIsNotNone(a)
-
-        with self.subTest('ForceAuthn attribute '
-                          'must be present if SpidL > 1'):
-            level = req.xpath('//RequestedAuthnContext'
-                              '/AuthnContextClassRef')[0].text
-            a = req.get('ForceAuthn')
-
-            if bool(common.regex.SPID_LEVEL_23.search(level)):
-                self.assertIsNotNone(a)
-                self.assertEqual(a, 'true', common.helpers.found(a))
-
-        check_alternative = False
-        with self.subTest('AssertionConsumerServiceIndex '
-                          'must be present and >= 0'):
-            a = req.get('AssertionConsumerServiceIndex')
-            if a:
-                self.assertGreaterEqual(int(a), 0, common.helpers.found(a))
-            else:
-                check_alternative = True
-
-        if check_alternative:
-            with self.subTest('AssertionConsumerServiceURL '
-                              'must be present and a valid HTTPS URL'):
-                a = req.get('AssertionConsumerServiceURL')
-                self.assertIsNotNone(a)
-                self.assertTrue(a.startswith('https://'),
-                                common.helpers.found(a))
-                self.assertTrue(validators.url(a), common.helpers.found(a))
-
-                a = req.get('ProtocolBinding')
-                self.assertIsNotNone(a)
-                self.assertEqual(
-                    a,
-                    'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
-                    common.helpers.found(a)
+            value = req.get(attr)
+            if (attr == 'ID'):
+                self._assertIsNotNone(
+                    value,
+                    'The %s attribute must have a value' % attr
                 )
 
-        with self.subTest('AttributeConsumingServiceIndex could be present'):
-            a = req.get('AttributeConsumingServiceIndex')
-            if a:
-                self.assertGreaterEqual(int(a), 0, common.helpers.found(a))
+            if (attr == 'Version'):
+                exp = '2.0'
+                self._assertEqual(
+                    value,
+                    exp,
+                    'The %s attribute must be %s' % (attr, exp)
+                )
+
+            if (attr == 'IssueInstant'):
+                self._assertIsNotNone(
+                    value,
+                    'The %s attribute must have a value' % attr
+                )
+                self._assertTrue(
+                    bool(common.regex.UTC_STRING.search(value)),
+                    'The %s attribute must be a valid UTC string' % attr
+                )
+
+            if (attr == 'Destination'):
+                self._assertIsNotNone(
+                    value,
+                    'The %s attribute must have a value' % attr
+                )
+                self._assertIsValidHttpsUrl(
+                    value,
+                    'The %s attribute must be a valid HTTPS url' % attr
+                )
+
+        self._assertTrue(
+            ('IsPassive' not in req.attrib),
+            'The IsPassive attribute must not be present'
+        )
+
+        level = req.xpath('//RequestedAuthnContext'
+                          '/AuthnContextClassRef')[0].text
+        if bool(common.regex.SPID_LEVEL_23.search(level)):
+            self._assertTrue(
+                ('ForceAuthn' in req.attrib),
+                'The ForceAuthn attribute must be present if SPID level > 1'
+            )
+            value = req.get('ForceAuthn')
+            self._assertEqual(
+                value.lower(),
+                'true',
+                'The ForceAuthn attribute must be true'
+            )
+
+        attr = 'AssertionConsumerServiceIndex'
+        if attr in req.attrib:
+            value = req.get(attr)
+            self._assertIsNotNone(
+                value,
+                'The %s attribute must have a value' % attr
+            )
+            self._assertGreaterEqual(
+                int(value),
+                0,
+                'The %s attribute must be >= 0' % attr
+            )
+        else:
+            for attr in ['AssertionConsumerServiceURL', 'ProtocolBinding']:
+                self._assertTrue(
+                    (attr in req.attrib),
+                    'The %s attribute must be present' % attr
+                )
+
+                value = req.get(attr)
+
+                self._assertIsNotNone(
+                    value,
+                    'The %s attribute must have a value' % attr
+                )
+
+                if attr == 'AssertionConsumerServiceURL':
+                    self._assertIsValidHttpsUrl(
+                        value,
+                        'The %s attribute must be a valid HTTPS url' % attr
+                    )
+
+                if attr == 'ProtocolBinding':
+                    exp = 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'
+                    self._assertEqual(
+                        value,
+                        exp,
+                        'The %s attribute must be %s' % (attr, exp)
+                    )
+
+        attr = 'AttributeConsumingServiceIndex'
+        if attr in req.attrib:
+            value = req.get(attr)
+            self._assertIsNotNone(
+                value,
+                'The %s attribute must have a value' % attr
+            )
+            self._assertGreaterEqual(
+                int(value),
+                0,
+                'The %s attribute must be >= 0' % attr
+            )
 
     def test_Subject(self):
         subj = self.doc.xpath('//AuthnRequest/Subject')
