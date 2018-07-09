@@ -19,8 +19,15 @@ def found(val):
 def dump_failures(failures):
     return '\n'.join([
         '\n',
-        '>' * 70,
+        '  ________________________________________   ',
+        '/ Hey, there was a failure! Take a look in \\',
+        '\\ the list below...                        / ',
+        '  ----------------------------------------   ',
+        '         \\   ^__^                            ',
+        '          \\  (oo)\\_______                    ',
+        '             (__)\\       )\\/\\                ',
+        '                 ||----w |                   ',
+        '                 ||     ||                   ',
+        '\n',
         '\n'.join(failures),
-        '<' * 70,
-        '\n\n\n',
     ])

@@ -1,6 +1,8 @@
 import base64
+import json
 import os
 import re
+import subprocess
 import unittest
 import urllib.parse
 import validators
@@ -13,14 +15,22 @@ import common.constants
 import common.dump_pem
 import common.helpers
 import common.regex
+import common.wrap
 
 DATA_DIR = os.getenv('DATA_DIR', './data')
 DEBUG = int(os.getenv('DEBUG', 0))
 REQUEST = os.getenv('LOGOUT_REQUEST', None)
 
 
-class TestLogoutRequest(unittest.TestCase):
+class TestLogoutRequest(unittest.TestCase, common.wrap.TestCaseWrap):
     longMessage = False
+
+    @classmethod
+    def tearDownClass(cls):
+        fname = '%s/sp-logout-request-strict.json' % DATA_DIR
+        with open(fname, 'w') as f:
+            f.write(json.dumps(cls.report, indent=2))
+            f.close()
 
     def _attr_expect(self, attr, found, expect):
         msg = (('%s attribute must be %s (found: %s)') %
@@ -33,6 +43,22 @@ class TestLogoutRequest(unittest.TestCase):
         self.assertIsNotNone(found, msg)
 
     def setUp(self):
+        self.failures = []
+        _report = self.__class__.report
+        paths = self.id().split('.')
+        c = 1
+        for path in paths:
+            if path not in _report:
+                if c == len(paths):
+                    _report[path] = {
+                        'description': self.shortDescription(),
+                        'assertions': [],
+                    }
+                else:
+                    _report[path] = {}
+            _report = _report[path]
+            c += 1
+
         if not REQUEST:
             self.fail('REQUEST not set')
 
@@ -70,92 +96,201 @@ class TestLogoutRequest(unittest.TestCase):
         common.helpers.del_ns(self.doc)
 
     def tearDown(self):
-        pass
+        if self.failures:
+            self.fail(common.helpers.dump_failures(self.failures))
 
     def test_LogoutRequest(self):
-        req = self.doc.xpath('/LogoutRequest')
-        self.assertEqual(len(req), 1)
+        '''Test the compliance of LogoutRequest element'''
 
-        req = req[0]
+        e = self.doc.xpath('/LogoutRequest')
+        self._assertTrue(
+            (len(e) == 1),
+            'One LogoutRequest element must be present'
+        )
 
-        with self.subTest('ID attribute must be present'):
-            a = req.get('ID')
-            self.assertIsNotNone(a)
+        e = e[0]
 
-        with self.subTest('Version attribute must be present and valid'):
-            a = req.get('Version')
-            self.assertIsNotNone(a)
-            self.assertEqual(a, '2.0', common.helpers.found(a))
+        for attr in ['ID', 'Version', 'IssueInstant', 'Destination']:
+            self._assertTrue(
+                (attr in e.attrib),
+                'The %s attribute must be present' % attr
+            )
 
-        with self.subTest('IssueInstant attribute must be present and valid'):
-            a = req.get('IssueInstant')
-            self.assertIsNotNone(a)
-            self.assertTrue(bool(common.regex.UTC_STRING.search(a)),
-                            common.helpers.found(a))
+            value = e.get(attr)
 
-        with self.subTest('Destination attribute must be present and valid'):
-            a = req.get('Destination')
-            self.assertIsNotNone(a)
-            self.assertTrue(a.startswith('https://'), common.helpers.found(a))
-            self.assertTrue(validators.url(a), common.helpers.found(a))
+            self._assertIsNotNone(
+                value,
+                'The %s attribute must have a value' % attr
+            )
 
-        with self.subTest('Issuer element must be present and valid'):
-            e = req.xpath('./Issuer')
-            self.assertEqual(len(e), 1)
-            e = e[0]
+            if attr == 'Version':
+                exp = '2.0'
+                self._assertEqual(
+                    value,
+                    exp,
+                    'The %s attribute must be %s' % (attr, exp)
+                )
 
-            # NOTE: it seems to be out of SAML standard
-            #
-            # attr = 'Format'
-            # expect = 'urn:oasis:names:tc:SAML:2.0:nameid-format:entity'
-            # found = e.get(attr)
-            # self._attr_expect(attr, found, expect)
-            #
-            # attr = 'NameQualifier'
-            # found = e.get(attr)
-            # self._attr_expect_not_none(attr, found)
+            if attr == 'IssueInstant':
+                self._assertTrue(
+                    bool(common.regex.UTC_STRING.search(value)),
+                    'The %s attribute must be a valid UTC string' % attr
+                )
 
-            self.assertIsNotNone(e.text,
-                                 'element %s must have a value' % e.tag)
+            if attr == 'Destination':
+                self._assertIsValidHttpsUrl(
+                    value,
+                    'The %s attribute must be a valid HTTPS url' % attr
+                )
 
-        with self.subTest('NameID element must be present and valid'):
-            e = req.xpath('./NameID')
-            self.assertEqual(len(e), 1)
-            e = e[0]
+        for elem in ['Issuer', 'NameID', 'SessionIndex']:
+            _e = e.xpath('./%s' % elem)
+            self._assertTrue(
+                (len(_e) == 1),
+                'The %s element must be present' % elem
+            )
 
-            attr = 'Format'
-            expect = 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient'
-            found = e.get(attr)
-            self._attr_expect(attr, found, expect)
+            _e = _e[0]
 
-            # NOTE: it seems to be out of SAML standard
-            #
-            # attr = 'NameQualifier'
-            # found = e.get(attr)
-            # self._attr_expect_not_none(attr, found)
+            self._assertIsNotNone(
+                _e.text,
+                'The %s element must have a value' % elem
+            )
 
-            self.assertIsNotNone(e.text,
-                                 'element %s must have a value' % e.tag)
+            if elem != 'SessionIndex':
+                for attr in ['Format', 'NameQualifier']:
+                    self._assertTrue(
+                        (attr in _e.attrib),
+                        (('The %s attribute in %s element must be present') %
+                         (attr, elem))
+                    )
 
-        with self.subTest('SessionIndex element must be present and valid'):
-            e = req.xpath('./SessionIndex')
-            self.assertEqual(len(e), 1)
-            self.assertIsNotNone(e[0].text,
-                                 'element %s must have a value' % e[0].tag)
+                    value = _e.get(attr)
+
+                    self._assertIsNotNone(
+                        value,
+                        (('The %s attribute in '
+                          '%s element must have a value') %
+                         (attr, elem))
+                    )
+
+                    if (elem == 'logoutRequest') and (attr == 'Format'):
+                        exp = 'urn:oasis:names:tc:SAML:2.0:nameid-format:entity'  # noqa
+                        self._assertEqual(
+                            value,
+                            exp,
+                            (('The %s attribute in %s element must be %s') %
+                             (attr, elem, exp))
+                        )
+
+                    if (elem == 'NameID') and (attr == 'Format'):
+                        exp = 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient'  # noqa
+                        self._assertEqual(
+                            value,
+                            exp,
+                            (('The %s attribute in %s element must be %s') %
+                             (attr, elem, exp))
+                        )
 
     def test_Signature(self):
+        '''Test the compliance of Signature element'''
+
         if not self.IS_HTTP_REDIRECT:
             sign = self.doc.xpath('//LogoutRequest/Signature')
-            self.assertEqual(len(sign), 1,
-                             'Signature element must be present')
-            sign = sign[0]
+            self._assertTrue((len(sign) == 1),
+                             'The Signature element must be present')
 
-            sm = sign.xpath('./SignedInfo/SignatureMethod')[0]
-            alg = sm.get('Algorithm')
-            self.assertIn(alg, common.constants.ALLOWED_XMLDSIG_ALGS,
-                          common.helpers.found(alg))
+            method = sign[0].xpath('./SignedInfo/SignatureMethod')
+            self._assertTrue((len(method) == 1),
+                             'The SignatureMethod element must be present')
+
+            self._assertTrue(('Algorithm' in method[0].attrib),
+                             'The Algorithm attribute must be present '
+                             'in SignatureMethod element')
+
+            alg = method[0].get('Algorithm')
+            self._assertIn(alg, common.constants.ALLOWED_XMLDSIG_ALGS,
+                           (('The signature algorithm must be one of [%s]') %
+                            (', '.join(common.constants.ALLOWED_XMLDSIG_ALGS))))  # noqa
+
+            method = sign[0].xpath('./SignedInfo/Reference/DigestMethod')
+            self._assertTrue((len(method) == 1),
+                             'The DigestMethod element must be present')
+
+            self._assertTrue(('Algorithm' in method[0].attrib),
+                             'The Algorithm attribute must be present '
+                             'in DigestMethod element')
+
+            alg = method[0].get('Algorithm')
+            self._assertIn(alg, common.constants.ALLOWED_DGST_ALGS,
+                           (('The digest algorithm must be one of [%s]') %
+                            (', '.join(common.constants.ALLOWED_DGST_ALGS))))
 
             # save the grubbed certificate for future alanysis
-            cert = sign.xpath('./KeyInfo/X509Data/X509Certificate')[0]
-            common.dump_pem.dump_request_pem(cert, 'logout', 'signature',
-                                             DATA_DIR)
+            cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
+            common.dump_pem.dump_request_pem(cert, 'logout', 'signature', DATA_DIR)  # noqa
+
+    def test_xsd_and_xmldsig(self):
+        '''Test if the XSD validates and if the signature is valid'''
+
+        msg = ('The LogoutRequest must validate against XSD ' +
+               'and must have a valid signature')
+
+        cmd = ['bash',
+               './script/check-request-xsd-and-signature.sh',
+               'logout',
+               'sp']
+
+        is_valid = True
+        try:
+            p = subprocess.run(cmd, check=True, stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+            if DEBUG:
+                stdout = '\n'.join(
+                    list(
+                        filter(None, p.stdout.decode('utf-8').split('\n'))
+                    )
+                )
+                print('\n' + stdout)
+                stderr = '\n'.join(
+                    list(
+                        filter(None, p.stderr.decode('utf-8').split('\n'))
+                    )
+                )
+                print('\n' + stderr)
+
+        except subprocess.CalledProcessError as err:
+            is_valid = False
+            lines = [msg]
+
+            if err.stdout:
+                stdout = (
+                    'stdout: ' +
+                    '\nstdout: '.join(
+                        list(
+                            filter(
+                                None,
+                                err.stdout.decode('utf-8').split('\n')
+                            )
+                        )
+                    )
+                )
+                lines.append(stdout)
+
+            if err.stderr:
+                stderr = (
+                    'stderr: ' +
+                    '\nstderr: '.join(
+                        list(
+                            filter(
+                                None,
+                                err.stderr.decode('utf-8').split('\n')
+                            )
+                        )
+                    )
+                )
+                lines.append(stderr)
+
+            msg = '\n'.join(lines)
+
+        self._assertTrue(is_valid, msg)
