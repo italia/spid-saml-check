@@ -1,6 +1,8 @@
 import base64
+import json
 import os
 import re
+import subprocess
 import unittest
 import urllib.parse
 import validators
@@ -9,6 +11,7 @@ from io import BytesIO
 from lxml import etree as ET
 
 import common.helpers
+import common.wrap
 from common import dump_pem
 from common import constants
 from common import regex
@@ -17,10 +20,33 @@ RESPONSE = os.getenv('AUTHN_RESPONSE', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
 
 
-class TestResponse(unittest.TestCase):
+class TestResponse(unittest.TestCase, common.wrap.TestCaseWrap):
     longMessage = False
 
+    @classmethod
+    def tearDownClass(cls):
+        fname = '%s/idp-authn-response-strict.json' % DATA_DIR
+        with open(fname, 'w') as f:
+            f.write(json.dumps(cls.report, indent=2))
+            f.close()
+
     def setUp(self):
+        self.failures = []
+        _report = self.__class__.report
+        paths = self.id().split('.')
+        c = 1
+        for path in paths:
+            if path not in _report:
+                if c == len(paths):
+                    _report[path] = {
+                        'description': self.shortDescription(),
+                        'assertions': [],
+                    }
+                else:
+                    _report[path] = {}
+            _report = _report[path]
+            c += 1
+
         if not RESPONSE:
             self.fail('AUTHN_RESPONSE not set')
 
@@ -43,80 +69,131 @@ class TestResponse(unittest.TestCase):
         common.helpers.del_ns(self.doc)
 
     def tearDown(self):
-        pass
+        if self.failures:
+            self.fail(common.helpers.dump_failures(self.failures))
 
     def test_Response(self):
+        '''Test the compliance of Response element'''
+
         e = self.doc.xpath('/Response')
-        self.assertEqual(len(e), 1, 'only one Response element '
-                                    'must be present')
+        self._assertTrue(
+            (len(e) == 1),
+            'One Response element must be present'
+        )
 
         e = e[0]
 
-        with self.subTest('ID attribute must be present'):
-            a = e.get('ID')
-            self.assertIsNotNone(a)
+        for attr in ['ID', 'Version', 'IssueInstant', 'InResponseTo',
+                     'Destination']:
+            self._assertTrue(
+                (attr in e.attrib),
+                'The %s attribute must be present' % attr
+            )
 
-        with self.subTest('Version attribute must be set to 2.0'):
-            a = e.get('Version')
-            self.assertIsNotNone(a)
-            self.assertEqual(a, '2.0', common.helpers.found(a))
+            value = e.get(attr)
 
-        with self.subTest('IssueInstant attribute must be '
-                          'a valid UTC string'):
-            a = e.get('IssueInstant')
-            self.assertIsNotNone(a)
-            self.assertTrue(bool(regex.UTC_STRING.search(a)),
-                            common.helpers.found(a))
+            self._assertIsNotNone(
+                value,
+                'The %s attribute must have a value' % attr
+            )
 
-        with self.subTest('InResponseTo attribute must be present'):
-            a = e.get('InResponseTo')
-            self.assertIsNotNone(a)
+            if attr == 'Version':
+                exp = '2.0'
+                self._assertEqual(
+                    value,
+                    exp,
+                    'The %s attribute must be %s' % (attr, exp)
+                )
 
-        with self.subTest('Destination attribute must '
-                          'be present and HTTPS URI'):
-            a = e.get('Destination')
-            self.assertIsNotNone(a)
-            self.assertTrue(a.startswith('https://'), common.helpers.found(a))
-            self.assertTrue(validators.url(a), common.helpers.found(a))
+            if attr == 'IssueInstant':
+                self._assertTrue(
+                    bool(regex.UTC_STRING.search(value)),
+                    'The %s attribute must be a valid UTC string' % (attr)
+                )
+
+            if attr == 'Destination':
+                self._assertIsValidHttpsUrl(
+                    value,
+                    'The %s attribute must be a valid HTTPS url' % (attr)
+                )
 
     def test_Status(self):
+        '''Test the compliance of Status element'''
         # TODO: deal with (status_code, error_code) tuple
 
         e = self.doc.xpath('//Response/Status')
-        self.assertEqual(len(e), 1, 'only one Status element must be present')
-
-        with self.subTest('StatusCode element must be present and valid'):
-            e = self.doc.xpath('//Response/Status/StatusCode')
-            self.assertEqual(len(e), 1, 'only one StatusCode element must '
-                                        'be present')
-
-            a = e[0].get('Value')
-            self.assertIn(a, constants.ALLOWED_STATUS_CODES,
-                          common.helpers.found(a))
-
-        with self.subTest('StatusMessage element must be valid (if present)'):
-            e = self.doc.xpath('//Response/Status/StatusMessage')
-            self.assertLessEqual(len(e), 1, 'only one StatusMessage element '
-                                            'could be present')
-
-        with self.subTest('StatusDetail element must be valid (if present)'):
-            e = self.doc.xpath('//Response/Status/StatusDetail')
-            self.assertLessEqual(len(e), 1, 'only one StatusDetail element '
-                                            'could be present')
-
-    def test_Issuer(self):
-        e = self.doc.xpath('//Response/Issuer')
-        self.assertEqual(len(e), 1, 'Issuer element must be present')
+        self._assertTrue(
+            (len(e) == 1),
+            'The Status element must be present'
+        )
 
         e = e[0]
-        with self.subTest('Format attribute must be '
-                          'urn:oasis:names:tc:SAML:2.0:nameid-format:entity'):
-            a = e.get('Format')
-            self.assertIsNotNone(a)
-            self.assertEqual(
-                a,
-                'urn:oasis:names:tc:SAML:2.0:nameid-format:entity',
-                common.helpers.found(a)
+
+        elem = 'StatusCode'
+        attr = 'Value'
+
+        _e = e.xpath('./%s' % elem)
+        self._assertTrue(
+            (len(_e) == 1),
+            'The %s element must be present' % elem
+        )
+
+        _e = _e[0]
+
+        self._assertTrue(
+            (attr in _e.attrib),
+            'The %s attribute in %s element must be present' % (attr, elem)
+        )
+
+        value = _e.get(attr)
+
+        self._assertIsNotNone(
+            value,
+            'The %s attribute in %s element must be present' % (attr, elem)
+        )
+
+        self._assertIn(
+            value,
+            constants.ALLOWED_STATUS_CODES,
+            (('The %s attribute in %s element must be one of [%s]') %
+             (attr, elem, ', '.join(constants.ALLOWED_STATUS_CODES)))
+
+        )
+
+        for elem in ['StatusMessage', 'StatusDetail']:
+            _e = e.xpath('./%s' % elem)
+            if len(_e) > 0:
+                self._assertEqual(
+                    len(_e),
+                    1,
+                    'Only one %s element can be present' % elem
+                )
+
+    def test_Issuer(self):
+        '''Test the compliance of Issuer element'''
+
+        e = self.doc.xpath('//Response/Issuer')
+        self._assertTrue(
+            (len(e) == 1),
+            'The Issuer element must be present'
+        )
+
+        e = e[0]
+        attr = 'Format'
+
+        if attr in e.attrib:
+            value = e.get(attr)
+            exp = 'urn:oasis:names:tc:SAML:2.0:nameid-format:entity'
+
+            self._assertIsNotNone(
+                value,
+                'The %s attribute must have a value' % attr
+            )
+
+            self._assertEqual(
+                value,
+                exp,
+                'The %s attribute must be %s' % (attr, exp)
             )
 
     def test_Assertion(self):
@@ -344,18 +421,39 @@ class TestResponse(unittest.TestCase):
                     self.assertGreaterEqual(len(e), 1)
 
     def test_Signature(self):
-        e = self.doc.xpath('//Response/Signature')
-        self.assertLessEqual(len(e), 1, 'Signature element could be present')
+        '''Test the compliance of Signature element'''
 
-        if len(e) == 1:
-            e = e[0]
-            with self.subTest('Algorithm attribute must have '
-                              'an allowed value'):
-                sm = e.xpath('./SignedInfo/SignatureMethod')[0]
-                a = sm.get('Algorithm')
-                self.assertIn(a, constants.ALLOWED_XMLDSIG_ALGS,
-                              common.helpers.found(a))
+        sign = self.doc.xpath('//Response/Signature')
+        if len(sign) > 0:
+            self._assertTrue((len(sign) == 1),
+                             'The Signature element must be present')
+
+            method = sign[0].xpath('./SignedInfo/SignatureMethod')
+            self._assertTrue((len(method) == 1),
+                             'The SignatureMethod element must be present')
+
+            self._assertTrue(('Algorithm' in method[0].attrib),
+                             'The Algorithm attribute must be present '
+                             'in SignatureMethod element')
+
+            alg = method[0].get('Algorithm')
+            self._assertIn(alg, constants.ALLOWED_XMLDSIG_ALGS,
+                           (('The signature algorithm must be one of [%s]') %
+                            (', '.join(constants.ALLOWED_XMLDSIG_ALGS))))
+
+            method = sign[0].xpath('./SignedInfo/Reference/DigestMethod')
+            self._assertTrue((len(method) == 1),
+                             'The DigestMethod element must be present')
+
+            self._assertTrue(('Algorithm' in method[0].attrib),
+                             'The Algorithm attribute must be present '
+                             'in DigestMethod element')
+
+            alg = method[0].get('Algorithm')
+            self._assertIn(alg, constants.ALLOWED_DGST_ALGS,
+                           (('The digest algorithm must be one of [%s]') %
+                            (', '.join(constants.ALLOWED_DGST_ALGS))))
 
             # save the grubbed certificate for future alanysis
-            cert = e.xpath('./KeyInfo/X509Data/X509Certificate')[0]
+            cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
             dump_pem.dump_response_pem(cert, 'authn', 'signature', DATA_DIR)
