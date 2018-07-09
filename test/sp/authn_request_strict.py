@@ -117,19 +117,7 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         except subprocess.CalledProcessError as err:
             is_valid = False
             lines = [msg]
-            if err.stderr:
-                stderr = (
-                    'stderr: ' +
-                    '\nstderr: '.join(
-                        list(
-                            filter(
-                                None,
-                                err.stderr.decode('utf-8').split('\n')
-                            )
-                        )
-                    )
-                )
-                lines.append(stderr)
+
             if err.stdout:
                 stdout = (
                     'stdout: ' +
@@ -143,6 +131,21 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                     )
                 )
                 lines.append(stdout)
+
+            if err.stderr:
+                stderr = (
+                    'stderr: ' +
+                    '\nstderr: '.join(
+                        list(
+                            filter(
+                                None,
+                                err.stderr.decode('utf-8').split('\n')
+                            )
+                        )
+                    )
+                )
+                lines.append(stderr)
+
             msg = '\n'.join(lines)
 
         self._assertTrue(is_valid, msg)
