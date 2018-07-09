@@ -451,22 +451,21 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             dump_pem.dump_request_pem(cert, 'authn', 'signature', DATA_DIR)
 
     def test_Scoping(self):
-        e = self.doc.xpath('//AuthnRequest/Scoping')
-        if len(e) > 0:
-            e = e[0]
+        '''Test the compliance of Scoping element'''
 
-            with self.subTest('ProxyCount must be 0'):
-                a = e.get('ProxyCount')
-                self.assertIsNotNone(a)
-                self.assertIsEqual(int(a), 0, common.helpers.found(a))
+        e = self.doc.xpath('//AuthnRequest/Scoping')
+        self._assertEqual(
+            len(e),
+            0,
+            'The Scoping element must not be present'
+        )
 
     def test_RequesterID(self):
+        '''Test the compliance of RequesterID element'''
+
         e = self.doc.xpath('//AuthnRequest/RequesterID')
-        if len(e) > 0:
-            for rid in e:
-                url = rid.text
-                self.assertIsNotNone(url)
-                self.assertTrue(url.startswith('https://'),
-                                common.helpers.found(url))
-                self.assertTrue(validators.url(url),
-                                common.helpers.found(url))
+        self._assertEqual(
+            len(e),
+            0,
+            'The RequesterID  element must not be present'
+        )
