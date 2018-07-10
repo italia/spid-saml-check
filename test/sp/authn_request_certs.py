@@ -9,7 +9,10 @@ import common.wrap
 DATA_DIR = os.getenv('DATA_DIR', './data')
 
 
-class TestSPCertificates(unittest.TestCase, common.wrap.TestCaseWrap):
+class TestAuthnRequestCertificates(unittest.TestCase,
+                                   common.wrap.TestCaseWrap):
+    longMessage = False
+
     @classmethod
     def tearDownClass(cls):
         fname = '%s/sp-authn-request-certs.json' % DATA_DIR
@@ -51,45 +54,35 @@ class TestSPCertificates(unittest.TestCase, common.wrap.TestCaseWrap):
 
         for cert_path in certs:
             if cert_path:
-                cmd = ['bash', './script/check-certificate.sh',
-                       cert_path]
-                is_valid = True
-                msg = 'The %s certificate must be valid' % cert_path
-                try:
-                    subprocess.run(cmd, check=True, stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE)
-                except subprocess.CalledProcessError as err:
-                    is_valid = False
-                    lines = [msg]
-                    if err.stderr:
-                        stderr = (
-                            'stderr: ' +
-                            '\nstderr: '.join(
-                                list(
-                                    filter(
-                                        None,
-                                        err.stderr.decode('utf-8').split('\n')
-                                    )
-                                )
-                            )
-                        )
-                        lines.append(stderr)
-                    if err.stdout:
-                        stdout = (
-                            'stdout: ' +
-                            '\nstdout: '.join(
-                                list(
-                                    filter(
-                                        None,
-                                        err.stdout.decode('utf-8').split('\n')
-                                    )
-                                )
-                            )
-                        )
-                        lines.append(stdout)
-                    msg = '\n'.join(lines)
+                r = common.helpers.parse_pem(cert_path)
 
-                self._assertTrue(is_valid, msg)
+                self._assertFalse(
+                    r[0].lower().startswith('sha1'),
+                    (('The %s certificate must not use '
+                      'weak signature algorithm') %
+                     cert_path)
+                )
+
+                exp = ['rsaEncryption', 'id-ecPublicKey']
+                self._assertIn(
+                    r[2],
+                    exp,
+                    (('The key type of %s certificate must be one of [%s]') %
+                     (cert_path, ', '.join(exp)))
+                )
+
+                if r[2] == 'rsaEncryption':
+                    exp = 2048
+                elif r[2] == 'id-ecPublicKey':
+                    exp = 256
+                else:
+                    pass
+
+                self._assertTrue(
+                    (int(r[1]) >= exp),
+                    (('The key length of %s certificate must be >= %d') %
+                     (cert_path, exp))
+                )
 
     def test_signature_certificates(self):
         '''Test the compliance of signature certificate(s)'''
