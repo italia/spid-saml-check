@@ -70,18 +70,20 @@ if [ "X${Signature}" == "X" -a "X${SigAlg}" == "X" ]; then # HTTP-POST
     fi
     echo "OK"
 
-    # verify assertion XML signature (inner)
-    echo -n "Validating assertion signature... "
-    xmlsec1 --verify --insecure \
-        --id-attr:ID urn:oasis:names:tc:SAML:2.0:assertion:Assertion \
-        --node-name urn:oasis:names:tc:SAML:2.0:assertion:Assertion \
-        ${res}
-    if [ $? -ne 0 ]; then
-        echo "FAIL"
-        rm ${res}
-        exit 1
+    if [ "${CTX}" == "authn" ]; then
+        # verify assertion XML signature (inner)
+        echo -n "Validating assertion signature... "
+        xmlsec1 --verify --insecure \
+            --id-attr:ID urn:oasis:names:tc:SAML:2.0:assertion:Assertion \
+            --node-name urn:oasis:names:tc:SAML:2.0:assertion:Assertion \
+            ${res}
+        if [ $? -ne 0 ]; then
+            echo "FAIL"
+            rm ${res}
+            exit 1
+        fi
+        echo "OK"
     fi
-    echo "OK"
 
     rm ${res}
 else # HTTP-Redirect
