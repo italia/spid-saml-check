@@ -5,8 +5,6 @@ import re
 import subprocess
 import unittest
 import urllib.parse
-import validators
-import zlib
 
 from io import BytesIO
 from lxml import etree as ET
@@ -19,28 +17,18 @@ import common.wrap
 
 DATA_DIR = os.getenv('DATA_DIR', './data')
 DEBUG = int(os.getenv('DEBUG', 0))
-REQUEST = os.getenv('LOGOUT_REQUEST', None)
+RESPONSE = os.getenv('LOGOUT_RESPONSE', None)
 
 
-class TestLogoutRequest(unittest.TestCase, common.wrap.TestCaseWrap):
+class TestLogoutResponseStrict(unittest.TestCase, common.wrap.TestCaseWrap):
     longMessage = False
 
     @classmethod
     def tearDownClass(cls):
-        fname = '%s/sp-logout-request-strict.json' % DATA_DIR
+        fname = '%s/idp-logout-response-strict.json' % DATA_DIR
         with open(fname, 'w') as f:
             f.write(json.dumps(cls.report, indent=2))
             f.close()
-
-    def _attr_expect(self, attr, found, expect):
-        msg = (('%s attribute must be %s (found: %s)') %
-               (attr, expect, found))
-        self.assertEqual(found, expect, msg)
-
-    def _attr_expect_not_none(self, attr, found):
-        msg = (('%s attribute must be not None (found: %s)') %
-               (attr, found))
-        self.assertIsNotNone(found, msg)
 
     def setUp(self):
         self.failures = []
@@ -59,39 +47,24 @@ class TestLogoutRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             _report = _report[path]
             c += 1
 
-        if not REQUEST:
-            self.fail('REQUEST not set')
+        if not RESPONSE:
+            self.fail('LOGOUT_RESPONSE not set')
 
-        req = None
-        with open(REQUEST, 'rb') as f:
-            req = f.read()
+        res = None
+        with open(RESPONSE, 'rb') as f:
+            res = f.read()
             f.close()
 
         self.params = urllib.parse.parse_qs(
-            re.sub(r'[\s]', '', req.decode('utf-8'))
+            re.sub(r'[\s]', '', res.decode('utf-8'))
         )
 
-        self.IS_HTTP_REDIRECT = False
-        if 'Signature' in self.params and 'SigAlg' in self.params:
-            self.IS_HTTP_REDIRECT = True
-
+        if 'SAMLResponse' not in self.params:
+            self.fail('SAMLResponse is missing')
         if 'RelayState' not in self.params:
             self.fail('RelayState is missing')
 
-        if 'SAMLRequest' not in self.params:
-            self.fail('SAMLRequest is missing')
-
-        if self.IS_HTTP_REDIRECT:
-            xml = zlib.decompress(
-                base64.b64decode(self.params['SAMLRequest'][0]),
-                -15
-            )
-        else:
-            xml = base64.b64decode(self.params['SAMLRequest'][0])
-
-        if DEBUG:
-            print(xml)
-
+        xml = base64.b64decode(self.params['SAMLResponse'][0])
         self.doc = ET.parse(BytesIO(xml))
         common.helpers.del_ns(self.doc)
 
@@ -99,18 +72,19 @@ class TestLogoutRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         if self.failures:
             self.fail(common.helpers.dump_failures(self.failures))
 
-    def test_LogoutRequest(self):
-        '''Test the compliance of LogoutRequest element'''
+    def test_LogoutResponse(self):
+        '''Test the compliance of LogoutResponse element'''
 
-        e = self.doc.xpath('/LogoutRequest')
+        e = self.doc.xpath('/LogoutResponse')
         self._assertTrue(
             (len(e) == 1),
-            'One LogoutRequest element must be present'
+            'One LogoutResponse element must be present'
         )
 
         e = e[0]
 
-        for attr in ['ID', 'Version', 'IssueInstant', 'Destination']:
+        for attr in ['ID', 'Version', 'IssueInstant', 'InResponseTo',
+                     'Destination']:
             self._assertTrue(
                 (attr in e.attrib),
                 'The %s attribute must be present' % attr
@@ -134,69 +108,99 @@ class TestLogoutRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             if attr == 'IssueInstant':
                 self._assertTrue(
                     bool(common.regex.UTC_STRING.search(value)),
-                    'The %s attribute must be a valid UTC string' % attr
+                    'The %s attribute must be a valid UTC string' % (attr)
                 )
 
             if attr == 'Destination':
                 self._assertIsValidHttpsUrl(
                     value,
-                    'The %s attribute must be a valid HTTPS url' % attr
+                    'The %s attribute must be a valid HTTPS url' % (attr)
                 )
 
-        for elem in ['Issuer', 'NameID', 'SessionIndex']:
-            _e = e.xpath('./%s' % elem)
-            self._assertTrue(
-                (len(_e) == 1),
-                'The %s element must be present' % elem
-            )
+    def test_Status(self):
+        '''Test the compliance of Status element'''
+        # TODO: deal with (status_code, error_code) tuple
 
-            _e = _e[0]
+        e = self.doc.xpath('/LogoutResponse/Status')
+        self._assertTrue(
+            (len(e) == 1),
+            'The Status element must be present'
+        )
+
+        e = e[0]
+
+        elem = 'StatusCode'
+        attr = 'Value'
+
+        _e = e.xpath('./%s' % elem)
+        self._assertTrue(
+            (len(_e) == 1),
+            'The %s element must be present' % elem
+        )
+
+        _e = _e[0]
+
+        self._assertTrue(
+            (attr in _e.attrib),
+            'The %s attribute in %s element must be present' % (attr, elem)
+        )
+
+        value = _e.get(attr)
+
+        self._assertIsNotNone(
+            value,
+            'The %s attribute in %s element must be present' % (attr, elem)
+        )
+
+        self._assertIn(
+            value,
+            common.constants.ALLOWED_STATUS_CODES,
+            (('The %s attribute in %s element must be one of [%s]') %
+             (attr, elem, ', '.join(common.constants.ALLOWED_STATUS_CODES)))
+
+        )
+
+        for elem in ['StatusMessage', 'StatusDetail']:
+            _e = e.xpath('./%s' % elem)
+            if len(_e) > 0:
+                self._assertEqual(
+                    len(_e),
+                    1,
+                    'Only one %s element can be present' % elem
+                )
+
+    def test_Issuer(self):
+        '''Test the compliance of Issuer element'''
+
+        e = self.doc.xpath('/LogoutResponse/Issuer')
+        self._assertTrue(
+            (len(e) == 1),
+            'The Issuer element must be present'
+        )
+
+        e = e[0]
+        attr = 'Format'
+
+        if attr in e.attrib:
+            value = e.get(attr)
+            exp = 'urn:oasis:names:tc:SAML:2.0:nameid-format:entity'
 
             self._assertIsNotNone(
-                _e.text,
-                'The %s element must have a value' % elem
+                value,
+                'The %s attribute must have a value' % attr
             )
 
-            if elem != 'SessionIndex':
-                for attr in ['Format', 'NameQualifier']:
-                    self._assertTrue(
-                        (attr in _e.attrib),
-                        (('The %s attribute in %s element must be present') %
-                         (attr, elem))
-                    )
-
-                    value = _e.get(attr)
-
-                    self._assertIsNotNone(
-                        value,
-                        (('The %s attribute in '
-                          '%s element must have a value') %
-                         (attr, elem))
-                    )
-
-                    if (elem == 'logoutRequest') and (attr == 'Format'):
-                        exp = 'urn:oasis:names:tc:SAML:2.0:nameid-format:entity'  # noqa
-                        self._assertEqual(
-                            value,
-                            exp,
-                            (('The %s attribute in %s element must be %s') %
-                             (attr, elem, exp))
-                        )
-
-                    if (elem == 'NameID') and (attr == 'Format'):
-                        exp = 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient'  # noqa
-                        self._assertEqual(
-                            value,
-                            exp,
-                            (('The %s attribute in %s element must be %s') %
-                             (attr, elem, exp))
-                        )
+            self._assertEqual(
+                value,
+                exp,
+                'The %s attribute must be %s' % (attr, exp)
+            )
 
     def test_Signature(self):
         '''Test the compliance of Signature element'''
 
-        if not self.IS_HTTP_REDIRECT:
-            sign = self.doc.xpath('//LogoutRequest/Signature')
+        sign = self.doc.xpath('/LogoutResponse/Signature')
+        if len(sign) > 0:
             self._assertTrue((len(sign) == 1),
                              'The Signature element must be present')
 
@@ -228,36 +232,37 @@ class TestLogoutRequest(unittest.TestCase, common.wrap.TestCaseWrap):
 
             # save the grubbed certificate for future alanysis
             cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
-            common.dump_pem.dump_request_pem(cert, 'logout', 'signature', DATA_DIR)  # noqa
+            common.dump_pem.dump_response_pem(cert, 'logout', 'signature',
+                                              DATA_DIR)
 
     def test_xsd_and_xmldsig(self):
         '''Test if the XSD validates and if the signature is valid'''
 
-        msg = ('The LogoutRequest must validate against XSD ' +
+        msg = ('The LogoutResponse must validate against XSD ' +
                'and must have a valid signature')
 
         cmd = ['bash',
-               './script/check-request-xsd-and-signature.sh',
+               './script/check-response-xsd-and-signature.sh',
                'logout',
-               'sp']
+               'idp']
 
         is_valid = True
         try:
             p = subprocess.run(cmd, check=True, stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
-            if DEBUG:
-                stdout = '\n'.join(
-                    list(
-                        filter(None, p.stdout.decode('utf-8').split('\n'))
-                    )
+            stdout = '\n'.join(
+                list(
+                    filter(None, p.stdout.decode('utf-8').split('\n'))
                 )
-                print('\n' + stdout)
-                stderr = '\n'.join(
-                    list(
-                        filter(None, p.stderr.decode('utf-8').split('\n'))
-                    )
+            )
+            print('\n' + stdout)
+
+            stderr = '\n'.join(
+                list(
+                    filter(None, p.stderr.decode('utf-8').split('\n'))
                 )
-                print('\n' + stderr)
+            )
+            print('\n' + stderr)
 
         except subprocess.CalledProcessError as err:
             is_valid = False
@@ -294,3 +299,5 @@ class TestLogoutRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             msg = '\n'.join(lines)
 
         self._assertTrue(is_valid, msg)
+
+# vim: ft=python

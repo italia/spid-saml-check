@@ -1,22 +1,24 @@
+import json
 import os
 import requests
 import sys
 import time
 import unittest
+import urllib.parse
 import validators
 import warnings
-import urllib.parse
 
 from io import BytesIO
 from lxml import etree as ET
 
-import common.helpers
 import common.constants
+import common.helpers
+import common.wrap
 
 METADATA = os.getenv('SP_METADATA', None)
+DATA_DIR = os.getenv('DATA_DIR', './data')
 SSLLABS_FORCE_NEW = int(os.getenv('SSLLABS_FORCE_NEW', 0))
 SSLLABS_SKIP = int(os.getenv('SSLLABS_SKIP', 0))
-
 
 API = 'https://api.ssllabs.com/api/v2/'
 
@@ -70,9 +72,33 @@ def ssllabs_new_scan(host, publish='off', startNew='on', all='done',
     return results
 
 
-class TestSPMetadataExtra(unittest.TestCase):
+class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
+    longMessage = False
+
+    @classmethod
+    def tearDownClass(cls):
+        fname = '%s/sp-metadata-extra.json' % DATA_DIR
+        with open(fname, 'w') as f:
+            f.write(json.dumps(cls.report, indent=2))
+            f.close()
 
     def setUp(self):
+        self.failures = []
+        _report = self.__class__.report
+        paths = self.id().split('.')
+        c = 1
+        for path in paths:
+            if path not in _report:
+                if c == len(paths):
+                    _report[path] = {
+                        'description': self.shortDescription(),
+                        'assertions': [],
+                    }
+                else:
+                    _report[path] = {}
+            _report = _report[path]
+            c += 1
+
         if not METADATA:
             self.fail('SP_METADATA not set')
 
@@ -95,59 +121,70 @@ class TestSPMetadataExtra(unittest.TestCase):
             message="unclosed",
             category=ResourceWarning
         )
+        if self.failures:
+            self.fail(common.helpers.dump_failures(self.failures))
 
-    def test_entityID(self):
+    def test_EntityDescriptor(self):
+        '''Test the compliance of EntityDescriptor element'''
+
         ed = self.doc.xpath('//EntityDescriptor')[0]
         eid = ed.get('entityID')
-
-        with self.subTest('entityID must be an HTTPS uri'):
-            self.assertTrue(eid.startswith('https://'))
-            self.assertTrue(validators.url(eid))
+        self._assertIsValidHttpsUrl(
+            eid,
+            'The entityID attribute must be a valid HTTPS url'
+        )
 
     def test_SPSSODescriptor(self):
-        spsso = self.doc.xpath('//EntityDescriptor/SPSSODescriptor')
+        '''Test the compliance of SPSSODescriptor element'''
 
-        with self.subTest('protocolSuportEnumeration must be '
-                          'urn:oasis:names:tc:SAML:2.0:protocol'):
-            pse = spsso[0].get('protocolSupportEnumeration')
-            self.assertEqual(pse, 'urn:oasis:names:tc:SAML:2.0:protocol')
+        spsso = self.doc.xpath('//EntityDescriptor/SPSSODescriptor')[0]
+        for attr in ['protocolSupportEnumeration', 'WantAssertionsSigned']:
+            self._assertTrue(
+                (attr in spsso.attrib),
+                'The %s attribute must be present' % attr
+            )
 
-        with self.subTest('WantAssertionsSigned must be true'):
-            was = spsso[0].get('WantAssertionsSigned')
-            self.assertEqual(was, 'true')
+            a = spsso.get(attr)
+            self._assertIsNotNone(
+                a,
+                'The %s attribute must have a value' % attr
+            )
+
+            if attr == 'protocolSupportEnumeration':
+                self._assertEqual(
+                    a,
+                    'urn:oasis:names:tc:SAML:2.0:protocol',
+                    'The %s attribute must be '
+                    'urn:oasis:names:tc:SAML:2.0:protocol' % attr
+                )
+
+            if attr == 'WantAssertionsSigned':
+                self._assertEqual(
+                    a.lower(),
+                    'true',
+                    'The %s attribute must be true' % attr
+                )
 
     def test_Organization(self):
+        '''Test the compliance of Organization element'''
         org = self.doc.xpath('//EntityDescriptor/Organization')[0]
 
-        with self.subTest('must have OrganizationName localized as IT'):
-            oname = org.xpath(
-                './OrganizationName[@xml:lang="it"]',
+        for elem in ['Name', 'URL', 'DisplayName']:
+            e = org.xpath(
+                './Organization%s[@xml:lang="it"]' % elem,
                 namespaces={
                     'xml': 'http://www.w3.org/XML/1998/namespace',
                 }
             )
-            self.assertEqual(len(oname), 1)
-
-        with self.subTest('must have OrganizationURL localized as IT'):
-            ourl = org.xpath(
-                './OrganizationURL[@xml:lang="it"]',
-                namespaces={
-                    'xml': 'http://www.w3.org/XML/1998/namespace',
-                }
+            self._assertTrue(
+                (len(e) == 1),
+                'An IT localised Organization%s must be present' % elem
             )
-            self.assertEqual(len(ourl), 1)
-
-        with self.subTest('must have OrganizationDisplayName localized as IT'):
-            odn = org.xpath(
-                './OrganizationDisplayName[@xml:lang="it"]',
-                namespaces={
-                    'xml': 'http://www.w3.org/XML/1998/namespace',
-                }
-            )
-            self.assertEqual(len(odn), 1)
 
     @unittest.skipIf(SSLLABS_SKIP == 1, 'x')
     def test_ssllabs(self):
+        '''Test the TLS configuration of Locations URL'''
+
         locations = []
         c = 0
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
@@ -167,25 +204,12 @@ class TestSPMetadataExtra(unittest.TestCase):
                     time.sleep(30)
                     data = ssllabs_from_cache(t[0])
 
-            if 'status' in data:
-                if data['status'] == 'ERROR':
-                    c += 1
-                    msg = (('[ERROR] AssertionConsumerService, %s, (%s)') %
-                           (t[1], data['statusMessage']))
-                    sys.stderr.write('\n\t%s' % msg)
-                elif data['status'] == 'READY':
-                    grade = data['endpoints'][0]['grade']
-                    msg = '[%s] AssertionConsumerService, %s' % (grade, t[1])
-                    sys.stderr.write('\n\t%s' % msg)
-                    if grade not in ['A+', 'A', 'A-']:
-                        c += 1
-                else:
-                    sys.stderr.write('\n\t%s' % data['status'])
-            else:
-                c += 1
-                for err in data['errors']:
-                    sys.stderr.write(('\n\t%s: %s') %
-                                     (err['field'], err['message']))
+            self._assertIsTLSGrade(
+                {'location': t[1], 'data': data,
+                 'service': 'AssertionConsumerService'},
+                ['A+', 'A', 'A-'],
+                '%s must be reachable and have strong TLS configuration' % t[1]
+            )
 
         locations = []
         slos = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
@@ -205,42 +229,28 @@ class TestSPMetadataExtra(unittest.TestCase):
                     time.sleep(30)
                     data = ssllabs_from_cache(t[0])
 
-            if 'status' in data:
-                if data['status'] == 'ERROR':
-                    c += 1
-                    msg = (('[ERROR] SingleLogoutService, %s, (%s)') %
-                           (t[1], data['statusMessage']))
-                    sys.stderr.write('\n\t%s' % msg)
-                elif data['status'] == 'READY':
-                    grade = data['endpoints'][0]['grade']
-                    msg = '[%s] SingleLogoutService, %s' % (grade, t[1])
-                    sys.stderr.write('\n\t%s' % msg)
-                    if grade not in ['A+', 'A', 'A-']:
-                        c += 1
-                else:
-                    sys.stderr.write('\n\t%s' % data['status'])
-            else:
-                c += 1
-                for err in data['errors']:
-                    sys.stderr.write(('\n\t%s: %s') %
-                                     (err['field'], err['message']))
-
-        sys.stderr.write('\n')
-        self.assertEqual(
-            c,
-            0,
-            'One or more AssertionConsumerService/ServiceLogoutService URLs '
-            'have weak TLS configuration or are not reachable'
-        )
+            self._assertIsTLSGrade(
+                {'location': t[1], 'data': data,
+                 'service': 'SingleLogoutService'},
+                ['A+', 'A', 'A-'],
+                '%s must be reachable and have strong TLS configuration' % t[1]
+            )
 
     def test_AttributeConsumingService(self):
+        '''Test the compliance of Organization element'''
+
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                               '/AttributeConsumingService')
         for acs in acss:
             ras = acs.xpath('./RequestedAttribute')
             for ra in ras:
-                with self.subTest('NameFormat attribute must be valid'):
-                    a = ra.get('NameFormat')
-                    if a is not None:
-                        self.assertIn(a, common.constants.ALLOWED_FORMATS,
-                                      common.helpers.found(a))
+                a = ra.get('NameFormat')
+                if a is not None:
+                    self._assertIn(
+                        a,
+                        common.constants.ALLOWED_FORMATS,
+                        (('The NameFormat attribute '
+                          'in RequestedAttribute element '
+                          'must be one of [%s]') %
+                         (', '.join(common.constants.ALLOWED_FORMATS)))
+                    )

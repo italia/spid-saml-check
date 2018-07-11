@@ -1,6 +1,8 @@
 import base64
+import json
 import os
 import re
+import subprocess
 import unittest
 import urllib.parse
 import validators
@@ -9,17 +11,43 @@ import zlib
 from io import BytesIO
 from lxml import etree as ET
 
-import common.regex
+import common.dump_pem as dump_pem
 import common.helpers
+import common.regex
+import common.wrap
 
 REQUEST = os.getenv('AUTHN_REQUEST', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
+DEBUG = int(os.getenv('DEBUG', 0))
 
 
-class TestAuthnRequest(unittest.TestCase):
+class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
     longMessage = False
 
+    @classmethod
+    def tearDownClass(cls):
+        fname = '%s/sp-authn-request-strict.json' % DATA_DIR
+        with open(fname, 'w') as f:
+            f.write(json.dumps(cls.report, indent=2))
+            f.close()
+
     def setUp(self):
+        self.failures = []
+        _report = self.__class__.report
+        paths = self.id().split('.')
+        c = 1
+        for path in paths:
+            if path not in _report:
+                if c == len(paths):
+                    _report[path] = {
+                        'description': self.shortDescription(),
+                        'assertions': [],
+                    }
+                else:
+                    _report[path] = {}
+            _report = _report[path]
+            c += 1
+
         if not REQUEST:
             self.fail('AUTHN_REQUEST not set')
 
@@ -53,205 +81,450 @@ class TestAuthnRequest(unittest.TestCase):
         self.doc = ET.parse(BytesIO(xml))
         common.helpers.del_ns(self.doc)
 
+    def tearDown(self):
+        if self.failures:
+            self.fail(common.helpers.dump_failures(self.failures))
+
+    def test_xsd_and_xmldsig(self):
+        '''Test if the XSD validates and if the signature is valid'''
+
+        msg = ('The AuthnRequest must validate against XSD ' +
+               'and must have a valid signature')
+
+        cmd = ['bash',
+               './script/check-request-xsd-and-signature.sh',
+               'authn',
+               'sp']
+
+        is_valid = True
+        try:
+            p = subprocess.run(cmd, check=True, stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+            if DEBUG:
+                stdout = '\n'.join(
+                    list(
+                        filter(None, p.stdout.decode('utf-8').split('\n'))
+                    )
+                )
+                print('\n' + stdout)
+                stderr = '\n'.join(
+                    list(
+                        filter(None, p.stderr.decode('utf-8').split('\n'))
+                    )
+                )
+                print('\n' + stderr)
+
+        except subprocess.CalledProcessError as err:
+            is_valid = False
+            lines = [msg]
+
+            if err.stdout:
+                stdout = (
+                    'stdout: ' +
+                    '\nstdout: '.join(
+                        list(
+                            filter(
+                                None,
+                                err.stdout.decode('utf-8').split('\n')
+                            )
+                        )
+                    )
+                )
+                lines.append(stdout)
+
+            if err.stderr:
+                stderr = (
+                    'stderr: ' +
+                    '\nstderr: '.join(
+                        list(
+                            filter(
+                                None,
+                                err.stderr.decode('utf-8').split('\n')
+                            )
+                        )
+                    )
+                )
+                lines.append(stderr)
+
+            msg = '\n'.join(lines)
+
+        self._assertTrue(is_valid, msg)
+
     def test_AuthnRequest(self):
-        req = self.doc.xpath('/AuthnRequest')[0]
+        '''Test the compliance of AuthnRequest element'''
+        req = self.doc.xpath('/AuthnRequest')
+        self._assertTrue(
+            (len(req) == 1),
+            'One AuthnRequest element must be present'
+        )
 
-        with self.subTest('ID attribute must be present'):
-            self.assertIsNotNone(req.get('ID'))
+        req = req[0]
 
-        with self.subTest('IsPassive attribute must not be present'):
-            self.assertIsNone(req.get('IsPassive'))
+        for attr in ['ID', 'Version', 'IssueInstant', 'Destination']:
+            self._assertTrue(
+                (attr in req.attrib),
+                'The %s attribute must be present' % attr
+            )
 
-        with self.subTest('Version attribute must be 2.0'):
-            a = req.get('Version')
-            self.assertIsNotNone(a)
-            self.assertEqual(a, '2.0', common.helpers.found(a))
-
-        with self.subTest('IssueInstant attribute must be UTC time'):
-            a = req.get('IssueInstant')
-            self.assertIsNotNone(a)
-            self.assertTrue(bool(common.regex.UTC_STRING.search(a)),
-                            common.helpers.found(a))
-
-        with self.subTest('Destination attribute must be present'):
-            a = req.get('Destination')
-            self.assertIsNotNone(a)
-
-        with self.subTest('ForceAuthn attribute '
-                          'must be present if SpidL > 1'):
-            level = req.xpath('//RequestedAuthnContext'
-                              '/AuthnContextClassRef')[0].text
-            a = req.get('ForceAuthn')
-
-            if bool(common.regex.SPID_LEVEL_23.search(level)):
-                self.assertIsNotNone(a)
-                self.assertEqual(a, 'true', common.helpers.found(a))
-
-        check_alternative = False
-        with self.subTest('AssertionConsumerServiceIndex '
-                          'must be present and >= 0'):
-            a = req.get('AssertionConsumerServiceIndex')
-            if a:
-                self.assertGreaterEqual(int(a), 0, common.helpers.found(a))
-            else:
-                check_alternative = True
-
-        if check_alternative:
-            with self.subTest('AssertionConsumerServiceURL '
-                              'must be present and a valid HTTPS URL'):
-                a = req.get('AssertionConsumerServiceURL')
-                self.assertIsNotNone(a)
-                self.assertTrue(a.startswith('https://'),
-                                common.helpers.found(a))
-                self.assertTrue(validators.url(a), common.helpers.found(a))
-
-                a = req.get('ProtocolBinding')
-                self.assertIsNotNone(a)
-                self.assertEqual(
-                    a,
-                    'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
-                    common.helpers.found(a)
+            value = req.get(attr)
+            if (attr == 'ID'):
+                self._assertIsNotNone(
+                    value,
+                    'The %s attribute must have a value' % attr
                 )
 
-        with self.subTest('AttributeConsumingServiceIndex could be present'):
-            a = req.get('AttributeConsumingServiceIndex')
-            if a:
-                self.assertGreaterEqual(int(a), 0, common.helpers.found(a))
+            if (attr == 'Version'):
+                exp = '2.0'
+                self._assertEqual(
+                    value,
+                    exp,
+                    'The %s attribute must be %s' % (attr, exp)
+                )
 
-    def test_Subject(self):
-        subj = self.doc.xpath('//AuthnRequest/Subject')
-        if len(subj) > 0:
-            subj = subj[0]
+            if (attr == 'IssueInstant'):
+                self._assertIsNotNone(
+                    value,
+                    'The %s attribute must have a value' % attr
+                )
+                self._assertTrue(
+                    bool(common.regex.UTC_STRING.search(value)),
+                    'The %s attribute must be a valid UTC string' % attr
+                )
 
-            with self.subTest('NameID element must be present and valid'):
-                e = subj.xpath('./NameID')
-                self.assertGreater(len(e), 0)
+            if (attr == 'Destination'):
+                self._assertIsNotNone(
+                    value,
+                    'The %s attribute must have a value' % attr
+                )
+                self._assertIsValidHttpsUrl(
+                    value,
+                    'The %s attribute must be a valid HTTPS url' % attr
+                )
 
-                e = e[0]
+        self._assertTrue(
+            ('IsPassive' not in req.attrib),
+            'The IsPassive attribute must not be present'
+        )
 
-                with self.subTest('Format attribute '
-                                  'must be present and valid'):
-                    a = e.get('Format')
-                    self.assertIsNotNone(a)
-                    self.assertEqual(
-                        a,
-                        'urn:oasis:names:tc:SAML:1.1:nameid-format'
-                        ':unspecified',
-                        common.helpers.found(a)
+        level = req.xpath('//RequestedAuthnContext'
+                          '/AuthnContextClassRef')[0].text
+        if bool(common.regex.SPID_LEVEL_23.search(level)):
+            self._assertTrue(
+                ('ForceAuthn' in req.attrib),
+                'The ForceAuthn attribute must be present if SPID level > 1'
+            )
+            value = req.get('ForceAuthn')
+            self._assertEqual(
+                value.lower(),
+                'true',
+                'The ForceAuthn attribute must be true'
+            )
+
+        attr = 'AssertionConsumerServiceIndex'
+        if attr in req.attrib:
+            value = req.get(attr)
+            self._assertIsNotNone(
+                value,
+                'The %s attribute must have a value' % attr
+            )
+            self._assertGreaterEqual(
+                int(value),
+                0,
+                'The %s attribute must be >= 0' % attr
+            )
+        else:
+            for attr in ['AssertionConsumerServiceURL', 'ProtocolBinding']:
+                self._assertTrue(
+                    (attr in req.attrib),
+                    'The %s attribute must be present' % attr
+                )
+
+                value = req.get(attr)
+
+                self._assertIsNotNone(
+                    value,
+                    'The %s attribute must have a value' % attr
+                )
+
+                if attr == 'AssertionConsumerServiceURL':
+                    self._assertIsValidHttpsUrl(
+                        value,
+                        'The %s attribute must be a valid HTTPS url' % attr
                     )
 
-                with self.subTest('NameQualifier attribute '
-                                  'must be present and valid'):
-                    a = e.get('NameQualifier')
-                    self.assertIsNotNone(a)
+                if attr == 'ProtocolBinding':
+                    exp = 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'
+                    self._assertEqual(
+                        value,
+                        exp,
+                        'The %s attribute must be %s' % (attr, exp)
+                    )
+
+        attr = 'AttributeConsumingServiceIndex'
+        if attr in req.attrib:
+            value = req.get(attr)
+            self._assertIsNotNone(
+                value,
+                'The %s attribute must have a value' % attr
+            )
+            self._assertGreaterEqual(
+                int(value),
+                0,
+                'The %s attribute must be >= 0' % attr
+            )
+
+    def test_Subject(self):
+        '''Test the compliance of Subject element'''
+
+        subj = self.doc.xpath('//AuthnRequest/Subject')
+        if len(subj) > 1:
+            self._assertEqual(
+                len(subj),
+                1,
+                'Only one Subject element can be present'
+            )
+
+        if len(subj) == 1:
+            subj = subj[0]
+            name_id = subj.xpath('./NameID')
+            self._assertEqual(
+                len(name_id),
+                1,
+                'One NameID element in Subject element must be present'
+            )
+            name_id = name_id[0]
+            for attr in ['Format', 'NameQualifier']:
+                self._assertTrue(
+                    (attr in name_id.attrib),
+                    'The %s attribute must be present' % attr
+                )
+
+                value = name_id.get(attr)
+
+                self._assertIsNotNone(
+                    value,
+                    'The %s attribute must have a value' % attr
+                )
+
+                if attr == 'Format':
+                    exp = ('urn:oasis:names:tc:SAML:1.1:nameid-format'
+                           ':unspecified')
+                    self._assertEqual(
+                        value,
+                        exp,
+                        'The % attribute must be %s' % (attr, exp)
+                    )
 
     def test_Issuer(self):
+        '''Test the compliance of Issuer element'''
+
         e = self.doc.xpath('//AuthnRequest/Issuer')
-        self.assertEqual(len(e), 1, 'Issuer element must be present')
-
-        e = e[0]
-
-        with self.subTest('Format attribute must be present and valid'):
-            a = e.get('Format')
-            self.assertIsNotNone(a)
-            self.assertEqual(
-                a,
-                'urn:oasis:names:tc:SAML:2.0:nameid-format:entity',
-                common.helpers.found(a)
-            )
-
-        with self.subTest('NameQualifier attribute '
-                          'must be present and valid'):
-            a = e.get('NameQualifier')
-            self.assertIsNotNone(a)
-
-    def test_NameIDPolicy(self):
-        e = self.doc.xpath('//AuthnRequest/NameIDPolicy')
-        self.assertEqual(len(e), 1, 'NameIDPolicy element must be present')
-
-        e = e[0]
-
-        with self.subTest('Format attribute must be present and valid'):
-            a = e.get('Format')
-            self.assertIsNotNone(a)
-            self.assertEqual(
-                a,
-                'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
-                common.helpers.found(a)
-            )
-
-    def test_Conditions(self):
-        e = self.doc.xpath('//AuthnRequest/Conditions')
-        if len(e) > 0:
-            e = e[0]
-
-            if e.get('NotBefore'):
-                with self.subTest('NotBefore must be a valid UTC date'):
-                    a = e.get('NotBefore')
-                    self.assertIsNotNone(a)
-                    self.assertTrue(bool(common.regex.UTC_STRING.search(a)),
-                                    common.helpers.found(a))
-
-            if e.get('NotOnOrAfter'):
-                with self.subTest('NotOnOrAfter must be a valid UTC date'):
-                    a = e.get('NotOnOrAfter')
-                    self.assertIsNotNone(a)
-                    self.assertTrue(bool(common.regex.UTC_STRING.search(a)),
-                                    common.helpers.found(a))
-
-    def test_RequestedAuthnContext(self):
-        e = self.doc.xpath('//AuthnRequest/RequestedAuthnContext')
-        self.assertEqual(
-            len(e),
-            1,
-            'RequestedAuthnContext element must be present'
+        self._assertTrue(
+            (len(e) == 1),
+            'One Issuer element must be present'
         )
 
         e = e[0]
 
-        with self.subTest('Comparison must be present and valid'):
-            a = e.get('Comparison')
-            self.assertIsNotNone(a)
-            self.assertIn(
-                a,
-                ['exact', 'minimum', 'better', 'maximum'],
-                common.helpers.found(a)
+        self._assertIsNotNone(
+            e.text,
+            'The Issuer element must have a value'
+        )
+
+        for attr in ['Format', 'NameQualifier']:
+            self._assertTrue(
+                (attr in e.attrib),
+                'The %s attribute must be present' % attr
             )
 
-        with self.subTest('AuthnContextClassRef must be present and valid'):
-            e = e.xpath('./AuthnContextClassRef')
-            self.assertEqual(
-                len(e),
+            value = e.get(attr)
+
+            self._assertIsNotNone(
+                value,
+                'The %s attribute must have a value' % attr
+            )
+
+            if attr == 'Format':
+                exp = 'urn:oasis:names:tc:SAML:2.0:nameid-format:entity'
+                self._assertEqual(
+                    value,
+                    exp,
+                    'The %s attribute must be %s' % (attr, exp)
+                )
+
+    def test_NameIDPolicy(self):
+        '''Test the compliance of NameIDPolicy element'''
+
+        e = self.doc.xpath('//AuthnRequest/NameIDPolicy')
+        self._assertTrue(
+            (len(e) == 1),
+            'One Issuer element must be present'
+        )
+
+        e = e[0]
+
+        self._assertTrue(
+            ('AllowCreate' not in e.attrib),
+            'The AllowCreate attribute must not be present'
+        )
+
+        attr = 'Format'
+        self._assertTrue(
+            (attr in e.attrib),
+            'The %s attribute must be present' % attr
+        )
+
+        value = e.get(attr)
+
+        self._assertIsNotNone(
+            value,
+            'The %s attribute must have a value' % attr
+        )
+
+        if attr == 'Format':
+            exp = 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient'
+            self._assertEqual(
+                value,
+                exp,
+                'The %s attribute must be %s' % (attr, exp)
+            )
+
+    def test_Conditions(self):
+        '''Test the compliance of Conditions element'''
+        e = self.doc.xpath('//AuthnRequest/Conditions')
+
+        if len(e) > 1:
+            self._assertEqual(
+                len(1),
                 1,
-                'AuthnContextClassRef element must be present'
+                'Only one Conditions element is allowed'
             )
 
-            level = e[0].text
-            self.assertTrue(bool(common.regex.SPID_LEVEL_ALL.search(level)),
-                            common.helpers.found(level))
+        if len(e) == 1:
+            e = e[0]
+            for attr in ['NotBefore', 'NotOnOrAfter']:
+                self._assertTrue(
+                    (attr in e.attrib),
+                    'The %s attribute must be present' % attr
+                )
+
+                value = e.get(attr)
+
+                self._assertIsNotNone(
+                    value,
+                    'The %s attribute must have a value' % attr
+                )
+
+                self._assertTrue(
+                    bool(common.regex.UTC_STRING.search(value)),
+                    'The %s attribute must have avalid UTC string' % attr
+                )
+
+    def test_RequestedAuthnContext(self):
+        '''Test the compliance of RequestedAuthnContext element'''
+
+        e = self.doc.xpath('//AuthnRequest/RequestedAuthnContext')
+        self._assertEqual(
+            len(e),
+            1,
+            'Only one RequestedAuthnContex element must be present'
+        )
+
+        e = e[0]
+
+        attr = 'Comparison'
+        self._assertTrue(
+            (attr in e.attrib),
+            'The %s attribute must be present' % attr
+        )
+
+        value = e.get(attr)
+        self._assertIsNotNone(
+            value,
+            'The %s attribute must have a value' % attr
+        )
+
+        allowed = ['exact', 'minimum', 'better', 'maximum']
+        self._assertIn(
+            value,
+            allowed,
+            (('The %s attribute must be one of [%s]') %
+             (attr, ', '.join(allowed)))
+        )
+
+        acr = e.xpath('./AuthnContextClassRef')
+        self._assertEqual(
+            len(acr),
+            1,
+            'Only one AuthnContexClassRef element must be present'
+        )
+
+        acr = acr[0]
+
+        self._assertIsNotNone(
+            acr.text,
+            'The AuthnContexClassRef element must have a value'
+        )
+
+        self._assertTrue(
+            bool(common.regex.SPID_LEVEL_ALL.search(acr.text)),
+            'The AuthnContextClassRef element must have a valid SPID level'
+        )
 
     def test_Signature(self):
+        '''Test the compliance of Signature element'''
+
         if not self.IS_HTTP_REDIRECT:
-            e = self.doc.xpath('//AuthnRequest/Signature')
-            self.assertEqual(len(e), 1, 'Signature element must be present')
+            sign = self.doc.xpath('//AuthnRequest/Signature')
+            self._assertTrue((len(sign) == 1),
+                             'The Signature element must be present')
+
+            method = sign[0].xpath('./SignedInfo/SignatureMethod')
+            self._assertTrue((len(method) == 1),
+                             'The SignatureMethod element must be present')
+
+            self._assertTrue(('Algorithm' in method[0].attrib),
+                             'The Algorithm attribute must be present '
+                             'in SignatureMethod element')
+
+            alg = method[0].get('Algorithm')
+            self._assertIn(alg, constants.ALLOWED_XMLDSIG_ALGS,
+                           (('The signature algorithm must be one of [%s]') %
+                            (', '.join(constants.ALLOWED_XMLDSIG_ALGS))))
+
+            method = sign[0].xpath('./SignedInfo/Reference/DigestMethod')
+            self._assertTrue((len(method) == 1),
+                             'The DigestMethod element must be present')
+
+            self._assertTrue(('Algorithm' in method[0].attrib),
+                             'The Algorithm attribute must be present '
+                             'in DigestMethod element')
+
+            alg = method[0].get('Algorithm')
+            self._assertIn(alg, constants.ALLOWED_DGST_ALGS,
+                           (('The digest algorithm must be one of [%s]') %
+                            (', '.join(constants.ALLOWED_DGST_ALGS))))
+
+            # save the grubbed certificate for future alanysis
+            cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
+            dump_pem.dump_request_pem(cert, 'authn', 'signature', DATA_DIR)
 
     def test_Scoping(self):
-        e = self.doc.xpath('//AuthnRequest/Scoping')
-        if len(e) > 0:
-            e = e[0]
+        '''Test the compliance of Scoping element'''
 
-            with self.subTest('ProxyCount must be 0'):
-                a = e.get('ProxyCount')
-                self.assertIsNotNone(a)
-                self.assertIsEqual(int(a), 0, common.helpers.found(a))
+        e = self.doc.xpath('//AuthnRequest/Scoping')
+        self._assertEqual(
+            len(e),
+            0,
+            'The Scoping element must not be present'
+        )
 
     def test_RequesterID(self):
+        '''Test the compliance of RequesterID element'''
+
         e = self.doc.xpath('//AuthnRequest/RequesterID')
-        if len(e) > 0:
-            for rid in e:
-                url = rid.text
-                self.assertIsNotNone(url)
-                self.assertTrue(url.startswith('https://'),
-                                common.helpers.found(url))
-                self.assertTrue(validators.url(url),
-                                common.helpers.found(url))
+        self._assertEqual(
+            len(e),
+            0,
+            'The RequesterID  element must not be present'
+        )
