@@ -40,10 +40,52 @@ class TestLogoutResponseCerts(unittest.TestCase, common.wrap.TestCaseWrap):
         if self.failures:
             self.fail(common.helpers.dump_failures(self.failures))
 
-    def test_to_be_done(self):
-        self._assertTrue(
-            False,
-            'The test case has been implemented'
-        )
+    def _test_certificates(self, element, use):
+        cmd = ['find',
+               DATA_DIR,
+               '-type',
+               'f',
+               '-name',
+               '*.logout.%s.%s.pem' % (element, use)]
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+        out, err = process.communicate()
+        certs = out.decode('utf-8').split('\n')
+
+        for cert_path in certs:
+            if cert_path:
+                r = common.helpers.parse_pem(cert_path)
+
+                self._assertFalse(
+                    r[0].lower().startswith('sha1'),
+                    (('The %s certificate must not use '
+                      'weak signature algorithm') %
+                     cert_path)
+                )
+
+                exp = ['rsaEncryption', 'id-ecPublicKey']
+                self._assertIn(
+                    r[2],
+                    exp,
+                    (('The key type of %s certificate must be one of [%s]') %
+                     (cert_path, ', '.join(exp)))
+                )
+
+                if r[2] == 'rsaEncryption':
+                    exp = 2048
+                elif r[2] == 'id-ecPublicKey':
+                    exp = 256
+                else:
+                    pass
+
+                self._assertTrue(
+                    (int(r[1]) >= exp),
+                    (('The key length of %s certificate must be >= %d') %
+                     (cert_path, exp))
+                )
+
+    def test_signature_certificates(self):
+        '''Test the compliance of signature certificate(s)'''
+
+        self._test_certificates('response', 'signature')
 
 # vim: ft=python
