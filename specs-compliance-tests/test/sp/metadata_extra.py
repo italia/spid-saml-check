@@ -252,7 +252,7 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
             )
 
     def test_AttributeConsumingService(self):
-        '''Test the compliance of Organization element'''
+        '''Test the compliance of AttributeConsumingService element(s)'''
 
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                               '/AttributeConsumingService')
