@@ -22,12 +22,12 @@ import re
 import subprocess
 import unittest
 import urllib.parse
-import validators
 import zlib
 
 from io import BytesIO
 from lxml import etree as ET
 
+import common.constants
 import common.dump_pem as dump_pem
 import common.helpers
 import common.regex
@@ -505,9 +505,9 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                              'in SignatureMethod element')
 
             alg = method[0].get('Algorithm')
-            self._assertIn(alg, constants.ALLOWED_XMLDSIG_ALGS,
+            self._assertIn(alg, common.constants.ALLOWED_XMLDSIG_ALGS,
                            (('The signature algorithm must be one of [%s]') %
-                            (', '.join(constants.ALLOWED_XMLDSIG_ALGS))))
+                            (', '.join(common.constants.ALLOWED_XMLDSIG_ALGS))))  # noqa
 
             method = sign[0].xpath('./SignedInfo/Reference/DigestMethod')
             self._assertTrue((len(method) == 1),
@@ -518,9 +518,9 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                              'in DigestMethod element')
 
             alg = method[0].get('Algorithm')
-            self._assertIn(alg, constants.ALLOWED_DGST_ALGS,
+            self._assertIn(alg, common.constants.ALLOWED_DGST_ALGS,
                            (('The digest algorithm must be one of [%s]') %
-                            (', '.join(constants.ALLOWED_DGST_ALGS))))
+                            (', '.join(common.constants.ALLOWED_DGST_ALGS))))
 
             # save the grubbed certificate for future alanysis
             cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]

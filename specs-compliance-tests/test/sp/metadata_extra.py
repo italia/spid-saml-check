@@ -22,7 +22,6 @@ import sys
 import time
 import unittest
 import urllib.parse
-import validators
 import warnings
 
 from io import BytesIO
@@ -203,7 +202,6 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
         '''Test the TLS configuration of Locations URL'''
 
         locations = []
-        c = 0
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                               '/AssertionConsumerService')
         for acs in acss:

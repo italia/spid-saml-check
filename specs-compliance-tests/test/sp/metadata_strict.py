@@ -19,7 +19,6 @@ import json
 import os
 import subprocess
 import unittest
-import validators
 
 from io import BytesIO
 from lxml import etree as ET

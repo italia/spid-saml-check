@@ -78,7 +78,6 @@ class TestCaseWrap(object):
 
     def _assertIsTLSGrade(self, first, second, msg=None):
         def cb(first, second, msg):
-            location = first['location']
             service = first['service']
             data = first['data']
             if 'status' in data:

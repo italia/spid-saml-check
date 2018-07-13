@@ -22,7 +22,6 @@ import re
 import subprocess
 import unittest
 import urllib.parse
-import validators
 import zlib
 
 from io import BytesIO

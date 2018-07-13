@@ -17,7 +17,6 @@
 
 import json
 import os
-import subprocess
 import unittest
 
 import common.helpers

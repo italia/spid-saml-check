@@ -22,7 +22,6 @@ import re
 import subprocess
 import unittest
 import urllib.parse
-import validators
 
 from io import BytesIO
 from lxml import etree as ET
