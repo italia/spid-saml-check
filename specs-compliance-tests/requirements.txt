@@ -1,0 +1,4 @@
+lxml
+pyopenssl
+requests
+validators
