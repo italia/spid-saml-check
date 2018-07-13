@@ -1,0 +1,34 @@
+// Here you can add other styles
+
+.app-header.navbar {
+    background-color: #0066CC;
+}
+
+.app-header.navbar .navbar-brand {
+    background-color: #0066CC!important;
+    background-size: 135px auto;
+    border-bottom:0.5px solid #c2cfd6;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf9,%3Csvg viewBox='0 0 30 30' \
+        xmlns='http://www.w3.org/2000/svg'%3E%3Cpath \
+        stroke='%23ffffff' \
+        stroke-width='2.25' \
+        stroke-linecap='round' \
+        stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E")!important;
+}
+
+.modal-subtitle {
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.container-login {
+	margin-top:100px;
+}
+
+.img-login-logo {
+	margin-bottom:30px;
+}

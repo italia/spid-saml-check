@@ -1,0 +1,13 @@
+<html>
+    <script src="page.js"></script>
+    <div id="form">Please wait while redirecting</div>
+    <body>
+        <noscript>Your browser does not support JavaScript. Please click the 'Continue' button below to proceed.</noscript>
+        <form id="form" method="post" action="http://localhost:8080/samlsso" >
+            <input id="form_RelayState" type="hidden" name="RelayState" />
+            <input id="form_SAMLRequest" type="hidden" name="SAMLRequest" />
+            <noscript><input type="submit" value="Continue" /></noscript>
+        </form>
+        <p>SPID Assertion Consumer Validator is redirecting you to http://localhost:8080/samlsso</p>
+    </body>
+</html>

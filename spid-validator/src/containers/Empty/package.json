@@ -1,0 +1,6 @@
+{
+  "name": "Empty",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Empty.js"
+}

@@ -1,0 +1,20 @@
+.panel-send {
+    background: #FFFFFF;
+    padding: 20px;
+    border: 1px solid #C2CFD6;
+}
+
+.btn-send {
+    margin:20px 0;
+}
+
+.param {
+    width:100%;
+    margin-bottom:15px;
+}
+
+.switch {
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}

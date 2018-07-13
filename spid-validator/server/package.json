@@ -1,0 +1,24 @@
+{
+  "name": "spid-validator",
+  "version": "1.0.0",
+  "description": "Tool for validating Service Provider compliance to SPID response from Identity Provider",
+  "main": "spid-validator",
+  "author": "Michele D'Amico - AgID",
+  "license": "ISC",
+  "repository": "damikael/spid-validator",
+  "dependencies": {
+    "crypto-js": "^3.1.9-1",
+    "express": "^4.15.2",
+    "express-session": "^1.15.5",
+    "helmet": "^3.10.0",
+    "html-entities": "^1.2.1",
+    "moment": "^2.21.0",
+    "node-forge": "^0.7.4",
+    "request": "^2.87.0",
+    "sha256": "^0.2.0",
+    "xml-encryption": "^0.11.1",
+    "xmlbuilder": "^9.0.7",
+    "xpath": "0.0.27",
+    "xpath.js": "^1.1.0"
+  }
+}

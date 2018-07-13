@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="it"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="it"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="it"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="it"><!--<![endif]-->
+<head>
+    <title>SPID</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="manifest" href="img/favicon/manifest.json">
+    <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" type="text/css" href="css/main.min.css" />
+	<!--[if lt IE 9]>
+    <script src="js/selectivizr.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <script src="js/rem.min.js"></script>
+    <![endif]-->
+</head>
+<body> 
+    <div id="outer">
+	     <div id="contain-all">
+            <div class="inner">
+                <div class="grid spacer-top-1">
+                    <div class="width-one-whole spid-logo"><img src="img/spid-level1-logo-bb.svg" onerror="this.src='img/spid-level1-logo-bb.png'; this.onerror=null;" alt="SPID 1" /></div>
+                </div>
+                <div class="grid spacer-top-1">
+                    <div class="width-one-whole pa-title">[ NOME SERVICE PROVIDER ]</div>
+                </div>
+                <div class="grid spacer-top-1">
+                    <div class="width-one-whole"><span class="spid-hr"></span></div>
+                </div>
+                <!-- SPID LOGIN FORM * begin * -->
+                <form name="spid-login" id="spid-login" action="#" method="post" class="grid">
+                    <div class="width-one-whole">         
+                        <fieldset>
+                            <div>
+                                <label for="nome_utente" class="float-left label-bold">Nome utente</label>
+                                <span class="forgot-link">
+                                    <a href="#">
+                                        Nome utente dimenticato?
+                                        <img class="open-link" src="img/open-link.svg" onerror="this.src='img/open-link.png'; this.onerror=null;" alt="Si apre una nuova pagina" />
+                                    </a>
+                                </span>
+                                <input id="username" name="username" type="text" class="input-error"><span class="clear"></span>
+                            </div>
+                            <div>
+                                <label for="password" class="float-left label-bold">Password</label>
+                                <span class="forgot-link">
+                                    <a href="#">
+                                        Password dimenticata?
+                                        <img class="open-link" src="img/open-link.svg" onerror="this.src='img/open-link.png'; this.onerror=null;" alt="Si apre una nuova pagina" />
+                                    </a>
+                                </span>
+                                <input id="password" name="password" type="password" class="showpassword"><span class="clear"></span>
+                            </div>
+                            <div class="push-right spacer-top-2"><input id="showHide" type="checkbox" class="showpasswordcheckbox" /> <label class="showHideLabel" for="showHide">Mostra password</label></div>
+                            <input id="level" name="level" type="hidden" value="1" />
+                        </fieldset>
+                        <button type="submit" class="italia-it-button italia-it-button-size-m button-spid spacer-top-1">
+                            <span class="italia-it-button-icon"><img src="img/spid-ico-circle-bb.svg" onerror="this.src='img/spid-ico-circle-bb.png'; this.onerror=null;" alt="" /></span>
+                            <span class="italia-it-button-text">Entra con SPID</span>
+                        </button>
+                    </div>
+                </form>
+                <!-- SPID LOGIN FORM * end * -->
+                <div class="grid spacer-top-1">
+                    <div class="width-one-half push-left spid-link">
+                        <a href="#">
+                            Non hai Spid? Registrati 
+                            <img class="open-link" src="img/open-link.svg" onerror="this.src='img/open-link.png'; this.onerror=null;" alt="Si apre una nuova pagina" />
+                        </a>
+                    </div>
+                    <div class="width-one-half push-right spid-link">
+                        <a href="#">
+                            Annulla 
+                            <img class="open-link" src="img/open-link.svg" onerror="this.src='img/open-link.png'; this.onerror=null;" alt="Si apre una nuova pagina" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+	     </div>
+    </div>
+    <div id="header">
+        <div id="header-inner">
+            <img id="idp-logo" src="img/idp-logo.png" alt="SPID Validator" />
+        </div>
+    </div>
+    <div id="footer">
+	<div id="footer-inner">
+            <a href="http://www.spid.gov.it/check" target="blank_"><img id="spid-agid-logo" src="img/spid-agid-logo-bb.svg" onerror="this.src='img/spid-agid-logo-bb.png'; this.onerror=null;" alt="SPID - AgID Agenzia per l'Italia Digitale - Check" /></a>
+        </div>
+    </div>    
+    <script src="js/jquery.min.js"></script>
+    <script>
+        $(function(){
+            $(".showpassword").each(function(index,input) {
+                var $input = $(input);
+                $(".showpasswordcheckbox").click(function() {
+                    var change = $(this).is(":checked") ? "text" : "password";
+                    var rep = $("<input type='" + change + "' />")
+                    .attr("id", $input.attr("id"))
+                    .attr("name", $input.attr("name"))
+                    .attr('class', $input.attr('class'))
+                    .val($input.val())
+                    .insertBefore($input);
+                    $input.remove();
+                    $input = rep;
+                })
+            });
+        });
+    </script>
+</body>
+</html>

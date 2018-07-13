@@ -1,0 +1,40 @@
+{
+    "test-suite-1": {
+        "description": "test suite 1",
+        "path": "test/test-1.xml",
+        "response": {
+            "AssertionConsumerURL": "",
+            "ResponseID": "",
+            "AuthnRequestID": ""
+        },
+        "cases": [
+            {
+                "name": "case-1",
+                "description": "testcase 1",
+                "response": {
+                    "IssueInstant": "",
+                    "Issuer": "identity.test.it",
+                    "AssertionID": "",
+                    "NameIDNameQualifier": "qualifier",
+                    "NameID": "",
+                    "NotOnOrAfter": "",
+                    "NotBefore": "",
+                    "AuthnIstant": "",
+                    "SessionIndex": "",
+                    "AuthnContextClassRef": "",
+                    "AttributeSpidCode": "TEST0000000001",
+                    "AttributeName": "Name",
+                    "AttributeFamilyName": "Family Name",
+                    "AttributePlaceOfBirth": "Place Of Birth",
+                    "AttributeCountyOfBirth": "County Of Birth",
+                    "AttributeDateOfBirth": "1980-01-01",
+                    "AttributeGender": "F",
+                    "AttributeFiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                    "AttributeMobilePhone": "+390000000000",
+                    "AttributeEmail": "test@test",
+                    "AttributeAddress": "via Test X XXX XXXX XX"                
+                }
+            }
+        ]
+    }
+}
