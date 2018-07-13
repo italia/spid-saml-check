@@ -8,22 +8,26 @@ The environment is organised in test suites, which are labeled as
 `extra` (*would be* specifications). The list of test suites includes:
 
 *   `cleanup`
-*   `sp-metadata-strict`
-*   `sp-metadata-certs`
-*   `sp-metadata-extra`
-*   `sp-metadata-json-report`
-*   `sp-authn-request-strict`
-*   `sp-authn-request-certs`
-*   `sp-authn-request-extra`
-*   `sp-logout-request-strict`
-*   `sp-logout-request-certs`
-*   `sp-logout-request-extra`
-*   `idp-authn-response-strict`
+*   `generate-global-json-report`
 *   `idp-authn-response-certs`
 *   `idp-authn-response-extra`
-*   `idp-logout-response-strict`
+*   `idp-authn-response-strict`
 *   `idp-logout-response-certs`
 *   `idp-logout-response-extra`
+*   `idp-logout-response-strict`
+*   `idp-metadata-certs`
+*   `idp-metadata-extra`
+*   `idp-metadata-strict`
+*   `lint`
+*   `sp-authn-request-certs`
+*   `sp-authn-request-extra`
+*   `sp-authn-request-strict`
+*   `sp-logout-request-certs`
+*   `sp-logout-request-extra`
+*   `sp-logout-request-strict`
+*   `sp-metadata-certs`
+*   `sp-metadata-extra`
+*   `sp-metadata-strict`
 
 Each test suite can be driven with environment variables, which are defined as
 follows
@@ -36,7 +40,6 @@ follows
     *   `SSLLABS_SKIP` (skip SSL Labs tests, default: 0)
 
 *   `sp-metadata-strict`, `sp-metadata-certs`, `sp-metadata-extra`,
-    `sp-metadata-json-report`
 
     *   `SP_METADATA` (path to metadata file)
 
@@ -68,7 +71,7 @@ For instance, to check only the SP metadata compliance, you have to run
 
 ```.bash
 $ DATA_DIR=./data SP_METADATA=./data/metadata.xml \
-    tox -e cleanup,sp-metadata-strict,sp-metadata-certs,sp-metadata-extra,sp-metadata-json-report
+    tox -e cleanup,sp-metadata-strict,sp-metadata-certs,sp-metadata-extra,generate-global-json-report
 ```
 
 ## How to dump requests and responses
