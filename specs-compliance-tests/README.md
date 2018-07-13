@@ -3,6 +3,8 @@
 [Tox](#) based environment to check the SPID specifications compliance of SP
 and IDP.
 
+SPID Compliance has been developed and is maintained by AgID - Agenzia per l'Italia Digitale
+
 The environment is organised in test suites, which are labeled as
 `strict` (*must be* specifications), `certs` (crypto specifications) and
 `extra` (*would be* specifications). The list of test suites includes:
