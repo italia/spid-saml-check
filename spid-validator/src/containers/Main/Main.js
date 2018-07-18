@@ -8,6 +8,7 @@ import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
 import Aside from '../../components/Aside/';
 import Footer from '../../components/Footer/';
+import MetadataSp from '../../views/MetadataSp/';
 import Request from '../../views/Request/';
 import Response from '../../views/Response/';
 
@@ -91,6 +92,7 @@ class Main extends Component {
 								<Breadcrumb />
 								<Container fluid>
 									<Switch>
+									<Route path="/metadata-sp-download" name="Metadata Service Provider / Download" component={MetadataSp}/>
 									<Route path="/request" name="Request Validator" component={Request}/>
 									<Route path="/response/:id" name="Response Validator" component={Response}/>
 									<Redirect from="/" to="/request"/>

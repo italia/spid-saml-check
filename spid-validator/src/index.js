@@ -24,6 +24,7 @@ import Empty from './containers/Empty'
 ReactDOM.render((
   <HashRouter>
     <Switch>
+      <Route path="/metadata-sp-download" name="Metadata Service Provider / Download" component={Main}/>
       <Route path="/request" name="Request Validator" component={Main}/>
       <Route path="/response/:id" name="Response Validator" component={Main}/>
       {/* <Route path="/login" name="Login" component={Empty}/> */}

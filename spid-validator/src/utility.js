@@ -51,7 +51,7 @@ class Utility {
 		let state = util.getState();
 		return state.apikey;
     }
-
+ 
 }
 
 export default Utility;

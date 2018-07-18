@@ -27,6 +27,19 @@ class MainService {
 		});
 	}	
 
+	getMetadataSp(url, callback_response, callback_error) {
+		Utility.log("GET /api/metadata-sp");
+		axios.post('/api/metadata-sp', {url: url})
+		.then(function(response) {
+			Utility.log("getMetadataSp Success", response.data);
+			callback_response(response.data);
+		})
+		.catch(function(error) {
+			Utility.log("getMetadataSp Error", error.response.data);
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+	}
+
 	getRequest(callback_response, callback_error) {
 		Utility.log("GET /api/request");
 		axios.get('/api/request')

@@ -1,6 +1,16 @@
 export default {
   items: [
     {
+      name: 'Metadata SP',
+      icon: 'icon-tag',
+      children: [
+        {
+          name: 'Download',  
+          url: '/metadata-sp-download',      
+        }
+      ]
+    },
+    {
       name: 'Request',
       url: '/request',
       icon: 'icon-cursor',

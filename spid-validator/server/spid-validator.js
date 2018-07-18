@@ -138,6 +138,19 @@ app.post("/send", function (req, res) {
 
 /* API */
 
+app.post("/api/metadata-sp", function(req, res) {
+    let DATA_DIR = "../specs-compliance-tests/data";
+    Utility.download(req.body.url, DATA_DIR + "/metadata.xml").then(
+        (file_name) => {
+            let xml = fs.readFileSync(DATA_DIR + "/metadata.xml");
+            res.status(200).send(xml);
+        },
+        (err) => {
+            res.status(500).send(err);
+        }
+    );
+});
+
 app.get("/api/request", function(req, res) {
     res.status(200).send(req.session.request);
 });
