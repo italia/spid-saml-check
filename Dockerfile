@@ -17,6 +17,7 @@ ENV \
 # Update and install utilities
 RUN apt-get update \
     && apt-get install -y \
+        wget \
         curl \
         unzip \
         gcc \

@@ -54,7 +54,7 @@ class Utils {
      
             // excute wget using child_process' exec function
             child_process.exec(wget, function (err, stdout, stderr) {
-                return err ? reject(err) : resolve(file_name);
+                return err ? reject(stderr) : resolve(file_name);
             });
         });
     }
