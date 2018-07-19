@@ -3,6 +3,7 @@ let state = {
     subtitle: "",
     body: "",
     isOpen: false,
+    hideButtons: false,
     btnPrimaryFunc: null,
     btnPrimaryText: "Ok",
     btnSecondaryFunc: null,

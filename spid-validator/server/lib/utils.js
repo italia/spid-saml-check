@@ -40,21 +40,24 @@ class Utils {
         return moment(instant).add(5, 'm').utc();
     }
 
-    static download(src, dest) {
+    static metadataDownload(src, dest) {
         return new Promise((resolve, reject) => {
-     
-            // extract the file name
             const file_name = url.parse(src).pathname.split('/').pop();
-     
-            // get the file extention
             const file_extention = path.extname(file_name);
-     
-            // compose the wget command
-            const wget = 'wget -O ' + dest + ' ' + src;           
-     
-            // excute wget using child_process' exec function
-            child_process.exec(wget, function (err, stdout, stderr) {
+            const cmd = 'wget -O ' + dest + ' ' + src;   
+        
+            child_process.exec(cmd, function (err, stdout, stderr) {
                 return err ? reject(stderr) : resolve(file_name);
+            });
+        });
+    }
+
+    static metadataCheck() {
+        return new Promise((resolve, reject) => {
+            const cmd = 'cd ../specs-compliance-tests && tox -e cleanup,sp-metadata-strict,sp-metadata-certs,generate-global-json-report';  
+         
+            child_process.exec(cmd, function (err, stdout, stderr) {
+                return resolve(stdout);
             });
         });
     }

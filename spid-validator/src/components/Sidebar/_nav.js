@@ -7,6 +7,10 @@ export default {
         {
           name: 'Download',  
           url: '/metadata-sp-download',      
+        },
+        {
+          name: 'Check',  
+          url: '/metadata-sp-check',      
         }
       ]
     },

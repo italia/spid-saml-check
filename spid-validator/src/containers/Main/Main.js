@@ -8,7 +8,8 @@ import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
 import Aside from '../../components/Aside/';
 import Footer from '../../components/Footer/';
-import MetadataSp from '../../views/MetadataSp/';
+import MetadataSpDownload from '../../views/MetadataSpDownload/';
+import MetadataSpCheck from '../../views/MetadataSpCheck/';
 import Request from '../../views/Request/';
 import Response from '../../views/Response/';
 
@@ -29,6 +30,7 @@ class Main extends Component {
 		this.state = {
 			blocking: false,
 			modal_open: false,
+            modal_hide_buttons: false,
 			modal_title: "Attendere prego",
 			modal_subtitle: "",
 			modal_body: "Elaborazione in corso... Si prega di attendere. Grazie.",
@@ -60,6 +62,7 @@ class Main extends Component {
 		Utility.log("New state", modalState);
 		this.setState({
 			modal_open: modalState.isOpen,
+			modal_hide_buttons: modalState.hideButtons,
 			modal_title: (modalState.title!=null && modalState.title!="")? modalState.title : this.state.modal_title,
 			modal_subtitle: (modalState.subtitle!=null && modalState.subtitle!="")? modalState.subtitle : this.state.modal_subtitle,
 			modal_body: (modalState.body!=null && modalState.body!="")? modalState.body : this.state.modal_body,
@@ -92,7 +95,8 @@ class Main extends Component {
 								<Breadcrumb />
 								<Container fluid>
 									<Switch>
-									<Route path="/metadata-sp-download" name="Metadata Service Provider / Download" component={MetadataSp}/>
+									<Route path="/metadata-sp-download" name="Metadata Service Provider / Download" component={MetadataSpDownload}/>
+									<Route path="/metadata-sp-check" name="Metadata Service Provider / Check" component={MetadataSpCheck}/>
 									<Route path="/request" name="Request Validator" component={Request}/>
 									<Route path="/response/:id" name="Response Validator" component={Response}/>
 									<Redirect from="/" to="/request"/>
@@ -114,14 +118,16 @@ class Main extends Component {
 						<ModalBody>
 							<div dangerouslySetInnerHTML={{__html: this.state.modal_body}}></div>
 						</ModalBody>
-						<ModalFooter>
-							{(this.state.modal_btn_primary_func!=null) &&
-								<Button color="primary" onClick={ this.state.modal_btn_primary_func }>{ this.state.modal_btn_primary_text }</Button>
-							}
-							{(this.state.modal_btn_secondary_func!=null) &&
-								<Button color="secondary" onClick={ this.state.modal_btn_secondary_func }>{ this.state.modal_btn_secondary_text }</Button>
-							}
-						</ModalFooter>
+                        {(!this.state.modal_hide_buttons) &&
+						    <ModalFooter>
+							    {(this.state.modal_btn_primary_func!=null) &&
+								    <Button color="primary" onClick={ this.state.modal_btn_primary_func }>{ this.state.modal_btn_primary_text }</Button>
+							    }
+							    {(this.state.modal_btn_secondary_func!=null) &&
+								    <Button color="secondary" onClick={ this.state.modal_btn_secondary_func }>{ this.state.modal_btn_secondary_text }</Button>
+							    }
+						    </ModalFooter>
+                        }
 					</Modal>
 				</div>			
 			);

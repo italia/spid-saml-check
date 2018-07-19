@@ -6,7 +6,7 @@ import ReduxStore from "../../redux/store";
 import Actions from "../../redux/main/actions";
 
 
-class MetadataSp extends Component {
+class MetadataSpDownload extends Component {
 
   constructor(props) {
     super(props);
@@ -45,10 +45,15 @@ class MetadataSp extends Component {
         this.setState({xml: ""});
         store.dispatch(Actions.setMetadataSpURL(""));
         store.dispatch(Actions.setMetadataSpXML(""));
+        Utility.showModal({
+            title: "Errore",
+            body: error,
+            isOpen: true
+        });
       }
     );
   }
 
 }
 
-export default MetadataSp;
+export default MetadataSpDownload;

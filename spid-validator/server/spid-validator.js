@@ -138,12 +138,27 @@ app.post("/send", function (req, res) {
 
 /* API */
 
-app.post("/api/metadata-sp", function(req, res) {
+app.post("/api/metadata-sp/download", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
-    Utility.download(req.body.url, DATA_DIR + "/metadata.xml").then(
+    Utility.metadataDownload(req.body.url, DATA_DIR + "/metadata.xml").then(
         (file_name) => {
             let xml = fs.readFileSync(DATA_DIR + "/metadata.xml");
             res.status(200).send(xml);
+        },
+        (err) => {
+            res.status(500).send(err);
+        }
+    );
+});
+
+app.get("/api/metadata-sp/check", function(req, res) {
+    let DATA_DIR = "../specs-compliance-tests/data";
+    Utility.metadataCheck().then(
+        (out) => {
+            res.status(200).send({
+                strict: JSON.parse(fs.readFileSync(DATA_DIR + "/sp-metadata-strict.json", "utf8")),
+                certs: JSON.parse(fs.readFileSync(DATA_DIR + "/sp-metadata-certs.json", "utf8"))
+            });
         },
         (err) => {
             res.status(500).send(err);

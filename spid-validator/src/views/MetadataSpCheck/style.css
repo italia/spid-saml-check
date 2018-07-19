@@ -1,0 +1,37 @@
+.title {
+    margin-bottom: 30px!important;
+}
+
+input.metadata {
+    width: 70%;
+}
+
+.code {
+    margin-top: 20px;
+}
+
+button {
+    margin: 0 5px!important;
+}
+
+.testset {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.test-success {
+    color: green!important;
+    font-size: 32px;
+    line-height: 25px;
+    margin: -5px;
+    cursor: pointer;
+}
+
+.test-fail {
+    color: red!important;
+    font-size: 32px;
+    line-height: 25px;
+    margin: -5px;
+    cursor: pointer
+}

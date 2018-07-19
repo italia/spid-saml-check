@@ -20,6 +20,7 @@ class Utility {
                 subtitle: data.subtitle,
                 body: data.body,
                 isOpen: data.isOpen,
+                hideButtons: data.hideButtons,
                 btnPrimaryFunc: data.btnPrimaryFunc,
                 btnPrimaryText: data.btnPrimaryText,
                 btnSecondaryFunc: data.btnSecondaryFunc,
@@ -27,6 +28,7 @@ class Utility {
             })
         );        
     }
+
 
     static blockUI(value) {
         let util = ReduxStore.getUtil();

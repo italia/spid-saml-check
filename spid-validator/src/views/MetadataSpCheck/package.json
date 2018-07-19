@@ -1,0 +1,6 @@
+{
+  "name": "MetadataSpCheck",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./MetadataSpCheck.js"
+}

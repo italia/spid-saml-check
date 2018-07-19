@@ -28,14 +28,27 @@ class MainService {
 	}	
 
 	getMetadataSp(url, callback_response, callback_error) {
-		Utility.log("GET /api/metadata-sp");
-		axios.post('/api/metadata-sp', {url: url})
+		Utility.log("POST /api/metadata-sp/download");
+		axios.post('/api/metadata-sp/download', {url: url})
 		.then(function(response) {
 			Utility.log("getMetadataSp Success", response.data);
 			callback_response(response.data);
 		})
 		.catch(function(error) {
 			Utility.log("getMetadataSp Error", error.response.data);
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+	}
+
+	checkMetadataSp(callback_response, callback_error) {
+		Utility.log("GET /api/metadata-sp/check");
+		axios.get('/api/metadata-sp/check')
+		.then(function(response) {
+			Utility.log("checkMetadataSp Success", response.data);
+			callback_response(response.data);
+		})
+		.catch(function(error) {
+			Utility.log("checkMetadataSp Error", error.response.data);
 			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
 	}
