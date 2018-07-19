@@ -11,6 +11,7 @@ ADD . /spid-saml-check
 RUN mkdir /spid-saml-check/specs-compliance-tests/data
 
 ENV \
+    SP_METADATA=/spid-saml-check/specs-compliance-tests/data/metadata.xml \
     METADATA=/spid-saml-check/specs-compliance-tests/data/metadata.xml \
     DATA_DIR=/spid-saml-check/specs-compliance-tests/data
 
