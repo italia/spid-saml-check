@@ -1,6 +1,6 @@
 # SPID Validator 
 
-SPID Validator is a tool that lets you to inspect and debug SAML  authentication requests from SP and send custom responses back to SP to test SPID compliance. It includes an extension for Google Chrome that interceps the request and a Node.js web application that provides an easy to use interface.
+SPID Validator is a tool that lets you inspect and debug SAML authentication requests from Service Provider and send custom responses back to Service Provider to check SPID compliance. It includes a Node.js web application that provides an easy to use interface and an extension for Google Chrome that intercepts the request.
 
 Spid Validator has been developed and is maintained by AgID - Agenzia per l'Italia Digitale
 
