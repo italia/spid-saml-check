@@ -151,19 +151,30 @@ app.post("/api/metadata-sp/download", function(req, res) {
     );
 });
 
-app.get("/api/metadata-sp/check", function(req, res) {
+app.get("/api/metadata-sp/check/:test", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
-    Utility.metadataCheck().then(
-        (out) => {
-            res.status(200).send({
-                strict: JSON.parse(fs.readFileSync(DATA_DIR + "/sp-metadata-strict.json", "utf8")),
-                certs: JSON.parse(fs.readFileSync(DATA_DIR + "/sp-metadata-certs.json", "utf8"))
-            });
-        },
-        (err) => {
-            res.status(500).send(err);
-        }
-    );
+    let test = req.params.test;
+    let file = null;
+
+    switch(test) {
+        case "strict": file = DATA_DIR + "/sp-metadata-strict.json"; break;
+        case "certs": file = DATA_DIR + "/sp-metadata-certs.json"; break;
+        case "extra": file = DATA_DIR + "/sp-metadata-extra.json"; break;
+    }
+    
+    if(file!=null) {
+        Utility.metadataCheck(test).then(
+            (out) => {
+                res.status(200).send(JSON.parse(fs.readFileSync(file, "utf8")));
+            },
+            (err) => {
+                res.status(500).send(err);
+            }
+        );
+
+    } else {
+        res.status(404).send("Test must be strict or certs or extra");
+    }
 });
 
 app.get("/api/request", function(req, res) {

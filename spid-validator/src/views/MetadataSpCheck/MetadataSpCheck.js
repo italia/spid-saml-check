@@ -12,16 +12,12 @@ class MetadataSpCheck extends Component {
     super(props);
     
     this.state = {
-        strict: null,
-        certs: null
+        test: props.test,
+        result:null
     };  
   }	
 
   componentDidMount() { 
-    let service = Services.getMainService();
-    let store = ReduxStore.getMain();
-
-    Utility.blockUI(true);
     this.checkMetadata();
   }
   
@@ -29,19 +25,25 @@ class MetadataSpCheck extends Component {
     let service = Services.getMainService();
     let store = ReduxStore.getMain();
 
+    Utility.blockUI(true);
     service.checkMetadataSp(
+      this.state.test,
       (test) => { 
-        Utility.blockUI(false);  
+        Utility.blockUI(false); 
+        let result = null;
+        switch(this.state.test) {
+            case "strict": result = test.test.sp.metadata_strict.TestSPMetadata; break;
+            case "certs": result = test.test.sp.metadata_certs.TestSPMetadataCertificates; break;
+            case "extra": result = test.test.sp.metadata_extra.TestSPMetadataExtra; break;
+        } 
         this.setState({
-            strict: test.strict,
-            certs: test.certs
+            result: result
         });
       }, 
       (error)   => { 
         Utility.blockUI(false);
         this.setState({
-            strict: null,
-            certs: null
+            result: null
         });
         Utility.showModal({
             title: "Errore",

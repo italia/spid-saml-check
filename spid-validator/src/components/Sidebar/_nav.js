@@ -9,8 +9,16 @@ export default {
           url: '/metadata-sp-download',      
         },
         {
-          name: 'Check',  
-          url: '/metadata-sp-check',      
+          name: 'Check Strict',  
+          url: '/metadata-sp-check-strict',      
+        },
+        {
+          name: 'Check Certificates',  
+          url: '/metadata-sp-check-certs',      
+        },
+        {
+          name: 'Check Extra',  
+          url: '/metadata-sp-check-extra'     
         }
       ]
     },

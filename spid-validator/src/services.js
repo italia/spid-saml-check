@@ -40,15 +40,15 @@ class MainService {
 		});
 	}
 
-	checkMetadataSp(callback_response, callback_error) {
-		Utility.log("GET /api/metadata-sp/check");
-		axios.get('/api/metadata-sp/check')
+	checkMetadataSp(test, callback_response, callback_error) {
+		Utility.log("GET /api/metadata-sp/check/" + test);
+		axios.get('/api/metadata-sp/check/' + test, {timeout: 900000})
 		.then(function(response) {
 			Utility.log("checkMetadataSp Success", response.data);
 			callback_response(response.data);
 		})
 		.catch(function(error) {
-			Utility.log("checkMetadataSp Error", error.response.data);
+			Utility.log("checkMetadataSp Error", error);
 			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
 	}

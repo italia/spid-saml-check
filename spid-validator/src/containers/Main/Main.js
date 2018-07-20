@@ -96,7 +96,9 @@ class Main extends Component {
 								<Container fluid>
 									<Switch>
 									<Route path="/metadata-sp-download" name="Metadata Service Provider / Download" component={MetadataSpDownload}/>
-									<Route path="/metadata-sp-check" name="Metadata Service Provider / Check" component={MetadataSpCheck}/>
+									<Route path="/metadata-sp-check-strict" key="check-strict" render={()=><MetadataSpCheck test="strict" />} />
+									<Route path="/metadata-sp-check-certs" key="check-certs" render={()=><MetadataSpCheck test="certs" />} />
+									<Route path="/metadata-sp-check-extra" key="check-extra" render={()=><MetadataSpCheck test="extra" />} />
 									<Route path="/request" name="Request Validator" component={Request}/>
 									<Route path="/response/:id" name="Response Validator" component={Response}/>
 									<Redirect from="/" to="/request"/>

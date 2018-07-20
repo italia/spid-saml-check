@@ -52,10 +52,17 @@ class Utils {
         });
     }
 
-    static metadataCheck() {
+    static metadataCheck(test) {
         return new Promise((resolve, reject) => {
-            const cmd = 'cd ../specs-compliance-tests && tox -e cleanup,sp-metadata-strict,sp-metadata-certs,generate-global-json-report';  
-         
+            let cmd = 'cd ../specs-compliance-tests && tox -e cleanup';
+            switch(test) {
+                case "strict": cmd += ",sp-metadata-strict"; break;
+                case "certs": cmd += ",sp-metadata-strict,sp-metadata-certs"; break;
+                case "extra": cmd += ",sp-metadata-extra"; break;
+            }
+
+            cmd+=",generate-global-json-report";
+             
             child_process.exec(cmd, function (err, stdout, stderr) {
                 return resolve(stdout);
             });
