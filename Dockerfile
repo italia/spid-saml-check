@@ -11,9 +11,9 @@ ADD . /spid-saml-check
 RUN mkdir /spid-saml-check/specs-compliance-tests/data
 
 ENV \
-    SP_METADATA=/spid-saml-check/specs-compliance-tests/data/metadata.xml \
-    METADATA=/spid-saml-check/specs-compliance-tests/data/metadata.xml \
-    DATA_DIR=/spid-saml-check/specs-compliance-tests/data
+    DATA_DIR=/spid-saml-check/specs-compliance-tests/data \
+    SP_METADATA=/spid-saml-check/specs-compliance-tests/data/sp-metadata.xml \
+    AUTHN_REQUEST=/spid-saml-check/specs-compliance-tests/data/authn-request.xml
 
 # Update and install utilities
 RUN apt-get update \

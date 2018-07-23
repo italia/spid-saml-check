@@ -66,6 +66,19 @@ class MainService {
 		});
 	}	
 
+	checkRequest(test, callback_response, callback_error) {
+		Utility.log("GET /api/request/check/" + test);
+		axios.get('/api/request/check/' + test, {timeout: 900000})
+		.then(function(response) {
+			Utility.log("checkRequest Success", response.data);
+			callback_response(response.data);
+		})
+		.catch(function(error) {
+			Utility.log("checkRequest Error", error);
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+	}
+
 	getTestResponse(options, callback_response, callback_error) {
 		Utility.log("POST /api/test-response/" + options.id);
 		axios.post('/api/test-response/' + options.id, options)

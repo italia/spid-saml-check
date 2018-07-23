@@ -39,6 +39,8 @@ app.get("/", function (req, res) {
 });
 
 app.post("/samlsso", function (req, res) {
+    let DATA_DIR = "../specs-compliance-tests/data";
+
 	let samlRequest = req.body.SAMLRequest;
 	let relayState = req.body.RelayState;
 
@@ -54,6 +56,11 @@ app.post("/samlsso", function (req, res) {
             authnContextClassRef: requestAuthnContextClassRef,
             xml: xml
         }        
+
+        let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
+                            "&RelayState=" + encodeURIComponent(relayState);
+        fs.writeFileSync(DATA_DIR + "/authn-request.xml", fileContent);
+        
         res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
 
 	} else {
@@ -62,6 +69,8 @@ app.post("/samlsso", function (req, res) {
 });
 
 app.get("/samlsso", function (req, res) {
+    let DATA_DIR = "../specs-compliance-tests/data";
+
 	let samlRequest = req.query.SAMLRequest;
 	let relayState = req.query.RelayState;
 	let sigAlg = req.query.SigAlg;
@@ -79,6 +88,13 @@ app.get("/samlsso", function (req, res) {
             id: requestID,
             xml: xml
         }         
+
+        let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
+                            "&RelayState=" + encodeURIComponent(relayState) + 
+                            "&SigAlg=" + encodeURIComponent(sigAlg) + 
+                            "&Signature=" + encodeURIComponent(signature);
+        fs.writeFileSync(DATA_DIR + "/authn-request.xml", fileContent);
+
         res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
 
 	} else {
@@ -140,9 +156,9 @@ app.post("/send", function (req, res) {
 
 app.post("/api/metadata-sp/download", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
-    Utility.metadataDownload(req.body.url, DATA_DIR + "/metadata.xml").then(
+    Utility.metadataDownload(req.body.url, DATA_DIR + "/sp-metadata.xml").then(
         (file_name) => {
-            let xml = fs.readFileSync(DATA_DIR + "/metadata.xml");
+            let xml = fs.readFileSync(DATA_DIR + "/sp-metadata.xml");
             res.status(200).send(xml);
         },
         (err) => {
@@ -179,6 +195,32 @@ app.get("/api/metadata-sp/check/:test", function(req, res) {
 
 app.get("/api/request", function(req, res) {
     res.status(200).send(req.session.request);
+});
+
+app.get("/api/request/check/:test", function(req, res) {
+    let DATA_DIR = "../specs-compliance-tests/data";
+    let test = req.params.test;
+    let file = null;
+
+    switch(test) {
+        case "strict": file = DATA_DIR + "/sp-authn-request-strict.json"; break;
+        case "certs": file = DATA_DIR + "/sp-authn-request-certs.json"; break;
+        case "extra": file = DATA_DIR + "/sp-authn-request-extra.json"; break;
+    }
+    
+    if(file!=null) {
+        Utility.requestCheck(test).then(
+            (out) => {
+                res.status(200).send(JSON.parse(fs.readFileSync(file, "utf8")));
+            },
+            (err) => {
+                res.status(500).send(err);
+            }
+        );
+
+    } else {
+        res.status(404).send("Test must be strict or certs or extra");
+    }
 });
 
 app.post("/api/test-response/:id", function(req, res) {

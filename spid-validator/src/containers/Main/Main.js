@@ -11,6 +11,7 @@ import Footer from '../../components/Footer/';
 import MetadataSpDownload from '../../views/MetadataSpDownload/';
 import MetadataSpCheck from '../../views/MetadataSpCheck/';
 import Request from '../../views/Request/';
+import RequestCheck from '../../views/RequestCheck/';
 import Response from '../../views/Response/';
 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -96,11 +97,14 @@ class Main extends Component {
 								<Container fluid>
 									<Switch>
 									<Route path="/metadata-sp-download" name="Metadata Service Provider / Download" component={MetadataSpDownload}/>
-									<Route path="/metadata-sp-check-strict" key="check-strict" render={()=><MetadataSpCheck test="strict" />} />
-									<Route path="/metadata-sp-check-certs" key="check-certs" render={()=><MetadataSpCheck test="certs" />} />
-									<Route path="/metadata-sp-check-extra" key="check-extra" render={()=><MetadataSpCheck test="extra" />} />
-									<Route path="/request" name="Request Validator" component={Request}/>
-									<Route path="/response/:id" name="Response Validator" component={Response}/>
+									<Route path="/metadata-sp-check-strict" key="metadata-sp-check-strict" render={()=><MetadataSpCheck test="strict" />} />
+									<Route path="/metadata-sp-check-certs" key="metadata-sp-check-certs" render={()=><MetadataSpCheck test="certs" />} />
+									<Route path="/metadata-sp-check-extra" key="metadata-sp-check-extra" render={()=><MetadataSpCheck test="extra" />} />
+									<Route path="/request" component={Request}/>
+									<Route path="/request-check-strict" key="request-check-strict" render={()=><RequestCheck test="strict" />} />
+									<Route path="/request-check-certs" key="request-check-certs" render={()=><RequestCheck test="certs" />} />
+									<Route path="/request-check-extra" key="request-check-extra" render={()=><RequestCheck test="extra" />} />
+									<Route path="/response/:id" component={Response}/>
 									<Redirect from="/" to="/request"/>
 									</Switch>
 								</Container>

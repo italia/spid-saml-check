@@ -61,7 +61,24 @@ class Utils {
                 case "extra": cmd += ",sp-metadata-extra"; break;
             }
 
-            cmd+=",generate-global-json-report";
+            //cmd+=",generate-global-json-report";
+             
+            child_process.exec(cmd, function (err, stdout, stderr) {
+                return resolve(stdout);
+            });
+        });
+    }
+
+    static requestCheck(test) {
+        return new Promise((resolve, reject) => {
+            let cmd = 'cd ../specs-compliance-tests && tox -e cleanup';
+            switch(test) {
+                case "strict": cmd += ",sp-authn-request-strict"; break;
+                case "certs": cmd += ",sp-authn-request-strict,sp-authn-request-certs"; break;
+                case "extra": cmd += ",sp-authn-request-extra"; break;
+            }
+
+            //cmd+=",generate-global-json-report";
              
             child_process.exec(cmd, function (err, stdout, stderr) {
                 return resolve(stdout);

@@ -1,6 +1,6 @@
 {
     "test-suite-1": {
-        "description": "test suite 1",
+        "description": "Test Response",
         "path": "test/test-1.xml",
         "response": {
             "AssertionConsumerURL": "",

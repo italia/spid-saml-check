@@ -24,8 +24,25 @@ export default {
     },
     {
       name: 'Request',
-      url: '/request',
       icon: 'icon-cursor',
+      children: [
+        {
+          name: 'SAML',  
+          url: '/request',      
+        },
+        {
+          name: 'Check Strict',  
+          url: '/request-check-strict',      
+        },
+        {
+          name: 'Check Certificates',  
+          url: '/request-check-certs',      
+        },
+        {
+          name: 'Check Extra',  
+          url: '/request-check-extra'     
+        }
+      ]
       /*
       badge: {
         variant: 'info',
@@ -38,7 +55,7 @@ export default {
       icon: 'icon-check', 
       children: [
         {
-          name: 'Test 1',  
+          name: 'Test',  
           url: '/response/0',      
         }
       ]

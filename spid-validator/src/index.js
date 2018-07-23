@@ -24,13 +24,16 @@ import Empty from './containers/Empty'
 ReactDOM.render((
   <HashRouter>
     <Switch>
-      <Route path="/metadata-sp-download" name="Metadata Service Provider / Download" component={Main}/>
+      <Route path="/metadata-sp-download" component={Main}/>
       <Route path="/metadata-sp-check-strict" component={Main}/>
       <Route path="/metadata-sp-check-certs" component={Main}/>
       <Route path="/metadata-sp-check-extra" component={Main}/>
-      <Route path="/request" name="Request Validator" component={Main}/>
-      <Route path="/response/:id" name="Response Validator" component={Main}/>
-      {/* <Route path="/login" name="Login" component={Empty}/> */}
+      <Route path="/request" component={Main}/>
+      <Route path="/request-check-strict" component={Main}/>
+      <Route path="/request-check-certs" component={Main}/>
+      <Route path="/request-check-extra" component={Main}/>
+      <Route path="/response/:id" component={Main}/>
+      {/* <Route path="/login" component={Empty}/> */}
 	    <Route path="/" name="Home" component={Main}/>
     </Switch>
   </HashRouter>
