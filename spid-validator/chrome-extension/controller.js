@@ -39,8 +39,11 @@ chrome.webRequest.onBeforeRequest.addListener(
               //return String.fromCharCode.apply(null, new Uint8Array(data.bytes));
             }).join('');
   
-            SAMLRequest = urldecode(rawBody.split("&")[0].substring(12));
-            RelayState = urldecode(rawBody.split("&")[1].substring(11));
+            let raw = rawBody.split("&");         
+            for(let i in raw) {
+                if(raw[i].substring(0,11)=="SAMLRequest") SAMLRequest = urldecode(raw[i].substring(12));
+                if(raw[i].substring(0,10)=="RelayState") RelayState = urldecode(raw[i].substring(11));
+            }
           }  
 
           chrome.tabs.create({"url" : chrome.extension.getURL("page.html")});                       
