@@ -4,10 +4,10 @@ SPID SAML Check is a tool that performs some tests on Service Providers, as insp
 
 SPID SAML Check has been developed and is maintained by AgID - Agenzia per l'Italia Digitale
 
-## How to buld with Docker
+## How to build with Docker
 
 ```
-$ docker buld -t spid-saml-check .
+$ docker build -t spid-saml-check .
 ```
 
 ## How to run with Docker
