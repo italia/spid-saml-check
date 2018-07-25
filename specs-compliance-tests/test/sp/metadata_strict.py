@@ -309,6 +309,14 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                          'Only one default AssertionConsumerService '
                          'must be present')
 
+        acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
+                              '/AssertionConsumerService'
+                              '[@index="0"]'
+                              '[@isDefault="true"]')
+        self._assertTrue((len(acss) == 1),
+                         'Must be present the default AssertionConsumerService '
+                         'with index = 0')
+
     def test_AttributeConsumingService(self):
         '''Test the compliance of AttributeConsumingService element(s)'''
 
