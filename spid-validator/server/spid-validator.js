@@ -84,8 +84,12 @@ app.get("/samlsso", function (req, res) {
         let xml = PayloadDecoder.decode(samlRequest);
         let requestParser = new RequestParser(xml);
         let requestID = requestParser.ID();
+        let requestIssueInstant = requestParser.IssueInstant();
+        let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
         req.session.request = {
             id: requestID,
+            issueInstant: requestIssueInstant,
+            authnContextClassRef: requestAuthnContextClassRef,
             xml: xml
         }         
 
@@ -102,52 +106,6 @@ app.get("/samlsso", function (req, res) {
     }  
 });
 
-/*
-app.post("/send", function (req, res) {
-       
-    if (req.session.requestID != null) {
-        let username = req.body.username;
-        let password = req.body.password;
-        let level = req.body.level;
-        
-        if (username != null && password != null && level != null) {
-            let u = User.authenticate(username, password, level);
-            if (u != null) {
-                let sp = req.session.sp;
-                let fullName = u.getAttribute("name") + " " + u.getAttribute("lastName");
-                let assertion = idp.produceSuccessResponse(sp, req.session.requestID, username, {
-                    name: fullName, gender: "M"
-                });
-                assertion.then(
-                function (data) {
-                    res.status(200).send(" \
-                    <html> \
-                        <body onload=\"document.forms[0].submit()\" > \
-                            <noscript>Your browser does not support JavaScript. Please click the 'Continue' button below to proceed.</noscript> \
-                            <form action=\"" + data.url.href + "\" method=\"post\" target=\"_blank\"> \
-                                <input type=\"hidden\" name=\"RelayState\" value=\"" + req.session.relayState + "\" /> \
-                                <input type=\"hidden\" name=\"SAMLResponse\" value=\"" + data.formBody.SAMLResponse + "\" /> \
-                                Authentication success.<br/>Redirect to " + data.url.href + " \
-                                <noscript><input type=\"submit\" value=\"Continue\" /></noscript> \
-                            </form> \
-                        </body> \
-                    </html>");
-                },
-                function (data) {
-                    console.log(data);
-                });
-            } else {
-                console.log("username/password wrong");
-                res.sendFile(path.resolve(__dirname, "..", "view", "login.html"));
-            }
-        } else {
-            res.sendFile(path.resolve(__dirname, "..", "view", "login.html"));
-        }
-    } else {
-        res.sendFile(path.resolve(__dirname, "..", "view", "error.html"));
-    }
-});
-*/
 
 
 
@@ -240,7 +198,6 @@ app.post("/api/test-response/:id", function(req, res) {
     params = Utility.defaultParam(params, "NotOnOrAfter", Utility.getNotOnOrAfter(req.session.request.issueInstant));
     params = Utility.defaultParam(params, "SessionIndex", Utility.getUUID());
     params = Utility.defaultParam(params, "AuthnContextClassRef", req.session.request.authnContextClassRef);
-    
     
     let testSuite = new TestSuite(config_idp, config_test);
     let testResponse = testSuite.getTestTemplate("test-suite-1", id, params);
