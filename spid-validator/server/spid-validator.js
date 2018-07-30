@@ -50,10 +50,12 @@ app.post("/samlsso", function (req, res) {
         let requestID = requestParser.ID();
         let requestIssueInstant = requestParser.IssueInstant();
         let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
+        let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
         req.session.request = {
             id: requestID,
             issueInstant: requestIssueInstant,
             authnContextClassRef: requestAuthnContextClassRef,
+            assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
             xml: xml
         }        
 
@@ -86,12 +88,14 @@ app.get("/samlsso", function (req, res) {
         let requestID = requestParser.ID();
         let requestIssueInstant = requestParser.IssueInstant();
         let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
+        let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
         req.session.request = {
             id: requestID,
             issueInstant: requestIssueInstant,
             authnContextClassRef: requestAuthnContextClassRef,
+            assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
             xml: xml
-        }         
+        }        
 
         let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
                             "&RelayState=" + encodeURIComponent(relayState) + 
@@ -198,6 +202,7 @@ app.post("/api/test-response/:id", function(req, res) {
     params = Utility.defaultParam(params, "NotOnOrAfter", Utility.getNotOnOrAfter(req.session.request.issueInstant));
     params = Utility.defaultParam(params, "SessionIndex", Utility.getUUID());
     params = Utility.defaultParam(params, "AuthnContextClassRef", req.session.request.authnContextClassRef);
+    params = Utility.defaultParam(params, "AssertionConsumerURL", req.session.request.assertionConsumerServiceURL);
     
     let testSuite = new TestSuite(config_idp, config_test);
     let testResponse = testSuite.getTestTemplate("test-suite-1", id, params);

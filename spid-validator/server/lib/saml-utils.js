@@ -92,6 +92,11 @@ RequestParser.prototype.AuthnContextClassRef = function() {
     return requestAuthnContextClassRef;
 }
 
+RequestParser.prototype.AssertionConsumerServiceURL = function() {
+    let doc = new DOMParser().parseFromString(this.request.xml);
+    let requestAssertionConsumerServiceURL = select("//samlp:AuthnRequest", doc)[0].getAttribute("AssertionConsumerServiceURL");
+    return requestAssertionConsumerServiceURL;
+}
 
 module.exports.TestSuite = TestSuite;
 module.exports.RequestParser = RequestParser;
