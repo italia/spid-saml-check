@@ -43,17 +43,24 @@ function view(me) {
 
                                 {me.state.params.map((param)=> {
                                     return(
-                                    <div className="row"> 
-                                        <div className="col-sm-12">
-                                            <b>{param.key}</b>
-                                        </div>                                      
-                                        <div className="col-sm-12">  
-                                            <input type="text" className="param" 
-                                                placeholder={param.key} 
-                                                value={param.val} 
-                                                onChange={(e)=>{me.setParam(param.key, e.target.value)}} />
-                                        </div>
-                                    </div> 
+                                        <div className="row"> 
+                                            <div className="col-sm-12">
+                                                {param.attribute && 
+                                                    <input type="checkbox" className="checkAttribute"
+                                                        name={'check_' + param.key} 
+                                                        checked={(param.val!=null)}
+                                                        onChange={(e)=>{me.setParam(param.key, (e.target.checked)? "" : null)}} />
+                                                }
+
+                                                <b>{param.key}</b>
+                                            </div>                                      
+                                            <div className="col-sm-12">  
+                                                <input type="text" className="param" 
+                                                    placeholder={param.key} 
+                                                    value={param.val} 
+                                                    onChange={(e)=>{me.setParam(param.key, e.target.value)}} />
+                                            </div>
+                                        </div> 
                                     );
                                 })}
                            

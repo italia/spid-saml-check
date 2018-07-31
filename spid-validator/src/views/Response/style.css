@@ -13,6 +13,10 @@
     margin-bottom:15px;
 }
 
+.checkAttribute {
+    margin-right: 10px;
+}
+
 .switch {
     float: left;
     margin-right: 20px;

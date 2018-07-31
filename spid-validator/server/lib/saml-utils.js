@@ -36,13 +36,46 @@ TestSuite.prototype.getTestTemplate = function(testsuiteId, testcaseId, userPara
         if (eVal == null) eVal = testcase.response[eKey];
         if (eVal == null) eVal = testsuite.response[eKey];
         if (eVal == null) eVal = "";
-        compiled = compiled.replaceAll(e, eVal);
 
-        // if params not yet contains param
-        if(params.filter((p)=> {
-            return (p.key == eKey);
-        }).length == 0) {
-            params.push({ "key": eKey, "val": eVal });
+        if(eKey=="Attributes") {
+            let attributesCompiled = "";
+            for(let attributeName in eVal) {
+                
+                // override value from fontend
+                userParam = userParams.filter((p)=> { return (p.key==attributeName) })[0];
+                let userVal = (userParam!=null)? userParam.val : eVal[attributeName];
+                let attributeVal = userVal;
+
+                if(attributeVal!=null) {
+                    attributesCompiled += " \
+                        <saml:Attribute Name=\"" + attributeName + "\" NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:basic\"> \
+                            <saml:AttributeValue xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" \
+                                xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:string\">"
+                                    + attributeVal +
+                            "</saml:AttributeValue> \
+                        </saml:Attribute> \
+                    ";
+                }
+
+                // if params not yet contains param
+                if(params.filter((p)=> {
+                    return (p.key == attributeName);
+                }).length == 0) {
+                    params.push({ "key": attributeName, "val": attributeVal, "attribute": true });
+                }
+            }         
+            
+            compiled = compiled.replace("{{Attributes}}", attributesCompiled);  
+
+        } else {
+            compiled = compiled.replaceAll(e, eVal);
+
+            // if params not yet contains param
+            if(params.filter((p)=> {
+                return (p.key == eKey);
+            }).length == 0) {
+                params.push({ "key": eKey, "val": eVal, "attribute": false });
+            }
         }
     });
     

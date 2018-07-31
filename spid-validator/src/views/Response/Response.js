@@ -110,7 +110,7 @@ class Response extends Component {
   setParam(key, val) {
     this.setState({
       params: this.state.params.map((p)=> {
-        return (p.key==key)? {"key": key, "val": val} : p
+        return (p.key==key)? {"key": key, "val": val, "attribute": p.attribute} : p
       })
     }, ()=> {
       this.getTestResponse();

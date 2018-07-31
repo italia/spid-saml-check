@@ -22,17 +22,19 @@
                     "AuthnIstant": "",
                     "SessionIndex": "",
                     "AuthnContextClassRef": "",
-                    "AttributeSpidCode": "TEST0000000001",
-                    "AttributeName": "Name",
-                    "AttributeFamilyName": "Family Name",
-                    "AttributePlaceOfBirth": "Place Of Birth",
-                    "AttributeCountyOfBirth": "County Of Birth",
-                    "AttributeDateOfBirth": "1980-01-01",
-                    "AttributeGender": "F",
-                    "AttributeFiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                    "AttributeMobilePhone": "+390000000000",
-                    "AttributeEmail": "test@test",
-                    "AttributeAddress": "via Test X XXX XXXX XX"                
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test X XXX XXXX XX"                
+                   }
                 }
             }
         ]
