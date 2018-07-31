@@ -13,7 +13,7 @@
                 "description": "testcase 1",
                 "response": {
                     "IssueInstant": "",
-                    "Issuer": "identity.test.it",
+                    "Issuer": "",
                     "AssertionID": "",
                     "NameIDNameQualifier": "qualifier",
                     "NameID": "",

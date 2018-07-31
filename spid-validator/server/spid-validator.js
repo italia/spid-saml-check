@@ -192,12 +192,13 @@ app.post("/api/test-response/:id", function(req, res) {
     let sign_response = req.body.sign_response;
 
     // defaults 
+    params = Utility.defaultParam(params, "Issuer", config_idp.entityID);
     params = Utility.defaultParam(params, "AuthnRequestID", req.session.request.id);
     params = Utility.defaultParam(params, "ResponseID", Utility.getUUID());
     params = Utility.defaultParam(params, "IssueInstant", Utility.getInstant());
     params = Utility.defaultParam(params, "AssertionID", Utility.getUUID());
     params = Utility.defaultParam(params, "NameID", Utility.getUUID());
-    params = Utility.defaultParam(params, "AuthnIstant", req.session.request.issueInstant);
+    params = Utility.defaultParam(params, "AuthnIstant", Utility.getInstant());
     params = Utility.defaultParam(params, "NotBefore", Utility.getNotBefore(req.session.request.issueInstant));
     params = Utility.defaultParam(params, "NotOnOrAfter", Utility.getNotOnOrAfter(req.session.request.issueInstant));
     params = Utility.defaultParam(params, "SessionIndex", Utility.getUUID());

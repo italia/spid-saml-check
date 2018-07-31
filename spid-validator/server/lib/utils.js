@@ -29,15 +29,15 @@ class Utils {
     }
 
     static getInstant() {
-        return moment().utc();
+        return moment().utc().format();
     }
 
     static getNotBefore(instant) {
-        return moment(instant).utc();
+        return moment(instant).utc().format();
     }
 
     static getNotOnOrAfter(instant) {
-        return moment(instant).add(5, 'm').utc();
+        return moment(instant).add(5, 'm').utc().format();
     }
 
     static metadataDownload(src, dest) {
