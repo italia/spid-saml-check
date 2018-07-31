@@ -74,6 +74,22 @@ function RequestParser(xml) {
     }
 }
 
+RequestParser.prototype.isAuthnRequest = function() {
+    let isAuthnRequest = false;
+    let doc = new DOMParser().parseFromString(this.request.xml);
+    let request = select("//samlp:AuthnRequest", doc);
+    if(request.length>0) isAuthnRequest = true;
+    return isAuthnRequest;
+}
+
+RequestParser.prototype.isLogout = function() {
+    let isLogout = false;
+    let doc = new DOMParser().parseFromString(this.request.xml);
+    let request = select("//samlp:LogoutRequest", doc);
+    if(request.length>0) isLogout = true;
+    return isLogout;
+}
+
 RequestParser.prototype.ID = function() {
     let doc = new DOMParser().parseFromString(this.request.xml);
     let requestID = select("//samlp:AuthnRequest", doc)[0].getAttribute("ID");

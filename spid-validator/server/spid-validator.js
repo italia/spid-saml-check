@@ -47,23 +47,31 @@ app.post("/samlsso", function (req, res) {
 	if(samlRequest!=null && relayState!=null) {
         let xml = PayloadDecoder.decode(samlRequest);
         let requestParser = new RequestParser(xml);
-        let requestID = requestParser.ID();
-        let requestIssueInstant = requestParser.IssueInstant();
-        let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
-        let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
-        req.session.request = {
-            id: requestID,
-            issueInstant: requestIssueInstant,
-            authnContextClassRef: requestAuthnContextClassRef,
-            assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
-            xml: xml
-        }        
 
-        let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
-                            "&RelayState=" + encodeURIComponent(relayState);
-        fs.writeFileSync(DATA_DIR + "/authn-request.xml", fileContent);
-        
-        res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
+        if(requestParser.isAuthnRequest()) {
+            let requestID = requestParser.ID();
+            let requestIssueInstant = requestParser.IssueInstant();
+            let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
+            let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
+            req.session.request = {
+                id: requestID,
+                issueInstant: requestIssueInstant,
+                authnContextClassRef: requestAuthnContextClassRef,
+                assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
+                xml: xml
+            }        
+
+            let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
+                                "&RelayState=" + encodeURIComponent(relayState);
+            fs.writeFileSync(DATA_DIR + "/authn-request.xml", fileContent);
+            res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
+        } 
+
+        else if(requestParser.isLogout()) {
+            req.session.destroy();
+            fs.unlinkSync(DATA_DIR + "/authn-request.xml");
+            res.sendFile(path.resolve(__dirname, "..", "view", "logout.html"));
+        }
 
 	} else {
 		res.sendFile(path.resolve(__dirname, "..", "view", "error.html"));
@@ -85,25 +93,33 @@ app.get("/samlsso", function (req, res) {
 
         let xml = PayloadDecoder.decode(samlRequest);
         let requestParser = new RequestParser(xml);
-        let requestID = requestParser.ID();
-        let requestIssueInstant = requestParser.IssueInstant();
-        let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
-        let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
-        req.session.request = {
-            id: requestID,
-            issueInstant: requestIssueInstant,
-            authnContextClassRef: requestAuthnContextClassRef,
-            assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
-            xml: xml
-        }        
 
-        let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
-                            "&RelayState=" + encodeURIComponent(relayState) + 
-                            "&SigAlg=" + encodeURIComponent(sigAlg) + 
-                            "&Signature=" + encodeURIComponent(signature);
-        fs.writeFileSync(DATA_DIR + "/authn-request.xml", fileContent);
+        if(requestParser.isAuthnRequest()) {
+            let requestID = requestParser.ID();
+            let requestIssueInstant = requestParser.IssueInstant();
+            let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
+            let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
+            req.session.request = {
+                id: requestID,
+                issueInstant: requestIssueInstant,
+                authnContextClassRef: requestAuthnContextClassRef,
+                assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
+                xml: xml
+            }        
 
-        res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
+            let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
+                                "&RelayState=" + encodeURIComponent(relayState) + 
+                                "&SigAlg=" + encodeURIComponent(sigAlg) + 
+                                "&Signature=" + encodeURIComponent(signature);
+            fs.writeFileSync(DATA_DIR + "/authn-request.xml", fileContent);
+            res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
+        } 
+
+        else if(requestParser.isLogout()) {
+            req.session.destroy();
+            fs.unlinkSync(DATA_DIR + "/authn-request.xml");
+            res.sendFile(path.resolve(__dirname, "..", "view", "logout.html"));
+        }
 
 	} else {
 		res.sendFile(path.resolve(__dirname, "..", "view", "error.html"));
