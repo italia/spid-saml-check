@@ -159,7 +159,12 @@ app.get("/api/metadata-sp/check/:test", function(req, res) {
     if(file!=null) {
         Utility.metadataCheck(test).then(
             (out) => {
-                res.status(200).send(JSON.parse(fs.readFileSync(file, "utf8")));
+                try {
+                    let report = fs.readFileSync(file, "utf8");
+                    res.status(200).send(JSON.parse(report));
+                } catch(err) {
+                    res.status(500).send("Error while loading report");
+                }
             },
             (err) => {
                 res.status(500).send(err);
