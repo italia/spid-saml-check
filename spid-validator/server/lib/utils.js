@@ -64,7 +64,11 @@ class Utils {
             //cmd+=",generate-global-json-report";
              
             child_process.exec(cmd, function (err, stdout, stderr) {
-                return resolve(stdout);
+                if(err!=null) {
+                    return reject(stderr);
+                } else {
+                    return resolve(stdout);
+                }
             });
         });
     }
