@@ -137,9 +137,14 @@ app.post("/api/metadata-sp/download", function(req, res) {
     Utility.metadataDownload(req.body.url, DATA_DIR + "/sp-metadata.xml").then(
         (file_name) => {
             let xml = fs.readFileSync(DATA_DIR + "/sp-metadata.xml");
+            req.session.metadata = {
+                url: req.body.url,
+                xml: xml
+            }
             res.status(200).send(xml);
         },
         (err) => {
+            req.session.metadata = null;
             res.status(500).send(err);
         }
     );
@@ -150,29 +155,36 @@ app.get("/api/metadata-sp/check/:test", function(req, res) {
     let test = req.params.test;
     let file = null;
 
-    switch(test) {
-        case "strict": file = DATA_DIR + "/sp-metadata-strict.json"; break;
-        case "certs": file = DATA_DIR + "/sp-metadata-certs.json"; break;
-        case "extra": file = DATA_DIR + "/sp-metadata-extra.json"; break;
-    }
-    
-    if(file!=null) {
-        Utility.metadataCheck(test).then(
-            (out) => {
-                try {
-                    let report = fs.readFileSync(file, "utf8");
-                    res.status(200).send(JSON.parse(report));
-                } catch(err) {
-                    res.status(500).send("Error while loading report");
-                }
-            },
-            (err) => {
-                res.status(500).send(err);
-            }
-        );
+    if(req.session.metadata == null) {
+
+        res.status(404).send("Please download metadata first");
 
     } else {
-        res.status(404).send("Test must be strict or certs or extra");
+
+        switch(test) {
+            case "strict": file = DATA_DIR + "/sp-metadata-strict.json"; break;
+            case "certs": file = DATA_DIR + "/sp-metadata-certs.json"; break;
+            case "extra": file = DATA_DIR + "/sp-metadata-extra.json"; break;
+        }
+        
+        if(file!=null) {
+            Utility.metadataCheck(test).then(
+                (out) => {
+                    try {
+                        let report = fs.readFileSync(file, "utf8");
+                        res.status(200).send(JSON.parse(report));
+                    } catch(err) {
+                        res.status(500).send("Error while loading report");
+                    }
+                },
+                (err) => {
+                    res.status(500).send(err);
+                }
+            );
+
+        } else {
+            res.status(404).send("Test must be strict or certs or extra");
+        }
     }
 });
 
@@ -185,24 +197,31 @@ app.get("/api/request/check/:test", function(req, res) {
     let test = req.params.test;
     let file = null;
 
-    switch(test) {
-        case "strict": file = DATA_DIR + "/sp-authn-request-strict.json"; break;
-        case "certs": file = DATA_DIR + "/sp-authn-request-certs.json"; break;
-        case "extra": file = DATA_DIR + "/sp-authn-request-extra.json"; break;
-    }
-    
-    if(file!=null) {
-        Utility.requestCheck(test).then(
-            (out) => {
-                res.status(200).send(JSON.parse(fs.readFileSync(file, "utf8")));
-            },
-            (err) => {
-                res.status(500).send(err);
-            }
-        );
+    if(req.session.metadata == null) {
+
+        res.status(404).send("Please download metadata first");
 
     } else {
-        res.status(404).send("Test must be strict or certs or extra");
+
+        switch(test) {
+            case "strict": file = DATA_DIR + "/sp-authn-request-strict.json"; break;
+            case "certs": file = DATA_DIR + "/sp-authn-request-certs.json"; break;
+            case "extra": file = DATA_DIR + "/sp-authn-request-extra.json"; break;
+        }
+        
+        if(file!=null) {
+            Utility.requestCheck(test).then(
+                (out) => {
+                    res.status(200).send(JSON.parse(fs.readFileSync(file, "utf8")));
+                },
+                (err) => {
+                    res.status(500).send(err);
+                }
+            );
+
+        } else {
+            res.status(404).send("Test must be strict or certs or extra");
+        }
     }
 });
 
@@ -212,19 +231,25 @@ app.post("/api/test-response/:id", function(req, res) {
     let sign_assertion = req.body.sign_assertion;
     let sign_response = req.body.sign_response;
 
+    // default params if no authnrequest
+    let authnRequestID = (req.session.request!=null)? req.session.request.id : Utility.getUUID();
+    let issueInstant = (req.session.request!=null)? req.session.request.issueInstant : Utility.getInstant();
+    let authnContextClassRef = (req.session.request!=null)? req.session.request.authnContextClassRef : "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL1";
+    let assertionConsumerURL = (req.session.request!=null)? req.session.request.assertionConsumerServiceURL : "";
+
     // defaults 
     params = Utility.defaultParam(params, "Issuer", config_idp.entityID);
-    params = Utility.defaultParam(params, "AuthnRequestID", req.session.request.id);
+    params = Utility.defaultParam(params, "AuthnRequestID", authnRequestID);
     params = Utility.defaultParam(params, "ResponseID", Utility.getUUID());
     params = Utility.defaultParam(params, "IssueInstant", Utility.getInstant());
     params = Utility.defaultParam(params, "AssertionID", Utility.getUUID());
     params = Utility.defaultParam(params, "NameID", Utility.getUUID());
     params = Utility.defaultParam(params, "AuthnIstant", Utility.getInstant());
-    params = Utility.defaultParam(params, "NotBefore", Utility.getNotBefore(req.session.request.issueInstant));
-    params = Utility.defaultParam(params, "NotOnOrAfter", Utility.getNotOnOrAfter(req.session.request.issueInstant));
+    params = Utility.defaultParam(params, "NotBefore", Utility.getNotBefore(issueInstant));
+    params = Utility.defaultParam(params, "NotOnOrAfter", Utility.getNotOnOrAfter(issueInstant));
     params = Utility.defaultParam(params, "SessionIndex", Utility.getUUID());
-    params = Utility.defaultParam(params, "AuthnContextClassRef", req.session.request.authnContextClassRef);
-    params = Utility.defaultParam(params, "AssertionConsumerURL", req.session.request.assertionConsumerServiceURL);
+    params = Utility.defaultParam(params, "AuthnContextClassRef", authnContextClassRef);
+    params = Utility.defaultParam(params, "AssertionConsumerURL", assertionConsumerURL);
     
     let testSuite = new TestSuite(config_idp, config_test);
     let testResponse = testSuite.getTestTemplate("test-suite-1", id, params);
