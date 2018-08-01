@@ -11,6 +11,7 @@ const config_idp = require("../config/idp.json");
 const Utility = require("./lib/utils");
 const TestSuite = require("./lib/saml-utils").TestSuite;
 const PayloadDecoder = require("./lib/saml-utils").PayloadDecoder;
+const MetadataParser = require("./lib/saml-utils").MetadataParser;
 const RequestParser = require("./lib/saml-utils").RequestParser;
 const Signer = require("./lib/signer").Signer;
 const SIGN_MODE = require("./lib/signer").SIGN_MODE;
@@ -53,11 +54,13 @@ app.post("/samlsso", function (req, res) {
             let requestIssueInstant = requestParser.IssueInstant();
             let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
             let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
+            let requestAssertionConsumerServiceIndex = requestParser.AssertionConsumerServiceIndex();
             req.session.request = {
                 id: requestID,
                 issueInstant: requestIssueInstant,
                 authnContextClassRef: requestAuthnContextClassRef,
                 assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
+                assertionConsumerServiceIndex: requestAssertionConsumerServiceIndex,
                 xml: xml
             }        
 
@@ -99,11 +102,13 @@ app.get("/samlsso", function (req, res) {
             let requestIssueInstant = requestParser.IssueInstant();
             let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
             let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
+            let requestAssertionConsumerServiceIndex = requestParser.AssertionConsumerServiceIndex();
             req.session.request = {
                 id: requestID,
                 issueInstant: requestIssueInstant,
                 authnContextClassRef: requestAuthnContextClassRef,
                 assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
+                assertionConsumerServiceIndex: requestAssertionConsumerServiceIndex,
                 xml: xml
             }        
 
@@ -136,7 +141,7 @@ app.post("/api/metadata-sp/download", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     Utility.metadataDownload(req.body.url, DATA_DIR + "/sp-metadata.xml").then(
         (file_name) => {
-            let xml = fs.readFileSync(DATA_DIR + "/sp-metadata.xml");
+            let xml = fs.readFileSync(DATA_DIR + "/sp-metadata.xml", "utf8");
             req.session.metadata = {
                 url: req.body.url,
                 xml: xml
@@ -235,7 +240,18 @@ app.post("/api/test-response/:id", function(req, res) {
     let authnRequestID = (req.session.request!=null)? req.session.request.id : Utility.getUUID();
     let issueInstant = (req.session.request!=null)? req.session.request.issueInstant : Utility.getInstant();
     let authnContextClassRef = (req.session.request!=null)? req.session.request.authnContextClassRef : "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL1";
-    let assertionConsumerURL = (req.session.request!=null)? req.session.request.assertionConsumerServiceURL : "";
+    let assertionConsumerURL = (req.session.request!=null)? req.session.request.assertionConsumerServiceURL : null;
+    let assertionConsumerIndex = (req.session.request!=null)? req.session.request.assertionConsumerServiceIndex : null;
+    
+    // if no AssertionConsumerURL from request try to get it from metadata
+    if((assertionConsumerURL==null || assertionConsumerURL=="") &&
+        (assertionConsumerIndex!=null && assertionConsumerIndex!="")) {
+
+        if(req.session.metadata!=null) {
+            let metadataParser = new MetadataParser(req.session.metadata.xml);
+            assertionConsumerURL = metadataParser.getAssertionConsumerServiceURL(assertionConsumerIndex);
+        }
+    }
 
     // defaults 
     params = Utility.defaultParam(params, "Issuer", config_idp.entityID);

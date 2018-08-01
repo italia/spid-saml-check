@@ -101,6 +101,30 @@ PayloadDecoder.decode = function(payload) {
     return xml;
 }
 
+
+function MetadataParser(xml) {
+    this.metadata = {
+        xml: xml
+    }
+}
+
+MetadataParser.prototype.getAssertionConsumerServiceURL = function(index) {
+    let assertionConsumerServiceURL = null;
+    let doc = new DOMParser().parseFromString(this.metadata.xml);
+    let acs = select("//md:EntityDescriptor/md:SPSSODescriptor/md:AssertionConsumerService", doc);
+    for(i in acs) {
+        let acsIndex = acs[i].getAttribute("index");
+        let acsIsDefault = acs[i].getAttribute("isDefault");
+        let acsLocation = acs[i].getAttribute("Location");
+        if(index==acsIndex) {
+            assertionConsumerServiceURL = acsLocation;
+            break;
+        }
+    }
+    return assertionConsumerServiceURL;
+}
+
+
 function RequestParser(xml) {
     this.request = {
         xml: xml
@@ -147,6 +171,13 @@ RequestParser.prototype.AssertionConsumerServiceURL = function() {
     return requestAssertionConsumerServiceURL;
 }
 
+RequestParser.prototype.AssertionConsumerServiceIndex = function() {
+    let doc = new DOMParser().parseFromString(this.request.xml);
+    let requestAssertionConsumerServiceIndex = select("//samlp:AuthnRequest", doc)[0].getAttribute("AssertionConsumerServiceIndex");
+    return requestAssertionConsumerServiceIndex;
+}
+
 module.exports.TestSuite = TestSuite;
+module.exports.MetadataParser = MetadataParser;
 module.exports.RequestParser = RequestParser;
 module.exports.PayloadDecoder = PayloadDecoder;
