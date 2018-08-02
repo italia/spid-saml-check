@@ -253,6 +253,22 @@ app.post("/api/test-response/:id", function(req, res) {
         }
     }
 
+    // read AttributeConsumingService set from metadata
+    let requestedAttributes = [];
+    if(req.session.request!=null && req.session.metadata!=null) {
+        let requestParser = new RequestParser(req.session.request.xml);
+        let metadataParser = new MetadataParser(req.session.metadata.xml);
+        let attributeConsumingServiceIndex = requestParser.AttributeConsumingServiceIndex();
+        let attributeConsumingService = metadataParser.getAttributeConsumingService(attributeConsumingServiceIndex);
+        
+        for(i in attributeConsumingService.RequestedAttributes) {
+            let attribute = attributeConsumingService.RequestedAttributes[i].Name;
+            requestedAttributes.push(attribute);
+        }
+    } else {
+        requestedAttributes = true;
+    }
+
     // defaults 
     params = Utility.defaultParam(params, "Issuer", config_idp.entityID);
     params = Utility.defaultParam(params, "AuthnRequestID", authnRequestID);
@@ -268,7 +284,7 @@ app.post("/api/test-response/:id", function(req, res) {
     params = Utility.defaultParam(params, "AssertionConsumerURL", assertionConsumerURL);
     
     let testSuite = new TestSuite(config_idp, config_test);
-    let testResponse = testSuite.getTestTemplate("test-suite-1", id, params);
+    let testResponse = testSuite.getTestTemplate("test-suite-1", id, requestedAttributes, params);
     let signed = testResponse.compiled;
     
     if(sign_response || sign_assertion) {

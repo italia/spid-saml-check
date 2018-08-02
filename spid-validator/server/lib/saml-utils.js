@@ -17,7 +17,7 @@ function TestSuite(config_idp, config_test) {
     } 
 }
 
-TestSuite.prototype.getTestTemplate = function(testsuiteId, testcaseId, userParams) {
+TestSuite.prototype.getTestTemplate = function(testsuiteId, testcaseId, requestedAttributes, userParams) {
     
     let testsuite = this.config.test[testsuiteId];
     let testcase = testsuite.cases[testcaseId];
@@ -46,15 +46,24 @@ TestSuite.prototype.getTestTemplate = function(testsuiteId, testcaseId, userPara
                 let userVal = (userParam!=null)? userParam.val : eVal[attributeName];
                 let attributeVal = userVal;
 
-                if(attributeVal!=null) {
-                    attributesCompiled += " \
-                        <saml:Attribute Name=\"" + attributeName + "\" NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:basic\"> \
-                            <saml:AttributeValue xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" \
-                                xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:string\">"
-                                    + attributeVal +
-                            "</saml:AttributeValue> \
-                        </saml:Attribute> \
-                    ";
+                // requestedAttributs === true for all, or array for selected
+                if(requestedAttributes===true ||
+                    requestedAttributes.indexOf(attributeName)>-1 ||
+                    userParam!=null) {
+
+                    if(attributeVal!=null) {
+                        attributesCompiled += " \
+                            <saml:Attribute Name=\"" + attributeName + "\" NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:basic\"> \
+                                <saml:AttributeValue xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" \
+                                    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:string\">"
+                                        + attributeVal +
+                                "</saml:AttributeValue> \
+                            </saml:Attribute> \
+                        ";
+                    }
+
+                } else {
+                    attributeVal = null;
                 }
 
                 // if params not yet contains param
@@ -124,6 +133,27 @@ MetadataParser.prototype.getAssertionConsumerServiceURL = function(index) {
     return assertionConsumerServiceURL;
 }
 
+MetadataParser.prototype.getAttributeConsumingService = function(index) {
+    let attributeConsumingService = {ServiceName: "", RequestedAttributes:[]};
+    let doc = new DOMParser().parseFromString(this.metadata.xml);
+    let acs = select("//md:EntityDescriptor/md:SPSSODescriptor/md:AttributeConsumingService", doc);
+    for(i in acs) {
+        let acsIndex = acs[i].getAttribute("index");
+        if(index==acsIndex) {
+            let serviceName = select("string(//md:ServiceName)", acs[i]);
+            let attributes = select("//md:RequestedAttribute", acs[i]);
+            attributeConsumingService.ServiceName = serviceName;
+            for(j in attributes) {
+                let friendlyName = attributes[j].getAttribute("FriendlyName");
+                let name = attributes[j].getAttribute("Name");
+                attributeConsumingService.RequestedAttributes.push({FriendlyName: friendlyName, Name: name});
+            }
+            break;
+        }
+    }
+    return attributeConsumingService;
+}
+
 
 function RequestParser(xml) {
     this.request = {
@@ -175,6 +205,12 @@ RequestParser.prototype.AssertionConsumerServiceIndex = function() {
     let doc = new DOMParser().parseFromString(this.request.xml);
     let requestAssertionConsumerServiceIndex = select("//samlp:AuthnRequest", doc)[0].getAttribute("AssertionConsumerServiceIndex");
     return requestAssertionConsumerServiceIndex;
+}
+
+RequestParser.prototype.AttributeConsumingServiceIndex = function() {
+    let doc = new DOMParser().parseFromString(this.request.xml);
+    let requestAttributeConsumingServiceIndex = select("//samlp:AuthnRequest", doc)[0].getAttribute("AttributeConsumingServiceIndex");
+    return requestAttributeConsumingServiceIndex;
 }
 
 module.exports.TestSuite = TestSuite;
