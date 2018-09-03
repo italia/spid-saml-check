@@ -8,8 +8,12 @@ class Response extends Component {
 
   constructor(props) {
     super(props);
+    this.newResponse(props.match.params.id);  
+  }	
+
+  newResponse(id) {
     this.state = {
-      id: props.match.params.id,
+      id: id,
       description: "",
       sign_response: null,      // null to grab default
       sign_assertion: null,     // null to grab default
@@ -20,9 +24,9 @@ class Response extends Component {
       response_samlResponse: "",
       response_relayState: ""      
     };  
-  }	
+  }
 
-  static getDerivedStateFromProps(props, state) {      
+  static getDerivedStateFromProps(props, state) { 
     return {
       id: props.match.params.id,
       description: state.description,
@@ -39,6 +43,13 @@ class Response extends Component {
 
   componentDidMount() { 
     this.getTestResponse();    	
+  }
+
+  componentDidUpdate(prevProps) {
+    if(this.state.id!=prevProps.match.params.id) {
+        this.newResponse(this.state.id); 
+        this.getTestResponse(); 
+    }
   }
  
   sendResponse(e) { 
@@ -119,8 +130,8 @@ class Response extends Component {
     });
   }
 
-	render() { 
-		return view(this);
+  render() { 
+	return view(this);
   }
   
 }

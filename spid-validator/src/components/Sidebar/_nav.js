@@ -54,10 +54,8 @@ export default {
       name: 'Response',
       icon: 'icon-check', 
       children: [
-        {
-          name: 'Test',  
-          url: '/response/0',      
-        }
+        { name: '1. Corretta', url: '/response/0' },
+        { name: '2. Non firmata', url: '/response/1' }
       ]
     },
   ]

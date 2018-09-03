@@ -10,7 +10,7 @@
         "cases": [
             {
                 "name": "case-1",
-                "description": "testcase 1",
+                "description": "1. Response corretta",
                 "response": {
                     "IssueInstant": "",
                     "Issuer": "",
@@ -38,6 +38,37 @@
                 },
                 "sign_response": true,
                 "sign_assertion": true
+            },
+            {
+                "name": "case-2",
+                "description": "2. Response non firmata",
+                "response": {
+                    "IssueInstant": "",
+                    "Issuer": "",
+                    "AssertionID": "",
+                    "NameIDNameQualifier": "qualifier",
+                    "NameID": "",
+                    "NotOnOrAfter": "",
+                    "NotBefore": "",
+                    "AuthnIstant": "",
+                    "SessionIndex": "",
+                    "AuthnContextClassRef": "",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test non firmata"                
+                   }
+                },
+                "sign_response": false,
+                "sign_assertion": false
             }
         ]
     }
