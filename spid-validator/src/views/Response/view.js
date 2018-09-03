@@ -22,6 +22,7 @@ function view(me) {
                                     <div className="col-sm-12">
                                         <label className="switch switch-success">
                                             <input type="checkbox" className="switch-input" 
+                                                checked={me.state.sign_response}
                                                 onChange={(e)=>{me.setSignResponse(e.target.checked)}}>
                                             </input>
                                             <span className="switch-slider"></span>
@@ -33,6 +34,7 @@ function view(me) {
                                     <div className="col-sm-12">                    
                                         <label className="switch switch-success">
                                             <input type="checkbox" className="switch-input" 
+                                                checked={me.state.sign_assertion}
                                                 onChange={(e)=>{me.setSignAssertion(e.target.checked)}}>
                                             </input>
                                             <span className="switch-slider"></span>

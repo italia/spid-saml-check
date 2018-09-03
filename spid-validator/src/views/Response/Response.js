@@ -11,8 +11,8 @@ class Response extends Component {
     this.state = {
       id: props.match.params.id,
       description: "",
-      sign_response: false,
-      sign_assertion: false,
+      sign_response: null,      // null to grab default
+      sign_assertion: null,     // null to grab default
       xml: "",
       xml_signed: "",
       params: [],
@@ -93,9 +93,11 @@ class Response extends Component {
           description: testResponse.description,
           xml: testResponse.compiled, 
           xml_signed: testResponse.compiled,
-          params: testResponse.params
+          params: testResponse.params,
+          sign_response: testResponse.sign_response,
+          sign_assertion: testResponse.sign_assertion
         }, ()=> {
-          //Utility.log("getTestResponse <-", this.state.params);
+          Utility.log("getTestResponse <-", this.state);
         });
       }, 
       (error)   => { 

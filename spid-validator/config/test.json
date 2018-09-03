@@ -35,7 +35,9 @@
                         "email": "test@test",
                         "address": "via Test X XXX XXXX XX"                
                    }
-                }
+                },
+                "sign_response": true,
+                "sign_assertion": true
             }
         ]
     }

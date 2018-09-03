@@ -89,10 +89,14 @@ TestSuite.prototype.getTestTemplate = function(testsuiteId, testcaseId, requeste
     });
     
     return {
-        description: testsuite.description,
+        testsuite: testsuite.description,
+        name: testcase.name,
+        description: testcase.description,
         template: template,
         params: params,
-        compiled: compiled
+        compiled: compiled,
+        sign_response: testcase.sign_response,
+        sign_assertion: testcase.sign_assertion
     };
 };
 

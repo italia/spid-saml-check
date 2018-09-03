@@ -286,6 +286,10 @@ app.post("/api/test-response/:id", function(req, res) {
     let testSuite = new TestSuite(config_idp, config_test);
     let testResponse = testSuite.getTestTemplate("test-suite-1", id, requestedAttributes, params);
     let signed = testResponse.compiled;
+
+    // defaults
+    if(sign_response===null) sign_response = testResponse.sign_response;
+    if(sign_assertion===null) sign_assertion = testResponse.sign_assertion;
     
     if(sign_response || sign_assertion) {
         let mode = SIGN_MODE.SIGN_RESPONSE_ASSERTION;
@@ -294,9 +298,12 @@ app.post("/api/test-response/:id", function(req, res) {
         else if(sign_assertion && sign_response)    mode = SIGN_MODE.SIGN_RESPONSE_ASSERTION;
 
         signer = new Signer(config_idp.credentials);
-        signed = signer.sign(signed, mode);              
-    }      
+        signed = signer.sign(signed, mode); 
+    }   
     
+
+    testResponse.sign_response = sign_response;
+    testResponse.sign_assertion = sign_assertion;
     testResponse.compiled = signed;
     
     res.status(200).send(testResponse);
