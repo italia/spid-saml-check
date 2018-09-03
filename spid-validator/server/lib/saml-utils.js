@@ -96,7 +96,8 @@ TestSuite.prototype.getTestTemplate = function(testsuiteId, testcaseId, requeste
         params: params,
         compiled: compiled,
         sign_response: testcase.sign_response,
-        sign_assertion: testcase.sign_assertion
+        sign_assertion: testcase.sign_assertion,
+        sign_credentials: testcase.sign_credentials
     };
 };
 

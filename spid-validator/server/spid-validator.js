@@ -297,7 +297,10 @@ app.post("/api/test-response/:id", function(req, res) {
         else if(!sign_response && sign_assertion)   mode = SIGN_MODE.SIGN_ASSERTION;
         else if(sign_assertion && sign_response)    mode = SIGN_MODE.SIGN_RESPONSE_ASSERTION;
 
-        signer = new Signer(config_idp.credentials);
+        let sign_credentials = (testResponse.sign_credentials!=null)? 
+            testResponse.sign_credentials : config_idp.credentials;
+        signer = new Signer(sign_credentials);
+        
         signed = signer.sign(signed, mode); 
     }   
     
