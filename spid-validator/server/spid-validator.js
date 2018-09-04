@@ -230,8 +230,9 @@ app.get("/api/request/check/:test", function(req, res) {
     }
 });
 
-app.post("/api/test-response/:id", function(req, res) {
-    let id = req.params.id;
+app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
+    let suiteid = req.params.suiteid;
+    let caseid = req.params.caseid;
     let params = req.body.params;
     let sign_assertion = req.body.sign_assertion;
     let sign_response = req.body.sign_response;
@@ -284,7 +285,7 @@ app.post("/api/test-response/:id", function(req, res) {
     params = Utility.defaultParam(params, "AssertionConsumerURL", assertionConsumerURL);
     
     let testSuite = new TestSuite(config_idp, config_test);
-    let testResponse = testSuite.getTestTemplate("test-suite-1", id, requestedAttributes, params);
+    let testResponse = testSuite.getTestTemplate(suiteid, caseid, requestedAttributes, params);
     let signed = testResponse.compiled;
 
     // defaults

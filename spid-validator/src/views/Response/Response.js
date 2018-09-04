@@ -8,12 +8,13 @@ class Response extends Component {
 
   constructor(props) {
     super(props);
-    this.newResponse(props.match.params.id);  
+    this.newResponse(props.match.params.suiteid, props.match.params.caseid);  
   }	
 
-  newResponse(id) {
+  newResponse(suiteid, caseid) {
     this.state = {
-      id: id,
+      suiteid: suiteid,
+      caseid: caseid,
       description: "",
       sign_response: null,      // null to grab default
       sign_assertion: null,     // null to grab default
@@ -28,7 +29,8 @@ class Response extends Component {
 
   static getDerivedStateFromProps(props, state) { 
     return {
-      id: props.match.params.id,
+      suiteid: props.match.params.suiteid,
+      caseid: props.match.params.caseid,
       description: state.description,
       sign_response: state.sign_response,
       sign_assertion: state.sign_assertion,
@@ -46,8 +48,9 @@ class Response extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.state.id!=prevProps.match.params.id) {
-        this.newResponse(this.state.id); 
+    if(this.state.suiteid!=prevProps.match.params.suiteid || 
+        this.state.caseid!=prevProps.match.params.caseid) {
+        this.newResponse(this.state.suiteid, this.state.caseid); 
         this.getTestResponse(); 
     }
   }
@@ -94,7 +97,8 @@ class Response extends Component {
   getTestResponse() {
     let service = Services.getMainService();	
     service.getTestResponse({
-        id: this.state.id,
+        suiteid: this.state.suiteid,
+        caseid: this.state.caseid,
         params: this.state.params,
         sign_response: this.state.sign_response,
         sign_assertion: this.state.sign_assertion

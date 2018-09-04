@@ -21,7 +21,7 @@ TestSuite.prototype.getTestTemplate = function(testsuiteId, testcaseId, requeste
     
     let testsuite = this.config.test[testsuiteId];
     let testcase = testsuite.cases[testcaseId];
-    let template = fs.readFileSync(testsuite.path, "utf8");
+    let template = fs.readFileSync(testcase.path, "utf8");
     let params = [];
     
     let compiled = template;

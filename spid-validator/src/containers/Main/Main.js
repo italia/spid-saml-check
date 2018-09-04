@@ -104,7 +104,7 @@ class Main extends Component {
 									<Route path="/request-check-strict" key="request-check-strict" render={()=><RequestCheck test="strict" />} />
 									<Route path="/request-check-certs" key="request-check-certs" render={()=><RequestCheck test="certs" />} />
 									<Route path="/request-check-extra" key="request-check-extra" render={()=><RequestCheck test="extra" />} />
-									<Route path="/response/:id" component={Response}/>
+									<Route path="/response/:suiteid/:caseid" component={Response}/>
 									<Redirect from="/" to="/request"/>
 									</Switch>
 								</Container>

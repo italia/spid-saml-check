@@ -80,8 +80,8 @@ class MainService {
 	}
 
 	getTestResponse(options, callback_response, callback_error) {
-		Utility.log("POST /api/test-response/" + options.id);
-		axios.post('/api/test-response/' + options.id, options)
+		Utility.log("POST /api/test-response/" + options.suiteid + "/" + options.caseid);
+		axios.post('/api/test-response/' + options.suiteid + "/" + options.caseid, options)
 		.then(function(response) {
 			Utility.log("getTestResponse Success", response.data);
 			callback_response(response.data);
