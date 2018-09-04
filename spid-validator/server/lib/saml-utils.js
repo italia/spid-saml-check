@@ -33,10 +33,17 @@ TestSuite.prototype.getTestTemplate = function(testsuiteId, testcaseId, requeste
         let userParam = userParams.filter((p)=> { return (p.key==eKey) })[0];
         let eVal = (userParam!=null)? userParam.val : null;
         
+/*
         if (eVal == null) eVal = testcase.response[eKey];
         if (eVal == null) eVal = testsuite.response[eKey];
         if (eVal == null) eVal = "";
+*/
 
+        eVal = (testsuite.response[eKey]!=null && testsuite.response[eKey]!="")? testsuite.response[eKey] : eVal;
+        eVal = (testcase.response[eKey]!=null && testcase.response[eKey]!="")? testcase.response[eKey] : eVal;
+
+        if (eVal == null) eVal = "";
+        
         if(eKey=="Attributes") {
             let attributesCompiled = "";
             for(let attributeName in eVal) {

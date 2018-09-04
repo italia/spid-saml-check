@@ -63,6 +63,9 @@ export default {
         { name: '7. Version diverso da 2.0', url: '/response/test-suite-1/7' },
         { name: '8a. IssueInstant non specificato', url: '/response/test-suite-1/8a' },
         { name: '8b. IssueInstant mancante', url: '/response/test-suite-1/8b' },
+        { name: '9. Formato IssueInstant non corretto', url: '/response/test-suite-1/9' },
+        { name: '10. IssueInstant precedente Request', url: '/response/test-suite-1/10' },
+        { name: '11. IssueInstant successivo Request', url: '/response/test-suite-1/11' },
       ]
     },
   ]
