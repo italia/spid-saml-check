@@ -60,7 +60,9 @@ export default {
         { name: '4. Firma diversa', url: '/response/test-suite-1/4' },
         { name: '6a. ID non specificato', url: '/response/test-suite-1/6a' },
         { name: '6b. ID mancante', url: '/response/test-suite-1/6b' },
-        { name: '7. Version <> 2.0', url: '/response/test-suite-1/7' },
+        { name: '7. Version diverso da 2.0', url: '/response/test-suite-1/7' },
+        { name: '8a. IssueInstant non specificato', url: '/response/test-suite-1/8a' },
+        { name: '8b. IssueInstant mancante', url: '/response/test-suite-1/8b' },
       ]
     },
   ]
