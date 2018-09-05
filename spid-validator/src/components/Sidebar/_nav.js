@@ -74,6 +74,8 @@ export default {
         { name: '15. Destination diverso', url: '/response/test-suite-1/15' },
         { name: '16a. Elemento Status non specificato', url: '/response/test-suite-1/16a' },
         { name: '16b. Elemento Status mancante', url: '/response/test-suite-1/16b' },
+        { name: '17a. Elemento StatusCode non specificato', url: '/response/test-suite-1/17a' },
+        { name: '17b. Elemento StatusCode mancante', url: '/response/test-suite-1/17b' },
       ]
     },
   ]
