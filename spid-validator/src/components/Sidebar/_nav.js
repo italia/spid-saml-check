@@ -72,6 +72,8 @@ export default {
         { name: '14a. Destination non specificato', url: '/response/test-suite-1/14a' },
         { name: '14b. Destination mancante', url: '/response/test-suite-1/14b' },
         { name: '15. Destination diverso', url: '/response/test-suite-1/15' },
+        { name: '16a. Elemento Status non specificato', url: '/response/test-suite-1/16a' },
+        { name: '16b. Elemento Status mancante', url: '/response/test-suite-1/16b' },
       ]
     },
   ]
