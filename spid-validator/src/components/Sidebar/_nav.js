@@ -71,6 +71,7 @@ export default {
         { name: '13. InResponseTo diverso da Request', url: '/response/test-suite-1/13' },
         { name: '14a. Destination non specificato', url: '/response/test-suite-1/14a' },
         { name: '14b. Destination mancante', url: '/response/test-suite-1/14b' },
+        { name: '15. Destination diverso', url: '/response/test-suite-1/15' },
       ]
     },
   ]
