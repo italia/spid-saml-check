@@ -69,6 +69,8 @@ export default {
         { name: '12a. InResponseTo non specificato', url: '/response/test-suite-1/12a' },
         { name: '12b. InResponseTo mancante', url: '/response/test-suite-1/12b' },
         { name: '13. InResponseTo diverso da Request', url: '/response/test-suite-1/13' },
+        { name: '14a. Destination non specificato', url: '/response/test-suite-1/14a' },
+        { name: '14b. Destination mancante', url: '/response/test-suite-1/14b' },
       ]
     },
   ]
