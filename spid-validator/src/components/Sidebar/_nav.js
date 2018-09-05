@@ -79,6 +79,7 @@ export default {
         { name: '18.  Elemento StatusCode diverso da success', url: '/response/test-suite-1/18' },
         { name: '19a. Elemento Issuer non specificato', url: '/response/test-suite-1/19a' },
         { name: '19b. Elemento Issuer mancante', url: '/response/test-suite-1/19b' },
+        { name: '20.  Elemento Issuer diverso da EntityID IdP', url: '/response/test-suite-1/20' },
       ]
     },
   ]
