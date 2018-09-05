@@ -76,6 +76,7 @@ export default {
         { name: '16b. Elemento Status mancante', url: '/response/test-suite-1/16b' },
         { name: '17a. Elemento StatusCode non specificato', url: '/response/test-suite-1/17a' },
         { name: '17b. Elemento StatusCode mancante', url: '/response/test-suite-1/17b' },
+        { name: '18. Elemento StatusCode diverso da success', url: '/response/test-suite-1/18' },
       ]
     },
   ]
