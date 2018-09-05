@@ -80,6 +80,7 @@ export default {
         { name: '19a. Elemento Issuer non specificato', url: '/response/test-suite-1/19a' },
         { name: '19b. Elemento Issuer mancante', url: '/response/test-suite-1/19b' },
         { name: '20.  Elemento Issuer diverso da EntityID IdP', url: '/response/test-suite-1/20' },
+        { name: '21.  Attributo Format di Issuer diverso', url: '/response/test-suite-1/21' },
       ]
     },
   ]
