@@ -271,21 +271,22 @@ app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
     }
 
     // defaults 
-    params = Utility.defaultParam(params, "Issuer", config_idp.entityID);
-    params = Utility.defaultParam(params, "AuthnRequestID", authnRequestID);
-    params = Utility.defaultParam(params, "ResponseID", Utility.getUUID());
-    params = Utility.defaultParam(params, "IssueInstant", Utility.getInstant());
-    params = Utility.defaultParam(params, "AssertionID", Utility.getUUID());
-    params = Utility.defaultParam(params, "NameID", Utility.getUUID());
-    params = Utility.defaultParam(params, "AuthnIstant", Utility.getInstant());
-    params = Utility.defaultParam(params, "NotBefore", Utility.getNotBefore(issueInstant));
-    params = Utility.defaultParam(params, "NotOnOrAfter", Utility.getNotOnOrAfter(issueInstant));
-    params = Utility.defaultParam(params, "SessionIndex", Utility.getUUID());
-    params = Utility.defaultParam(params, "AuthnContextClassRef", authnContextClassRef);
-    params = Utility.defaultParam(params, "AssertionConsumerURL", assertionConsumerURL);
+    let defaults = params.slice(0); // clone array
+    defaults = Utility.defaultParam(defaults, "Issuer", config_idp.entityID);
+    defaults = Utility.defaultParam(defaults, "AuthnRequestID", authnRequestID);
+    defaults = Utility.defaultParam(defaults, "ResponseID", Utility.getUUID());
+    defaults = Utility.defaultParam(defaults, "IssueInstant", Utility.getInstant());
+    defaults = Utility.defaultParam(defaults, "AssertionID", Utility.getUUID());
+    defaults = Utility.defaultParam(defaults, "NameID", Utility.getUUID());
+    defaults = Utility.defaultParam(defaults, "AuthnIstant", Utility.getInstant());
+    defaults = Utility.defaultParam(defaults, "NotBefore", Utility.getNotBefore(issueInstant));
+    defaults = Utility.defaultParam(defaults, "NotOnOrAfter", Utility.getNotOnOrAfter(issueInstant));
+    defaults = Utility.defaultParam(defaults, "SessionIndex", Utility.getUUID());
+    defaults = Utility.defaultParam(defaults, "AuthnContextClassRef", authnContextClassRef);
+    defaults = Utility.defaultParam(defaults, "AssertionConsumerURL", assertionConsumerURL);
     
     let testSuite = new TestSuite(config_idp, config_test);
-    let testResponse = testSuite.getTestTemplate(suiteid, caseid, requestedAttributes, params);
+    let testResponse = testSuite.getTestTemplate(suiteid, caseid, requestedAttributes, defaults, params);
     let signed = testResponse.compiled;
 
     // defaults

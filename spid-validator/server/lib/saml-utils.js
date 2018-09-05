@@ -17,7 +17,7 @@ function TestSuite(config_idp, config_test) {
     } 
 }
 
-TestSuite.prototype.getTestTemplate = function(testsuiteId, testcaseId, requestedAttributes, userParams) {
+TestSuite.prototype.getTestTemplate = function(testsuiteId, testcaseId, requestedAttributes, defaultParams, userParams) {
     
     let testsuite = this.config.test[testsuiteId];
     let testcase = testsuite.cases[testcaseId];
@@ -30,17 +30,15 @@ TestSuite.prototype.getTestTemplate = function(testsuiteId, testcaseId, requeste
     compiled.match(/{{\s*[\w\.]+\s*}}/g).map((e) => {
         eKey = e.replace("{{", "").replace("}}", "");
 
-        let userParam = userParams.filter((p)=> { return (p.key==eKey) })[0];
-        let eVal = (userParam!=null)? userParam.val : null;
-        
-/*
-        if (eVal == null) eVal = testcase.response[eKey];
-        if (eVal == null) eVal = testsuite.response[eKey];
-        if (eVal == null) eVal = "";
-*/
+        let eVal = null;
 
+        let defaultParam = defaultParams.filter((p)=> { return (p.key==eKey) })[0];
+        let userParam = userParams.filter((p)=> { return (p.key==eKey) })[0];
+
+        eVal = (defaultParam!=null)? defaultParam.val : null;
         eVal = (testsuite.response[eKey]!=null && testsuite.response[eKey]!="")? testsuite.response[eKey] : eVal;
         eVal = (testcase.response[eKey]!=null && testcase.response[eKey]!="")? testcase.response[eKey] : eVal;
+        eVal = (userParam!=null)? userParam.val : eVal;
 
         if (eVal == null) eVal = "";
         
