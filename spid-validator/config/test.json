@@ -142,7 +142,7 @@
             },
             "6a": {
                 "name": "case-6a",
-                "description": "6. Attributo ID specificato. Risultato atteso: KO",
+                "description": "6a. Attributo ID non specificato. Risultato atteso: KO",
                 "path": "test/case-6a.xml",
                 "response": {
                     "IssueInstant": "",
@@ -174,7 +174,7 @@
             },
             "6b": {
                 "name": "case-6a",
-                "description": "6. Attributo ID mancante. Risultato atteso: KO",
+                "description": "6b. Attributo ID mancante. Risultato atteso: KO",
                 "path": "test/case-6b.xml",
                 "response": {
                     "IssueInstant": "",
@@ -238,7 +238,7 @@
             },
             "8a": {
                 "name": "case-8a",
-                "description": "8. Attributo IssuenIstant non specificato. Risultato atteso: KO",
+                "description": "8a. Attributo IssuenIstant non specificato. Risultato atteso: KO",
                 "path": "test/case-8a.xml",
                 "response": {
                     "IssueInstant": "",
@@ -270,7 +270,7 @@
             },
             "8b": {
                 "name": "case-8b",
-                "description": "8. Attributo IssueInstant mancante. Risultato atteso: KO",
+                "description": "8b. Attributo IssueInstant mancante. Risultato atteso: KO",
                 "path": "test/case-8b.xml",
                 "response": {
                     "IssueInstant": "",
@@ -379,6 +379,52 @@
                     "AuthnIstant": "",
                     "SessionIndex": "",
                     "AuthnContextClassRef": "",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+            "12a": {
+                "name": "case-12a",
+                "description": "12a. Attributo InResponseTo non specificato. Risultato atteso: KO",
+                "path": "test/case-12a.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+            "12b": {
+                "name": "case-12b",
+                "description": "12b. Attributo InResponseTo mancante. Risultato atteso: KO",
+                "path": "test/case-12b.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",

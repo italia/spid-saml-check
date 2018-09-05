@@ -66,6 +66,8 @@ export default {
         { name: '9. Formato IssueInstant non corretto', url: '/response/test-suite-1/9' },
         { name: '10. IssueInstant precedente Request', url: '/response/test-suite-1/10' },
         { name: '11. IssueInstant successivo Request', url: '/response/test-suite-1/11' },
+        { name: '12a. InResponseTo non specificato', url: '/response/test-suite-1/12a' },
+        { name: '12b. InResponseTo mancante', url: '/response/test-suite-1/12b' },
       ]
     },
   ]
