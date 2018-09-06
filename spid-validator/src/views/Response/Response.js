@@ -15,6 +15,7 @@ class Response extends Component {
     this.state = {
       suiteid: suiteid,
       caseid: caseid,
+      name: "",
       description: "",
       sign_response: null,      // null to grab default
       sign_assertion: null,     // null to grab default
@@ -31,6 +32,7 @@ class Response extends Component {
     return {
       suiteid: props.match.params.suiteid,
       caseid: props.match.params.caseid,
+      name: state.name,
       description: state.description,
       sign_response: state.sign_response,
       sign_assertion: state.sign_assertion,
@@ -105,6 +107,7 @@ class Response extends Component {
       },
       (testResponse) => { 
         this.setState({
+          name: testResponse.name,
           description: testResponse.description,
           xml: testResponse.compiled, 
           xml_signed: testResponse.compiled,
@@ -132,6 +135,11 @@ class Response extends Component {
     }, ()=> {
       this.getTestResponse();
     });
+  }
+
+  setResponseTemplate(templateId) {
+    const { router } = this.context
+    this.props.history.push("/response/test-suite-1/" + templateId);
   }
 
   render() { 

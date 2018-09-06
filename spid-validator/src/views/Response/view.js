@@ -1,19 +1,64 @@
 import React from 'react';
 import BlockUi from 'react-block-ui';
 import AceEditor from '../../components/AceEditor/';
+import Select from 'react-select-plus';
+import 'react-select-plus/dist/react-select-plus.css';
 import './switches.css';
 import './style.css';
 
 function view(me) { 
     return (
         <div className="animated fadeIn">
+            <p className="title h3">Response</p>
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-9">
+
+                        <b>Seleziona la Response di test da inviare al Service Provider...</b>
+
+                        <Select id="response-select" 
+                            name="response-select"
+                            placeholder={me.state.name}
+                            value={(me.state.response_select!=null)? me.state.response_select:""}
+                            onChange={(e)=>{ me.setResponseTemplate((e!=null)? e.value:null) }}
+                            options={[
+                                { value: '1',   label: '1.   Corretta' },
+                                { value: '2',   label: '2.   Response non firmata' },
+                                { value: '3',   label: '3.   Assertion non firmata' },
+                                { value: '4',   label: '4.   Firma diversa' },
+                                { value: '6a',  label: '6a.  ID non specificato' },
+                                { value: '6b',  label: '6b.  ID mancante' },
+                                { value: '7',   label: '7.   Version diverso da 2.0' },
+                                { value: '8a',  label: '8a.  IssueInstant non specificato' },
+                                { value: '8b',  label: '8b.  IssueInstant mancante' },
+                                { value: '9',   label: '9.   Formato IssueInstant non corretto' },
+                                { value: '10',  label: '10.  IssueInstant precedente Request' },
+                                { value: '11',  label: '11.  IssueInstant successivo Request' },
+                                { value: '12a', label: '12a. InResponseTo non specificato' },
+                                { value: '12b', label: '12b. InResponseTo mancante' },
+                                { value: '13',  label: '13.  InResponseTo diverso da Request' },
+                                { value: '14a', label: '14a. Destination non specificato' },
+                                { value: '14b', label: '14b. Destination mancante' },
+                                { value: '15',  label: '15.  Destination diverso' },
+                                { value: '16a', label: '16a. Elemento Status non specificato' },
+                                { value: '16b', label: '16b. Elemento Status mancante' },
+                                { value: '17a', label: '17a. Elemento StatusCode non specificato' },
+                                { value: '17b', label: '17b. Elemento StatusCode mancante' },
+                                { value: '18',  label: '18.  Elemento StatusCode diverso da success' },
+                                { value: '19a', label: '19a. Elemento Issuer non specificato' },
+                                { value: '19b', label: '19b. Elemento Issuer mancante' },
+                                { value: '20',  label: '20.  Elemento Issuer diverso da EntityID IdP' },
+                                { value: '21',  label: '21.  Attributo Format di Issuer diverso' },
+                                { value: '22',  label: '22.  Autenticazione annullata da IdP' },
+                                { value: '23',  label: '23.  Elemento Assertion mancante' }
+                            ]}>
+                        </Select>
+ 
                         <AceEditor code={me.state.xml_signed} />
                     </div>
                     <div className="col-md-3">
                         <div class="row alert alert-warning" role="alert">
+                            <b>Descrizione e risultato atteso</b><br/>
                             {me.state.description}
                         </div>    
                         <div className="row panel-send">  
