@@ -10,6 +10,6 @@
     <samlp:Status>
         <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Responder"></samlp:StatusCode>
         <samlp:StatusMessage>ErrorCode nr25</samlp:StatusMessage>
-    </samlp:Status>
+    </samlp:Status> 
 
 </samlp:Response>
