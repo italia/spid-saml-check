@@ -50,7 +50,15 @@ function view(me) {
                                 { value: '20',  label: '20.  Elemento Issuer diverso da EntityID IdP' },
                                 { value: '21',  label: '21.  Attributo Format di Issuer diverso' },
                                 { value: '22',  label: '22.  Autenticazione annullata da IdP' },
-                                { value: '23',  label: '23.  Elemento Assertion mancante' }
+                                { value: '23',  label: '23.  Elemento Assertion mancante' },
+                                { value: '24a',  label: '24a. Assertion - Attributo ID non specificato' },
+                                { value: '24b',  label: '24b. Assertion - Attributo ID mancante' },
+                                { value: '25',  label: '25. Assertion - Attributo Version diverso da 2.0' },
+                                { value: '26a',  label: '26a. Assertion - Attributo IssueInstant non specificato' },
+                                { value: '26b',  label: '26b. Assertion - Attributo IssueInstant mancante' },
+                                { value: '27',  label: '27. Assertion - Attributo IssueInstant avente formato non corretto' },
+                                { value: '28',  label: '28. Assertion - Attributo IssueInstant precedente a IssueInstant della Request' },
+                                { value: '29',  label: '29. Assertion - Attributo IssueInstant successivo a IssueInstant della Request' }
                             ]}>
                         </Select>
  
