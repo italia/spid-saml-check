@@ -62,7 +62,9 @@ function view(me) {
                                 { value: '30a',  label: '30a. Assertion - Elemento Subject non specificato' },
                                 { value: '30b',  label: '30b. Assertion - Elemento Subject mancante' },
                                 { value: '31a',  label: '31a. Assertion - Elemento NameID non specificato' },
-                                { value: '31b',  label: '31b. Assertion - Elemento NameID mancante' }
+                                { value: '31b',  label: '31b. Assertion - Elemento NameID mancante' },
+                                { value: '32a',  label: '32a. Assertion - Attributo Format di NameID non specificato' },
+                                { value: '32b',  label: '32b. Assertion - Attributo Format di NameID mancante' }
                             ]}>
                         </Select>
  
