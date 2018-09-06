@@ -60,7 +60,9 @@ function view(me) {
                                 { value: '28',  label: '28. Assertion - Attributo IssueInstant precedente a IssueInstant della Request' },
                                 { value: '29',  label: '29. Assertion - Attributo IssueInstant successivo a IssueInstant della Request' },
                                 { value: '30a',  label: '30a. Assertion - Elemento Subject non specificato' },
-                                { value: '30b',  label: '30b. Assertion - Elemento Subject mancante' }
+                                { value: '30b',  label: '30b. Assertion - Elemento Subject mancante' },
+                                { value: '31a',  label: '31a. Assertion - Elemento NameID non specificato' },
+                                { value: '31b',  label: '31b. Assertion - Elemento NameID mancante' }
                             ]}>
                         </Select>
  
