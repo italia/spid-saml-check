@@ -58,7 +58,9 @@ function view(me) {
                                 { value: '26b',  label: '26b. Assertion - Attributo IssueInstant mancante' },
                                 { value: '27',  label: '27. Assertion - Attributo IssueInstant avente formato non corretto' },
                                 { value: '28',  label: '28. Assertion - Attributo IssueInstant precedente a IssueInstant della Request' },
-                                { value: '29',  label: '29. Assertion - Attributo IssueInstant successivo a IssueInstant della Request' }
+                                { value: '29',  label: '29. Assertion - Attributo IssueInstant successivo a IssueInstant della Request' },
+                                { value: '30a',  label: '30a. Assertion - Elemento Subject non specificato' },
+                                { value: '30b',  label: '30b. Assertion - Elemento Subject mancante' }
                             ]}>
                         </Select>
  
