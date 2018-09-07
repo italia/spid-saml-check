@@ -85,6 +85,7 @@ function view(me) {
                                 { value: '45',  label: '45. Assertion - Elemento Issuer diverso da EntityID IdP' },
                                 { value: '46a',  label: '46a. Assertion - Attributo Format di Issuer non specificato' },
                                 { value: '46b',  label: '46b. Assertion - Attributo Format di Issuer mancante' },
+                                { value: '47',  label: '47. Assertion - Attributo Format di Issuer diverso' },
                             ]}>
                         </Select>
  
