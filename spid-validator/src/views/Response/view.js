@@ -80,6 +80,11 @@ function view(me) {
                                 { value: '42a',  label: '42a. Assertion - Attributo InResponseTo di SubjectConfirmationData non specificato' },
                                 { value: '42b',  label: '42b. Assertion - Attributo InResponseTo di SubjectConfirmationData mancante' },
                                 { value: '43',  label: '43. Assertion - Attributo InResponseTo di SubjectConfirmationData diverso da ID request' },
+                                { value: '44a',  label: '44a. Assertion - Elemento Issuer non specificato' },
+                                { value: '44b',  label: '44b. Assertion - Elemento Issuer mancante' },
+                                { value: '45',  label: '45. Assertion - Elemento Issuer diverso da EntityID IdP' },
+                                { value: '46a',  label: '46a. Assertion - Attributo Format di Issuer non specificato' },
+                                { value: '46b',  label: '46b. Assertion - Attributo Format di Issuer mancante' },
                             ]}>
                         </Select>
  
