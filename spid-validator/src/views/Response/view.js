@@ -72,7 +72,10 @@ function view(me) {
                                 { value: '36b',  label: '36b. Assertion - Elemento SubjectConfirmation mancante' },
                                 { value: '37a',  label: '37a. Assertion - Attributo Method di SubjectConfirmation non specificato' },
                                 { value: '37b',  label: '37b. Assertion - Attributo Method di SubjectConfirmation mancante' },
-                                { value: '38',  label: '38. Assertion - Attributo Method di SubjectConfirmation diverso' }
+                                { value: '38',  label: '38. Assertion - Attributo Method di SubjectConfirmation diverso' },
+                                { value: '39',  label: '39. Assertion - Elemento SubjectConfirmationData mancante' },
+                                { value: '40a',  label: '40a. Assertion - Attributo Recipient di SubjectConfirmationData non specificato' },
+                                { value: '40b',  label: '40b. Assertion - Attributo Recipient di SubjectConfirmationData mancante' },
                             ]}>
                         </Select>
  
