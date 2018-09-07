@@ -76,6 +76,9 @@ function view(me) {
                                 { value: '39',  label: '39. Assertion - Elemento SubjectConfirmationData mancante' },
                                 { value: '40a',  label: '40a. Assertion - Attributo Recipient di SubjectConfirmationData non specificato' },
                                 { value: '40b',  label: '40b. Assertion - Attributo Recipient di SubjectConfirmationData mancante' },
+                                { value: '41',  label: '41. Assertion - Attributo Recipient di SubjectConfirmationData diverso' },
+                                { value: '42a',  label: '42a. Assertion - Attributo InResponseTo di SubjectConfirmationData non specificato' },
+                                { value: '42b',  label: '42b. Assertion - Attributo InResponseTo di SubjectConfirmationData mancante' },
                             ]}>
                         </Select>
  
