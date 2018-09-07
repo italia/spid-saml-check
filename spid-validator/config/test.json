@@ -1109,6 +1109,75 @@
                 },
                 "sign_response": true,
                 "sign_assertion": false
+            },
+            "33": {
+                "name": "33. Assertion - Attributo Format di NameID diverso",
+                "description": "Attributo Format di NameID dell'Assertion diverso da urn:oasis:names:tc:SAML:2.0:nameidformat:transient. Risultato atteso: KO",
+                "path": "test/case-33.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "34a": {
+                "name": "34a. Assertion - Attributo NameQualifier di NameID non specificato",
+                "description": "Attributo NameQualifier di NameID dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-34a.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "34b": {
+                "name": "34b. Assertion - Attributo NameQualifier di NameID mancante",
+                "description": "Attributo NameQualifier di NameID dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-34b.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
             }
         }
     }
