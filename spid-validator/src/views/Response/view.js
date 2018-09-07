@@ -67,7 +67,9 @@ function view(me) {
                                 { value: '32b',  label: '32b. Assertion - Attributo Format di NameID mancante' },
                                 { value: '33',  label: '33. Assertion - Attributo Format di NameID diverso' },
                                 { value: '34a',  label: '34a. Assertion - Attributo NameQualifier di NameID non specificato' },
-                                { value: '34b',  label: '34b. Assertion - Attributo NameQualifier di NameID mancante' }
+                                { value: '34b',  label: '34b. Assertion - Attributo NameQualifier di NameID mancante' },
+                                { value: '36a',  label: '36a. Assertion - Elemento SubjectConfirmation non specificato' },
+                                { value: '36b',  label: '36b. Assertion - Elemento SubjectConfirmation mancante' }
                             ]}>
                         </Select>
  
