@@ -1937,6 +1937,192 @@
                 },
                 "sign_response": true,
                 "sign_assertion": false
+            },
+           "61a": {
+                "name": "61a. Assertion - Elemento AuthStatement non specificato",
+                "description": "Elemento AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-61a.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "61b": {
+                "name": "61b. Assertion - Elemento AuthStatement mancante",
+                "description": "Elemento AuthStatement dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-61b.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "62a": {
+                "name": "62a. Assertion - Elemento AuthnContext di AuthStatement non specificato",
+                "description": "Elemento AuthnContext di AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-62a.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "62b": {
+                "name": "62b. Assertion - Elemento AuthnContext di AuthStatement mancante",
+                "description": "Elemento AuthnContext di AuthStatement dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-62b.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "63a": {
+                "name": "63a. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement non specificato",
+                "description": "Elemento AuthContextClassRef di AuthnContext di AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-63a.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "63b": {
+                "name": "63b. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement mancante",
+                "description": "Elemento AuthContextClassRef di AuthnContext di AuthStatement dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-63b.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "64": {
+                "name": "64. Assertion - Elemento AuthContextClassRef minore di quello richiesto (caso minimum)",
+                "description": "Elemento AuthContextClassRef minore di quello richiesto (caso minimum). Risultato atteso: KO",
+                "path": "test/base.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "AuthnContextClassRef": "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL1",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "65": {
+                "name": "65. Assertion - Elemento AuthContextClassRef diverso da quello richiesto (caso exact)",
+                "description": "Elemento AuthContextClassRef diverso da quello richiesto (caso exact). Risultato atteso: KO",
+                "path": "test/base.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "AuthnContextClassRef": "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL3",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
             }
         }
     }

@@ -101,6 +101,14 @@ function view(me) {
                                 { value: '59a',  label: '59a. Assertion - Elemento Audience di AudienceRestriction di Condition non specificato' },
                                 { value: '59b',  label: '59b. Assertion - Elemento Audience di AudienceRestriction di Condition mancante' },
                                 { value: '60',  label: '60. Assertion - Elemento Audience di AudienceRestriction di Condition diverso da Entity Id del Service Provider' },
+                                { value: '61a',  label: '61a. Assertion - Elemento AuthStatement non specificato' },
+                                { value: '61b',  label: '61b. Assertion - Elemento AuthStatement mancante' },
+                                { value: '62a',  label: '62a. Assertion - Elemento AuthnContext di AuthStatement non specificato' },
+                                { value: '62b',  label: '62b. Assertion - Elemento AuthnContext di AuthStatement mancante' },
+                                { value: '63a',  label: '63a. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement non specificato' },
+                                { value: '63b',  label: '63b. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement mancante' },
+                                { value: '64',  label: '64. Assertion - Elemento AuthContextClassRef minore di quello richiesto (caso minimum)' },
+                                { value: '65',  label: '65. Assertion - Elemento AuthContextClassRef diverso da quello richiesto (caso exact)' },
                             ]}>
                         </Select>
  
