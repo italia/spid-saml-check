@@ -127,6 +127,12 @@ function MetadataParser(xml) {
     }
 }
 
+MetadataParser.prototype.getServiceProviderEntityId = function() {
+    let doc = new DOMParser().parseFromString(this.metadata.xml);
+    let serviceProviderEntityId = select("//md:EntityDescriptor", doc)[0].getAttribute("entityID");
+    return serviceProviderEntityId;
+}
+
 MetadataParser.prototype.getAssertionConsumerServiceURL = function(index) {
     let assertionConsumerServiceURL = null;
     let doc = new DOMParser().parseFromString(this.metadata.xml);

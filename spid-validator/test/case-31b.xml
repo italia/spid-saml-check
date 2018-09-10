@@ -21,6 +21,13 @@
                     Recipient="{{AssertionConsumerURL}}" />
             </saml:SubjectConfirmation>
         </saml:Subject>
+        <saml:Conditions 
+            NotBefore="{{IssueInstant}}" 
+            NotOnOrAfter="{{NotOnOrAfter}}" >
+            <saml:AudienceRestriction>
+                <saml:Audience>{{Audience}}</saml:Audience>
+            </saml:AudienceRestriction>
+        </saml:Conditions> 
         <saml:AuthnStatement 
             AuthnInstant="{{AuthnIstant}}"
             SessionIndex="{{SessionIndex}}" >

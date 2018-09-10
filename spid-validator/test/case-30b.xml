@@ -13,6 +13,13 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
 
+        <saml:Conditions 
+            NotBefore="{{IssueInstant}}" 
+            NotOnOrAfter="{{NotOnOrAfter}}" >
+            <saml:AudienceRestriction>
+                <saml:Audience>{{Audience}}</saml:Audience>
+            </saml:AudienceRestriction>
+        </saml:Conditions> 
         <saml:AuthnStatement 
             AuthnInstant="{{AuthnIstant}}"
             SessionIndex="{{SessionIndex}}" >

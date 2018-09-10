@@ -256,11 +256,13 @@ app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
 
     // read AttributeConsumingService set from metadata
     let requestedAttributes = [];
+    let serviceProviderEntityId = "";
     if(req.session.request!=null && req.session.metadata!=null) {
         let requestParser = new RequestParser(req.session.request.xml);
         let metadataParser = new MetadataParser(req.session.metadata.xml);
         let attributeConsumingServiceIndex = requestParser.AttributeConsumingServiceIndex();
         let attributeConsumingService = metadataParser.getAttributeConsumingService(attributeConsumingServiceIndex);
+        serviceProviderEntityId = metadataParser.getServiceProviderEntityId();
         
         for(i in attributeConsumingService.RequestedAttributes) {
             let attribute = attributeConsumingService.RequestedAttributes[i].Name;
@@ -284,6 +286,7 @@ app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
     defaults = Utility.defaultParam(defaults, "SessionIndex", Utility.getUUID());
     defaults = Utility.defaultParam(defaults, "AuthnContextClassRef", authnContextClassRef);
     defaults = Utility.defaultParam(defaults, "AssertionConsumerURL", assertionConsumerURL);
+    defaults = Utility.defaultParam(defaults, "Audience", serviceProviderEntityId);
     
     let testSuite = new TestSuite(config_idp, config_test);
     let testResponse = testSuite.getTestTemplate(suiteid, caseid, requestedAttributes, defaults, params);

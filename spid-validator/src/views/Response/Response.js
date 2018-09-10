@@ -62,11 +62,37 @@ class Response extends Component {
     let destination = this.state.params.filter((p)=> {
       return (p.key=="AssertionConsumerURL");
     })[0].val;
-    if(destination!=null 
-      && destination.trim()!=""
-      && (destination.startsWith("http://") 
-      || destination.startsWith("https://"))) {
+    let audience = this.state.params.filter((p)=> {
+      return (p.key=="Audience");
+    })[0].val;
 
+    let ok = true;
+
+    if(destination==null 
+      || destination.trim()==""
+      || !(destination.startsWith("http://") 
+        || destination.startsWith("https://"))) { 
+        
+        ok = false; 
+        Utility.showModal({
+            title: "Attenzione",
+            body: "Inserire un valore corretto per AssertionConsumerURL",
+            isOpen: true
+        });
+    }
+
+    if(audience==null
+      || audience.trim()=="") { 
+
+        ok = false;
+        Utility.showModal({
+            title: "Attenzione",
+            body: "Inserire in Audience l'Entity ID del Service Provider oppure effettuare il download del Metadata del Service Provider",
+            isOpen: true
+        });
+    }
+
+    if(ok) {
       this.setState({
         response_destination: destination,
         response_samlResponse: new Buffer(this.state.xml_signed, "utf8").toString("base64"),
@@ -75,13 +101,8 @@ class Response extends Component {
         Utility.log("SEND Response", this.state);
         this.refs["form"].submit();
       });
-    } else {
-      Utility.showModal({
-        title: "Attenzione",
-        body: "Inserire un valore corretto per AssertionConsumerURL",
-        isOpen: true
-      });
-    }
+    } 
+
   }
 
   setSignResponse(e) {
