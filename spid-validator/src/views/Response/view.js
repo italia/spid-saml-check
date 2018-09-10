@@ -96,6 +96,11 @@ function view(me) {
                                 { value: '55b',  label: '55b. Assertion - Attributo NotOnOrAfter di Condition mancante' },
                                 { value: '56',  label: '56. Assertion - Attributo NotOnOrAfter di Condition avente formato non corretto' },
                                 { value: '57',  label: '57. Assertion - Attributo NotOnOrAfter di Condition precedente all\'istante di ricezione' },
+                                { value: '58a',  label: '58a. Assertion - Elemento AudienceRestriction di Condition non specificato' },
+                                { value: '58b',  label: '58b. Assertion - Elemento AudienceRestriction di Condition mancante' },
+                                { value: '59a',  label: '59a. Assertion - Elemento Audience di AudienceRestriction di Condition non specificato' },
+                                { value: '59b',  label: '59b. Assertion - Elemento Audience di AudienceRestriction di Condition mancante' },
+                                { value: '60',  label: '60. Assertion - Elemento Audience di AudienceRestriction di Condition diverso da Entity Id del Service Provider' },
                             ]}>
                         </Select>
  
