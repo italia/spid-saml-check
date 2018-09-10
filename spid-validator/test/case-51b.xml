@@ -1,0 +1,40 @@
+<samlp:Response
+    Destination="{{AssertionConsumerURL}}"
+    ID="{{ResponseID}}"
+    InResponseTo="{{AuthnRequestID}}" 
+    IssueInstant="{{IssueInstant}}"
+    Version="2.0" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+    xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol">
+    <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
+
+    <samlp:Status><samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/></samlp:Status>
+    <saml:Assertion ID="{{AssertionID}}" IssueInstant="{{IssueInstant}}"
+        Version="2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
+        <saml:Subject>
+            <saml:NameID 
+                Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"
+                NameQualifier="{{NameIDNameQualifier}}">
+                    {{NameID}}
+            </saml:NameID>
+            <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+                <saml:SubjectConfirmationData 
+                    InResponseTo="{{AuthnRequestID}}"
+                    NotOnOrAfter="{{NotOnOrAfter}}"
+                    Recipient="{{AssertionConsumerURL}}" />
+            </saml:SubjectConfirmation>
+        </saml:Subject>
+ 
+        <saml:AuthnStatement 
+            AuthnInstant="{{AuthnIstant}}"
+            SessionIndex="{{SessionIndex}}" >
+            <saml:AuthnContext>
+                <saml:AuthnContextClassRef>{{AuthnContextClassRef}}</saml:AuthnContextClassRef>
+            </saml:AuthnContext>
+        </saml:AuthnStatement>
+        <saml:AttributeStatement>
+            {{Attributes}}
+        </saml:AttributeStatement>
+    </saml:Assertion>
+</samlp:Response>

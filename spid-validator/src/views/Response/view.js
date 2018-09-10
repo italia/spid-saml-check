@@ -86,6 +86,16 @@ function view(me) {
                                 { value: '46a',  label: '46a. Assertion - Attributo Format di Issuer non specificato' },
                                 { value: '46b',  label: '46b. Assertion - Attributo Format di Issuer mancante' },
                                 { value: '47',  label: '47. Assertion - Attributo Format di Issuer diverso' },
+                                { value: '51a',  label: '51a. Assertion - Elemento Conditions non specificato' },
+                                { value: '51b',  label: '51b. Assertion - Elemento Conditions mancante' },
+                                { value: '52a',  label: '52a. Assertion - Attributo NotBefore di Condition non specificato' },
+                                { value: '52b',  label: '52b. Assertion - Attributo NotBefore di Condition mancante' },
+                                { value: '53',  label: '53. Assertion - Attributo NotBefore di Condition avente formato non corretto' },
+                                { value: '54',  label: '54. Assertion - Attributo NotBefore di Condition successivo a IssueInstant della Request' },
+                                { value: '55a',  label: '55a. Assertion - Attributo NotOnOrAfter di Condition non specificato' },
+                                { value: '55b',  label: '55b. Assertion - Attributo NotOnOrAfter di Condition mancante' },
+                                { value: '56',  label: '56. Assertion - Attributo NotOnOrAfter di Condition avente formato non corretto' },
+                                { value: '57',  label: '57. Assertion - Attributo NotOnOrAfter di Condition precedente all\'istante di ricezione' },
                             ]}>
                         </Select>
  

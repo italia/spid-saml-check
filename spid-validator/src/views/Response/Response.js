@@ -59,12 +59,20 @@ class Response extends Component {
  
   sendResponse(e) { 
     e.preventDefault();
-    let destination = this.state.params.filter((p)=> {
-      return (p.key=="AssertionConsumerURL");
-    })[0].val;
-    let audience = this.state.params.filter((p)=> {
-      return (p.key=="Audience");
-    })[0].val;
+    let destination = null;
+    let audience = null;
+
+    try {
+        destination = this.state.params.filter((p)=> {
+          return (p.key=="AssertionConsumerURL");
+        })[0].val;
+
+        audience = this.state.params.filter((p)=> {
+          return (p.key=="Audience");
+        })[0].val;
+    } catch(exception) {
+        Utility.log("ERROR", exception);
+    }
 
     let ok = true;
 
@@ -84,7 +92,7 @@ class Response extends Component {
     if(audience==null
       || audience.trim()=="") { 
 
-        ok = false;
+        ok = true;
         Utility.showModal({
             title: "Attenzione",
             body: "Inserire in Audience l'Entity ID del Service Provider oppure effettuare il download del Metadata del Service Provider",
