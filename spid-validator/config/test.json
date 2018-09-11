@@ -133,7 +133,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": true,
+                "sign_assertion": false,
                 "sign_credentials": {
 		            "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
 		            "certificate": "MIIDmDCCAwECCQCAE/DU2o/PtjANBgkqhkiG9w0BAQUFADBJMQswCQYDVQQGEwJJVDENMAsGA1UECBMEUm9tZTENMAsGA1UEBxMEUm9tZTENMAsGA1UEChMEQWdJRDENMAsGA1UEAxMEQWdJRDAeFw0xNzA1MTAwODM5MTFaFw0xODA1MTAwODM5MTFaMFQxCzAJBgNVBAYTAklUMQ0wCwYDVQQIEwRSb21lMQ0wCwYDVQQHEwRSb21lMQ0wCwYDVQQKEwRBZ0lEMRgwFgYDVQQDEw9hcHAuYWdpZC5nb3YuaXQwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDL9oovvZRq4xVlaEs2kuXIiESDApBQHJ7397Q1pKtJRKW2iz0GBdtmqKdIEouzEl2KTTdJZdnIlLozrlNxesqhYJ/hxXpcWWlUDmagid6xnB5rARmcDNjcGAdslOxRUzeTenpZkjU3AJaYVC6GHRltUV334qaOoyx1j2fEUm7ySe5lEK62HUSKLMOTgbd7pSzyPnMpu8x7uA1i/g3NQzkt+WctKfQIUG+yowGPfO0ptrF2fjSQsRvGSkc20uKEK8Use9FPk1Iq1oLKIDEbsa2Z/+Sghu/bNr3CEW+YICq9kznsYXZTfzadaL7YQUXBnYf7Y1CL10SxVlDuppR/fkYUW0ph/mH2cZIBGJ+XzqEMH8FUAp/clCQ+9ntmnL643OLo/DxwXZMY2xz0jQOIgq/XCuBu0yVI4kOKqtLWz+trbyeA2hVM4Pq2nHMtmNt1pkkrK6U4OtqhkFf9gnrSD/W/Rcuv4cYDjBJu8PfM8pKsSJh/zVLkLnkQPVrsKktoM8fyFxp5a9JTFFPz2DVlIhJYeq0O9y48i53asOL0m2R8OJfDQTyLnrthdD0RkcxGht4Uchcl4Q2A4YQYU1I0IMXOcMNEMKzCL0h16Bf5pPibtBUuTdHaXnw+lDWCxNkFxNpY1TSM/RpQKtDbvu9zYt3YjhFpN93EjMleIe8XX9UfFwIDAQABMA0GCSqGSIb3DQEBBQUAA4GBAK7u/y/RvLL2dkKizOrnZnnfPhhm/X3MZ0HQeEvL2EIzrrkUXgR1S7if7CQrhLYnaF8TwwfkTSwQ6anCsX32hlI/QbduvEY2Z5W/63i8bTtedXIjn4BYNyk+F6GGsea850k43kXZ9QXXGo+ktMKFDq2qHpZfA/Thgse1a0ENTYYd",
@@ -2118,6 +2118,58 @@
                         "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
                         "mobilePhone": "+390000000000",
                         "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "66": {
+                "name": "66. Assertion - Elemento AttributeStatement presente, ma sottoelemento Attribute mancante o non specificato",
+                "description": "Elemento AttributeStatement presente, ma sottoelemento Attribute mancante o non specificato. Risultato atteso: KO",
+                "path": "test/case-66.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier"
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+            "67": {
+                "name": "67. Assertion - Firma diversa",
+                "description": "Assertion firmata con certificato diverso. Risultato atteso: KO",
+                "path": "test/base.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": true,
+                "sign_credentials": {
+		            "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+		            "certificate": "MIIDmDCCAwECCQCAE/DU2o/PtjANBgkqhkiG9w0BAQUFADBJMQswCQYDVQQGEwJJVDENMAsGA1UECBMEUm9tZTENMAsGA1UEBxMEUm9tZTENMAsGA1UEChMEQWdJRDENMAsGA1UEAxMEQWdJRDAeFw0xNzA1MTAwODM5MTFaFw0xODA1MTAwODM5MTFaMFQxCzAJBgNVBAYTAklUMQ0wCwYDVQQIEwRSb21lMQ0wCwYDVQQHEwRSb21lMQ0wCwYDVQQKEwRBZ0lEMRgwFgYDVQQDEw9hcHAuYWdpZC5nb3YuaXQwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDL9oovvZRq4xVlaEs2kuXIiESDApBQHJ7397Q1pKtJRKW2iz0GBdtmqKdIEouzEl2KTTdJZdnIlLozrlNxesqhYJ/hxXpcWWlUDmagid6xnB5rARmcDNjcGAdslOxRUzeTenpZkjU3AJaYVC6GHRltUV334qaOoyx1j2fEUm7ySe5lEK62HUSKLMOTgbd7pSzyPnMpu8x7uA1i/g3NQzkt+WctKfQIUG+yowGPfO0ptrF2fjSQsRvGSkc20uKEK8Use9FPk1Iq1oLKIDEbsa2Z/+Sghu/bNr3CEW+YICq9kznsYXZTfzadaL7YQUXBnYf7Y1CL10SxVlDuppR/fkYUW0ph/mH2cZIBGJ+XzqEMH8FUAp/clCQ+9ntmnL643OLo/DxwXZMY2xz0jQOIgq/XCuBu0yVI4kOKqtLWz+trbyeA2hVM4Pq2nHMtmNt1pkkrK6U4OtqhkFf9gnrSD/W/Rcuv4cYDjBJu8PfM8pKsSJh/zVLkLnkQPVrsKktoM8fyFxp5a9JTFFPz2DVlIhJYeq0O9y48i53asOL0m2R8OJfDQTyLnrthdD0RkcxGht4Uchcl4Q2A4YQYU1I0IMXOcMNEMKzCL0h16Bf5pPibtBUuTdHaXnw+lDWCxNkFxNpY1TSM/RpQKtDbvu9zYt3YjhFpN93EjMleIe8XX9UfFwIDAQABMA0GCSqGSIb3DQEBBQUAA4GBAK7u/y/RvLL2dkKizOrnZnnfPhhm/X3MZ0HQeEvL2EIzrrkUXgR1S7if7CQrhLYnaF8TwwfkTSwQ6anCsX32hlI/QbduvEY2Z5W/63i8bTtedXIjn4BYNyk+F6GGsea850k43kXZ9QXXGo+ktMKFDq2qHpZfA/Thgse1a0ENTYYd",
+		            "privateKey": "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"
+	            }
+            },
+           "70": {
+                "name": "70. Assertion - Set di attributi inviato diverso da quello richiesto",
+                "description": "Set di attributi inviato diverso da quello richiesto",
+                "path": "test/base.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
                         "address": "via Test"                
                    }
                 },

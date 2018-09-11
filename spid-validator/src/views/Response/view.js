@@ -108,6 +108,9 @@ function view(me) {
                             { value: '63b',  label: '63b. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement mancante' },
                             { value: '64',  label: '64. Assertion - Elemento AuthContextClassRef minore di quello richiesto (caso minimum)' },
                             { value: '65',  label: '65. Assertion - Elemento AuthContextClassRef diverso da quello richiesto (caso exact)' },
+                            { value: '66',  label: '66. Assertion - Elemento AttributeStatement presente, ma sottoelemento Attribute mancante o non specificato' },
+                            { value: '67',  label: '67. Assertion - Firma diversa' },
+                            { value: '70',  label: '70. Assertion - Set di attributi inviato diverso da quello richiesto' },
                         ]}>
                     </Select>
 
