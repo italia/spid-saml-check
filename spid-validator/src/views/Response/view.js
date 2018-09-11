@@ -26,9 +26,14 @@ function view(me) {
                     <AceEditor code={me.state.xml_signed} />
                 </div>
                 <div className="col-md-3">
-                    <div class="row alert alert-warning" role="alert">
+                    <div className="row alert alert-warning" role="alert">
                         <b>Descrizione e risultato atteso</b><br/>
-                        {me.state.description}
+                        <p className="test-description">{me.state.description}</p>
+                        <form ref="form" action={me.state.response_destination} onSubmit={(e)=>{me.sendResponse(e)}} method="post" target="_blank">
+                            <input type="hidden" name="RelayState" value={me.state.response_relayState} ></input>
+                            <input type="hidden" name="SAMLResponse" value={me.state.response_samlResponse} ></input>                                                   
+                            <input type="submit" value="Invia" className="btn btn-send btn-success float-right" data-style="zoom-in"></input>
+                        </form>
                     </div>    
                     <div className="row panel-send">  
                         <div className="col">                   
