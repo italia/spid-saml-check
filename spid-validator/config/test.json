@@ -8,7 +8,7 @@
         },
         "cases": {
             "1": {
-                "name": "1. Response corretta",
+                "name": "01. Response corretta",
                 "description": "Response corretta. Risultato atteso: Ok",
                 "path": "test/base.xml",
                 "response": {
@@ -40,7 +40,7 @@
                 "sign_assertion": true
             },
             "2": {
-                "name": "2. Response non firmata",
+                "name": "02. Response non firmata",
                 "description": "Response non firmata. Risultato atteso: KO",
                 "path": "test/base.xml",
                 "response": {
@@ -72,7 +72,7 @@
                 "sign_assertion": false
             },
             "3": {
-                "name": "3. Response - Assertion non firmata",
+                "name": "03. Response - Assertion non firmata",
                 "description": "Response firmata, Assertion non firmata. Risultato atteso: KO",
                 "path": "test/base.xml",
                 "response": {
@@ -104,7 +104,7 @@
                 "sign_assertion": false
             },
             "4": {
-                "name": "4. Response - Firma diversa",
+                "name": "04. Response - Firma diversa",
                 "description": "Response firmata con certificato diverso. Risultato atteso: KO",
                 "path": "test/base.xml",
                 "response": {
@@ -141,7 +141,7 @@
 	            }
             },
             "6a": {
-                "name": "6a. Response - ID non specificato",
+                "name": "06a. Response - ID non specificato",
                 "description": "Attributo ID non specificato. Risultato atteso: KO",
                 "path": "test/case-6a.xml",
                 "response": {
@@ -173,7 +173,7 @@
                 "sign_assertion": false
             },
             "6b": {
-                "name": "6b. Response - ID mancante",
+                "name": "06b. Response - ID mancante",
                 "description": "Attributo ID mancante. Risultato atteso: KO",
                 "path": "test/case-6b.xml",
                 "response": {
@@ -205,7 +205,7 @@
                 "sign_assertion": false
             },
             "7": {
-                "name": "7. Response - Version diverso da 2.0",
+                "name": "07. Response - Version diverso da 2.0",
                 "description": "Attributo Version diverso da 2.0. Risultato atteso: KO",
                 "path": "test/case-7.xml",
                 "response": {
@@ -237,7 +237,7 @@
                 "sign_assertion": false
             },
             "8a": {
-                "name": "8a. Response - IssueInstant non specificato",
+                "name": "08a. Response - IssueInstant non specificato",
                 "description": "Attributo IssueInstant non specificato. Risultato atteso: KO",
                 "path": "test/case-8a.xml",
                 "response": {
@@ -269,7 +269,7 @@
                 "sign_assertion": false
             },
             "8b": {
-                "name": "8b. Response - IssueInstant mancante",
+                "name": "08b. Response - IssueInstant mancante",
                 "description": "Attributo IssueInstant mancante. Risultato atteso: KO",
                 "path": "test/case-8b.xml",
                 "response": {
@@ -301,7 +301,7 @@
                 "sign_assertion": false
             },
             "9": {
-                "name": "9. Response - Formato IssueInstant non corretto",
+                "name": "09. Response - Formato IssueInstant non corretto",
                 "description": "Attributo IssueInstant avente formato non corretto. Risultato atteso: KO",
                 "path": "test/case-9.xml",
                 "response": {
@@ -1042,7 +1042,7 @@
                 "sign_assertion": false
             },
             "31b": {
-                "name": "30b. Assertion - Elemento NameID mancante",
+                "name": "31b. Assertion - Elemento NameID mancante",
                 "description": "Elemento NameID dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-31b.xml",
                 "response": {

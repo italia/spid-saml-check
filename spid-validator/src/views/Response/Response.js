@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import view from "./view.js";
 import Utility from '../../utility';
 import Services from '../../services';
+import config_test from '../../../config/test.json';
 
 
 class Response extends Component {
@@ -55,6 +56,19 @@ class Response extends Component {
         this.newResponse(this.state.suiteid, this.state.caseid); 
         this.getTestResponse(); 
     }
+  }
+
+  getTestOptions() {
+    let options = [];
+    let testcases = config_test[this.state.suiteid]["cases"];
+
+    for(let i in testcases) {
+        options.push({
+            value: i,
+            label: testcases[i].name
+        });
+    }
+    return options;
   }
  
   sendResponse(e) { 
@@ -168,7 +182,7 @@ class Response extends Component {
 
   setResponseTemplate(templateId) {
     const { router } = this.context
-    this.props.history.push("/response/test-suite-1/" + templateId);
+    this.props.history.push("/response/" + this.state.suiteid + "/" + templateId);
   }
 
   render() { 
