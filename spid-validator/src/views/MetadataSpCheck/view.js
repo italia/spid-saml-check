@@ -7,7 +7,7 @@ import "./style.css";
 function view(me) { 
     return (
         <div className="animated fadeIn">
-
+            <p className="title h3">Metadata Service Provider Report</p>
             {me.state.result!=null && 
 
                 Object.keys(me.state.result).map((t)=> {

@@ -164,7 +164,6 @@ class Response extends Component {
         // retrieve test success
         let store = ReduxStore.getMain();
         let storeState = store.getState();
-        Utility.log("ZZZ", storeState);
         let test_success = storeState.response_test_success[this.state.caseid];
         if(test_success==null) test_success = false;
 

@@ -13,6 +13,7 @@ import MetadataSpCheck from '../../views/MetadataSpCheck/';
 import Request from '../../views/Request/';
 import RequestCheck from '../../views/RequestCheck/';
 import Response from '../../views/Response/';
+import ResponseReport from '../../views/ResponseReport/';
 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import ScrollToTop from 'react-scroll-up';
@@ -105,6 +106,7 @@ class Main extends Component {
 									<Route path="/request-check-certs" key="request-check-certs" render={()=><RequestCheck test="certs" />} />
 									<Route path="/request-check-extra" key="request-check-extra" render={()=><RequestCheck test="extra" />} />
 									<Route path="/response/:suiteid/:caseid" component={Response}/>
+									<Route path="/response-report" component={ResponseReport}/>
 									<Redirect from="/" to="/request"/>
 									</Switch>
 								</Container>

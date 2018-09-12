@@ -6,6 +6,7 @@ import AceEditor from '../../components/AceEditor/';
 function view(me) { 
     return (
         <div className="animated fadeIn">
+            <p className="title h3">Request</p>
             <AceEditor code={me.state.xml} />
         </div>
     );
