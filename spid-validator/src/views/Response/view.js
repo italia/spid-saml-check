@@ -11,7 +11,7 @@ function view(me) {
         <div className="animated fadeIn">
             <p className="title h3">Response</p>
             <div className="row">
-                <div className="col-md-9">
+                <div className="col-md-9 main">
 
                     <b>Seleziona la Response di test da inviare al Service Provider...</b>
 
@@ -26,15 +26,29 @@ function view(me) {
                     <AceEditor code={me.state.xml_signed} />
                 </div>
                 <div className="col-md-3">
-                    <div className="row alert alert-warning" role="alert">
+                    <div className="row alert alert-warning">
                         <b>Descrizione e risultato atteso</b><br/>
                         <p className="test-description">{me.state.description}</p>
                         <form ref="form" action={me.state.response_destination} onSubmit={(e)=>{me.sendResponse(e)}} method="post" target="_blank">
                             <input type="hidden" name="RelayState" value={me.state.response_relayState} ></input>
                             <input type="hidden" name="SAMLResponse" value={me.state.response_samlResponse} ></input>                                                   
-                            <input type="submit" value="Invia" className="btn btn-send btn-success float-right" data-style="zoom-in"></input>
+                            <input type="submit" value="Invia response al Service Provider" className="btn btn-send btn-success float-right" data-style="zoom-in"></input>
                         </form>
                     </div>    
+                    <div className={me.state.test_success? "row alert alert-success" : "row alert alert-danger"} >
+                        <b>Esito del test : {me.state.test_success? "SUPERATO" : "NON superato"}</b><br/>
+                        <p className="test-description">Se il risultato del service provider all'invio della response è conforme al risultato atteso è possibile impostare il test come superato</p>
+                        <div className="col-sm-12">
+                            <label className="switch switch-success">
+                                <input type="checkbox" className="switch-input" 
+                                    checked={me.state.test_success}
+                                    onChange={(e)=>{me.setTestSuccess(e.target.checked)}}>
+                                </input>
+                                <span className="switch-slider"></span>
+                            </label>
+                            <span className="panel-send-label">Test superato</span>
+                        </div>
+                    </div>  
                     <div className="row panel-send">  
                         <div className="col">                   
                             <div className="row">
@@ -90,7 +104,7 @@ function view(me) {
                                     <form ref="form" action={me.state.response_destination} onSubmit={(e)=>{me.sendResponse(e)}} method="post" target="_blank">
                                         <input type="hidden" name="RelayState" value={me.state.response_relayState} ></input>
                                         <input type="hidden" name="SAMLResponse" value={me.state.response_samlResponse} ></input>                                                   
-                                        <input type="submit" value="Invia" className="btn btn-send btn-success float-right" data-style="zoom-in"></input>
+                                        <input type="submit" value="Invia response al Service Provider" className="btn btn-send btn-success float-right" data-style="zoom-in"></input>
                                     </form>
                                 </div>
                             </div>

@@ -3,6 +3,8 @@ import view from "./view.js";
 import Utility from '../../utility';
 import Services from '../../services';
 import config_test from '../../../config/test.json';
+import ReduxStore from "../../redux/store";
+import Actions from "../../redux/main/actions";
 
 
 class Response extends Component {
@@ -25,7 +27,8 @@ class Response extends Component {
       params: [],
       response_destination: "",
       response_samlResponse: "",
-      response_relayState: ""      
+      response_relayState: "",
+      test_success: false     
     };  
   }
 
@@ -42,7 +45,8 @@ class Response extends Component {
       params: state.params,
       response_destination: state.response_destination,
       response_samlResponse: state.response_samlResponse,
-      response_relayState: state.response_relayState
+      response_relayState: state.response_relayState,
+      test_success: state.test_success
     }
   }
 
@@ -127,6 +131,13 @@ class Response extends Component {
 
   }
 
+  setTestSuccess(success) {
+    this.setState({test_success: success}, ()=> {
+      let store = ReduxStore.getMain();
+      store.dispatch(Actions.setResponseTestSuccess(this.state.caseid, this.state.test_success)); 
+    });     
+  }
+
   setSignResponse(e) {
     this.setState({sign_response: e}, ()=> {
       this.getTestResponse();
@@ -149,6 +160,14 @@ class Response extends Component {
         sign_assertion: this.state.sign_assertion
       },
       (testResponse) => { 
+
+        // retrieve test success
+        let store = ReduxStore.getMain();
+        let storeState = store.getState();
+        Utility.log("ZZZ", storeState);
+        let test_success = storeState.response_test_success[this.state.caseid];
+        if(test_success==null) test_success = false;
+
         this.setState({
           name: testResponse.name,
           description: testResponse.description,
@@ -156,7 +175,8 @@ class Response extends Component {
           xml_signed: testResponse.compiled,
           params: testResponse.params,
           sign_response: testResponse.sign_response,
-          sign_assertion: testResponse.sign_assertion
+          sign_assertion: testResponse.sign_assertion,
+          test_success: test_success
         }, ()=> {
           Utility.log("getTestResponse <-", this.state);
         });

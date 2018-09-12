@@ -20,10 +20,10 @@ class MetadataSpDownload extends Component {
   componentDidMount() { 
     let service = Services.getMainService();
     let store = ReduxStore.getMain();
-    let storeStatestore = store.getState();
+    let storeState = store.getState();
     this.setState({
-        url: storeStatestore.metadata_SP_URL,
-        xml: storeStatestore.metadata_SP_XML
+        url: storeState.metadata_SP_URL,
+        xml: storeState.metadata_SP_XML
     });
   }
   

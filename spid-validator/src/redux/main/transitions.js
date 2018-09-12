@@ -23,6 +23,15 @@ function transitions(state = initialState, action) {
                 metadata_SP_XML: action.value
             });
             break;     
+
+        case Type.SET_RESPONSE_TEST_SUCCESS:
+            let response_test_success = state.response_test_success;
+            response_test_success[action.key] = action.value;
+
+            state = Object.assign({}, state, {
+                response_test_success: response_test_success
+            });
+            break; 
             
         default: 
             state = Object.assign({}, state);
