@@ -1,4 +1,5 @@
 const express = require("express");
+const exphbs  = require('express-handlebars');
 const helmet = require("helmet");
 const session = require("express-session");
 const bodyParser = require("body-parser");
@@ -30,6 +31,11 @@ app.use(session({
     //cookie: { maxAge: 60000 }
 }));
 
+//use template handlebars
+app.set('views', './client/view');
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
+
 
 app.get("/", function (req, res) {
     if(req.session.request==null) {
@@ -41,6 +47,7 @@ app.get("/", function (req, res) {
 
 app.post("/samlsso", function (req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
+    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
 	let samlRequest = req.body.SAMLRequest;
 	let relayState = req.body.RelayState;
@@ -83,6 +90,7 @@ app.post("/samlsso", function (req, res) {
 
 app.get("/samlsso", function (req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
+    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
 	let samlRequest = req.query.SAMLRequest;
 	let relayState = req.query.RelayState;
@@ -139,6 +147,8 @@ app.get("/samlsso", function (req, res) {
 
 app.post("/api/metadata-sp/download", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
+    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+
     Utility.metadataDownload(req.body.url, DATA_DIR + "/sp-metadata.xml").then(
         (file_name) => {
             let xml = fs.readFileSync(DATA_DIR + "/sp-metadata.xml", "utf8");
@@ -157,6 +167,8 @@ app.post("/api/metadata-sp/download", function(req, res) {
 
 app.get("/api/metadata-sp/check/:test", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
+    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+
     let test = req.params.test;
     let file = null;
 
@@ -199,6 +211,8 @@ app.get("/api/request", function(req, res) {
 
 app.get("/api/request/check/:test", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
+    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+
     let test = req.params.test;
     let file = null;
 
