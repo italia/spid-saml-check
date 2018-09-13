@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import view from "./view.js";
 import Utility from '../../utility';
 import Services from '../../services';
-import config_test from '../../../config/test.json';
+import config_test from '../../../../config/test.json';
 import ReduxStore from "../../redux/store";
 import Actions from "../../redux/main/actions";
 

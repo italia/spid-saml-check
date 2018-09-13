@@ -25,10 +25,8 @@ RUN apt-get install -y nodejs && \
 
 # Build validator
 RUN cd /spid-validator && \
-    npm install --suppress-warnings && \
-    cd server && \
-    npm install --suppress-warnings && \
-    cd .. && \
+    cd client && npm install --suppress-warnings && cd .. && \
+    cd server && npm install --suppress-warnings && cd .. && \
     npm run build
 
 # Ports exposed

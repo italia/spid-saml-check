@@ -39,13 +39,10 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
 RUN pip3 install tox
 
 # Build validator
-RUN cd /spid-saml-check/spid-validator \
-    && npm install --silent \
-    && cd server \
-    && npm install --silent \
-    && cd .. \
-    && npm run build
-
+RUN cd /spid-saml-check/spid-validator && \
+    cd client && npm install --silent && cd .. && \
+    cd server && npm install --silent && cd .. && \
+    npm run build
 
 # Ports exposed
 EXPOSE 8080

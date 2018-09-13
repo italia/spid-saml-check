@@ -21,8 +21,8 @@ var app = express();
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.resolve(__dirname, "..", "build/assets")));
-app.use("/assets", express.static(path.resolve(__dirname, "..", "build/assets")));
+app.use(express.static(path.resolve(__dirname, "..", "client/build/assets")));
+app.use("/assets", express.static(path.resolve(__dirname, "..", "client/build/assets")));
 app.use(session({ 
     secret: "SAML IDP", 
     resave: true, 
@@ -33,9 +33,9 @@ app.use(session({
 
 app.get("/", function (req, res) {
     if(req.session.request==null) {
-        res.sendFile(path.resolve(__dirname, "..", "view", "front.html"));        
+        res.sendFile(path.resolve(__dirname, "..", "client/view", "front.html"));        
     } else {
-        res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
+        res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
     }
 });
 
@@ -67,17 +67,17 @@ app.post("/samlsso", function (req, res) {
             let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
                                 "&RelayState=" + encodeURIComponent(relayState);
             fs.writeFileSync(DATA_DIR + "/authn-request.xml", fileContent);
-            res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
+            res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
         } 
 
         else if(requestParser.isLogout()) {
             req.session.destroy();
             fs.unlinkSync(DATA_DIR + "/authn-request.xml");
-            res.sendFile(path.resolve(__dirname, "..", "view", "logout.html"));
+            res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
         }
 
 	} else {
-		res.sendFile(path.resolve(__dirname, "..", "view", "error.html"));
+		res.sendFile(path.resolve(__dirname, "..", "client/view", "error.html"));
     }  
 });
 
@@ -117,17 +117,17 @@ app.get("/samlsso", function (req, res) {
                                 "&SigAlg=" + encodeURIComponent(sigAlg) + 
                                 "&Signature=" + encodeURIComponent(signature);
             fs.writeFileSync(DATA_DIR + "/authn-request.xml", fileContent);
-            res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
+            res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
         } 
 
         else if(requestParser.isLogout()) {
             req.session.destroy();
             fs.unlinkSync(DATA_DIR + "/authn-request.xml");
-            res.sendFile(path.resolve(__dirname, "..", "view", "logout.html"));
+            res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
         }
 
 	} else {
-		res.sendFile(path.resolve(__dirname, "..", "view", "error.html"));
+		res.sendFile(path.resolve(__dirname, "..", "client/view", "error.html"));
     }  
 });
 

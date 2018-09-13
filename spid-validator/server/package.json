@@ -17,6 +17,7 @@
     "node-forge": "^0.7.4",
     "request": "^2.87.0",
     "sha256": "^0.2.0",
+    "uuidjs": "^4.0.3",
     "xml-encryption": "^0.11.1",
     "xmlbuilder": "^9.0.7",
     "xpath": "0.0.27",
