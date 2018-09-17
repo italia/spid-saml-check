@@ -1,0 +1,16 @@
+.warn {
+	border-color: red!important;
+}
+
+.img-continue, .img-new {
+    margin-right: 20px;
+}
+
+.text-muted {
+    margin-top:20px;
+}
+
+.card:hover {
+    background: #e0f0ff;
+    cursor: pointer;
+}

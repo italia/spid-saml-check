@@ -4,6 +4,7 @@ import {Container, Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'rea
 import BlockUi from 'react-block-ui';
 import ReduxStore from "../../redux/store";
 import Login from '../../views/Login/';
+import Worksave from '../../views/Worksave/';
 import Utility from '../../utility';
 
 
@@ -68,6 +69,8 @@ class Empty extends Component {
 						<Container fluid>
 							<Switch>
 							<Route path="/login" name="Login" component={Login}/>
+                            <Route path="/worksave" name="Worksave" component={Worksave}/>
+                            <Redirect from="/" to="/worksave"/>
 							</Switch>
 						</Container>
 					</div>
