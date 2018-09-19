@@ -1,5 +1,5 @@
 <samlp:Response
-    Destination="diversodaassertionconsumerserviceurl"
+    Destination="{{AssertionConsumerURL}}"
     ID="{{ResponseID}}"
     InResponseTo="{{AuthnRequestID}}" 
     IssueInstant="{{IssueInstant}}"
@@ -20,7 +20,7 @@
             </saml:NameID>
             <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
                 <saml:SubjectConfirmationData 
-                    InResponseTo="{{AuthnRequestID}}"
+                    InResponseTo="diversodaauthnrequestid"
                     NotOnOrAfter="{{NotOnOrAfter}}"
                     Recipient="{{AssertionConsumerURL}}" />
             </saml:SubjectConfirmation>

@@ -8,8 +8,8 @@
     <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
 
     <samlp:Status><samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/></samlp:Status>
-    <saml:Assertion ID="" IssueInstant="{{IssueInstant}}"
-        Version="2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    <saml:Assertion ID="{{AssertionID}}" IssueInstant="{{IssueInstant}}"
+        Version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
         <saml:Subject>

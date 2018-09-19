@@ -11,7 +11,7 @@
     <saml:Assertion ID="{{AssertionID}}" IssueInstant="{{IssueInstant}}"
         Version="2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
+        <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:diversodaentity">{{Issuer}}</saml:Issuer>
         <saml:Subject>
             <saml:NameID 
                 Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"
@@ -22,7 +22,7 @@
                 <saml:SubjectConfirmationData 
                     InResponseTo="{{AuthnRequestID}}"
                     NotOnOrAfter="{{NotOnOrAfter}}"
-                    Recipient="" />
+                    Recipient="{{AssertionConsumerURL}}" />
             </saml:SubjectConfirmation>
         </saml:Subject>
         <saml:Conditions 

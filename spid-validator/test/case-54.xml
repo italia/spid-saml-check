@@ -18,7 +18,7 @@
                 NameQualifier="{{NameIDNameQualifier}}">
                     {{NameID}}
             </saml:NameID>
-            <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+            <saml:SubjectConfirmation>
                 <saml:SubjectConfirmationData 
                     InResponseTo="{{AuthnRequestID}}"
                     NotOnOrAfter="{{NotOnOrAfter}}"
@@ -26,7 +26,7 @@
             </saml:SubjectConfirmation>
         </saml:Subject>
         <saml:Conditions 
-            NotBefore="2099-01-01T00:00:00Z" 
+            NotBefore="{{IssueInstant}}" 
             NotOnOrAfter="{{NotOnOrAfter}}" >
             <saml:AudienceRestriction>
                 <saml:Audience>{{Audience}}</saml:Audience>

@@ -5,13 +5,12 @@
     IssueInstant="{{IssueInstant}}"
     Version="2.0" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
     xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol">
-    <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
 
     <samlp:Status><samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/></samlp:Status>
-    <saml:Assertion ID="{{AssertionID}}" IssueInstant="2000-01-01T12:00:00Z"
+    <saml:Assertion ID="{{AssertionID}}" IssueInstant="{{IssueInstant}}"
         Version="2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
+        <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity"></saml:Issuer>
         <saml:Subject>
             <saml:NameID 
                 Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"

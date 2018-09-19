@@ -1,0 +1,12 @@
+<samlp:Response
+    Destination="{{AssertionConsumerURL}}"
+    ID="{{ResponseID}}"
+    InResponseTo="{{AuthnRequestID}}" 
+    IssueInstant="{{IssueInstant}}"
+    Version="2.0" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+    xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol">
+    <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
+
+    <samlp:Status><samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/></samlp:Status>
+ 
+</samlp:Response>

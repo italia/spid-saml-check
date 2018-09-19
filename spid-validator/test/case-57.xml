@@ -22,12 +22,12 @@
                 <saml:SubjectConfirmationData 
                     InResponseTo="{{AuthnRequestID}}"
                     NotOnOrAfter="{{NotOnOrAfter}}"
-                    Recipient="{{AssertionConsumerURL}}" />
+                    Recipient="" />
             </saml:SubjectConfirmation>
         </saml:Subject>
         <saml:Conditions 
             NotBefore="{{IssueInstant}}" 
-            NotOnOrAfter="2000-01-01T00:00:00Z" >
+            NotOnOrAfter="{{NotOnOrAfter}}" >
             <saml:AudienceRestriction>
                 <saml:Audience>{{Audience}}</saml:Audience>
             </saml:AudienceRestriction>

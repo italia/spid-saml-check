@@ -8,7 +8,7 @@
     <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
 
     <samlp:Status><samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/></samlp:Status>
-    <saml:Assertion ID="" IssueInstant="{{IssueInstant}}"
+    <saml:Assertion ID="{{AssertionID}}" IssueInstant="{{IssueInstant}}"
         Version="2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
@@ -18,7 +18,7 @@
                 NameQualifier="{{NameIDNameQualifier}}">
                     {{NameID}}
             </saml:NameID>
-            <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+            <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:diversodabearer">
                 <saml:SubjectConfirmationData 
                     InResponseTo="{{AuthnRequestID}}"
                     NotOnOrAfter="{{NotOnOrAfter}}"

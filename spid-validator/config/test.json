@@ -73,7 +73,7 @@
             },
             "3": {
                 "name": "03. Response - Assertion non firmata",
-                "description": "Response firmata, Assertion non firmata. Risultato atteso: KO",
+                "description": "Response firmata, Assertion non firmata. (L'assertion deve essere sempre firmata, la response può essere firmata). Risultato atteso: KO",
                 "path": "test/base.xml",
                 "response": {
                     "IssueInstant": "",
@@ -140,138 +140,10 @@
 		            "privateKey": "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"
 	            }
             },
-            "6a": {
-                "name": "06a. Response - ID non specificato",
+            "8": {
+                "name": "08. Response - ID non specificato",
                 "description": "Attributo ID non specificato. Risultato atteso: KO",
-                "path": "test/case-6a.xml",
-                "response": {
-                    "IssueInstant": "",
-                    "Issuer": "",
-                    "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
-                    "NameID": "",
-                    "NotOnOrAfter": "",
-                    "NotBefore": "",
-                    "AuthnIstant": "",
-                    "SessionIndex": "",
-                    "AuthnContextClassRef": "",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "6b": {
-                "name": "06b. Response - ID mancante",
-                "description": "Attributo ID mancante. Risultato atteso: KO",
-                "path": "test/case-6b.xml",
-                "response": {
-                    "IssueInstant": "",
-                    "Issuer": "",
-                    "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
-                    "NameID": "",
-                    "NotOnOrAfter": "",
-                    "NotBefore": "",
-                    "AuthnIstant": "",
-                    "SessionIndex": "",
-                    "AuthnContextClassRef": "",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "7": {
-                "name": "07. Response - Version diverso da 2.0",
-                "description": "Attributo Version diverso da 2.0. Risultato atteso: KO",
-                "path": "test/case-7.xml",
-                "response": {
-                    "IssueInstant": "",
-                    "Issuer": "",
-                    "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
-                    "NameID": "",
-                    "NotOnOrAfter": "",
-                    "NotBefore": "",
-                    "AuthnIstant": "",
-                    "SessionIndex": "",
-                    "AuthnContextClassRef": "",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "8a": {
-                "name": "08a. Response - IssueInstant non specificato",
-                "description": "Attributo IssueInstant non specificato. Risultato atteso: KO",
-                "path": "test/case-8a.xml",
-                "response": {
-                    "IssueInstant": "",
-                    "Issuer": "",
-                    "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
-                    "NameID": "",
-                    "NotOnOrAfter": "",
-                    "NotBefore": "",
-                    "AuthnIstant": "",
-                    "SessionIndex": "",
-                    "AuthnContextClassRef": "",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "8b": {
-                "name": "08b. Response - IssueInstant mancante",
-                "description": "Attributo IssueInstant mancante. Risultato atteso: KO",
-                "path": "test/case-8b.xml",
+                "path": "test/case-08.xml",
                 "response": {
                     "IssueInstant": "",
                     "Issuer": "",
@@ -301,9 +173,9 @@
                 "sign_assertion": false
             },
             "9": {
-                "name": "09. Response - Formato IssueInstant non corretto",
-                "description": "Attributo IssueInstant avente formato non corretto. Risultato atteso: KO",
-                "path": "test/case-9.xml",
+                "name": "09. Response - ID mancante",
+                "description": "Attributo ID mancante. Risultato atteso: KO",
+                "path": "test/case-09.xml",
                 "response": {
                     "IssueInstant": "",
                     "Issuer": "",
@@ -333,7 +205,135 @@
                 "sign_assertion": false
             },
             "10": {
-                "name": "10. Response - IssueInstant precedente Request",
+                "name": "10. Response - Version diverso da 2.0",
+                "description": "Attributo Version diverso da 2.0. Risultato atteso: KO",
+                "path": "test/case-10.xml",
+                "response": {
+                    "IssueInstant": "",
+                    "Issuer": "",
+                    "AssertionID": "",
+                    "NameIDNameQualifier": "qualifier",
+                    "NameID": "",
+                    "NotOnOrAfter": "",
+                    "NotBefore": "",
+                    "AuthnIstant": "",
+                    "SessionIndex": "",
+                    "AuthnContextClassRef": "",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+            "11": {
+                "name": "11. Response - IssueInstant non specificato",
+                "description": "Attributo IssueInstant non specificato. Risultato atteso: KO",
+                "path": "test/case-11.xml",
+                "response": {
+                    "IssueInstant": "",
+                    "Issuer": "",
+                    "AssertionID": "",
+                    "NameIDNameQualifier": "qualifier",
+                    "NameID": "",
+                    "NotOnOrAfter": "",
+                    "NotBefore": "",
+                    "AuthnIstant": "",
+                    "SessionIndex": "",
+                    "AuthnContextClassRef": "",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+            "12": {
+                "name": "12. Response - IssueInstant mancante",
+                "description": "Attributo IssueInstant mancante. Risultato atteso: KO",
+                "path": "test/case-12.xml",
+                "response": {
+                    "IssueInstant": "",
+                    "Issuer": "",
+                    "AssertionID": "",
+                    "NameIDNameQualifier": "qualifier",
+                    "NameID": "",
+                    "NotOnOrAfter": "",
+                    "NotBefore": "",
+                    "AuthnIstant": "",
+                    "SessionIndex": "",
+                    "AuthnContextClassRef": "",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+            "13": {
+                "name": "13. Response - Formato IssueInstant non corretto",
+                "description": "Attributo IssueInstant avente formato non corretto. Risultato atteso: KO",
+                "path": "test/case-13.xml",
+                "response": {
+                    "IssueInstant": "",
+                    "Issuer": "",
+                    "AssertionID": "",
+                    "NameIDNameQualifier": "qualifier",
+                    "NameID": "",
+                    "NotOnOrAfter": "",
+                    "NotBefore": "",
+                    "AuthnIstant": "",
+                    "SessionIndex": "",
+                    "AuthnContextClassRef": "",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+            "14": {
+                "name": "14. Response - IssueInstant precedente Request",
                 "description": "Attributo IssueInstant precedente a IssueInstant della request. Risultato atteso: KO",
                 "path": "test/base.xml",
                 "response": {
@@ -364,8 +364,8 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-            "11": {
-                "name": "11. Response - IssueInstant successivo Request",
+            "15": {
+                "name": "15. Response - IssueInstant successivo Request",
                 "description": "Attributo IssueInstant successivo all'istante di ricezione. Risultato atteso: KO",
                 "path": "test/base.xml",
                 "response": {
@@ -396,10 +396,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-            "12a": {
-                "name": "12a. Response - InResponseTo non specificato",
+            "16": {
+                "name": "16. Response - InResponseTo non specificato",
                 "description": "Attributo InResponseTo non specificato. Risultato atteso: KO",
-                "path": "test/case-12a.xml",
+                "path": "test/case-16.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -419,10 +419,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-            "12b": {
-                "name": "12b. Response - InResponseTo mancante",
+            "17": {
+                "name": "17. Response - InResponseTo mancante",
                 "description": "Attributo InResponseTo mancante. Risultato atteso: KO",
-                "path": "test/case-12b.xml",
+                "path": "test/case-17.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -442,8 +442,8 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-            "13": {
-                "name": "13. Response - InResponseTo diverso da Request",
+            "18": {
+                "name": "18. Response - InResponseTo diverso da Request",
                 "description": "Attributo InResponseTo diverso da ID request. Risultato atteso: KO",
                 "path": "test/base.xml",
                 "response": {
@@ -466,217 +466,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-            "14a": {
-                "name": "14a. Response - Destination non specificato",
+            "19": {
+                "name": "19. Response - Destination non specificato",
                 "description": "Attributo Destination non specificato. Risultato atteso: KO",
-                "path": "test/case-14a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "14b": {
-                "name": "14b. Response - Destination mancante",
-                "description": "Attributo Destination mancante. Risultato atteso: KO",
-                "path": "test/case-14b.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "15": {
-                "name": "15. Response - Destination diverso da AssertionConsumerServiceURL",
-                "description": "15. Attributo Destination diverso da AssertionConsumerServiceURL. Risultato atteso: KO",
-                "path": "test/case-15.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "16a": {
-                "name": "16a. Response - Elemento Status non specificato",
-                "description": "Elemento Status non specificato. Risultato atteso: KO",
-                "path": "test/case-16a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "16b": {
-                "name": "16b. Response - Elemento Status mancante",
-                "description": "Elemento Status mancante. Risultato atteso: KO",
-                "path": "test/case-16b.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "17a": {
-                "name": "17a. Response - Elemento StatusCode non specificato",
-                "description": "Elemento StatusCode non specificato. Risultato atteso: KO",
-                "path": "test/case-17a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "17b": {
-                "name": "17b. Response - Elemento StatusCode mancante",
-                "description": "Elemento StatusCode mancante. Risultato atteso: KO",
-                "path": "test/case-17b.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "18": {
-                "name": "18. Response - Elemento StatusCode diverso da success",
-                "description": "Elemento StatusCode diverso da Success. Risultato atteso: KO",
-                "path": "test/case-18.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "19a": {
-                "name": "19a. Response - Elemento Issuer non specificato",
-                "description": "Elemento Issuer non specificato. Risultato atteso: KO",
-                "path": "test/case-19a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "19b": {
-                "name": "19b. Response - Elemento Issuer mancante",
-                "description": "Elemento Issuer mancante. Risultato atteso: KO",
-                "path": "test/case-19b.xml",
+                "path": "test/case-19.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -697,8 +490,8 @@
                 "sign_assertion": false
             },
             "20": {
-                "name": "20. Response - Elemento Issuer diverso da EntityID IdP",
-                "description": "Elemento Issuer diverso da EntityID IdP. Risultato atteso: KO",
+                "name": "20. Response - Destination mancante",
+                "description": "Attributo Destination mancante. Risultato atteso: KO",
                 "path": "test/case-20.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -720,8 +513,8 @@
                 "sign_assertion": false
             },
             "21": {
-                "name": "21. Response - Attributo Format di Issuer diverso",
-                "description": "Attributo Format di Issuer presente e diverso da urn:oasis:names:tc:SAML:2.0:nameid-format:entity. Risultato atteso: KO",
+                "name": "21. Response - Destination diverso da AssertionConsumerServiceURL",
+                "description": "Attributo Destination diverso da AssertionConsumerServiceURL. Risultato atteso: KO",
                 "path": "test/case-21.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -743,8 +536,8 @@
                 "sign_assertion": false
             },
             "22": {
-                "name": "22. Response - Autenticazione annullata da IdP",
-                "description": "Autenticazione annullata da IdP. Elemento StatusCode urn:oasis:names:tc:SAML:2.0:status:Responder. Risultato atteso: KO (messaggio autenticazione annullata)",
+                "name": "22. Response - Elemento Status non specificato",
+                "description": "Elemento Status non specificato. Risultato atteso: KO",
                 "path": "test/case-22.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -766,8 +559,8 @@
                 "sign_assertion": false
             },
             "23": {
-                "name": "23. Response - Elemento Assertion mancante",
-                "description": "Elemento Assertion mancante ed esito positivo autenticazione . Risultato atteso: KO",
+                "name": "23. Response - Elemento Status mancante",
+                "description": "Elemento Status mancante. Risultato atteso: KO",
                 "path": "test/case-23.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -788,33 +581,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-            "24a": {
-                "name": "24a. Assertion - Attributo ID non specificato",
-                "description": "Attributo ID dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-24a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "24b": {
-                "name": "24b. Assertion - Attributo ID mancante",
-                "description": "Attributo ID dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-24b.xml",
+            "24": {
+                "name": "24. Response - Elemento StatusCode non specificato",
+                "description": "Elemento StatusCode non specificato. Risultato atteso: KO",
+                "path": "test/case-24.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -835,8 +605,8 @@
                 "sign_assertion": false
             },
             "25": {
-                "name": "25. Assertion - Attributo Version diverso da 2.0",
-                "description": "Attributo Version dell'Assertion diverso da 2.0. Risultato atteso: KO",
+                "name": "25. Response - Elemento StatusCode mancante",
+                "description": "Elemento StatusCode mancante. Risultato atteso: KO",
                 "path": "test/case-25.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -857,33 +627,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-            "26a": {
-                "name": "26a. Assertion - Attributo IssueInstant non specificato",
-                "description": "Attributo IssueInstant dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-26a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "26b": {
-                "name": "26b. Assertion - Attributo IssueInstant mancante",
-                "description": "Attributo IssueInstant dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-26b.xml",
+            "26": {
+                "name": "26. Response - Elemento StatusCode diverso da success (non valido)",
+                "description": "Elemento StatusCode diverso da Success (non valido). Risultato atteso: KO. il S.P. deve mostrare schermata di errore",
+                "path": "test/case-26.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -904,8 +651,8 @@
                 "sign_assertion": false
             },
             "27": {
-                "name": "27. Assertion - Attributo IssueInstant avente formato non corretto",
-                "description": "Attributo IssueInstant dell'Assertion avente formato non corretto. Risultato atteso: KO",
+                "name": "27. Response - Elemento Issuer non specificato",
+                "description": "Elemento Issuer non specificato. Risultato atteso: KO",
                 "path": "test/case-27.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -927,8 +674,8 @@
                 "sign_assertion": false
             },
             "28": {
-                "name": "28. Assertion - Attributo IssueInstant precedente a IssueInstant della Request",
-                "description": "Attributo IssueInstant dell'Assertion precedente a IssueInstant della Request. Risultato atteso: KO",
+                "name": "28. Response - Elemento Issuer mancante",
+                "description": "Elemento Issuer mancante. Risultato atteso: KO",
                 "path": "test/case-28.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -950,8 +697,8 @@
                 "sign_assertion": false
             },
             "29": {
-                "name": "29. Assertion - Attributo IssueInstant successivo a IssueInstant della Request",
-                "description": "Attributo IssueInstant dell'Assertion successivo a IssueInstant della Request. Risultato atteso: KO",
+                "name": "29. Response - Elemento Issuer diverso da EntityID IdP",
+                "description": "Elemento Issuer diverso da EntityID IdP. Risultato atteso: KO",
                 "path": "test/case-29.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -972,10 +719,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-            "30a": {
-                "name": "30a. Assertion - Elemento Subject non specificato",
-                "description": "Elemento Subject dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-30a.xml",
+            "30": {
+                "name": "30. Response - Attributo Format di Issuer diverso",
+                "description": "Attributo Format di Issuer presente e diverso da urn:oasis:names:tc:SAML:2.0:nameid-format:entity. Risultato atteso: KO",
+                "path": "test/case-30.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -995,11 +742,14 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-            "30b": {
-                "name": "30b. Assertion - Elemento Subject mancante",
-                "description": "Elemento Subject dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-30b.xml",
+            "31": {
+                "name": "31. Response - Autenticazione annullata da IdP",
+                "description": "Autenticazione annullata da IdP. Elemento StatusCode VersionMismatch, Requester o Responder. Risultato atteso: KO (messaggio autenticazione annullata). il S.P. deve mostrare schermata di errore contenente il messaggio come definito della tabella anomalie SPID.",
+                "path": "test/case-31.xml",
                 "response": {
+                    "StatusCode1": "urn:oasis:names:tc:SAML:2.0:status:Responder",
+                    "StatusCode2": "urn:oasis:names:tc:SAML:2.0:status:AuthnFailed",
+                    "StatusMessage": "ErrorCode nr23",
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
@@ -1018,79 +768,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-            "31a": {
-                "name": "31a. Assertion - Elemento NameID non specificato",
-                "description": "Elemento NameID dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-31a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "31b": {
-                "name": "31b. Assertion - Elemento NameID mancante",
-                "description": "Elemento NameID dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-31b.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "32a": {
-                "name": "32a. Assertion - Attributo Format di NameID non specificato",
-                "description": "Attributo Format dell'elemento NameID dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-32a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-            "32b": {
-                "name": "32b. Assertion - Attributo Format di NameID mancante",
-                "description": "Attributo Format dell'elemento NameID dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-32b.xml",
+            "32": {
+                "name": "32. Response - Elemento Assertion mancante",
+                "description": "Elemento Assertion mancante ed esito positivo autenticazione . Risultato atteso: KO",
+                "path": "test/case-32.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1111,8 +792,8 @@
                 "sign_assertion": false
             },
             "33": {
-                "name": "33. Assertion - Attributo Format di NameID diverso",
-                "description": "Attributo Format di NameID dell'Assertion diverso da urn:oasis:names:tc:SAML:2.0:nameidformat:transient. Risultato atteso: KO",
+                "name": "33. Assertion - Attributo ID non specificato",
+                "description": "Attributo ID dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-33.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -1133,10 +814,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "34a": {
-                "name": "34a. Assertion - Attributo NameQualifier di NameID non specificato",
-                "description": "Attributo NameQualifier di NameID dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-34a.xml",
+            "34": {
+                "name": "34. Assertion - Attributo ID mancante",
+                "description": "Attributo ID dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-34.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1156,10 +837,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "34b": {
-                "name": "34b. Assertion - Attributo NameQualifier di NameID mancante",
-                "description": "Attributo NameQualifier di NameID dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-34b.xml",
+            "35": {
+                "name": "35. Assertion - Attributo Version diverso da 2.0",
+                "description": "Attributo Version dell'Assertion diverso da 2.0. Risultato atteso: KO",
+                "path": "test/case-35.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1179,10 +860,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "36a": {
-                "name": "36a. Assertion - Elemento SubjectConfirmation non specificato",
-                "description": "Elemento SubjectConfirmation dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-36a.xml",
+            "36": {
+                "name": "36. Assertion - Attributo IssueInstant non specificato",
+                "description": "Attributo IssueInstant dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-36.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1202,10 +883,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "36b": {
-                "name": "36b. Assertion - Elemento SubjectConfirmation mancante",
-                "description": "Elemento SubjectConfirmation dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-36b.xml",
+            "37": {
+                "name": "37. Assertion - Attributo IssueInstant mancante",
+                "description": "Attributo IssueInstant dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-37.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1225,55 +906,9 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "37a": {
-                "name": "37a. Assertion - Attributo Method di SubjectConfirmation non specificato",
-                "description": "Attributo Method di SubjectConfirmation dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-37a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-           "37b": {
-                "name": "37b. Assertion - Attributo Method di SubjectConfirmation mancante",
-                "description": "Attributo Method di SubjectConfirmation dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-37b.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-           "38": {
-                "name": "38. Assertion - Attributo Method di SubjectConfirmation diverso",
-                "description": "Attributo Method di SubjectConfirmation dell'Assertion diverso da urn:oasis:names:tc:SAML:2.0:cm:bearer. Risultato atteso: KO",
+            "38": {
+                "name": "38. Assertion - Attributo IssueInstant avente formato non corretto",
+                "description": "Attributo IssueInstant dell'Assertion avente formato non corretto. Risultato atteso: KO",
                 "path": "test/case-38.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -1294,9 +929,9 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "39": {
-                "name": "39. Assertion - Elemento SubjectConfirmationData mancante",
-                "description": "Elemento SubjectConfirmationData dell'Assertion mancante. Risultato atteso: KO",
+            "39": {
+                "name": "39. Assertion - Attributo IssueInstant precedente a IssueInstant della Request",
+                "description": "Attributo IssueInstant dell'Assertion precedente a IssueInstant della Request. Risultato atteso: KO",
                 "path": "test/case-39.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -1317,10 +952,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "40a": {
-                "name": "40a. Assertion - Attributo Recipient di SubjectConfirmationData non specificato",
-                "description": "Attributo Recipient di SubjectConfirmationData dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-40a.xml",
+            "40": {
+                "name": "40. Assertion - Attributo IssueInstant successivo a IssueInstant della Request",
+                "description": "Attributo IssueInstant dell'Assertion successivo a IssueInstant della Request. Risultato atteso: KO",
+                "path": "test/case-40.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1340,32 +975,9 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "40b": {
-                "name": "40b. Assertion - Attributo Recipient di SubjectConfirmationData mancante",
-                "description": "Attributo Recipient di SubjectConfirmationData dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-40b.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-           "41": {
-                "name": "41. Assertion - Attributo Recipient di SubjectConfirmationData diverso",
-                "description": "Attributo Recipient di SubjectConfirmationData dell'Assertion diverso da AssertionConsumerServiceURL. Risultato atteso: KO",
+            "41": {
+                "name": "41. Assertion - Elemento Subject non specificato",
+                "description": "Elemento Subject dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-41.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -1386,10 +998,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "42a": {
-                "name": "42a. Assertion - Attributo InResponseTo di SubjectConfirmationData non specificato",
-                "description": "Attributo InResponseTo di SubjectConfirmationData dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-42a.xml",
+            "42": {
+                "name": "42. Assertion - Elemento Subject mancante",
+                "description": "Elemento Subject dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-42.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1409,32 +1021,9 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "42b": {
-                "name": "42b. Assertion - Attributo InResponseTo di SubjectConfirmationData mancante",
-                "description": "Attributo InResponseTo di SubjectConfirmationData dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-42b.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-           "43": {
-                "name": "43. Assertion - Attributo InResponseTo di SubjectConfirmationData diverso da ID request",
-                "description": "Attributo InResponseTo di SubjectConfirmationData dell'Assertion diverso da ID request. Risultato atteso: KO",
+            "43": {
+                "name": "43. Assertion - Elemento NameID non specificato",
+                "description": "Elemento NameID dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-43.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -1455,10 +1044,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "44a": {
-                "name": "44a. Assertion - Elemento Issuer non specificato",
-                "description": "Elemento Issuer dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-44a.xml",
+            "44": {
+                "name": "44. Assertion - Elemento NameID mancante",
+                "description": "Elemento NameID dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-44.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1478,32 +1067,9 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "44b": {
-                "name": "44b. Assertion - Elemento Issuer mancante",
-                "description": "Elemento Issuer dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-44b.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-           "45": {
-                "name": "45. Assertion - Elemento Issuer diverso da EntityID IdP",
-                "description": "Elemento Issuer dell'Assertion diverso da EntityID IdP. Risultato atteso: KO",
+            "45": {
+                "name": "45. Assertion - Attributo Format di NameID non specificato",
+                "description": "Attributo Format dell'elemento NameID dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-45.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -1524,10 +1090,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "46a": {
-                "name": "46a. Assertion - Attributo Format di Issuer non specificato",
-                "description": "Attributo Format di Issuer dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-46a.xml",
+            "46": {
+                "name": "46. Assertion - Attributo Format di NameID mancante",
+                "description": "Attributo Format dell'elemento NameID dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-46.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1547,32 +1113,9 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "46b": {
-                "name": "46b. Assertion - Attributo Format di Issuer mancante",
-                "description": "Attributo Format di Issuer dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-46b.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-           "47": {
-                "name": "47. Assertion - Attributo Format di Issuer diverso",
-                "description": "Attributo Format di Issuer dell'Assertion diverso da urn:oasis:names:tc:SAML:2.0:nameid-format:entity. Risultato atteso: KO",
+            "47": {
+                "name": "47. Assertion - Attributo Format di NameID diverso",
+                "description": "Attributo Format di NameID dell'Assertion diverso da urn:oasis:names:tc:SAML:2.0:nameidformat:transient. Risultato atteso: KO",
                 "path": "test/case-47.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -1593,10 +1136,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "51a": {
-                "name": "51a. Assertion - Elemento Conditions non specificato",
-                "description": "Elemento Conditions dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-51a.xml",
+           "48": {
+                "name": "48. Assertion - Attributo NameQualifier di NameID non specificato",
+                "description": "Attributo NameQualifier di NameID dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-48.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1616,10 +1159,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "51b": {
-                "name": "51b. Assertion - Elemento Conditions mancante",
-                "description": "Elemento Conditions dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-51b.xml",
+           "49": {
+                "name": "49. Assertion - Attributo NameQualifier di NameID mancante",
+                "description": "Attributo NameQualifier di NameID dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-49.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1639,10 +1182,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "52a": {
-                "name": "52a. Assertion - Attributo NotBefore di Condition non specificato",
-                "description": "Attributo NotBefore di Condition dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-52a.xml",
+            "50": {
+                "name": "50. Assertion - NameQualifier di NameID diverso da EntityID del S.P.",
+                "description": "Attributo NameQualifier di NameID dell'Assertion diverso da EntityID del S.P.. Risultato atteso: KO",
+                "path": "test/case-50.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1662,10 +1205,33 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "52b": {
-                "name": "52b. Assertion - Attributo NotBefore di Condition mancante",
-                "description": "Attributo NotBefore di Condition dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-52b.xml",
+           "51": {
+                "name": "51. Assertion - Elemento SubjectConfirmation non specificato",
+                "description": "Elemento SubjectConfirmation dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-51.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "52": {
+                "name": "52. Assertion - Elemento SubjectConfirmation mancante",
+                "description": "Elemento SubjectConfirmation dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-52.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1686,8 +1252,8 @@
                 "sign_assertion": false
             },
            "53": {
-                "name": "53. Assertion - Attributo NotBefore di Condition avente formato non corretto",
-                "description": "Attributo NotBefore di Condition dell'Assertion avente formato non corretto. Risultato atteso: KO",
+                "name": "53. Assertion - Attributo Method di SubjectConfirmation non specificato",
+                "description": "Attributo Method di SubjectConfirmation dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-53.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -1709,8 +1275,8 @@
                 "sign_assertion": false
             },
            "54": {
-                "name": "54. Assertion - Attributo NotBefore di Condition successivo a IssueInstant della Request",
-                "description": "Attributo NotBefore di Condition dell'Assertion successivo a IssueInstant della Request. Risultato atteso: KO",
+                "name": "54. Assertion - Attributo Method di SubjectConfirmation mancante",
+                "description": "Attributo Method di SubjectConfirmation dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-54.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -1731,33 +1297,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "55a": {
-                "name": "55a. Assertion - Attributo NotOnOrAfter di Condition non specificato",
-                "description": "Attributo NotOnOrAfter di Condition dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-55a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-           "55b": {
-                "name": "55b. Assertion - Attributo NotOnOrAfter di Condition mancante",
-                "description": "Attributo NotOnOrAfter di Condition dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-55b.xml",
+           "55": {
+                "name": "55. Assertion - Attributo Method di SubjectConfirmation diverso",
+                "description": "Attributo Method di SubjectConfirmation dell'Assertion diverso da urn:oasis:names:tc:SAML:2.0:cm:bearer. Risultato atteso: KO",
+                "path": "test/case-55.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1778,8 +1321,8 @@
                 "sign_assertion": false
             },
            "56": {
-                "name": "56. Assertion - Attributo NotOnOrAfter di Condition avente formato non corretto",
-                "description": "Attributo NotOnOrAfter di Condition dell'Assertion avente formato non corretto. Risultato atteso: KO",
+                "name": "56. Assertion - Elemento SubjectConfirmationData mancante",
+                "description": "Elemento SubjectConfirmationData dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-56.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -1801,8 +1344,8 @@
                 "sign_assertion": false
             },
            "57": {
-                "name": "57. Assertion - Attributo NotOnOrAfter di Condition precedente all'istante di ricezione",
-                "description": "Attributo NotOnOrAfter di Condition dell'Assertion precedente all'istante di ricezione. Risultato atteso: KO",
+                "name": "57. Assertion - Attributo Recipient di SubjectConfirmationData non specificato",
+                "description": "Attributo Recipient di SubjectConfirmationData dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-57.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -1823,10 +1366,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "58a": {
-                "name": "58a. Assertion - Elemento AudienceRestriction di Condition non specificato",
-                "description": "Elemento AudienceRestriction di Condition dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-58a.xml",
+           "58": {
+                "name": "58. Assertion - Attributo Recipient di SubjectConfirmationData mancante",
+                "description": "Attributo Recipient di SubjectConfirmationData dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-58.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1846,56 +1389,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "58b": {
-                "name": "58b. Assertion - Elemento AudienceRestriction di Condition mancante",
-                "description": "Elemento AudienceRestriction di Condition dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-58b.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-           "59a": {
-                "name": "59a. Assertion - Elemento Audience di AudienceRestriction di Condition non specificato",
-                "description": "Elemento Audience di AudienceRestriction di Condition dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-59a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-           "59b": {
-                "name": "59b. Assertion - Elemento Audience di AudienceRestriction di Condition mancante",
-                "description": "Elemento Audience di AudienceRestriction di Condition dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-59b.xml",
+           "59": {
+                "name": "59. Assertion - Attributo Recipient di SubjectConfirmationData diverso",
+                "description": "Attributo Recipient di SubjectConfirmationData dell'Assertion diverso da AssertionConsumerServiceURL. Risultato atteso: KO",
+                "path": "test/case-59.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1916,8 +1413,8 @@
                 "sign_assertion": false
             },
            "60": {
-                "name": "60. Assertion - Elemento Audience di AudienceRestriction di Condition diverso da Entity Id del Service Provider",
-                "description": "Elemento Audience di AudienceRestriction di Condition dell'Assertion diverso da Entity Id del Service Provider. Risultato atteso: KO",
+                "name": "60. Assertion - Attributo InResponseTo di SubjectConfirmationData non specificato",
+                "description": "Attributo InResponseTo di SubjectConfirmationData dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-60.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -1938,10 +1435,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "61a": {
-                "name": "61a. Assertion - Elemento AuthStatement non specificato",
-                "description": "Elemento AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-61a.xml",
+           "61": {
+                "name": "61. Assertion - Attributo InResponseTo di SubjectConfirmationData mancante",
+                "description": "Attributo InResponseTo di SubjectConfirmationData dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-61.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1961,10 +1458,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "61b": {
-                "name": "61b. Assertion - Elemento AuthStatement mancante",
-                "description": "Elemento AuthStatement dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-61b.xml",
+           "62": {
+                "name": "62. Assertion - Attributo InResponseTo di SubjectConfirmationData diverso da ID request",
+                "description": "Attributo InResponseTo di SubjectConfirmationData dell'Assertion diverso da ID request. Risultato atteso: KO",
+                "path": "test/case-62.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -1984,79 +1481,10 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "62a": {
-                "name": "62a. Assertion - Elemento AuthnContext di AuthStatement non specificato",
-                "description": "Elemento AuthnContext di AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-62a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-           "62b": {
-                "name": "62b. Assertion - Elemento AuthnContext di AuthStatement mancante",
-                "description": "Elemento AuthnContext di AuthStatement dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-62b.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-           "63a": {
-                "name": "63a. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement non specificato",
-                "description": "Elemento AuthContextClassRef di AuthnContext di AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
-                "path": "test/case-63a.xml",
-                "response": {
-                    "NameIDNameQualifier": "qualifier",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test"                
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
-           "63b": {
-                "name": "63b. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement mancante",
-                "description": "Elemento AuthContextClassRef di AuthnContext di AuthStatement dell'Assertion mancante. Risultato atteso: KO",
-                "path": "test/case-63b.xml",
+           "63": {
+                "name": "63. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData non specificato",
+                "description": "Attributo NotOnOrAfter di SubjectConfirmationData dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-63.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
                     "Attributes": {
@@ -2077,8 +1505,698 @@
                 "sign_assertion": false
             },
            "64": {
-                "name": "64. Assertion - Elemento AuthContextClassRef minore di quello richiesto (caso minimum)",
-                "description": "Elemento AuthContextClassRef minore di quello richiesto (caso minimum). Risultato atteso: KO",
+                "name": "64. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData mancante",
+                "description": "Attributo NotOnOrAfter di SubjectConfirmationData mancante. Risultato atteso: KO",
+                "path": "test/case-64.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "65": {
+                "name": "65. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData avente formato non corretto",
+                "description": "Attributo NotOnOrAfter di SubjectConfirmationData avente formato non corretto. Risultato atteso: KO",
+                "path": "test/case-65.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "66": {
+                "name": "66. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData successivo all'istante di ricezione",
+                "description": "Attributo NotOnOrAfter di SubjectConfirmationData successivo all'istante di ricezione. Risultato atteso: KO",
+                "path": "test/case-66.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "67": {
+                "name": "67. Assertion - Elemento Issuer non specificato",
+                "description": "Elemento Issuer dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-67.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "68": {
+                "name": "68. Assertion - Elemento Issuer mancante",
+                "description": "Elemento Issuer dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-68.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "69": {
+                "name": "69. Assertion - Elemento Issuer diverso da EntityID IdP",
+                "description": "Elemento Issuer dell'Assertion diverso da EntityID IdP. Risultato atteso: KO",
+                "path": "test/case-69.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "70": {
+                "name": "70. Assertion - Attributo Format di Issuer non specificato",
+                "description": "Attributo Format di Issuer dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-70.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "71": {
+                "name": "71. Assertion - Attributo Format di Issuer mancante",
+                "description": "Attributo Format di Issuer dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-71.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "72": {
+                "name": "72. Assertion - Attributo Format di Issuer diverso",
+                "description": "Attributo Format di Issuer dell'Assertion diverso da urn:oasis:names:tc:SAML:2.0:nameid-format:entity. Risultato atteso: KO",
+                "path": "test/case-72.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "73": {
+                "name": "73. Assertion - Elemento Conditions non specificato",
+                "description": "Elemento Conditions dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-73.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "74": {
+                "name": "74. Assertion - Elemento Conditions mancante",
+                "description": "Elemento Conditions dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-74.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "75": {
+                "name": "75. Assertion - Attributo NotBefore di Condition non specificato",
+                "description": "Attributo NotBefore di Condition dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-75.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "76": {
+                "name": "76. Assertion - Attributo NotBefore di Condition mancante",
+                "description": "Attributo NotBefore di Condition dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-76.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "77": {
+                "name": "77. Assertion - Attributo NotBefore di Condition avente formato non corretto",
+                "description": "Attributo NotBefore di Condition dell'Assertion avente formato non corretto. Risultato atteso: KO",
+                "path": "test/case-77.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "78": {
+                "name": "78. Assertion - Attributo NotBefore di Condition successivo a IssueInstant della Request",
+                "description": "Attributo NotBefore di Condition dell'Assertion successivo a IssueInstant della Request. Risultato atteso: KO",
+                "path": "test/case-78.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "79": {
+                "name": "79. Assertion - Attributo NotOnOrAfter di Condition non specificato",
+                "description": "Attributo NotOnOrAfter di Condition dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-79.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "80": {
+                "name": "80. Assertion - Attributo NotOnOrAfter di Condition mancante",
+                "description": "Attributo NotOnOrAfter di Condition dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-80.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "81": {
+                "name": "81. Assertion - Attributo NotOnOrAfter di Condition avente formato non corretto",
+                "description": "Attributo NotOnOrAfter di Condition dell'Assertion avente formato non corretto. Risultato atteso: KO",
+                "path": "test/case-81.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "82": {
+                "name": "82. Assertion - Attributo NotOnOrAfter di Condition precedente all'istante di ricezione",
+                "description": "Attributo NotOnOrAfter di Condition dell'Assertion precedente all'istante di ricezione. Risultato atteso: KO",
+                "path": "test/case-82.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "83": {
+                "name": "83. Assertion - Elemento AudienceRestriction di Condition non specificato",
+                "description": "Elemento AudienceRestriction di Condition dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-83.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "84": {
+                "name": "84. Assertion - Elemento AudienceRestriction di Condition mancante",
+                "description": "Elemento AudienceRestriction di Condition dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-84.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "85": {
+                "name": "85. Assertion - Elemento Audience di AudienceRestriction di Condition non specificato",
+                "description": "Elemento Audience di AudienceRestriction di Condition dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-85.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "86": {
+                "name": "86. Assertion - Elemento Audience di AudienceRestriction di Condition mancante",
+                "description": "Elemento Audience di AudienceRestriction di Condition dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-86.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "87": {
+                "name": "87. Assertion - Elemento Audience di AudienceRestriction di Condition diverso da Entity Id del Service Provider",
+                "description": "Elemento Audience di AudienceRestriction di Condition dell'Assertion diverso da Entity Id del Service Provider. Risultato atteso: KO",
+                "path": "test/case-87.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "88": {
+                "name": "88. Assertion - Elemento AuthStatement non specificato",
+                "description": "Elemento AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-88.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "89": {
+                "name": "89. Assertion - Elemento AuthStatement mancante",
+                "description": "Elemento AuthStatement dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-89.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "90": {
+                "name": "90. Assertion - Elemento AuthnContext di AuthStatement non specificato",
+                "description": "Elemento AuthnContext di AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-90.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "91": {
+                "name": "91. Assertion - Elemento AuthnContext di AuthStatement mancante",
+                "description": "Elemento AuthnContext di AuthStatement dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-91.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "92": {
+                "name": "92. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement non specificato",
+                "description": "Elemento AuthContextClassRef di AuthnContext di AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
+                "path": "test/case-92.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "93": {
+                "name": "93. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement mancante",
+                "description": "Elemento AuthContextClassRef di AuthnContext di AuthStatement dell'Assertion mancante. Risultato atteso: KO",
+                "path": "test/case-93.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "94": {
+                "name": "94. Assertion - Elemento AuthContextClassRef minore di quello richiesto (caso minimum)",
+                "description": "Elemento AuthContextClassRef minore di quello richiesto (caso minimum). Risultato atteso: fare attenzioen al livello richiesto sulla request.",
                 "path": "test/base.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -2100,9 +2218,9 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "65": {
-                "name": "65. Assertion - Elemento AuthContextClassRef diverso da quello richiesto (caso exact)",
-                "description": "Elemento AuthContextClassRef diverso da quello richiesto (caso exact). Risultato atteso: KO",
+           "95": {
+                "name": "95. Assertion - Elemento AuthContextClassRef diverso da quello richiesto (caso exact)",
+                "description": "Elemento AuthContextClassRef diverso da quello richiesto (caso exact). Risultato atteso: fare attenzioen al livello richiesto sulla request.",
                 "path": "test/base.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier",
@@ -2124,18 +2242,52 @@
                 "sign_response": true,
                 "sign_assertion": false
             },
-           "66": {
-                "name": "66. Assertion - Elemento AttributeStatement presente, ma sottoelemento Attribute mancante o non specificato",
-                "description": "Elemento AttributeStatement presente, ma sottoelemento Attribute mancante o non specificato. Risultato atteso: KO",
-                "path": "test/case-66.xml",
+           "96": {
+                "name": "96. Assertion - Elemento AuthContextClassRef diverso da quello richiesto (caso maximum)",
+                "description": "Elemento AuthContextClassRef diverso da quello richiesto (caso maximum). Risultato atteso: fare attenzioen al livello richiesto sulla request.",
+                "path": "test/base.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier",
+                    "AuthnContextClassRef": "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL1",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test"                
+                   }
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+           "97": {
+                "name": "97. Assertion - Elemento AttributeStatement presente, ma sottoelemento Attribute mancante ",
+                "description": "Elemento AttributeStatement presente, ma sottoelemento Attribute mancante. Risultato atteso: KO",
+                "path": "test/case-97.xml",
                 "response": {
                     "NameIDNameQualifier": "qualifier"
                 },
                 "sign_response": true,
                 "sign_assertion": false
             },
-            "67": {
-                "name": "67. Assertion - Firma diversa",
+           "98": {
+                "name": "98. Assertion - Elemento AttributeStatement presente, con sottoelemento Attribute non specificato",
+                "description": "Elemento AttributeStatement presente, ma sottoelemento Attribute non specificato. Risultato atteso: KO",
+                "path": "test/case-98.xml",
+                "response": {
+                    "NameIDNameQualifier": "qualifier"
+                },
+                "sign_response": true,
+                "sign_assertion": false
+            },
+            "99": {
+                "name": "99. Assertion - Firma diversa",
                 "description": "Assertion firmata con certificato diverso. Risultato atteso: KO",
                 "path": "test/base.xml",
                 "response": {
@@ -2162,8 +2314,8 @@
 		            "privateKey": "MIIJKQIBAAKCAgEAy/aKL72UauMVZWhLNpLlyIhEgwKQUBye9/e0NaSrSUSltos9BgXbZqinSBKLsxJdik03SWXZyJS6M65TcXrKoWCf4cV6XFlpVA5moInesZweawEZnAzY3BgHbJTsUVM3k3p6WZI1NwCWmFQuhh0ZbVFd9+KmjqMsdY9nxFJu8knuZRCuth1EiizDk4G3e6Us8j5zKbvMe7gNYv4NzUM5LflnLSn0CFBvsqMBj3ztKbaxdn40kLEbxkpHNtLihCvFLHvRT5NSKtaCyiAxG7Gtmf/koIbv2za9whFvmCAqvZM57GF2U382nWi+2EFFwZ2H+2NQi9dEsVZQ7qaUf35GFFtKYf5h9nGSARifl86hDB/BVAKf3JQkPvZ7Zpy+uNzi6Pw8cF2TGNsc9I0DiIKv1wrgbtMlSOJDiqrS1s/ra28ngNoVTOD6tpxzLZjbdaZJKyulODraoZBX/YJ60g/1v0XLr+HGA4wSbvD3zPKSrEiYf81S5C55ED1a7CpLaDPH8hcaeWvSUxRT89g1ZSISWHqtDvcuPIud2rDi9JtkfDiXw0E8i567YXQ9EZHMRobeFHIXJeENgOGEGFNSNCDFznDDRDCswi9IdegX+aT4m7QVLk3R2l58PpQ1gsTZBcTaWNU0jP0aUCrQ277vc2Ld2I4RaTfdxIzJXiHvF1/VHxcCAwEAAQKCAgAhqU6lEmSsP04Irm27VAMYVWT5OjMXBaI2ymqzb7nVHb87oT8w/0Z2at8wxd7Ibv+BE71MH8MRl3ojjWG4GMvYVloMqMrI8vivJrFJTXezWFCs2EGhv30K1exjvzBBO7qwXEZVAgxGR5KTEVGcULEhmYwonP9gCw4LWN+HRxOIaSsvAtHSvIHTTA/7CC1/+oKweB4JhTT6NiX/cG5WsgF91OtySLo9pQjKMpzPUY7Sk5Q2Oh3yw0gSMbAPHD7GEXM5JDYnK+kjqMNtGGMCbxB3mgPhemObii1HGhmQwb5MC0BEAtHEdfpNgDv+9MbObXFDy+A/NAfiPJyexl87q1tlNTpsuo8qYPoSqOSbB1/S2Nexq58i7kuFadsZmrRCdYL4un7dR1Md14sw4euRK0/ysYjb3AwjiNowRTRZ3PFA5DJDf9fb2ut0hbxh1PKWRoPE6o6Zb0WesT7KdP8fW21HpCU72seNCZg22OWVFEG/+WSmazaSKMmRptL0QopbdH8QZ2z48DLbVZXWluTBomKeEzDH7VArHkQ+t1EeeCXZoc+l7BUAK0vKSvO1YSCzQi21YuZviGL+Jo5d9jAjqnaDhkkqcyNGFkVFtyZ7Y5efBnrixJBWeRtHTu8yfN40Svxz5S8xA1joYkeMrtp9Q97JwyfGHCyzaf3nXDCO98ywAQKCAQEA6Z0awf9J91ark+aQsVp9/xmUlSogWsoGMUAQvLRBjr9T2Wg6FAoTMhvWnp7VYZoiNfwy+zeKu57wK7QAVlyR8GTNNPi5GaTzPEL/wvjJQmKycEBD4+S9VYxBFN+6Y2dKcz1eOzxH3t8EUcS/F6gyZqINkd9mnPGW/JUYV/BQcXrrvSP0UzxNk0WOtJW7zWQu+GSZ566W0TekBx8e/SYvr7+S4x8tWB3M19xIgPKQQSEtilrIsWfWg6t9QygJcAObl0mNXjZAvlmHpt/nsYAjnVcpIVRYxvguvA3eTnyEY3hkA0FwVir22MnUWFtn1KsTyHyyd+01Bv5CUcRKlxPrIQKCAQEA34IPcwPh3twx2cIGEss8gJhZ26RZcdCqoZ862adQcl2QptCeqVYnfZ50uLPGR6+BSyaRUCpYKbn5L3wFBiuuksHDHymOCExPFlIVMEory8324M1hdIV3YXuNwjUenp/NyGexFQmMT+qyK2b70s03WMO0gfXTK2G8Rfcsr4xe+zw/AKb8EwFMf+RzOnSqrTHwMCHyE3kCi9WfSfVOlQ1nnpbeq31EhHBiFZvawAs3uBT1qPiE+jDfKIg2+p+1a/koUlvHkoRMk4E0BRiT/BwBOPge8DQn/tvo+bR8COaz6I9tNRh01CTYrUuZDEdC4lzcNIDNYNHlVCcZrkaPPL07NwKCAQEA3zyzryJm6iY2O1Uee3v/3t/w7kGdPWTEWhfgZpLR+ri2RZClvzSJd17Gzjj1qxkBDBl+FjXTKssMspaFpAE9rDyHI9FyACFyFenoQcY/fGKYJVAkEAgrLS6jmnDYydiQemLwQyatfzoaBJFAEjk2QIEm+nhCtELgh2lqI86O8IIH92v+M/PyJYNYhRR4rCLKB68KqyxZDoBfDDcfA8WT2Bv3H3ZRfFytvLDRz/b7BmHQBOAP3AdgI96iCqSdsB6idgVhQ+AQKlWfnUVlQGc0oUwDD8hsNWZAMpAGGXY/hFYtLDdCQ/U2gZ8MfYqLQ9xfQTx3xsYz4ATkFwK+THRKQQKCAQEAqIu+tMAPu2yXVxv+UnvacyrwUDa+kJqHofueeHW4r5WpOHKHwzDJ9OviH0rKUlKiEJbT6/0SoNyyccF3VHDqY5ckWkKO7ekFltJtUg4MutLlwh5+yEzBesyeWP6PyZS+rMqs+i1KFxXoJ9ywOAYzH4ftfjdvd/5q6OP9WaBkG9cRt5805ewL0UHoNwO1lYfcFZ/zmgWeCu8cALyw9qu2IRyqa+26FpldDeiK7FlJOlLr8fD+7mCeWEVoGFUJjZPFeV3mwLFtwaokHVeseOhxb5GEWyUpqAITzQHyqw+2ScCm3OxFZZknoH8qudyfLm5STHF47vM5md0me4qQB4C3vwKCAQAEjuLKDUAJOW285rjcbEOAQulJqB3Z7lZxMJeW0khhhBF6h8KlUpr73rF+LKS3m1LEIMvhmTJqsapqP39bigfP3zRS64t7Fbag7nKH+DRrUz8zCANQ74YIdbsm0j0s8+ULKMYpPimuuDJ7xVCQGUTckFLwPCIAvXnWWbxwbBDLM2CYpjdQ+W/NpPPXngFkjMDDVU8n5r10T0WIZA0j7pG2Qp2Ma2GLqOvXlx59xcNZU8lqqNL0+ravgRmP5Jb/LrpP06pnFKf0UIflZ2+zsEdxLNx6XVuJlw+Y+Pqw8eXBpY6dx68h7wAREolVMnzpciAEGwV5LWPWV71IBE5joHaa"
 	            }
             },
-           "70": {
-                "name": "70. Assertion - Set di attributi inviato diverso da quello richiesto",
+           "104": {
+                "name": "104. Assertion - Set di attributi inviato diverso da quello richiesto",
                 "description": "Set di attributi inviato diverso da quello richiesto",
                 "path": "test/base.xml",
                 "response": {

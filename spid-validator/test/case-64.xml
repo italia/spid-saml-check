@@ -14,14 +14,13 @@
         <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
         <saml:Subject>
             <saml:NameID 
-                Format=""
+                Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"
                 NameQualifier="{{NameIDNameQualifier}}">
                     {{NameID}}
             </saml:NameID>
             <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
                 <saml:SubjectConfirmationData 
                     InResponseTo="{{AuthnRequestID}}"
-                    NotOnOrAfter="{{NotOnOrAfter}}"
                     Recipient="{{AssertionConsumerURL}}" />
             </saml:SubjectConfirmation>
         </saml:Subject>

@@ -41,48 +41,37 @@
         </saml:AuthnStatement>
         <saml:AttributeStatement>
             <saml:Attribute Name="spidCode" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">{{AttributeSpidCode}}</saml:AttributeValue>
+                <saml:AttributeValue>{{AttributeSpidCode}}</saml:AttributeValue>
             </saml:Attribute>
             <saml:Attribute Name="name" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">{{AttributeName}}</saml:AttributeValue>
+                <saml:AttributeValue>{{AttributeName}}</saml:AttributeValue>
             </saml:Attribute>
             <saml:Attribute Name="familyName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">{{AttributeFamilyName}}</saml:AttributeValue>
+                <saml:AttributeValue>{{AttributeFamilyName}}</saml:AttributeValue>
             </saml:Attribute>
             <saml:Attribute Name="placeOfBirth" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">{{AttributePlaceOfBirth}}</saml:AttributeValue>
+                <saml:AttributeValue>{{AttributePlaceOfBirth}}</saml:AttributeValue>
             </saml:Attribute>
             <saml:Attribute Name="countyOfBirth" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">{{AttributeCountyOfBirth}}</saml:AttributeValue>
+                <saml:AttributeValue>{{AttributeCountyOfBirth}}</saml:AttributeValue>
             </saml:Attribute>
             <saml:Attribute Name="dateOfBirth" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:date">{{AttributeDateOfBirth}}</saml:AttributeValue>
+                <saml:AttributeValue>{{AttributeDateOfBirth}}</saml:AttributeValue>
             </saml:Attribute>
             <saml:Attribute Name="gender" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">{{AttributeGender}}</saml:AttributeValue>
+                <saml:AttributeValue>{{AttributeGender}}</saml:AttributeValue>
             </saml:Attribute>
             <saml:Attribute Name="fiscalNumber" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">{{AttributeFiscalNumber}}</saml:AttributeValue>
+                <saml:AttributeValue>{{AttributeFiscalNumber}}</saml:AttributeValue>
             </saml:Attribute>
             <saml:Attribute Name="mobilePhone" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">{{AttributeMobilePhone}}</saml:AttributeValue>
+                <saml:AttributeValue>{{AttributeMobilePhone}}</saml:AttributeValue>
             </saml:Attribute>
             <saml:Attribute Name="email" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">{{AttributeEmail}}</saml:AttributeValue>
+                <saml:AttributeValue>{{AttributeEmail}}</saml:AttributeValue>
             </saml:Attribute>
             <saml:Attribute Name="address" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">{{AttributeAddress}}</saml:AttributeValue>
+                <saml:AttributeValue>{{AttributeAddress}}</saml:AttributeValue>
             </saml:Attribute>
         </saml:AttributeStatement>
     </saml:Assertion>

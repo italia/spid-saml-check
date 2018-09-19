@@ -18,7 +18,7 @@
                 NameQualifier="{{NameIDNameQualifier}}">
                     {{NameID}}
             </saml:NameID>
-            <saml:SubjectConfirmation Method="">
+            <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
                 <saml:SubjectConfirmationData 
                     InResponseTo="{{AuthnRequestID}}"
                     NotOnOrAfter="{{NotOnOrAfter}}"
@@ -40,7 +40,7 @@
             </saml:AuthnContext>
         </saml:AuthnStatement>
         <saml:AttributeStatement>
-            {{Attributes}}
+            <saml:Attribute Name="spidCode" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"></saml:Attribute>
         </saml:AttributeStatement>
     </saml:Assertion>
 </samlp:Response>

@@ -19,15 +19,12 @@
                     {{NameID}}
             </saml:NameID>
             <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
-                <saml:SubjectConfirmationData 
-                    InResponseTo="{{AuthnRequestID}}"
-                    NotOnOrAfter="{{NotOnOrAfter}}"
-                    Recipient="{{AssertionConsumerURL}}" />
+
             </saml:SubjectConfirmation>
         </saml:Subject>
         <saml:Conditions 
             NotBefore="{{IssueInstant}}" 
-            NotOnOrAfter="10-09-2018" >
+            NotOnOrAfter="{{NotOnOrAfter}}" >
             <saml:AudienceRestriction>
                 <saml:Audience>{{Audience}}</saml:Audience>
             </saml:AudienceRestriction>
