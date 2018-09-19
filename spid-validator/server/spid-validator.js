@@ -17,6 +17,8 @@ const RequestParser = require("./lib/saml-utils").RequestParser;
 const Signer = require("./lib/signer").Signer;
 const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 
+const Database = require("./lib/database");
+
 
 var app = express();
 app.use(helmet());
@@ -38,6 +40,8 @@ app.set('view engine', 'handlebars');
 
 
 app.get("/", function (req, res) {
+    let tryDB = new Database();
+
     if(req.session.request==null) {
         res.sendFile(path.resolve(__dirname, "..", "client/view", "front.html"));        
     } else {
