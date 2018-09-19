@@ -40,13 +40,31 @@ app.set('view engine', 'handlebars');
 
 
 app.get("/", function (req, res) {
-    let tryDB = new Database();
-
     if(req.session.request==null) {
         res.sendFile(path.resolve(__dirname, "..", "client/view", "front.html"));        
     } else {
         res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
     }
+});
+
+var tryDB = new Database().connect().setup();
+
+app.get("/new", function (req, res) {
+    tryDB = new Database().connect().setup();
+    res.status(200).send("OK");
+});
+
+app.get("/log", function (req, res) {
+    tryDB.log("TEST", "CIAO");
+    let result = tryDB.select("select * from log");
+    Utility.log("LIST DB", result);
+    res.status(200).send(result);
+});
+
+app.get("/list", function (req, res) {
+    let result = tryDB.select("select * from log");
+    Utility.log("LIST DB", result);
+    res.status(200).send(result);
 });
 
 app.post("/samlsso", function (req, res) {
