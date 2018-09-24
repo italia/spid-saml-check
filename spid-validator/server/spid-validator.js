@@ -33,6 +33,9 @@ app.use(session({
     //cookie: { maxAge: 60000 }
 }));
 
+//create databse
+var database = new Database().connect().setup();
+
 //use template handlebars
 app.set('views', './client/view');
 app.engine('handlebars', exphbs());
@@ -47,25 +50,27 @@ app.get("/", function (req, res) {
     }
 });
 
-var tryDB = new Database().connect().setup();
 
-app.get("/new", function (req, res) {
-    tryDB = new Database().connect().setup();
-    res.status(200).send("OK");
-});
 
-app.get("/log", function (req, res) {
-    tryDB.log("TEST", "CIAO");
-    let result = tryDB.select("select * from log");
-    Utility.log("LIST DB", result);
+/* WORKSAVE MANAGEMENT ------------------------------------------------------------------------------------- */
+
+app.get("/saveData", function (req, res) {
+    database.saveData(req.query.user, req.query.entity, req.query.key, req.query.val);
+    let result = database.getData(req.query.user, req.query.entity, req.query.key, req.query.val);
     res.status(200).send(result);
 });
 
-app.get("/list", function (req, res) {
-    let result = tryDB.select("select * from log");
-    Utility.log("LIST DB", result);
+app.get("/getData", function (req, res) {
+    let result = database.getData(req.query.user, req.query.entity, req.query.key);
     res.status(200).send(result);
 });
+
+app.get("/workSaved", function (req, res) {
+    let result = database.isWorkSaved(req.query.user, req.query.entity);
+    res.status(200).send(result);
+});
+
+/* -------------------------------------------------------------------------------------------------------- */
 
 app.post("/samlsso", function (req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
