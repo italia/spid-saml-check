@@ -20,6 +20,9 @@ const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 const Database = require("./lib/database");
 
 
+const user = "LOCALHOST"; // temp default user. To change whith login implementation
+
+
 var app = express();
 app.use(helmet());
 app.use(bodyParser.json());
@@ -86,12 +89,14 @@ app.post("/samlsso", function (req, res) {
         if(requestParser.isAuthnRequest()) {
             let requestID = requestParser.ID();
             let requestIssueInstant = requestParser.IssueInstant();
+            let requestIssuer = requestParser.Issuer();
             let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
             let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
             let requestAssertionConsumerServiceIndex = requestParser.AssertionConsumerServiceIndex();
             req.session.request = {
                 id: requestID,
                 issueInstant: requestIssueInstant,
+                issuer: requestIssuer,
                 authnContextClassRef: requestAuthnContextClassRef,
                 assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
                 assertionConsumerServiceIndex: requestAssertionConsumerServiceIndex,
@@ -136,12 +141,14 @@ app.get("/samlsso", function (req, res) {
             let requestID = requestParser.ID();
             let requestIssueInstant = requestParser.IssueInstant();
             let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
+            let requestIssuer = requestParser.Issuer();
             let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
             let requestAssertionConsumerServiceIndex = requestParser.AssertionConsumerServiceIndex();
             req.session.request = {
                 id: requestID,
                 issueInstant: requestIssueInstant,
                 authnContextClassRef: requestAuthnContextClassRef,
+                issuer: requestIssuer,
                 assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
                 assertionConsumerServiceIndex: requestAssertionConsumerServiceIndex,
                 xml: xml
@@ -172,6 +179,20 @@ app.get("/samlsso", function (req, res) {
 
 /* API */
 
+app.get("/api/metadata-sp", function(req, res) {
+    let DATA_DIR = "../specs-compliance-tests/data";
+    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+
+    let savedMetadata = database.getData(user, req.session.request.issuer, "metadata").result.metadata;
+    if(savedMetadata) {
+        req.session.metadata = JSON.parse(savedMetadata);
+        fs.writeFileSync(DATA_DIR + "/sp-metadata.xml", req.session.metadata.xml, "utf8");
+        res.status(200).send(req.session.metadata.xml);
+    } else {
+        res.status(404).send();
+    }
+});
+
 app.post("/api/metadata-sp/download", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
@@ -179,10 +200,12 @@ app.post("/api/metadata-sp/download", function(req, res) {
     Utility.metadataDownload(req.body.url, DATA_DIR + "/sp-metadata.xml").then(
         (file_name) => {
             let xml = fs.readFileSync(DATA_DIR + "/sp-metadata.xml", "utf8");
+            xml = xml.replaceAll("\n", "");
             req.session.metadata = {
                 url: req.body.url,
                 xml: xml
             }
+            database.saveData(user, req.session.request.issuer, "metadata", req.session.metadata);
             res.status(200).send(xml);
         },
         (err) => {

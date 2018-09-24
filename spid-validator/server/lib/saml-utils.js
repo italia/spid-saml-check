@@ -218,6 +218,12 @@ class RequestParser {
         return requestIssueInstant;
     }
 
+    Issuer() {
+        let doc = new DOMParser().parseFromString(this.request.xml);
+        let issuer = select("string(//samlp:AuthnRequest/saml:Issuer)", doc);
+        return issuer;
+    }
+
     AuthnContextClassRef() {
         let doc = new DOMParser().parseFromString(this.request.xml);
         let requestAuthnContextClassRef = select("string(//samlp:AuthnRequest/samlp:RequestedAuthnContext/saml:AuthnContextClassRef)", doc);

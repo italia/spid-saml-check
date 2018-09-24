@@ -10,7 +10,6 @@ class Database {
 
     constructor() {
 
-        
     }
 
     connect() {
@@ -102,7 +101,9 @@ class Database {
 
         let sql1 = "INSERT OR IGNORE INTO status(user, entity_id, timestamp, " + key + ") VALUES (?, ?, DATETIME('now', 'localtime'), ?);";
         let sql2 = "UPDATE status SET timestamp=DATETIME('now', 'localtime'), " + key + "=? WHERE user=? AND entity_id=?";
+
         try { 
+            val = JSON.stringify(val);
             this.db.prepare(sql1).run(user, entity_id, val);
             this.db.prepare(sql2).run(val, user, entity_id);
         } catch(exception) {
