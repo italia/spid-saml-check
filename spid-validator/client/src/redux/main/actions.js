@@ -2,6 +2,7 @@ export const SET_REQUEST_XML = "SET_REQUEST_XML";
 export const SET_METADATA_SP_URL = "SET_METADATA_SP_URL";
 export const SET_METADATA_SP_XML = "SET_METADATA_SP_XML";
 export const SET_RESPONSE_TEST_SUCCESS = "SET_RESPONSE_TEST_SUCCESS";
+export const SET_STORE = "SET_STORE";
 
 class Actions {
 
@@ -30,6 +31,13 @@ class Actions {
         return {
             type: SET_RESPONSE_TEST_SUCCESS,
             key: key,
+            value: value
+        }        
+    }
+
+    static setStore(value) {
+        return {
+            type: SET_STORE,
             value: value
         }        
     }

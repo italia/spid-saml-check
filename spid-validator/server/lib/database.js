@@ -43,18 +43,12 @@ class Database {
                     type        STRING,   \
                     text        STRING (1024) \
                 ); \
-                CREATE TABLE status ( \
+                CREATE TABLE store ( \
                     user                        STRING, \
                     entity_id                   STRING, \
                     timestamp                   DATETIME, \
-                    metadata                    TEXT, \
-                    report_metadata_strict      TEXT,\
-                    report_metadata_cert        TEXT, \
-                    report_metadata_extra       TEXT, \
-                    report_request_strict       TEXT, \
-                    report_request_cert         TEXT, \
-                    report_request_extra        TEXT, \
-                    report_response             TEXT, \
+                    type                        STRING, \
+                    store                       TEXT, \
                     PRIMARY KEY (user, entity_id)     \
                 ); \
             ");
@@ -87,37 +81,41 @@ class Database {
         }
     }
 
-    isWorkSaved(user, entity_id) {
+
+    saveStore(user, entity_id, type, store) {
         if(!this.checkdb()) return;
 
-        let data = {result: false};
-        let result = this.select("SELECT user, entity_id FROM status WHERE user='" + user + "' AND entity_id='" + entity_id + "'");
-        if(result.length==1) data.result = true;
-        return data; 
-    }
-
-    saveData(user, entity_id, key, val) {
-        if(!this.checkdb()) return;
-
-        let sql1 = "INSERT OR IGNORE INTO status(user, entity_id, timestamp, " + key + ") VALUES (?, ?, DATETIME('now', 'localtime'), ?);";
-        let sql2 = "UPDATE status SET timestamp=DATETIME('now', 'localtime'), " + key + "=? WHERE user=? AND entity_id=?";
+        let sql1 = "INSERT OR IGNORE INTO store(user, entity_id, timestamp, type, store) VALUES (?, ?, DATETIME('now', 'localtime'), ?, ?);";
+        let sql2 = "UPDATE store SET timestamp=DATETIME('now', 'localtime'), type=?, store=? WHERE user=? AND entity_id=?";
 
         try { 
-            val = JSON.stringify(val);
-            this.db.prepare(sql1).run(user, entity_id, val);
-            this.db.prepare(sql2).run(val, user, entity_id);
+            let storeSerialized = JSON.stringify(store);
+            this.db.prepare(sql1).run(user, entity_id, type, storeSerialized);
+            this.db.prepare(sql2).run(type, storeSerialized, user, entity_id);
         } catch(exception) {
             utility.log("DATABASE EXCEPTION", exception.toString());
-        }        
+        } 
     }
 
-    getData(user, entity_id, key) {
+    getStore(user, entity_id, type) {
         if(!this.checkdb()) return;
 
-        let data = {result: false};
-        let result = this.select("SELECT " + key + " FROM status WHERE user='" + user + "' AND entity_id='" + entity_id + "'");
-        if(result.length==1) data.result = result[0];
+        let data = false;
+        let result = this.select("SELECT store FROM store WHERE user='" + user + "' AND entity_id='" + entity_id + "' AND type='" + type + "'");
+        if(result.length==1) data = JSON.parse(result[0].store);
         return data; 
+    }
+
+    deleteStore(user, entity_id, type) {
+        if(!this.checkdb()) return;
+
+        let sql = "DELETE FROM store WHERE user=? AND entity_id=? AND type=?";
+
+        try { 
+            this.db.prepare(sql).run(user, entity_id, type);
+        } catch(exception) {
+            utility.log("DATABASE EXCEPTION", exception.toString());
+        } 
     }
 
 }

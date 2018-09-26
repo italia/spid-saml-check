@@ -33,6 +33,10 @@ function transitions(state = initialState, action) {
             });
             break; 
             
+        case Type.SET_STORE:
+            state = Object.assign({}, state, action.value);
+            break; 
+
         default: 
             state = Object.assign({}, state);
             break;  

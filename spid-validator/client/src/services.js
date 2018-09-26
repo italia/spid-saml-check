@@ -27,15 +27,50 @@ class MainService {
 		});
 	}	
 
-	getMetadataSp(url, callback_response, callback_error) {
+	loadWorkspace(callback_response, callback_error) {
+		Utility.log("GET /api/store");
+		axios.get('/api/store')
+		.then(function(response) {
+			Utility.log("loadWorkspace Success", response.data);
+            callback_response(response.data);
+		})
+		.catch(function(error) {
+			Utility.log("loadWorkspace Error", error.response.data);
+            callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+	}
+
+	saveWorkspace(data) {
+		Utility.log("POST /api/store", data);
+		axios.post('/api/store', data)
+		.then(function(response) {
+			Utility.log("saveWorkspace Success", response.data);
+		})
+		.catch(function(error) {
+			Utility.log("saveWorkspace Error", error.response.data);
+		});
+	}
+
+	resetWorkspace() {
+		Utility.log("DELETE /api/store");
+		axios.delete('/api/store')
+		.then(function(response) {
+			Utility.log("resetWorkspace Success", response.data);
+		})
+		.catch(function(error) {
+			Utility.log("resetWorkspace Error", error.response.data);
+		});
+	}
+
+	downloadMetadataSp(url, callback_response, callback_error) {
 		Utility.log("POST /api/metadata-sp/download");
 		axios.post('/api/metadata-sp/download', {url: url})
 		.then(function(response) {
-			Utility.log("getMetadataSp Success", response.data);
+			Utility.log("downloadMetadataSp Success", response.data);
 			callback_response(response.data);
 		})
 		.catch(function(error) {
-			Utility.log("getMetadataSp Error", error.response.data);
+			Utility.log("downloadMetadataSp Error", error.response.data);
 			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
 	}

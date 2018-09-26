@@ -1,29 +1,49 @@
 import React, { Component } from 'react';
+import sha256 from 'crypto-js/sha256';
 import view from "./view.js";
 import Services from '../../services';
 import Utility from '../../utility';
-import sha256 from 'crypto-js/sha256';
+import ReduxStore from "../../redux/store";
+import Actions from "../../redux/main/actions";
 
 
 class Worksave extends Component {
 
 	constructor(props) {
 		super(props);
-    
-		this.state = {
+        this.state = { workspace: false };
 
-		}
-	}	
+        let service = Services.getMainService();
+        service.loadWorkspace(
+        (data)=> {
+            // no workspace found
+            if(!data) window.location="/#/request";
+            else this.setState({ workspace: data });
+        },
+        (error)=> {
+            Utility.showModal({
+                title: "Attenzione, si è verificato un errore",
+                body: error,
+                isOpen: true
+            });
+        });
+	}
   
     startContinue() {
         Utility.log("WorkSave", "Start CONTINUE");	
+        let store = ReduxStore.getMain();
+        store.dispatch(Actions.setStore(this.state.workspace)); 
+        this.props.history.push('/request');
     }
 
     startNew() {
         Utility.log("WorkSave", "Start NEW");
+        let service = Services.getMainService();
+		service.resetWorkspace();
         window.location="/#/request";
     }
     
+/*
 	login() {	
 		let service = Services.getMainService();
 
@@ -60,9 +80,14 @@ class Worksave extends Component {
 
 		}
 	}
+*/
   
 	render() {    
-		return view(this);
+		if(this.state.workspace!=false) {
+            return view(this);
+        } else return (
+            <div>Loading...</div>
+        );
 	}
   
 }

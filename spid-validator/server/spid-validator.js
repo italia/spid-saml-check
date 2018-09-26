@@ -55,26 +55,6 @@ app.get("/", function (req, res) {
 
 
 
-/* WORKSAVE MANAGEMENT ------------------------------------------------------------------------------------- */
-
-app.get("/saveData", function (req, res) {
-    database.saveData(req.query.user, req.query.entity, req.query.key, req.query.val);
-    let result = database.getData(req.query.user, req.query.entity, req.query.key, req.query.val);
-    res.status(200).send(result);
-});
-
-app.get("/getData", function (req, res) {
-    let result = database.getData(req.query.user, req.query.entity, req.query.key);
-    res.status(200).send(result);
-});
-
-app.get("/workSaved", function (req, res) {
-    let result = database.isWorkSaved(req.query.user, req.query.entity);
-    res.status(200).send(result);
-});
-
-/* -------------------------------------------------------------------------------------------------------- */
-
 app.post("/samlsso", function (req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
@@ -179,18 +159,37 @@ app.get("/samlsso", function (req, res) {
 
 /* API */
 
-app.get("/api/metadata-sp", function(req, res) {
+app.get("/api/store", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
+    let store = database.getStore(user, req.session.request.issuer, "main");
+    fs.writeFileSync(DATA_DIR + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
+    res.status(200).send(store);
+});
+
+app.post("/api/store", function(req, res) {
+    database.saveStore(user, req.session.request.issuer, "main", req.body);
+    res.status(200).send();
+});
+
+app.delete("/api/store", function(req, res) {
+    database.deleteStore(user, req.session.request.issuer, "main");
+    res.status(200).send();
+});
+
+app.get("/api/metadata-sp", function(req, res) {
+    let DATA_DIR = "../specs-compliance-tests/data";
+    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+    req.session.metadata = null;
+
     let savedMetadata = database.getData(user, req.session.request.issuer, "metadata").result.metadata;
     if(savedMetadata) {
-        req.session.metadata = JSON.parse(savedMetadata);
+        req.session.metadata = savedMetadata;
         fs.writeFileSync(DATA_DIR + "/sp-metadata.xml", req.session.metadata.xml, "utf8");
-        res.status(200).send(req.session.metadata.xml);
-    } else {
-        res.status(404).send();
     }
+
+    res.status(200).send(req.session.metadata);
 });
 
 app.post("/api/metadata-sp/download", function(req, res) {
@@ -205,7 +204,6 @@ app.post("/api/metadata-sp/download", function(req, res) {
                 url: req.body.url,
                 xml: xml
             }
-            database.saveData(user, req.session.request.issuer, "metadata", req.session.metadata);
             res.status(200).send(xml);
         },
         (err) => {

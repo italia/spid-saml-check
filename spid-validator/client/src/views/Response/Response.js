@@ -135,6 +135,9 @@ class Response extends Component {
     this.setState({test_success: success}, ()=> {
       let store = ReduxStore.getMain();
       store.dispatch(Actions.setResponseTestSuccess(this.state.caseid, this.state.test_success)); 
+
+      let service = Services.getMainService();
+      service.saveWorkspace(store.getState());
     });     
   }
 

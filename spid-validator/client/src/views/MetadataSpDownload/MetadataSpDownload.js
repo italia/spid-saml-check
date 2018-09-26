@@ -18,7 +18,6 @@ class MetadataSpDownload extends Component {
   }	
 
   componentDidMount() { 
-    let service = Services.getMainService();
     let store = ReduxStore.getMain();
     let storeState = store.getState();
     this.setState({
@@ -27,19 +26,21 @@ class MetadataSpDownload extends Component {
     });
   }
   
-	render() {    
+    render() {    
 		return view(this);
   }
   
-  getMetadata(url) {
+
+  downloadMetadata(url) {
     let service = Services.getMainService();
     let store = ReduxStore.getMain();
 
-    service.getMetadataSp(url,
+    service.downloadMetadataSp(url,
       (metadata) => { 
         this.setState({xml: metadata});
         store.dispatch(Actions.setMetadataSpURL(url)); 
         store.dispatch(Actions.setMetadataSpXML(metadata)); 
+        service.saveWorkspace(store.getState());
       }, 
       (error)   => { 
         this.setState({xml: ""});

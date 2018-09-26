@@ -19,7 +19,7 @@ function view(me) {
                         placeholder={me.state.url} />
                     <button type="button" 
                         className="btn btn-sm btn-primary" 
-                        onClick={(e)=>{me.getMetadata(me.refs.inputMetadata.value)}}
+                        onClick={(e)=>{me.downloadMetadata(me.refs.inputMetadata.value)}}
                     >Download</button>
                 </div>
             </div>
