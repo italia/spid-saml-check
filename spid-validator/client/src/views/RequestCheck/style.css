@@ -19,3 +19,42 @@
     margin: -5px;
     cursor: pointer
 }
+
+.detail-table {
+    border:1px solid #999;
+}
+
+.detail-table th, .detail-table td {
+    padding: 5px;
+}
+
+
+.detail-header {
+    background: #DDDDDD;
+}
+
+.detail-row {
+    border:1px solid #000;
+}
+
+.test-success-dm {
+    background: green!important;
+    color: #000000;
+}
+
+.test-fail-dm {
+    background: red!important;
+    color: #000000;
+}
+
+.tools {
+    padding: 30px 5px;
+    background: #FFFFFF;
+    margin-left: 15px;
+}
+
+@media print {
+    .tools {
+        display: none;
+    }
+}

@@ -13,7 +13,8 @@ class ResponseReport extends Component {
     super(props);
     
     this.state = {
-        test_cases: {}    
+        test_cases: {},
+        detailview: false
     };  
   }	
 
@@ -34,6 +35,15 @@ class ResponseReport extends Component {
     });
   }
 
+    setDetailView(detailed) {
+        this.setState({
+            detailview: detailed
+        });
+    }
+
+    print() {
+        window.print();
+    }
 
   render() {    
 	return view(this);

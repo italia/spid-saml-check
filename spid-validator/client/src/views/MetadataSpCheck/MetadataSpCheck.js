@@ -13,7 +13,8 @@ class MetadataSpCheck extends Component {
     
     this.state = {
         test: props.test,
-        result:null
+        result:null,
+        detailview: false
     };  
   }	
 
@@ -53,6 +54,16 @@ class MetadataSpCheck extends Component {
       }
     );
   }
+
+    setDetailView(detailed) {
+        this.setState({
+            detailview: detailed
+        });
+    }
+
+    print() {
+        window.print();
+    }
 
   render() {    
 	return view(this);
