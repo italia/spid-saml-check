@@ -146,7 +146,7 @@ class MetadataParser {
         let assertionConsumerServiceURL = null;
         let doc = new DOMParser().parseFromString(this.metadata.xml);
         let acs = select("//md:EntityDescriptor/md:SPSSODescriptor/md:AssertionConsumerService", doc);
-        for(i in acs) {
+        for(let i in acs) {
             let acsIndex = acs[i].getAttribute("index");
             let acsIsDefault = acs[i].getAttribute("isDefault");
             let acsLocation = acs[i].getAttribute("Location");
@@ -162,13 +162,13 @@ class MetadataParser {
         let attributeConsumingService = {ServiceName: "", RequestedAttributes:[]};
         let doc = new DOMParser().parseFromString(this.metadata.xml);
         let acs = select("//md:EntityDescriptor/md:SPSSODescriptor/md:AttributeConsumingService", doc);
-        for(i in acs) {
+        for(let i in acs) {
             let acsIndex = acs[i].getAttribute("index");
             if(index==acsIndex) {
                 let serviceName = select("string(//md:ServiceName)", acs[i]);
                 let attributes = select("//md:RequestedAttribute", acs[i]);
                 attributeConsumingService.ServiceName = serviceName;
-                for(j in attributes) {
+                for(let j in attributes) {
                     let friendlyName = attributes[j].getAttribute("FriendlyName");
                     let name = attributes[j].getAttribute("Name");
                     attributeConsumingService.RequestedAttributes.push({FriendlyName: friendlyName, Name: name});
