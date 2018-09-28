@@ -16,7 +16,6 @@ client/build
 
 # certificates
 cert
-config/idp.json
 
 # misc
 .DS_Store
