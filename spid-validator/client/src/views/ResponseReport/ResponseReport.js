@@ -42,7 +42,7 @@ class ResponseReport extends Component {
     }
 
     print() {
-        window.print();
+        Utility.print();
     }
 
   render() {    

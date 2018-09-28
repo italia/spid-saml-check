@@ -2,6 +2,7 @@ import React from 'react';
 import {Route, Link} from 'react-router-dom';
 import {Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import routes from '../../routes';
+import "./style.css";
 
 const findRouteName = url => routes[url];
 
@@ -42,7 +43,7 @@ const Breadcrumbs = ({...rest, location : {pathname}, match}) => {
   const paths = getPaths(pathname);
   const items = paths.map((path, i) => <Route key={i++} path={path} component={BreadcrumbsItem}/>);
   return (
-    <Breadcrumb>
+    <Breadcrumb className="breadcrumbs">
       {items}
     </Breadcrumb>
   );

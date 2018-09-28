@@ -2,6 +2,7 @@ export const SET_BLOCKUI = "SET_BLOCKUI";
 export const SET_APPLICATIONNAME = "SET_APPLICATIONNAME";
 export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
 export const SET_APIKEY = "SET_APIKEY";
+export const SET_PRINT = "SET_PRINT";
 
 class Actions {
 
@@ -31,7 +32,14 @@ class Actions {
             type: SET_APIKEY,
             value: value
         }        
-    }		
+    }	
+
+    static setPrint(value) {
+        return {
+            type: SET_PRINT,
+            value: value
+        }        
+    }	
 
 }
 

@@ -164,6 +164,17 @@ app.get("/samlsso", function (req, res) {
 
 /* API */
 
+app.get("/api/info", function(req, res) {
+    let DATA_DIR = "../specs-compliance-tests/data";
+    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+
+    let info = {
+        metadata: req.session.metadata.url,
+        issuer: req.session.request.issuer
+    }
+    res.status(200).send(info);
+});
+
 app.get("/api/store", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });

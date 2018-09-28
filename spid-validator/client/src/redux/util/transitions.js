@@ -28,7 +28,13 @@ function transitions(state = initialState, action) {
             state = Object.assign({}, state, {
                 apikey: action.value
             });
-            break; 				
+            break; 		
+
+        case Type.SET_PRINT:
+            state = Object.assign({}, state, {
+                print: action.value
+            });
+            break;		
 			
         default: 
             state = Object.assign({}, state);

@@ -27,6 +27,20 @@ class MainService {
 		});
 	}	
 
+	getInfo(callback_response, callback_error) {
+		Utility.log("GET /api/info");
+		axios.get('/api/info')
+		.then(function(response) {
+			Utility.log("getInfo Success", response.data);
+			callback_response(response.data);
+		})
+		.catch(function(error) {
+			Utility.log("getInfo Error", error.response.data);
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+    }
+	
+
 	loadWorkspace(callback_response, callback_error) {
 		Utility.log("GET /api/store");
 		axios.get('/api/store')

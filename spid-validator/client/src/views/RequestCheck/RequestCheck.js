@@ -62,7 +62,7 @@ class RequestCheck extends Component {
     }
 
     print() {
-        window.print();
+        Utility.print();
     }
 
   render() {    

@@ -34,6 +34,11 @@ class Utility {
         let util = ReduxStore.getUtil();
         util.dispatch(UtilActions.setBlockUI(value));
     }	
+
+    static print() {
+        let util = ReduxStore.getUtil();
+        util.dispatch(UtilActions.setPrint(true));
+    }
 	
 	static isAuthenticated() {
 		let util = ReduxStore.getUtil();

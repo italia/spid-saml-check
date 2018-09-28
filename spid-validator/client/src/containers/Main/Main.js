@@ -20,6 +20,12 @@ import ScrollToTop from 'react-scroll-up';
 
 import ReduxStore from "../../redux/store";
 import Utility from '../../utility';
+import Services from '../../services';
+
+var moment = require('moment');
+moment.locale('it');
+
+import "./style.css";
 
 
 new ReduxStore();
@@ -39,7 +45,12 @@ class Main extends Component {
 			modal_btn_primary_func: ()=> {Utility.showModal({isOpen: false})},
 			modal_btn_primary_text: "Chiudi",
 			modal_btn_secondary_func: null,
-			modal_btn_secondary_text: ""
+			modal_btn_secondary_text: "",
+
+            print: false,
+            infoprint_issuer: "-",
+            infoprint_metadata: "-",
+            infoprint_datetime: "-"
 		};
 
 		this.utilStore = ReduxStore.getUtil();		
@@ -51,9 +62,16 @@ class Main extends Component {
 	onUtilStoreUpdate() {
 		let utilState = this.utilStore.getState(); 
 		this.setState({
-			blocking: utilState.blockUI
+			blocking: utilState.blockUI,
+            print: utilState.print
 		}, ()=>{
 			// state updated
+            if(this.state.print) {
+                this.getInfo();
+                this.setState({
+                    print: false
+                })
+            }
 		});
 	}
 
@@ -77,6 +95,28 @@ class Main extends Component {
 		});
 	}	
 
+    getInfo() {
+        let service = Services.getMainService();
+        service.getInfo(
+          (info) => {  
+            this.setState({
+                infoprint_issuer: info.issuer,
+                infoprint_metadata: info.metadata,
+                infoprint_datetime: moment().format('dddd DD/MM/YYYY - HH:mm:ss')
+            }, ()=> {
+                window.print();
+            });
+          }, 
+          (error)   => { ;
+            Utility.showModal({
+                title: "Errore",
+                body: error,
+                isOpen: true
+            });
+          }
+        );
+    }
+
 	render() {    
 		
 		if(!Utility.isAuthenticated()) {
@@ -86,6 +126,7 @@ class Main extends Component {
 			
 		} else {
 			Utility.log("AUTH CHECK", "User authenticated, you can continue");
+
 			return (
 				<div id="main">
 					<BlockUi tag="div" blocking={this.state.blocking}> 
@@ -94,6 +135,12 @@ class Main extends Component {
 							<div className="app-body">
 								<Sidebar {...this.props}/>
 								<main className="main">
+                                <img className="agid-logo-print" src="img/spid-agid-logo-lb.png" />
+                                <div className="info-print">
+                                    Issuer: {this.state.infoprint_issuer} <br/>
+                                    Metadata: {this.state.infoprint_metadata} <br/>
+                                    Report generato il: {this.state.infoprint_datetime}
+                                </div>
 								<Breadcrumb />
 								<Container fluid>
 									<Switch>

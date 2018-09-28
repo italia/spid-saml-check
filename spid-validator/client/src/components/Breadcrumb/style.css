@@ -1,0 +1,5 @@
+@media print {
+    .breadcrumbs {
+        display: none!important;
+    }
+}
