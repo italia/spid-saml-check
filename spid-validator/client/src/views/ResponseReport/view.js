@@ -33,7 +33,7 @@ function view(me) {
                     <div className="col-md-9 main">
                         {me.state.test_cases!=null && 
                             <table className="detail-table">
-                                <tr className="detail-header"><th>#</th><th>Test</th><th className="detail-result">Test Result</th></tr>
+                                <tr className="detail-header"><th className="detail-num">#</th><th className="detail-description">Test</th><th className="detail-result">Test Result</th></tr>
                                 {Object.keys(me.state.test_cases).map((t)=> {
                                     return(
                                          <tr className="detail-row">
