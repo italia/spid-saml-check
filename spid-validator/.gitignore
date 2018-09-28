@@ -14,6 +14,10 @@ coverage
 build
 client/build
 
+# certificates
+cert
+config/idp.json
+
 # misc
 .DS_Store
 Thumbs.db
@@ -24,3 +28,4 @@ npm-debug.log
 client/npm-debug.log
 server/npm-debug.log
 compilation-stats.json
+
