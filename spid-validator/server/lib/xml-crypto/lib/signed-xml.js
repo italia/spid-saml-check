@@ -439,7 +439,7 @@ SignedXml.prototype.addReference = function(xpath, transforms, digestAlgorithm, 
   this.references.push({
     "xpath": xpath,
     "transforms": transforms ? transforms : ["http://www.w3.org/2001/10/xml-exc-c14n#"] ,
-    "digestAlgorithm": digestAlgorithm ? digestAlgorithm : "http://www.w3.org/2000/09/xmldsig#sha1",
+    "digestAlgorithm": digestAlgorithm ? digestAlgorithm : "http://www.w3.org/2001/04/xmlenc#sha256",
     "uri": uri,
     "digestValue": digestValue,
     "inclusiveNamespacesPrefixList": inclusiveNamespacesPrefixList,

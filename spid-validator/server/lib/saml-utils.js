@@ -1,6 +1,7 @@
 const samlProtocol = require("./saml-protocol/protocol-bindings");
 const errors = require("./saml-protocol/errors");
 const namespaces = require("./saml-protocol/namespaces");
+const saml = require("./saml-protocol");
 const xmldom = require("xmldom");
 const xpath = require("xpath");
 const DOMParser = xmldom.DOMParser;
@@ -249,9 +250,34 @@ class RequestParser {
     }
 }
 
+class IdPModel { 
+    /*
+    getServiceProvider(entityID) {
+	    return new Promise(function (resolve, reject) {
+		    try {
+			    resolve(getMetadataSP(entityID));
+		    } catch(e) {
+			    reject("ERROR");
+		    }
+	    }
+    );
+    */
+}
+
+
+class IdP {
+    constructor(idpConfig) {
+        this.idp = new saml.IdentityProvider(idpConfig, new IdPModel());
+    }
+    
+    getMetadata() {
+        return this.idp.produceIDPMetadata(true);
+    }
+}
 
 
 module.exports.TestSuite = TestSuite;
 module.exports.MetadataParser = MetadataParser;
 module.exports.RequestParser = RequestParser;
 module.exports.PayloadDecoder = PayloadDecoder;
+module.exports.IdP = IdP;

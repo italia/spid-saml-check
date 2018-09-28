@@ -14,6 +14,7 @@ const TestSuite = require("./lib/saml-utils").TestSuite;
 const PayloadDecoder = require("./lib/saml-utils").PayloadDecoder;
 const MetadataParser = require("./lib/saml-utils").MetadataParser;
 const RequestParser = require("./lib/saml-utils").RequestParser;
+const IdP = require("./lib/saml-utils").IdP;
 const Signer = require("./lib/signer").Signer;
 const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 
@@ -53,7 +54,11 @@ app.get("/", function (req, res) {
     }
 });
 
-
+app.get("/metadata.xml", function (req, res) {
+    let idp = new IdP(config_idp);
+    res.set('Content-Type', 'text/xml');
+	res.status(200).send(idp.getMetadata());
+});
 
 app.post("/samlsso", function (req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
@@ -369,7 +374,7 @@ app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
         else if(sign_assertion && sign_response)    mode = SIGN_MODE.SIGN_RESPONSE_ASSERTION;
 
         let sign_credentials = (testResponse.sign_credentials!=null)? 
-            testResponse.sign_credentials : config_idp.credentials;
+            testResponse.sign_credentials : config_idp.credentials[0];
         signer = new Signer(sign_credentials);
         
         signed = signer.sign(signed, mode); 
@@ -395,7 +400,7 @@ app.post("/api/sign", function(req, res) {
         else if(!sign_response && sign_assertion)   mode = SIGN_MODE.SIGN_ASSERTION;
         else if(sign_assertion && sign_response)    mode = SIGN_MODE.SIGN_RESPONSE_ASSERTION;
 
-        signer = new Signer(config_idp.credentials);
+        signer = new Signer(config_idp.credentials[0]);
         signed = signer.sign(signed, mode);              
     }   
     res.status(200).send(signed);

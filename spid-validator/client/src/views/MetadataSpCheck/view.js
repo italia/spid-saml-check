@@ -48,7 +48,7 @@ function view(me) {
                                         <p><b>{me.state.test}</b> : {me.state.result[t].description}</p>
                                         
                                         <table className="detail-table">
-                                            <tr className="detail-header"><th>#</th><th>Test</th><th>Test Result</th></tr>
+                                            <tr className="detail-header"><th>#</th><th>Test</th><th className="detail-result">Test Result</th></tr>
                                             {Object.keys(me.state.result[t].assertions).map((a)=> {
                                                 return(
                                                      <tr className="detail-row">

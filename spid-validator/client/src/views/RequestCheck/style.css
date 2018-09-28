@@ -22,12 +22,12 @@
 
 .detail-table {
     border:1px solid #999;
+    width: 100%;
 }
 
 .detail-table th, .detail-table td {
     padding: 5px;
 }
-
 
 .detail-header {
     background: #DDDDDD;
@@ -35,6 +35,18 @@
 
 .detail-row {
     border:1px solid #000;
+}
+
+.detail-row:hover {
+    background: #EEEEEE;
+}
+
+.detail-num {
+    width: 50px;
+}
+
+.detail-result {
+    width: 100px;
 }
 
 .test-success-dm {

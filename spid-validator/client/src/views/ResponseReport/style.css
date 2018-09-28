@@ -24,6 +24,7 @@
 .detail-table {
     border:1px solid #999;
     background: #FFFFFF;
+    width: 100%;
 }
 
 .detail-table th, .detail-table td {
@@ -37,6 +38,18 @@
 
 .detail-row {
     border:1px solid #000;
+}
+
+.detail-row:hover {
+    background: #EEEEEE;
+}
+
+.detail-num {
+    width: 50px;
+}
+
+.detail-result {
+    width: 100px;
 }
 
 .test-success-dm {

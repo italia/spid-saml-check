@@ -33,12 +33,15 @@ function view(me) {
                     <div className="col-md-9 main">
                         {me.state.test_cases!=null && 
                             <table className="detail-table">
+                                <tr className="detail-header"><th>#</th><th>Test</th><th className="detail-result">Test Result</th></tr>
                                 {Object.keys(me.state.test_cases).map((t)=> {
                                     return(
                                          <tr className="detail-row">
                                             <td className={(me.state.test_cases[t].success)? "detail-num test-success-dm" : "detail-num test-fail-dm"}>{t}</td>
                                             <td className="detail-description">{me.state.test_cases[t].name}</td>
-                                            <td className="detail-result">{(me.state.test_cases[t].success)? "success" : "failure"}</td>
+                                            <td className={(me.state.test_cases[t].success)? "detail-result test-success-dm" : "detail-result test-fail-dm"}>
+                                                {(me.state.test_cases[t].success)? "success" : "failure"}
+                                            </td>
                                          </tr>
                                     );
                                 })}

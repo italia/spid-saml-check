@@ -57,6 +57,10 @@ button {
     background: #EEEEEE;
 }
 
+.detail-num {
+    width: 50px;
+}
+
 .detail-result {
     width: 100px;
 }
