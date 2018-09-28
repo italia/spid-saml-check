@@ -165,6 +165,10 @@ app.get("/api/store", function(req, res) {
 
     let store = database.getStore(user, req.session.request.issuer, "main");
     fs.writeFileSync(DATA_DIR + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
+    req.session.metadata = {
+        url: store.metadata_SP_URL,
+        xml: store.metadata_SP_XML
+    }
     res.status(200).send(store);
 });
 

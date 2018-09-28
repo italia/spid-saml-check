@@ -54,7 +54,9 @@ function view(me) {
                                                      <tr className="detail-row">
                                                         <td className={(me.state.result[t].assertions[a].result=="success")? "detail-num test-success-dm" : "detail-num test-fail-dm"}>{a}</td>
                                                         <td className="detail-description">{me.state.result[t].assertions[a].test}</td>
-                                                        <td className="detail-result">{me.state.result[t].assertions[a].result}</td>
+                                                        <td className={(me.state.result[t].assertions[a].result=="success")? "detail-result test-success-dm" : "detail-result test-fail-dm"}>
+                                                            {me.state.result[t].assertions[a].result}
+                                                        </td>
                                                      </tr>
                                                 );
                                             })}
@@ -69,7 +71,7 @@ function view(me) {
 
 
                 <div className="col-md-3">   
-                    <div className="row tools">
+                    <div className="tools">
                         <div className="col-sm-12">
                             <label className="switch switch-success">
                                 <input type="checkbox" className="switch-input" 

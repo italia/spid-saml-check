@@ -38,6 +38,7 @@ button {
 
 .detail-table {
     border:1px solid #999;
+    width: 100%;
 }
 
 .detail-table th, .detail-table td {
@@ -50,6 +51,14 @@ button {
 
 .detail-row {
     border:1px solid #000;
+}
+
+.detail-row:hover {
+    background: #EEEEEE;
+}
+
+.detail-result {
+    width: 100px;
 }
 
 .test-success-dm {
