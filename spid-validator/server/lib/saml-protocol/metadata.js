@@ -124,41 +124,9 @@ function createIDPSSODescriptorJSON(idp) {
     // so there's no need to an encryption key descriptor
     // todo: support request encryption
     
-    // add supported NameIDFormats if specified
-    if (idp.nameIDFormats) {
-        idp.nameIDFormats.forEach(formatURI => {
-            descriptorBody.push({
-                "md:NameIDFormat": formatURI
-            });
-        });
-    }
-    
     // expand potentially abbreviated endpoint config
     const endpoints = protocolBindings.expandBindings(idp.endpoints || {
     });
-    
-    // add login consumer endpoints
-    if (endpoints.login) {
-        let index = 0;
-        if (endpoints.login.post) {
-            descriptorBody.push({
-                "md:SingleSignOnService": {
-                    "@index": index++,
-                    "@Binding": protocol.BINDINGS.POST,
-                    "@Location": endpoints.login.post
-                }
-            });
-        }
-        if (endpoints.login.redirect) {
-            descriptorBody.push({
-                "md:SingleSignOnService": {
-                    "@index": index++,
-                    "@Binding": protocol.BINDINGS.REDIRECT,
-                    "@Location": endpoints.login.redirect
-                }
-            });
-        }
-    }
     
     // add logout consumer endpoints
     if (endpoints.logout) {
@@ -166,7 +134,7 @@ function createIDPSSODescriptorJSON(idp) {
         if (endpoints.logout.post) {
             descriptorBody.push({
                 "md:SingleLogoutService": {
-                    "@index": index++,
+                    //"@index": index++,
                     "@Binding": protocol.BINDINGS.POST,
                     "@Location": endpoints.logout.post,
                     "@ResponseLocation": endpoints.logout.post
@@ -176,10 +144,42 @@ function createIDPSSODescriptorJSON(idp) {
         if (endpoints.logout.redirect) {
             descriptorBody.push({
                 "md:SingleLogoutService": {
-                    "@index": index++,
+                    //"@index": index++,
                     "@Binding": protocol.BINDINGS.REDIRECT,
                     "@Location": endpoints.logout.redirect,
                     "@ResponseLocation": endpoints.logout.redirect
+                }
+            });
+        }
+    }
+
+    // add supported NameIDFormats if specified
+    if (idp.nameIDFormats) {
+        idp.nameIDFormats.forEach(formatURI => {
+            descriptorBody.push({
+                "md:NameIDFormat": formatURI
+            });
+        });
+    }
+
+    // add login consumer endpoints
+    if (endpoints.login) {
+        let index = 0;
+        if (endpoints.login.post) {
+            descriptorBody.push({
+                "md:SingleSignOnService": {
+                    //"@index": index++,
+                    "@Binding": protocol.BINDINGS.POST,
+                    "@Location": endpoints.login.post
+                }
+            });
+        }
+        if (endpoints.login.redirect) {
+            descriptorBody.push({
+                "md:SingleSignOnService": {
+                    //"@index": index++,
+                    "@Binding": protocol.BINDINGS.REDIRECT,
+                    "@Location": endpoints.login.redirect
                 }
             });
         }

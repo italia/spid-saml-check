@@ -57,7 +57,7 @@ app.get("/", function (req, res) {
 app.get("/metadata.xml", function (req, res) {
     let idp = new IdP(config_idp);
     res.set('Content-Type', 'text/xml');
-	res.status(200).send(idp.getMetadata());
+	res.status(200).send("<?xml version=\"1.0\"?>" + idp.getMetadata());
 });
 
 app.post("/samlsso", function (req, res) {
