@@ -70,7 +70,8 @@ class Main extends Component {
                 this.getInfo();
                 this.setState({
                     print: false
-                })
+                });
+                Utility.printed();
             }
 		});
 	}
