@@ -185,65 +185,67 @@ class MetadataParser {
 class RequestParser {
 
     constructor(xml) {
+        let isAuthnRequest = false;
+        let isLogout = false;
+
+        let doc = new DOMParser().parseFromString(xml);
+        if(select("//samlp:AuthnRequest", doc).length>0) isAuthnRequest = true;
+        if(select("//samlp:LogoutRequest", doc).length>0) isLogout = true
+
+        let type = 0;   // 0: unknown, 1: AuthnRequest, 2: Logout
+
+        if(isAuthnRequest) type = 1;
+        else if(isLogout) type = 2;
+
         this.request = {
-            xml: xml
+            xml: xml,
+            type: type
         }
     }
 
-    isAuthnRequest() {
-        let isAuthnRequest = false;
-        let doc = new DOMParser().parseFromString(this.request.xml);
-        let request = select("//samlp:AuthnRequest", doc);
-        if(request.length>0) isAuthnRequest = true;
-        return isAuthnRequest;
-    }
-
-    isLogout() {
-        let isLogout = false;
-        let doc = new DOMParser().parseFromString(this.request.xml);
-
-        let request = select("//samlp:LogoutRequest", doc);
-        if(request.length>0) isLogout = true;
-        return isLogout;
-    }
+    isAuthnRequest() { return (this.request.type==1)? true : false; }
+    isLogoutRequest() { return (this.request.type==2)? true : false; }
 
     ID() {
+        let samlp = (this.request.type==1)? "AuthnRequest" : "LogoutRequest";
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let requestID = select("//samlp:AuthnRequest", doc)[0].getAttribute("ID");
+        let requestID = select("//samlp:" + samlp, doc)[0].getAttribute("ID");
         return requestID;
     }
 
     IssueInstant() {
+        let samlp = (this.request.type==1)? "AuthnRequest" : "LogoutRequest";
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let requestIssueInstant = select("//samlp:AuthnRequest", doc)[0].getAttribute("IssueInstant");
+        let requestIssueInstant = select("//samlp:" + samlp, doc)[0].getAttribute("IssueInstant");
         return requestIssueInstant;
     }
 
     Issuer() {
+        let samlp = (this.request.type==1)? "AuthnRequest" : "LogoutRequest";
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let issuer = select("string(//samlp:AuthnRequest/saml:Issuer)", doc);
+        let issuer = select("string(//samlp:" + samlp + "/saml:Issuer)", doc);
         return issuer;
     }
 
-    AuthnContextClassRef() {
+    AuthnContextClassRef() { // only for type 1
         let doc = new DOMParser().parseFromString(this.request.xml);
         let requestAuthnContextClassRef = select("string(//samlp:AuthnRequest/samlp:RequestedAuthnContext/saml:AuthnContextClassRef)", doc);
         return requestAuthnContextClassRef;
     }
 
-    AssertionConsumerServiceURL() {
+    AssertionConsumerServiceURL() { // only for type 1
         let doc = new DOMParser().parseFromString(this.request.xml);
         let requestAssertionConsumerServiceURL = select("//samlp:AuthnRequest", doc)[0].getAttribute("AssertionConsumerServiceURL");
         return requestAssertionConsumerServiceURL;
     }
 
-    AssertionConsumerServiceIndex() {
+    AssertionConsumerServiceIndex() { // only for type 1
         let doc = new DOMParser().parseFromString(this.request.xml);
         let requestAssertionConsumerServiceIndex = select("//samlp:AuthnRequest", doc)[0].getAttribute("AssertionConsumerServiceIndex");
         return requestAssertionConsumerServiceIndex;
     }
 
-    AttributeConsumingServiceIndex() {
+    AttributeConsumingServiceIndex() { // only for type 1
         let doc = new DOMParser().parseFromString(this.request.xml);
         let requestAttributeConsumingServiceIndex = select("//samlp:AuthnRequest", doc)[0].getAttribute("AttributeConsumingServiceIndex");
         return requestAttributeConsumingServiceIndex;

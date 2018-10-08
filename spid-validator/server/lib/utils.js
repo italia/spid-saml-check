@@ -6,10 +6,15 @@ const UUID = require("uuidjs");
 const moment = require("moment");
 
 
-String.prototype.replaceAll = function (search, replacement) {
+String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
+
+String.prototype.normalize = function() {
+    var target = this;
+    return target.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+}
 
 class Utils {
 
@@ -52,9 +57,9 @@ class Utils {
         });
     }
 
-    static metadataCheck(test) {
+    static metadataCheck(test, dir) {
         return new Promise((resolve, reject) => {
-            let cmd = 'cd ../specs-compliance-tests && tox -e cleanup';
+            let cmd = "cd ../specs-compliance-tests && DATA_DIR=./data/" + dir + " SP_METADATA=./data/" + dir + "/sp-metadata.xml \ tox -e cleanup";
             switch(test) {
                 case "strict": cmd += ",sp-metadata-strict"; break;
                 case "certs": cmd += ",sp-metadata-strict,sp-metadata-certs"; break;
@@ -73,9 +78,9 @@ class Utils {
         });
     }
 
-    static requestCheck(test) {
+    static requestCheck(test, dir) {
         return new Promise((resolve, reject) => {
-            let cmd = 'cd ../specs-compliance-tests && tox -e cleanup';
+            let cmd = "cd ../specs-compliance-tests && DATA_DIR=./data/" + dir + " SP_METADATA=./data/" + dir + "/sp-metadata.xml AUTHN_REQUEST=./data/" + dir + "/authn-request.xml \ tox -e cleanup";
             switch(test) {
                 case "strict": cmd += ",sp-metadata-strict,sp-metadata-certs,sp-authn-request-strict"; break;
                 case "certs": cmd += ",sp-metadata-strict,sp-metadata-certs,sp-authn-request-strict,sp-authn-request-certs"; break;

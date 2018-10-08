@@ -34,17 +34,24 @@ app.use(session({
     secret: "SAML IDP", 
     resave: true, 
     saveUninitialized: false, 
-    //cookie: { maxAge: 60000 }
+    // cookie: { maxAge: 60000 }
 }));
 
-//create databse
+// create databse
 var database = new Database().connect().setup();
 
-//use template handlebars
+// use template handlebars
 app.set('views', './client/view');
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
+
+var getEntityDir = function(issuer) {
+    let DATA_DIR = "../specs-compliance-tests/data";
+    let ENTITY_DIR = DATA_DIR + "/" + issuer.normalize();
+    if(!fs.existsSync(ENTITY_DIR)) fs.mkdirSync(ENTITY_DIR);
+    return ENTITY_DIR;
+}
 
 app.get("/", function (req, res) {
     if(req.session.request==null) {
@@ -54,12 +61,14 @@ app.get("/", function (req, res) {
     }
 });
 
+// get validator idp metadata
 app.get("/metadata.xml", function (req, res) {
     let idp = new IdP(config_idp);
     res.set('Content-Type', 'text/xml');
 	res.status(200).send("<?xml version=\"1.0\"?>" + idp.getMetadata());
 });
 
+// process sso post request
 app.post("/samlsso", function (req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
@@ -70,11 +79,11 @@ app.post("/samlsso", function (req, res) {
 	if(samlRequest!=null && relayState!=null) {
         let xml = PayloadDecoder.decode(samlRequest);
         let requestParser = new RequestParser(xml);
+        let requestID = requestParser.ID();
+        let requestIssueInstant = requestParser.IssueInstant();
+        let requestIssuer = requestParser.Issuer();
 
         if(requestParser.isAuthnRequest()) {
-            let requestID = requestParser.ID();
-            let requestIssueInstant = requestParser.IssueInstant();
-            let requestIssuer = requestParser.Issuer();
             let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
             let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
             let requestAssertionConsumerServiceIndex = requestParser.AssertionConsumerServiceIndex();
@@ -90,13 +99,13 @@ app.post("/samlsso", function (req, res) {
 
             let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
                                 "&RelayState=" + encodeURIComponent(relayState);
-            fs.writeFileSync(DATA_DIR + "/authn-request.xml", fileContent);
+            fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
             res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
-        } 
 
-        else if(requestParser.isLogout()) {
+        } else if(requestParser.isLogoutRequest()) {
             req.session.destroy();
-            fs.unlinkSync(DATA_DIR + "/authn-request.xml");
+
+            fs.unlinkSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml");
             res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
         }
 
@@ -105,6 +114,7 @@ app.post("/samlsso", function (req, res) {
     }  
 });
 
+// process sso get request
 app.get("/samlsso", function (req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
@@ -121,12 +131,12 @@ app.get("/samlsso", function (req, res) {
 
         let xml = PayloadDecoder.decode(samlRequest);
         let requestParser = new RequestParser(xml);
+        let requestID = requestParser.ID();
+        let requestIssueInstant = requestParser.IssueInstant();
+        let requestIssuer = requestParser.Issuer();
 
         if(requestParser.isAuthnRequest()) {
-            let requestID = requestParser.ID();
-            let requestIssueInstant = requestParser.IssueInstant();
             let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
-            let requestIssuer = requestParser.Issuer();
             let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
             let requestAssertionConsumerServiceIndex = requestParser.AssertionConsumerServiceIndex();
             req.session.request = {
@@ -143,13 +153,13 @@ app.get("/samlsso", function (req, res) {
                                 "&RelayState=" + encodeURIComponent(relayState) + 
                                 "&SigAlg=" + encodeURIComponent(sigAlg) + 
                                 "&Signature=" + encodeURIComponent(signature);
-            fs.writeFileSync(DATA_DIR + "/authn-request.xml", fileContent);
+            fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
             res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
-        } 
 
-        else if(requestParser.isLogout()) {
+        } else if(requestParser.isLogoutRequest()) {
             req.session.destroy();
-            fs.unlinkSync(DATA_DIR + "/authn-request.xml");
+
+            fs.unlinkSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml");
             res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
         }
 
@@ -164,6 +174,7 @@ app.get("/samlsso", function (req, res) {
 
 /* API */
 
+// get info from session
 app.get("/api/info", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
@@ -175,12 +186,15 @@ app.get("/api/info", function(req, res) {
     res.status(200).send(info);
 });
 
+
+// recover workspace from store cache
 app.get("/api/store", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
     let store = database.getStore(user, req.session.request.issuer, "main");
-    fs.writeFileSync(DATA_DIR + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
+
+    fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
     req.session.metadata = {
         url: store.metadata_SP_URL,
         xml: store.metadata_SP_XML
@@ -188,16 +202,19 @@ app.get("/api/store", function(req, res) {
     res.status(200).send(store);
 });
 
+// save workspace to store cache 
 app.post("/api/store", function(req, res) {
     database.saveStore(user, req.session.request.issuer, "main", req.body);
     res.status(200).send();
 });
 
+// delete workspace from store cache
 app.delete("/api/store", function(req, res) {
     database.deleteStore(user, req.session.request.issuer, "main");
     res.status(200).send();
 });
 
+// get downloaded metadata
 app.get("/api/metadata-sp", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
@@ -206,19 +223,21 @@ app.get("/api/metadata-sp", function(req, res) {
     let savedMetadata = database.getData(user, req.session.request.issuer, "metadata").result.metadata;
     if(savedMetadata) {
         req.session.metadata = savedMetadata;
-        fs.writeFileSync(DATA_DIR + "/sp-metadata.xml", req.session.metadata.xml, "utf8");
+
+        fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", req.session.metadata.xml, "utf8");
     }
 
     res.status(200).send(req.session.metadata);
 });
 
+// download metadata 
 app.post("/api/metadata-sp/download", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
-    Utility.metadataDownload(req.body.url, DATA_DIR + "/sp-metadata.xml").then(
+    Utility.metadataDownload(req.body.url, getEntityDir(req.session.request.issuer) + "/sp-metadata.xml").then(
         (file_name) => {
-            let xml = fs.readFileSync(DATA_DIR + "/sp-metadata.xml", "utf8");
+            let xml = fs.readFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", "utf8");
             xml = xml.replaceAll("\n", "");
             req.session.metadata = {
                 url: req.body.url,
@@ -233,6 +252,7 @@ app.post("/api/metadata-sp/download", function(req, res) {
     );
 });
 
+// execute test for metadata
 app.get("/api/metadata-sp/check/:test", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
@@ -247,13 +267,13 @@ app.get("/api/metadata-sp/check/:test", function(req, res) {
     } else {
 
         switch(test) {
-            case "strict": file = DATA_DIR + "/sp-metadata-strict.json"; break;
-            case "certs": file = DATA_DIR + "/sp-metadata-certs.json"; break;
-            case "extra": file = DATA_DIR + "/sp-metadata-extra.json"; break;
+            case "strict": file = getEntityDir(req.session.request.issuer) + "/sp-metadata-strict.json"; break;
+            case "certs": file = getEntityDir(req.session.request.issuer) + "/sp-metadata-certs.json"; break;
+            case "extra": file = getEntityDir(req.session.request.issuer) + "/sp-metadata-extra.json"; break;
         }
         
         if(file!=null) {
-            Utility.metadataCheck(test).then(
+            Utility.metadataCheck(test, req.session.request.issuer.normalize()).then(
                 (out) => {
                     try {
                         let report = fs.readFileSync(file, "utf8");
@@ -273,10 +293,12 @@ app.get("/api/metadata-sp/check/:test", function(req, res) {
     }
 });
 
+// get authn request from session
 app.get("/api/request", function(req, res) {
     res.status(200).send(req.session.request);
 });
 
+// execute test for authn request
 app.get("/api/request/check/:test", function(req, res) {
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
@@ -291,13 +313,13 @@ app.get("/api/request/check/:test", function(req, res) {
     } else {
 
         switch(test) {
-            case "strict": file = DATA_DIR + "/sp-authn-request-strict.json"; break;
-            case "certs": file = DATA_DIR + "/sp-authn-request-certs.json"; break;
-            case "extra": file = DATA_DIR + "/sp-authn-request-extra.json"; break;
+            case "strict": file = getEntityDir(req.session.request.issuer) + "/sp-authn-request-strict.json"; break;
+            case "certs": file = getEntityDir(req.session.request.issuer) + "/sp-authn-request-certs.json"; break;
+            case "extra": file = getEntityDir(req.session.request.issuer) + "/sp-authn-request-extra.json"; break;
         }
         
         if(file!=null) {
-            Utility.requestCheck(test).then(
+            Utility.requestCheck(test, req.session.request.issuer.normalize()).then(
                 (out) => {
                     res.status(200).send(JSON.parse(fs.readFileSync(file, "utf8")));
                 },
@@ -312,6 +334,7 @@ app.get("/api/request/check/:test", function(req, res) {
     }
 });
 
+// execute test for response
 app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
     let suiteid = req.params.suiteid;
     let caseid = req.params.caseid;
@@ -399,6 +422,7 @@ app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
     res.status(200).send(testResponse);
 });
 
+// return assertion/response signed 
 app.post("/api/sign", function(req, res) {
     let xml = req.body.xml;
     let sign_assertion = req.body.sign_assertion;
@@ -417,6 +441,9 @@ app.post("/api/sign", function(req, res) {
     res.status(200).send(signed);
 });
 
+
+
+// start
 app.listen(8080, () => {
     // eslint-disable-next-line no-console
     console.log("\nSPID Validator\nversion: 0.1\n\nlistening on port 8080");
