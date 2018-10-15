@@ -501,8 +501,8 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                     )
 
     @unittest.skipIf(SSLLABS_SKIP == 1, 'x')
-    def test_ssllabs(self):
-        '''Test the TLS configuration of Locations URL'''
+    def test_TLS12Support(self):
+        '''Test the support of TLS 1.2 for Locations URL'''
         locations = []
         retry_delay = 0
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'

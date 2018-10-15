@@ -266,15 +266,15 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
                     time.sleep(30)
                     data = ssllabs_from_cache(t[0])
 
-            self._assertIsTLS12(
+            self._assertIsTLSGrade(
                 {'location': t[1], 'data': data,
-                 'service': 'SingleLogoutService'},
+                 'service': 'AssertionConsumerService'},
                 ['A+', 'A', 'A-'],
                 '%s must be reachable and have strong TLS configuration' % t[1]
             )
 
     @unittest.skipIf(SSLLABS_SKIP == 1, 'x')
-    def test_ssllabs(self):
+    def test_HTTPSVulnerabilities(self):
         '''Test Locations URL for HTTPS Vulnerabilities'''
         locations = []
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
@@ -297,8 +297,7 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
             self._detectVulnerabilities(
                 {'location': t[1], 'data': data,
                  'service': 'AssertionConsumerService'},
-                ['A+', 'A', 'A-'],
-                '%s must be reachable and have strong TLS configuration' % t[1]
+                '%s has one or more HTTPS vulnerabilities' % t[1]
             )
 
         locations = []
@@ -325,8 +324,7 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
             self._detectVulnerabilities(
                 {'location': t[1], 'data': data,
                  'service': 'SingleLogoutService'},
-                ['A+', 'A', 'A-'],
-                '%s must be reachable and have strong TLS configuration' % t[1]
+                '%s has one or more HTTPS vulnerabilities' % t[1]
             )
 
     def _test_certificates_extra(self, use):
@@ -350,15 +348,15 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
                 )
 
 
-    def test_signature_certificates(self):
+    def test_signature_longterm_certificates(self):
         '''Test the compliance of signature certificate(s)'''
         self._test_certificates_extra('signature')
 
-    def test_signing_certificates(self):
+    def test_signing_longterm_certificates(self):
         '''Test the compliance of signing certificate(s)'''
         self._test_certificates_extra('signing')
 
-    def test_encryption_certificates(self):
+    def test_encryption_longterm_certificates(self):
         '''Test the compliance of encryption certificate(s)'''
         self._test_certificates_extra('encryption')
 

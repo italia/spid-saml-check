@@ -116,8 +116,9 @@ class TestCaseWrap(object):
                      msg=msg)
 
 
-    def _detectVulnerabilities(self, first, second, msg=None):
-        def cb(first, second, msg):
+    def _detectVulnerabilities(self, first, msg=None):
+        def cb(first, msg):
+            print("\nAbc "+str(msg))
             location = first['location']
             service = first['service']
             data = first['data']
@@ -140,12 +141,10 @@ class TestCaseWrap(object):
                             detectedVulnerabilitiesNames += detectedVulnerability+" "
                         raise AssertionError(
                             '%s (%s, %s)' % (
-                                "The following Vulnerabilities has been detected for url " + location + ": "+detectedVulnerabilitiesNames, service,
-                                endpoint['statusMessage'])
+                                "The url " + location +" has some HTTPS vulnerabilities", service, detectedVulnerabilitiesNames,)
                         )
         self._assert(cb,
                      first=first,
-                     second=second,
                      msg=msg)
 
 
