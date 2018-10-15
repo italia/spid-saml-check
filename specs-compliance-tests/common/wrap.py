@@ -76,8 +76,82 @@ class TestCaseWrap(object):
                      first=first,
                      msg=msg)
 
+    def _assertIsTLS12(self, first, second, msg=None):
+        def cb(first, second, msg):
+            location = first['location']
+            service = first['service']
+            data = first['data']
+            tls12_notfound = True
+            supported_cypher = 'Supported cyphers: '
+            if 'status' in data:
+                if data['status'] == 'ERROR':
+                    raise AssertionError(
+                        '%s (%s, %s)' % ("The url "+location+" does not exist", service, data['status'])
+                    )
+                elif data['status'] == 'READY':
+                    endpoint =  data['endpoints'][0]
+                    if (endpoint['statusMessage'] == 'Unable to connect to the server'):
+                        raise AssertionError(
+                            '%s (%s, %s)' % ("The url " + location + " does not support the HTTPS protocol", service, endpoint['statusMessage'])
+                        )
+                    else:
+                        protocols = endpoint['details']['protocols'];
+                        for protocol in protocols:
+                            if (protocol['version'] == '1.2') and (protocol['name'] == 'TLS'): tls12_notfound = False
+                            supported_cypher += protocol['name']+' '+protocol['version']+","
+                        if (tls12_notfound):
+                            raise AssertionError(
+                                '%s (%s, %s)' % (msg, service, supported_cypher)
+                            )
+                else:
+                    raise AssertionError(
+                        '%s (%s, %s)' % ("The url does not exist or does not support the HTTPS protocol", service, data['status'])
+                    )
+            else:
+                raise AssertionError('%s (%s, !)' % (msg, service))
+
+        self._assert(cb,
+                     first=first,
+                     second=second,
+                     msg=msg)
+
+
+    def _detectVulnerabilities(self, first, second, msg=None):
+        def cb(first, second, msg):
+            location = first['location']
+            service = first['service']
+            data = first['data']
+            detectedVulnerabilities = []
+            detectedVulnerabilitiesNames = ""
+            if 'status' in data:
+                if data['status'] == 'READY':
+                    endpoint = data['endpoints'][0]
+                    detail = endpoint['details']
+                    if (detail['poodle']): detectedVulnerabilities.append("POODLE")
+                    if (detail['heartbleed']): detectedVulnerabilities.append("Heartbleed")
+                    if (detail['openSslCcs'] == 3): detectedVulnerabilities.append("OpenSSL CCS vuln. (CVE-2014-0224)")
+                    if (detail['openSSLLuckyMinus20'] == 2): detectedVulnerabilities.append("OpenSSL Padding Oracle vuln. (CVE-2016-2107)")
+                    if (detail['ticketbleed'] == 2): detectedVulnerabilities.append("Ticketbleed")
+                    if (detail['bleichenbacher'] > 1): detectedVulnerabilities.append("ROBOT")
+                    if (detail['freak']): detectedVulnerabilities.append("FREAK")
+                    if (detail['drownVulnerable']): detectedVulnerabilities.append("DROWN")
+                    if (len(detectedVulnerabilities) > 0):
+                        for detectedVulnerability in detectedVulnerabilities:
+                            detectedVulnerabilitiesNames += detectedVulnerability+" "
+                        raise AssertionError(
+                            '%s (%s, %s)' % (
+                                "The following Vulnerabilities has been detected for url " + location + ": "+detectedVulnerabilitiesNames, service,
+                                endpoint['statusMessage'])
+                        )
+        self._assert(cb,
+                     first=first,
+                     second=second,
+                     msg=msg)
+
+
     def _assertIsTLSGrade(self, first, second, msg=None):
         def cb(first, second, msg):
+            location = first['location']
             service = first['service']
             data = first['data']
             if 'status' in data:
@@ -86,11 +160,18 @@ class TestCaseWrap(object):
                         '%s (%s, %s)' % (msg, service, data['status'])
                     )
                 elif data['status'] == 'READY':
-                    grade = data['endpoints'][0]['grade']
-                    if grade not in second:
+                    endpoint = data['endpoints'][0]
+                    if (endpoint['statusMessage'] == 'Unable to connect to the server'):
                         raise AssertionError(
-                            '%s (%s, %s)' % (msg, service, grade)
-                        )
+                            '%s (%s, %s)' % (
+                                "The url " + location + " does not support the HTTPS protocol", service, endpoint['statusMessage'])
+                            )
+                    else:
+                        grade = endpoint['grade']
+                        if grade not in second:
+                            raise AssertionError(
+                                '%s (%s, %s)' % (msg, service, grade)
+                            )
                 else:
                     raise AssertionError(
                         '%s (%s, %s)' % (msg, service, data['status'])

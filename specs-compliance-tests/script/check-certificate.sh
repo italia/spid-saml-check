@@ -39,6 +39,10 @@ alg=`openssl x509 -in ${pem} -noout -text \
 subject=`openssl x509 -in ${pem} -noout -subject \
     | sed -e "s/subject=//g" -e "s/^\s\s*//g"`
 
+validity=`openssl x509 -in ${pem} -noout -subject \
+    | grep "Validity"`
+
+
 echo "Checking \"${subject}\""
 
 if [ `echo ${sigalg} | grep -c "^sha1"` -eq 1 ]; then

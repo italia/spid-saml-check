@@ -82,3 +82,7 @@ SPID_LEVELS = [
     'urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL2',
     'urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL3',
 ]
+
+ONE_MONTH = 30
+SIX_MONTHS = 182
+ONE_YEAR = 365

@@ -19,6 +19,7 @@ import json
 import os
 import subprocess
 import unittest
+import datetime
 
 import common.helpers
 import common.wrap
@@ -75,7 +76,7 @@ class TestSPMetadataCertificates(unittest.TestCase, common.wrap.TestCaseWrap):
                 self._assertFalse(
                     r[0].lower().startswith('sha1'),
                     (('The %s certificate must not use '
-                      'weak signature algorithm') %
+                      'weak signature algorithm: ' + r[0].lower()) %
                      cert_path)
                 )
 
@@ -96,9 +97,16 @@ class TestSPMetadataCertificates(unittest.TestCase, common.wrap.TestCaseWrap):
 
                 self._assertTrue(
                     (int(r[1]) >= exp),
-                    (('The key length of %s certificate must be >= %d') %
+                    (('The key length of %s certificate must be >= %d. Instead it is '+ r[1]) %
                      (cert_path, exp))
                 )
+
+                self._assertTrue(
+                    (datetime.datetime.strptime(r[3], "%b %d %H:%M:%S %Y") >= datetime.datetime.now()),
+                    (('The certificate %s is expired. It was valid till '+r[3]) %
+                     cert_path)
+                )
+
 
     def test_signature_certificates(self):
         '''Test the compliance of signature certificate(s)'''
