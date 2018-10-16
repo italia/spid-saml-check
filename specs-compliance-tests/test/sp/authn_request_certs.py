@@ -76,7 +76,7 @@ class TestAuthnRequestCertificates(unittest.TestCase,
                 self._assertFalse(
                     r[0].lower().startswith('sha1'),
                     (('The %s certificate must not use '
-                      'weak signature algorithm') %
+                      'weak signature algorithm (sha1)') %
                      cert_path)
                 )
 
