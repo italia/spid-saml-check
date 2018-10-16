@@ -118,7 +118,6 @@ class TestCaseWrap(object):
 
     def _detectVulnerabilities(self, first, msg=None):
         def cb(first, msg):
-            print("\nAbc "+str(msg))
             location = first['location']
             service = first['service']
             data = first['data']
