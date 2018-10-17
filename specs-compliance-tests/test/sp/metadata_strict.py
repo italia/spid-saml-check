@@ -518,6 +518,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                 data = ssllabs_new_scan(t[0])
             else:
                 data = ssllabs_from_cache(t[0])
+                #print(data)
                 while data['status'] != 'ERROR' and data['status'] != 'READY':
                     if data['status'] == 'IN_PROGRESS' and ('endpoints' in data) and ("eta" in data['endpoints'][0]) and (data['endpoints'][0]['eta'] > 0):
                         retry_delay =  data['endpoints'][0]['eta']

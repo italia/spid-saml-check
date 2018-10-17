@@ -58,9 +58,9 @@ class TestCaseWrap(object):
 
     def _assertIsValidHttpsUrl(self, first, msg=None):
         def cb(first, msg):
-            if not validators.url(first, public=True):
+            if (not first) or (not validators.url(first, public=True)):
                 raise AssertionError(msg)
-            if not first.lower().startswith('https://'):
+            if (not first) or not first.lower().startswith('https://'):
                 raise AssertionError(msg)
 
         self._assert(cb,
@@ -69,7 +69,7 @@ class TestCaseWrap(object):
 
     def _assertIsValidHttpUrl(self, first, msg=None):
         def cb(first, msg):
-            if not validators.url(first, public=True):
+            if (not first) or (not validators.url(first, public=True)):
                 raise AssertionError(msg)
 
         self._assert(cb,
@@ -126,21 +126,29 @@ class TestCaseWrap(object):
             if 'status' in data:
                 if data['status'] == 'READY':
                     endpoint = data['endpoints'][0]
-                    detail = endpoint['details']
-                    if (detail['poodle']): detectedVulnerabilities.append("POODLE")
-                    if (detail['heartbleed']): detectedVulnerabilities.append("Heartbleed")
-                    if (detail['openSslCcs'] == 3): detectedVulnerabilities.append("OpenSSL CCS vuln. (CVE-2014-0224)")
-                    if (detail['openSSLLuckyMinus20'] == 2): detectedVulnerabilities.append("OpenSSL Padding Oracle vuln. (CVE-2016-2107)")
-                    if (detail['ticketbleed'] == 2): detectedVulnerabilities.append("Ticketbleed")
-                    if (detail['bleichenbacher'] > 1): detectedVulnerabilities.append("ROBOT")
-                    if (detail['freak']): detectedVulnerabilities.append("FREAK")
-                    if (detail['drownVulnerable']): detectedVulnerabilities.append("DROWN")
-                    if (len(detectedVulnerabilities) > 0):
-                        for detectedVulnerability in detectedVulnerabilities:
-                            detectedVulnerabilitiesNames += detectedVulnerability+" "
+                    if ('statusMessage' in endpoint) and (endpoint['statusMessage'] != 'Unable to connect to the server'):
+                        if 'details' in endpoint :
+                            detail = endpoint['details']
+                            if (detail['poodle']): detectedVulnerabilities.append("POODLE")
+                            if (detail['heartbleed']): detectedVulnerabilities.append("Heartbleed")
+                            if (detail['openSslCcs'] == 3): detectedVulnerabilities.append("OpenSSL CCS vuln. (CVE-2014-0224)")
+                            if (detail['openSSLLuckyMinus20'] == 2): detectedVulnerabilities.append("OpenSSL Padding Oracle vuln. (CVE-2016-2107)")
+                            if (detail['ticketbleed'] == 2): detectedVulnerabilities.append("Ticketbleed")
+                            if (detail['bleichenbacher'] > 1): detectedVulnerabilities.append("ROBOT")
+                            if (detail['freak']): detectedVulnerabilities.append("FREAK")
+                            if (detail['drownVulnerable']): detectedVulnerabilities.append("DROWN")
+                            if (len(detectedVulnerabilities) > 0):
+                                for detectedVulnerability in detectedVulnerabilities:
+                                    detectedVulnerabilitiesNames += detectedVulnerability+" "
+                                raise AssertionError(
+                                    '%s (%s, %s)' % (
+                                        "The url " + location +" has some HTTPS vulnerabilities", service, detectedVulnerabilitiesNames)
+                                )
+                    else:
                         raise AssertionError(
                             '%s (%s, %s)' % (
-                                "The url " + location +" has some HTTPS vulnerabilities", service, detectedVulnerabilitiesNames,)
+                                "It is not possible to connect to the URL " + location, service,
+                                endpoint['statusMessage'])
                         )
         self._assert(cb,
                      first=first,
