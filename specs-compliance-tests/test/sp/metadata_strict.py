@@ -235,38 +235,6 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
         a = e[0].get('entityID')
         self._assertIsNotNone(a, 'The entityID attribute must have a value')
 
-    def test_KeyDescriptor(self):
-        '''Test the compliance of KeyDescriptor element(s)'''
-
-        kds = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
-                             '/KeyDescriptor[@use="signing"]')
-        self._assertGreaterEqual(len(kds), 1,
-                                 'At least one signing KeyDescriptor '
-                                 'must be present')
-
-        for kd in kds:
-            certs = kd.xpath('./KeyInfo/X509Data/X509Certificate')
-            self._assertGreaterEqual(len(certs), 1,
-                                     'At least one signing x509 '
-                                     'must be present')
-
-            # save the grubbed certificate for future alanysis
-            for cert in certs:
-                dump_pem.dump_metadata_pem(cert, 'sp', 'signing', DATA_DIR)
-
-        kds = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
-                             '/KeyDescriptor[@use="encryption"]')
-
-        for kd in kds:
-            certs = kd.xpath('./KeyInfo/X509Data/X509Certificate')
-            self._assertGreaterEqual(len(certs), 1,
-                                     'At least one encryption x509 '
-                                     'must be present')
-
-            # save the grubbed certificate for future alanysis
-            for cert in certs:
-                dump_pem.dump_metadata_pem(cert, 'sp', 'encryption', DATA_DIR)
-
     def test_Signature(self):
         '''Test the compliance of Signature element'''
 
@@ -327,6 +295,80 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                     'true',
                     'The %s attribute must be true' % attr
                 )
+
+    def test_KeyDescriptor(self):
+        '''Test the compliance of KeyDescriptor element(s)'''
+
+        kds = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
+                             '/KeyDescriptor[@use="signing"]')
+        self._assertGreaterEqual(len(kds), 1,
+                                 'At least one signing KeyDescriptor '
+                                 'must be present')
+
+        for kd in kds:
+            certs = kd.xpath('./KeyInfo/X509Data/X509Certificate')
+            self._assertGreaterEqual(len(certs), 1,
+                                     'At least one signing x509 '
+                                     'must be present')
+
+            # save the grubbed certificate for future alanysis
+            for cert in certs:
+                dump_pem.dump_metadata_pem(cert, 'sp', 'signing', DATA_DIR)
+
+        kds = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
+                             '/KeyDescriptor[@use="encryption"]')
+
+        for kd in kds:
+            certs = kd.xpath('./KeyInfo/X509Data/X509Certificate')
+            self._assertGreaterEqual(len(certs), 1,
+                                     'At least one encryption x509 '
+                                     'must be present')
+
+            # save the grubbed certificate for future alanysis
+            for cert in certs:
+                dump_pem.dump_metadata_pem(cert, 'sp', 'encryption', DATA_DIR)
+
+    def test_SingleLogoutService(self):
+        '''Test the compliance of SingleLogoutService element(s)'''
+
+        slos = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
+                              '/SingleLogoutService')
+        self._assertGreaterEqual(
+            len(slos),
+            1,
+            'One or more SingleLogoutService elements must be present'
+        )
+
+        for slo in slos:
+            for attr in ['Binding', 'Location']:
+                self._assertTrue((attr in slo.attrib),
+                                 'The %s attribute '
+                                 'in SingleLogoutService element '
+                                 'must be present' % attr)
+
+                a = slo.get(attr)
+                self._assertIsNotNone(
+                    a,
+                    'The %s attribute '
+                    'in SingleLogoutService element '
+                    'must have a value' % attr
+                )
+
+                if attr == 'Binding':
+                    self._assertIn(
+                        a,
+                        constants.ALLOWED_BINDINGS,
+                        (('The %s attribute in SingleLogoutService element must be one of [%s]') %  # noqa
+                         (attr, ', '.join(constants.ALLOWED_BINDINGS)))  # noqa
+                    )
+                if attr == 'Location':
+                    self._assertIsValidHttpsUrl(
+                        a,
+                        'The %s attribute '
+                        'in SingleLogoutService element '
+                        'must be a valid URL' % attr
+                    )
+
 
     def test_AssertionConsumerService(self):
         '''Test the compliance of AssertionConsumerService element(s)'''
@@ -459,46 +501,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                             'The %s element must be a valid URL' % ename
                         )
 
-    def test_SingleLogoutService(self):
-        '''Test the compliance of SingleLogoutService element(s)'''
 
-        slos = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
-                              '/SingleLogoutService')
-        self._assertGreaterEqual(
-            len(slos),
-            1,
-            'One or more SingleLogoutService elements must be present'
-        )
-
-        for slo in slos:
-            for attr in ['Binding', 'Location']:
-                self._assertTrue((attr in slo.attrib),
-                                 'The %s attribute '
-                                 'in SingleLogoutService element '
-                                 'must be present' % attr)
-
-                a = slo.get(attr)
-                self._assertIsNotNone(
-                    a,
-                    'The %s attribute '
-                    'in SingleLogoutService element '
-                    'must have a value' % attr
-                )
-
-                if attr == 'Binding':
-                    self._assertIn(
-                        a,
-                        constants.ALLOWED_BINDINGS,
-                        (('The %s attribute in SingleLogoutService element must be one of [%s]') %  # noqa
-                         (attr, ', '.join(constants.ALLOWED_BINDINGS)))  # noqa
-                    )
-                if attr == 'Location':
-                    self._assertIsValidHttpsUrl(
-                        a,
-                        'The %s attribute '
-                        'in SingleLogoutService element '
-                        'must be a valid URL' % attr
-                    )
 
     @unittest.skipIf(SSLLABS_SKIP == 1, 'x')
     def test_TLS12Support(self):
@@ -518,7 +521,6 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                 data = ssllabs_new_scan(t[0])
             else:
                 data = ssllabs_from_cache(t[0])
-                #print(data)
                 while data['status'] != 'ERROR' and data['status'] != 'READY':
                     if data['status'] == 'IN_PROGRESS' and ('endpoints' in data) and ("eta" in data['endpoints'][0]) and (data['endpoints'][0]['eta'] > 0):
                         retry_delay =  data['endpoints'][0]['eta']
