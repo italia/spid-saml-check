@@ -23,6 +23,7 @@ import datetime
 
 import common.helpers
 import common.wrap
+from common import constants
 
 DATA_DIR = os.getenv('DATA_DIR', './data')
 
@@ -89,7 +90,7 @@ class TestSPMetadataCertificates(unittest.TestCase, common.wrap.TestCaseWrap):
                 )
 
                 if r[2] == 'rsaEncryption':
-                    exp = 2048
+                    exp = common.constants.MINIMUM_CERTIFICATE_LENGHT
                 elif r[2] == 'id-ecPublicKey':
                     exp = 256
                 else:

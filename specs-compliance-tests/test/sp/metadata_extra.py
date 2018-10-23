@@ -338,6 +338,8 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
         out, err = process.communicate()
         certs = out.decode('utf-8').split('\n')
 
+        exp = ['rsaEncryption', 'id-ecPublicKey']
+
         for cert_path in certs:
             if cert_path:
                 r = common.helpers.parse_pem(cert_path)
@@ -345,6 +347,28 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
                     (datetime.datetime.strptime(r[3], "%b %d %H:%M:%S %Y") >= datetime.datetime.now() + datetime.timedelta(days = common.constants.SIX_MONTHS)),
                     (('The certificate %s should be valid for at least 6 months from now. It will expire on ' + r[3]) %
                      cert_path)
+                )
+
+                self._assertIn(
+                    r[2],
+                    exp,
+                    (('The key type of %s certificate must be one of [%s]') %
+                     (cert_path, ', '.join(exp)))
+                )
+
+                if r[2] == 'rsaEncryption':
+                    exp = common.constants.DESIRED_CERTIFICATE_LENGHT
+                    
+                elif r[2] == 'id-ecPublicKey':
+                    exp = 256
+                    print("\ngngne\n")
+                else:
+                    pass
+
+                self._assertTrue(
+                    (int(r[1]) >= exp),
+                    (('The key length of %s certificate must be >= %d. Instead it is '+ r[1]) %
+                     (cert_path, exp))
                 )
 
 
