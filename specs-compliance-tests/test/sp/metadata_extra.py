@@ -358,7 +358,7 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
 
                 if r[2] == 'rsaEncryption':
                     exp = common.constants.DESIRED_CERTIFICATE_LENGHT
-                    
+
                 elif r[2] == 'id-ecPublicKey':
                     exp = 256
                     print("\ngngne\n")

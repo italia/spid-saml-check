@@ -496,8 +496,11 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                     )
 
                     if ename == 'OrganizationURL':
+                        OrganizationURLvalue = element.text
+                        if not (OrganizationURLvalue.startswith('http://') or OrganizationURLvalue.startswith('https://')):
+                            OrganizationURLvalue = 'https://'+OrganizationURLvalue
                         self._assertIsValidHttpUrl(
-                            element.text,
+                            OrganizationURLvalue,
                             'The %s element must be a valid URL' % ename
                         )
 
