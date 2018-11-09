@@ -29,7 +29,7 @@ class MainService {
 
 	getInfo(callback_response, callback_error) {
 		Utility.log("GET /api/info");
-		axios.get('/api/info')
+		axios.get('/api/info?apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("getInfo Success", response.data);
 			callback_response(response.data);
@@ -42,8 +42,8 @@ class MainService {
 	
 
 	loadWorkspace(callback_response, callback_error) {
-		Utility.log("GET /api/store");
-		axios.get('/api/store')
+		Utility.log("GET /api/store?apikey=" + Utility.getApikey());
+		axios.get('/api/store?apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("loadWorkspace Success", response.data);
             callback_response(response.data);
@@ -56,7 +56,7 @@ class MainService {
 
 	saveWorkspace(data) {
 		Utility.log("POST /api/store", data);
-		axios.post('/api/store', data)
+		axios.post('/api/store?apikey=' + Utility.getApikey(), data)
 		.then(function(response) {
 			Utility.log("saveWorkspace Success", response.data);
 		})
@@ -67,7 +67,7 @@ class MainService {
 
 	resetWorkspace() {
 		Utility.log("DELETE /api/store");
-		axios.delete('/api/store')
+		axios.delete('/api/store?apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("resetWorkspace Success", response.data);
 		})
@@ -78,7 +78,7 @@ class MainService {
 
 	downloadMetadataSp(url, callback_response, callback_error) {
 		Utility.log("POST /api/metadata-sp/download");
-		axios.post('/api/metadata-sp/download', {url: url})
+		axios.post('/api/metadata-sp/download?apikey=' + Utility.getApikey(), {url: url})
 		.then(function(response) {
 			Utility.log("downloadMetadataSp Success", response.data);
 			callback_response(response.data);
@@ -91,7 +91,7 @@ class MainService {
 
 	checkMetadataSp(test, callback_response, callback_error) {
 		Utility.log("GET /api/metadata-sp/check/" + test);
-		axios.get('/api/metadata-sp/check/' + test, {timeout: 900000})
+		axios.get('/api/metadata-sp/check/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})
 		.then(function(response) {
 			Utility.log("checkMetadataSp Success", response.data);
 			callback_response(response.data);
@@ -104,7 +104,7 @@ class MainService {
 
 	getRequest(callback_response, callback_error) {
 		Utility.log("GET /api/request");
-		axios.get('/api/request')
+		axios.get('/api/request?apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("getRequest Success", response.data);
 			callback_response(response.data);
@@ -117,7 +117,7 @@ class MainService {
 
 	checkRequest(test, callback_response, callback_error) {
 		Utility.log("GET /api/request/check/" + test);
-		axios.get('/api/request/check/' + test, {timeout: 900000})
+		axios.get('/api/request/check/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})
 		.then(function(response) {
 			Utility.log("checkRequest Success", response.data);
 			callback_response(response.data);
@@ -130,7 +130,7 @@ class MainService {
 
 	getTestResponse(options, callback_response, callback_error) {
 		Utility.log("POST /api/test-response/" + options.suiteid + "/" + options.caseid);
-		axios.post('/api/test-response/' + options.suiteid + "/" + options.caseid, options)
+		axios.post('/api/test-response/' + options.suiteid + '/' + options.caseid + '?apikey=' + Utility.getApikey(), options)
 		.then(function(response) {
 			Utility.log("getTestResponse Success", response.data);
 			callback_response(response.data);
@@ -143,7 +143,7 @@ class MainService {
 
 	getSignedXml(options, callback_response, callback_error) {
 		Utility.log("POST /api/sign");
-		axios.post('/api/sign', {
+		axios.post('/api/sign?apikey=' + Utility.getApikey(), {
 			xml: options.xml,
 			sign_response: options.sign_response,
 			sign_assertion: options.sign_assertion
@@ -160,7 +160,7 @@ class MainService {
 	
 	sendResponse(options, callback_response, callback_error) {
 		Utility.log("POST /sendResponse");
-		axios.post('/sendResponse', {
+		axios.post('/sendResponse?apikey=' + Utility.getApikey(), {
 			destination: options.destination,
 			response: options.response
 		})

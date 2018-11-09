@@ -28,8 +28,6 @@ moment.locale('it');
 import "./style.css";
 
 
-new ReduxStore();
-
 class Main extends Component {
 
 	constructor(props) {

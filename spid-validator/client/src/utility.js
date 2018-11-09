@@ -48,8 +48,7 @@ class Utility {
 	static isAuthenticated() {
 		let util = ReduxStore.getUtil();
         let state = util.getState();
-        return true;
-        //return state.authenticated;
+        return state.authenticated;
     }
     
     static setApikey(apikey) {

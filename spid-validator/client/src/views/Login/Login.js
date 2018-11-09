@@ -45,7 +45,8 @@ class Login extends Component {
 				Utility.setApikey(data);
 				Utility.log("Login result", Utility.isAuthenticated());	
 				if(Utility.isAuthenticated()) {
-					window.location="/#/dashboard";
+					//window.location="/#/worksave";
+                    this.props.history.push('/worksave');
 				}			
 			}, 
 			(error)=> {

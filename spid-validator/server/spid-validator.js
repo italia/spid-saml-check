@@ -1,6 +1,7 @@
 const express = require("express");
 const exphbs  = require('express-handlebars');
 const helmet = require("helmet");
+const sha256 = require('crypto-js/sha256');
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const path = require('path');
@@ -26,10 +27,12 @@ const user = "LOCALHOST"; // temp default user. To change whith login implementa
 
 var app = express();
 app.use(helmet());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, "..", "client/build/assets")));
 app.use("/assets", express.static(path.resolve(__dirname, "..", "client/build/assets")));
+
 app.use(session({ 
     secret: "SAML IDP", 
     resave: true, 
@@ -46,6 +49,18 @@ app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
 
+var checkAuthorisation = function(request) {
+	let authorised = false;
+	let apikey = request.query.apikey;
+	if(apikey == sha256(config_idp.app_user + config_idp.app_password)) {
+		authorised = true;
+	} else {
+		console.log("ERROR check authorisation : " + apikey);
+		authorised = false;
+	}
+	return authorised;
+}
+
 var getEntityDir = function(issuer) {
     let DATA_DIR = "../specs-compliance-tests/data";
     let ENTITY_DIR = DATA_DIR + "/" + issuer.normalize();
@@ -53,7 +68,9 @@ var getEntityDir = function(issuer) {
     return ENTITY_DIR;
 }
 
+
 app.get("/", function (req, res) {
+
     if(req.session.request==null) {
         res.sendFile(path.resolve(__dirname, "..", "client/view", "front.html"));        
     } else {
@@ -69,7 +86,8 @@ app.get("/metadata.xml", function (req, res) {
 });
 
 // process sso post request
-app.post("/samlsso", function (req, res) {
+app.post("/samlsso", function (req, res) {	
+
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
@@ -116,6 +134,7 @@ app.post("/samlsso", function (req, res) {
 
 // process sso get request
 app.get("/samlsso", function (req, res) {
+
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
@@ -158,7 +177,9 @@ app.get("/samlsso", function (req, res) {
 
         } else if(requestParser.isLogoutRequest()) {
 
-            fs.unlinkSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml");
+            if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
+                fs.unlinkSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml");
+            }
             req.session.destroy();
             res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
         }
@@ -176,130 +197,236 @@ app.get("/samlsso", function (req, res) {
 
 // get info from session
 app.get("/api/info", function(req, res) {
-    let DATA_DIR = "../specs-compliance-tests/data";
-    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
-    let info = {
-        metadata: req.session.metadata.url,
-        issuer: req.session.request.issuer
+	// check if apikey is correct
+	if(!checkAuthorisation(req)) {
+		error = {code: 401, msg: "Unauthorized"};
+		res.status(error.code).send(error.msg);
+		return null;
+	}		
+
+    if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
+        let DATA_DIR = "../specs-compliance-tests/data";
+        if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+
+        let info = {
+            metadata: req.session.metadata.url,
+            issuer: req.session.request.issuer
+        }
+        res.status(200).send(info);
+
+    } else {
+        res.status(400).send("Session not found");
     }
-    res.status(200).send(info);
 });
 
 
 // recover workspace from store cache
 app.get("/api/store", function(req, res) {
-    let DATA_DIR = "../specs-compliance-tests/data";
-    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
-    let store = database.getStore(user, req.session.request.issuer, "main");
+	// check if apikey is correct
+	if(!checkAuthorisation(req)) {
+		error = {code: 401, msg: "Unauthorized"};
+		res.status(error.code).send(error.msg);
+		return null;
+	}	
 
-    fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
-    req.session.metadata = {
-        url: store.metadata_SP_URL,
-        xml: store.metadata_SP_XML
+    if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
+        let DATA_DIR = "../specs-compliance-tests/data";
+        if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+
+        let store = database.getStore(user, req.session.request.issuer, "main");
+
+        fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
+        req.session.metadata = {
+            url: store.metadata_SP_URL,
+            xml: store.metadata_SP_XML
+        }
+        res.status(200).send(store);
+
+    } else {
+        res.status(400).send("Session not found");
     }
-    res.status(200).send(store);
 });
 
 // save workspace to store cache 
 app.post("/api/store", function(req, res) {
-    database.saveStore(user, req.session.request.issuer, "main", req.body);
-    res.status(200).send();
+
+	// check if apikey is correct
+	if(!checkAuthorisation(req)) {
+		error = {code: 401, msg: "Unauthorized"};
+		res.status(error.code).send(error.msg);
+		return null;
+	}	
+
+    if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
+        database.saveStore(user, req.session.request.issuer, "main", req.body);
+        res.status(200).send();
+
+    } else {
+        res.status(400).send("Session not found");
+    }
 });
 
 // delete workspace from store cache
 app.delete("/api/store", function(req, res) {
-    database.deleteStore(user, req.session.request.issuer, "main");
-    res.status(200).send();
+
+	// check if apikey is correct
+	if(!checkAuthorisation(req)) {
+		error = {code: 401, msg: "Unauthorized"};
+		res.status(error.code).send(error.msg);
+		return null;
+	}	
+
+    if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
+        database.deleteStore(user, req.session.request.issuer, "main");
+        res.status(200).send();
+
+    } else {
+        res.status(400).send("Session not found");
+    }
 });
 
 // get downloaded metadata
 app.get("/api/metadata-sp", function(req, res) {
-    let DATA_DIR = "../specs-compliance-tests/data";
-    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
-    req.session.metadata = null;
 
-    let savedMetadata = database.getData(user, req.session.request.issuer, "metadata").result.metadata;
-    if(savedMetadata) {
-        req.session.metadata = savedMetadata;
+	// check if apikey is correct
+	if(!checkAuthorisation(req)) {
+		error = {code: 401, msg: "Unauthorized"};
+		res.status(error.code).send(error.msg);
+		return null;
+	}	
 
-        fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", req.session.metadata.xml, "utf8");
+    if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
+        let DATA_DIR = "../specs-compliance-tests/data";
+        if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+        req.session.metadata = null;
+
+        let savedMetadata = database.getData(user, req.session.request.issuer, "metadata").result.metadata;
+        if(savedMetadata) {
+            req.session.metadata = savedMetadata;
+
+            fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", req.session.metadata.xml, "utf8");
+        }
+
+        res.status(200).send(req.session.metadata);
+    } else {
+        res.status(400).send("Session not found");
     }
-
-    res.status(200).send(req.session.metadata);
 });
 
 // download metadata 
 app.post("/api/metadata-sp/download", function(req, res) {
-    let DATA_DIR = "../specs-compliance-tests/data";
-    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
-    Utility.metadataDownload(req.body.url, getEntityDir(req.session.request.issuer) + "/sp-metadata.xml").then(
-        (file_name) => {
-            let xml = fs.readFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", "utf8");
-            xml = xml.replaceAll("\n", "");
-            req.session.metadata = {
-                url: req.body.url,
-                xml: xml
+	// check if apikey is correct
+	if(!checkAuthorisation(req)) {
+		error = {code: 401, msg: "Unauthorized"};
+		res.status(error.code).send(error.msg);
+		return null;
+	}	
+
+    if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
+        let DATA_DIR = "../specs-compliance-tests/data";
+        if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+
+        Utility.metadataDownload(req.body.url, getEntityDir(req.session.request.issuer) + "/sp-metadata.xml").then(
+            (file_name) => {
+                let xml = fs.readFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", "utf8");
+                xml = xml.replaceAll("\n", "");
+                req.session.metadata = {
+                    url: req.body.url,
+                    xml: xml
+                }
+                res.status(200).send(xml);
+            },
+            (err) => {
+                req.session.metadata = null;
+                res.status(500).send(err);
             }
-            res.status(200).send(xml);
-        },
-        (err) => {
-            req.session.metadata = null;
-            res.status(500).send(err);
-        }
-    );
+        );
+
+    } else {
+        res.status(400).send("Session not found");
+    }
 });
 
 // execute test for metadata
 app.get("/api/metadata-sp/check/:test", function(req, res) {
-    let DATA_DIR = "../specs-compliance-tests/data";
-    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
-    let test = req.params.test;
-    let file = null;
+	// check if apikey is correct
+	if(!checkAuthorisation(req)) {
+		error = {code: 401, msg: "Unauthorized"};
+		res.status(error.code).send(error.msg);
+		return null;
+	}	
 
-    if(req.session.metadata == null) {
+    if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
+        let DATA_DIR = "../specs-compliance-tests/data";
+        if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
-        res.status(404).send("Please download metadata first");
+        let test = req.params.test;
+        let file = null;
 
-    } else {
+        if(req.session.metadata == null) {
 
-        switch(test) {
-            case "strict": file = getEntityDir(req.session.request.issuer) + "/sp-metadata-strict.json"; break;
-            case "certs": file = getEntityDir(req.session.request.issuer) + "/sp-metadata-certs.json"; break;
-            case "extra": file = getEntityDir(req.session.request.issuer) + "/sp-metadata-extra.json"; break;
-        }
-        
-        if(file!=null) {
-            Utility.metadataCheck(test, req.session.request.issuer.normalize()).then(
-                (out) => {
-                    try {
-                        let report = fs.readFileSync(file, "utf8");
-                        res.status(200).send(JSON.parse(report));
-                    } catch(err) {
-                        res.status(500).send("Error while loading report");
-                    }
-                },
-                (err) => {
-                    res.status(500).send(err);
-                }
-            );
+            res.status(404).send("Please download metadata first");
 
         } else {
-            res.status(404).send("Test must be strict or certs or extra");
+
+            switch(test) {
+                case "strict": file = getEntityDir(req.session.request.issuer) + "/sp-metadata-strict.json"; break;
+                case "certs": file = getEntityDir(req.session.request.issuer) + "/sp-metadata-certs.json"; break;
+                case "extra": file = getEntityDir(req.session.request.issuer) + "/sp-metadata-extra.json"; break;
+            }
+            
+            if(file!=null) {
+                Utility.metadataCheck(test, req.session.request.issuer.normalize()).then(
+                    (out) => {
+                        try {
+                            let report = fs.readFileSync(file, "utf8");
+                            res.status(200).send(JSON.parse(report));
+                        } catch(err) {
+                            res.status(500).send("Error while loading report");
+                        }
+                    },
+                    (err) => {
+                        res.status(500).send(err);
+                    }
+                );
+
+            } else {
+                res.status(404).send("Test must be strict or certs or extra");
+            }
         }
+
+    } else {
+        res.status(400).send("Session not found");
     }
 });
 
 // get authn request from session
 app.get("/api/request", function(req, res) {
+
+	// check if apikey is correct
+	if(!checkAuthorisation(req)) {
+		error = {code: 401, msg: "Unauthorized"};
+		res.status(error.code).send(error.msg);
+		return null;
+	}	
+
     res.status(200).send(req.session.request);
 });
 
 // execute test for authn request
 app.get("/api/request/check/:test", function(req, res) {
+
+	// check if apikey is correct
+	if(!checkAuthorisation(req)) {
+		error = {code: 401, msg: "Unauthorized"};
+		res.status(error.code).send(error.msg);
+		return null;
+	}	
+
     let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
@@ -336,6 +463,14 @@ app.get("/api/request/check/:test", function(req, res) {
 
 // execute test for response
 app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
+
+	// check if apikey is correct
+	if(!checkAuthorisation(req)) {
+		error = {code: 401, msg: "Unauthorized"};
+		res.status(error.code).send(error.msg);
+		return null;
+	}	
+
     let suiteid = req.params.suiteid;
     let caseid = req.params.caseid;
     let params = req.body.params;
@@ -424,6 +559,14 @@ app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
 
 // return assertion/response signed 
 app.post("/api/sign", function(req, res) {
+
+	// check if apikey is correct
+	if(!checkAuthorisation(req)) {
+		error = {code: 401, msg: "Unauthorized"};
+		res.status(error.code).send(error.msg);
+		return null;
+	}	
+
     let xml = req.body.xml;
     let sign_assertion = req.body.sign_assertion;
     let sign_response = req.body.sign_response;
@@ -442,6 +585,30 @@ app.post("/api/sign", function(req, res) {
 });
 
 
+
+
+/* AUTHENTICATION */
+app.get("/authenticate", (req, res)=> {
+	
+	let user		= req.query.user;
+	let password	= req.query.password;
+	
+	if(
+		(user==config_idp.app_user && password==config_idp.app_password_hash)
+	) {
+		let resobj = {
+			apikey: sha256(config_idp.app_user + config_idp.app_password).toString()
+		}				
+        console.log("SUCCESS /authenticate : APIKEY " + resobj.apikey);
+		res.status(200).send(resobj);
+
+	} else {
+		error = {code: 401, msg: "Unauthorized"}
+		console.log("ERROR /authenticate : " + error.msg + " (" + user + " : " + password + ")");
+		res.status(error.code).send(error.msg);
+		return null;				
+	}
+});
 
 // start
 app.listen(8080, () => {

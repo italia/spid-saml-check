@@ -1,16 +1,12 @@
-.warn {
-	border-color: red!important;
-}
-
-.img-continue, .img-new {
+.worksave-img-continue, .worksave-img-new {
     margin-right: 20px;
 }
 
-.text-muted {
+.worksave-text-muted {
     margin-top:20px;
 }
 
-.card:hover {
+.worksave-card:hover {
     background: #e0f0ff;
     cursor: pointer;
 }
