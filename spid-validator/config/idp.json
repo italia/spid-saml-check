@@ -1,6 +1,6 @@
 {
-    "entityID": "http://localhost:8080",
-    "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+	"entityID": "http://localhost:8080",
+	"signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
 	"credentials": [{
 		"signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
 		"certificate": "MIIDmDCCAwECCQCAE/DU2o/PtjANBgkqhkiG9w0BAQUFADBJMQswCQYDVQQGEwJJVDENMAsGA1UECBMEUm9tZTENMAsGA1UEBxMEUm9tZTENMAsGA1UEChMEQWdJRDENMAsGA1UEAxMEQWdJRDAeFw0xNzA1MTAwODM5MTFaFw0xODA1MTAwODM5MTFaMFQxCzAJBgNVBAYTAklUMQ0wCwYDVQQIEwRSb21lMQ0wCwYDVQQHEwRSb21lMQ0wCwYDVQQKEwRBZ0lEMRgwFgYDVQQDEw9hcHAuYWdpZC5nb3YuaXQwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDL9oovvZRq4xVlaEs2kuXIiESDApBQHJ7397Q1pKtJRKW2iz0GBdtmqKdIEouzEl2KTTdJZdnIlLozrlNxesqhYJ/hxXpcWWlUDmagid6xnB5rARmcDNjcGAdslOxRUzeTenpZkjU3AJaYVC6GHRltUV334qaOoyx1j2fEUm7ySe5lEK62HUSKLMOTgbd7pSzyPnMpu8x7uA1i/g3NQzkt+WctKfQIUG+yowGPfO0ptrF2fjSQsRvGSkc20uKEK8Use9FPk1Iq1oLKIDEbsa2Z/+Sghu/bNr3CEW+YICq9kznsYXZTfzadaL7YQUXBnYf7Y1CL10SxVlDuppR/fkYUW0ph/mH2cZIBGJ+XzqEMH8FUAp/clCQ+9ntmnL643OLo/DxwXZMY2xz0jQOIgq/XCuBu0yVI4kOKqtLWz+trbyeA2hVM4Pq2nHMtmNt1pkkrK6U4OtqhkFf9gnrSD/W/Rcuv4cYDjBJu8PfM8pKsSJh/zVLkLnkQPVrsKktoM8fyFxp5a9JTFFPz2DVlIhJYeq0O9y48i53asOL0m2R8OJfDQTyLnrthdD0RkcxGht4Uchcl4Q2A4YQYU1I0IMXOcMNEMKzCL0h16Bf5pPibtBUuTdHaXnw+lDWCxNkFxNpY1TSM/RpQKtDbvu9zYt3YjhFpN93EjMleIe8XX9UfFwIDAQABMA0GCSqGSIb3DQEBBQUAA4GBAK7u/y/RvLL2dkKizOrnZnnfPhhm/X3MZ0HQeEvL2EIzrrkUXgR1S7if7CQrhLYnaF8TwwfkTSwQ6anCsX32hlI/QbduvEY2Z5W/63i8bTtedXIjn4BYNyk+F6GGsea850k43kXZ9QXXGo+ktMKFDq2qHpZfA/Thgse1a0ENTYYe",
@@ -10,9 +10,11 @@
 		"login": "https://localhost:8080/samlsso",
 		"logout": "https://localhost:8080/samlsso"
 	},
-    "nameIDFormats": ["urn:oasis:names:tc:SAML:2.0:nameid-format:transient"],
+	"nameIDFormats": ["urn:oasis:names:tc:SAML:2.0:nameid-format:transient"],
 	"signAllRequests": false,
 	"signAllResponses": true,
 	"requireSignedRequests": true,
-	"requireSignedResponses": false
+	"requireSignedResponses": false,
+	"app_user":"validator",
+	"app_password_hash": "to configure as SHA256(password)"
 }
