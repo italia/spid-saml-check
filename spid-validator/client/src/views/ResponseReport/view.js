@@ -17,7 +17,7 @@ function view(me) {
                                 <div className="col-sm-12">
                                     {Object.keys(me.state.test_cases).map((t)=> {
                                         return(
-                                            <a className={(me.state.test_cases[t].success)? "test-success" : "test-fail" }
+                                            <a className={me.state.test_cases[t].classColor}
                                                 title={me.state.test_cases[t].name +
                                                          ": " + me.state.test_cases[t].success}> &#9724; </a> 
                                         );
@@ -37,11 +37,9 @@ function view(me) {
                                 {Object.keys(me.state.test_cases).map((t)=> {
                                     return(
                                          <tr className="detail-row">
-                                            <td className={(me.state.test_cases[t].success)? "detail-num test-success-dm" : "detail-num test-fail-dm"}>{t}</td>
+                                            <td className={'detail-num ' + me.state.test_cases[t].classColor + '-dm'}>{t}</td>
                                             <td className="detail-description">{me.state.test_cases[t].name}</td>
-                                            <td className={(me.state.test_cases[t].success)? "detail-result test-success-dm" : "detail-result test-fail-dm"}>
-                                                {(me.state.test_cases[t].success)? "success" : "failure"}
-                                            </td>
+                                            <td className={'detail-result ' + me.state.test_cases[t].classColor + '-dm'}>{me.state.test_cases[t].result}<br/>{me.state.test_cases[t].note}</td>
                                          </tr>
                                     );
                                 })}

@@ -28,7 +28,9 @@ class Response extends Component {
       response_destination: "",
       response_samlResponse: "",
       response_relayState: "",
-      test_success: false     
+      test_done: false,
+      test_success: false, 
+      test_note: ""   
     };  
   }
 
@@ -46,7 +48,9 @@ class Response extends Component {
       response_destination: state.response_destination,
       response_samlResponse: state.response_samlResponse,
       response_relayState: state.response_relayState,
-      test_success: state.test_success
+      test_done: state.test_done,
+      test_success: state.test_success,
+      test_note: state.test_note
     }
   }
 
@@ -131,10 +135,35 @@ class Response extends Component {
 
   }
 
+  setTestDone(done) {
+    this.setState({test_done: done}, ()=> {
+      let store = ReduxStore.getMain();
+      store.dispatch(Actions.setResponseTestDone(this.state.caseid, this.state.test_done)); 
+
+      let service = Services.getMainService();
+      service.saveWorkspace(store.getState());
+    });  
+    
+    if(!done) {
+        this.setTestSuccess(false);   
+        this.setTestNote("");
+    }
+  }
+
   setTestSuccess(success) {
     this.setState({test_success: success}, ()=> {
       let store = ReduxStore.getMain();
       store.dispatch(Actions.setResponseTestSuccess(this.state.caseid, this.state.test_success)); 
+
+      let service = Services.getMainService();
+      service.saveWorkspace(store.getState());
+    });     
+  }
+
+  setTestNote(note) {
+    this.setState({test_note: note}, ()=> {
+      let store = ReduxStore.getMain();
+      store.dispatch(Actions.setResponseTestNote(this.state.caseid, this.state.test_note)); 
 
       let service = Services.getMainService();
       service.saveWorkspace(store.getState());
@@ -167,8 +196,16 @@ class Response extends Component {
         // retrieve test success
         let store = ReduxStore.getMain();
         let storeState = store.getState();
+
+        let test_done = storeState.response_test_done[this.state.caseid];
+        if(test_done==null) test_done = false;
+
         let test_success = storeState.response_test_success[this.state.caseid];
-        if(test_success==null) test_success = false;
+        if(!test_done || test_success==null) test_success = false;
+
+        let test_note = storeState.response_test_note[this.state.caseid];
+        if(!test_note || test_note==null) test_note = "";
+
 
         this.setState({
           name: testResponse.name,
@@ -178,7 +215,9 @@ class Response extends Component {
           params: testResponse.params,
           sign_response: testResponse.sign_response,
           sign_assertion: testResponse.sign_assertion,
-          test_success: test_success
+          test_done: test_done,
+          test_success: test_success,
+          test_note: test_note
         }, ()=> {
           Utility.log("getTestResponse <-", this.state);
         });

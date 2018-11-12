@@ -4,6 +4,14 @@
     margin-bottom: 20px;
 }
 
+.test-none {
+    color: grey!important;
+    font-size: 32px;
+    line-height: 25px;
+    margin: -5px;
+    cursor: pointer;
+}
+
 .test-success {
     color: green!important;
     font-size: 32px;
@@ -49,7 +57,12 @@
 }
 
 .detail-result {
-    width: 100px;
+    width: 25%;
+}
+
+.test-none-dm {
+    background: grey!important;
+    color: #000000;
 }
 
 .test-success-dm {
