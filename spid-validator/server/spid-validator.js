@@ -461,7 +461,7 @@ app.get("/api/request/check/:test", function(req, res) {
     }
 });
 
-// execute test for response
+// get test for response
 app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
 
 	// check if apikey is correct

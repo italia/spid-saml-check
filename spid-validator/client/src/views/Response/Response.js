@@ -11,7 +11,31 @@ class Response extends Component {
 
   constructor(props) {
     super(props);
-    this.newResponse(props.match.params.suiteid, props.match.params.caseid);  
+
+    // search for first test not yet executed
+    if(props.match.params.suiteid==null || props.match.params.caseid==null) {
+
+        let store = ReduxStore.getMain();
+        let storeState = store.getState();
+        let testDone = storeState.response_test_done;
+        let testCases = config_test["test-suite-1"].cases;     
+        let nextTest = null;
+        for(let key in testCases) {
+            let executed = false;
+            for(let key_done in testDone) {
+                if(key==key_done) executed = true;
+            }
+            if(!executed) {
+                nextTest = key;
+                break;
+            }
+        }
+        if(nextTest==null) nextTest = "1";
+        this.newResponse("test-suite-1", nextTest);
+
+    } else {
+        this.newResponse(props.match.params.suiteid, props.match.params.caseid);  
+    }
   }	
 
   newResponse(suiteid, caseid) {
@@ -35,9 +59,12 @@ class Response extends Component {
   }
 
   static getDerivedStateFromProps(props, state) { 
+    let suiteid = (props.match.params.suiteid!=null)? props.match.params.suiteid : state.suiteid;
+    let caseid = (props.match.params.caseid!=null)? props.match.params.caseid : state.caseid;
+
     return {
-      suiteid: props.match.params.suiteid,
-      caseid: props.match.params.caseid,
+      suiteid: suiteid,
+      caseid: caseid,
       name: state.name,
       description: state.description,
       sign_response: state.sign_response,
@@ -59,8 +86,11 @@ class Response extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.state.suiteid!=prevProps.match.params.suiteid || 
-        this.state.caseid!=prevProps.match.params.caseid) {
+    let suiteid = (prevProps.match.params.suiteid!=null)? prevProps.match.params.suiteid : this.state.suiteid;
+    let caseid = (prevProps.match.params.caseid!=null)? prevProps.match.params.caseid : this.state.caseid;
+
+    if(this.state.suiteid!=suiteid || 
+        this.state.caseid!=caseid) {
         this.newResponse(this.state.suiteid, this.state.caseid); 
         this.getTestResponse(); 
     }
@@ -68,6 +98,7 @@ class Response extends Component {
 
   getTestOptions() {
     let options = [];
+    Utility.log("SUITE ID", this.state);
     let testcases = config_test[this.state.suiteid]["cases"];
 
     for(let i in testcases) {
@@ -183,7 +214,8 @@ class Response extends Component {
   }  
 
   getTestResponse() {
-    let service = Services.getMainService();	
+    let service = Services.getMainService();
+    Utility.log("LOAD", this.state);	
     service.getTestResponse({
         suiteid: this.state.suiteid,
         caseid: this.state.caseid,

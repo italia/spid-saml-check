@@ -33,6 +33,7 @@ ReactDOM.render((
       <Route path="/request-check-certs" component={Main}/>
       <Route path="/request-check-extra" component={Main}/>
       <Route path="/response/:suiteid/:caseid" component={Main}/>
+      <Route path="/response" component={Main}/>
       <Route path="/response-report" component={Main}/>
       <Route path="/worksave" component={Empty}/>
       <Route path="/login" component={Empty}/>

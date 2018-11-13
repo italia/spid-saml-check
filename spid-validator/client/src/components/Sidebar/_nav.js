@@ -54,7 +54,7 @@ export default {
       name: 'Response',
       icon: 'icon-check', 
       children: [
-        { name: 'Check Response', url: '/response/test-suite-1/1' },
+        { name: 'Check Response', url: '/response' },
         { name: 'Report', url: '/response-report' },
       ]
     },
