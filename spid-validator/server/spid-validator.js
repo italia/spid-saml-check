@@ -21,10 +21,6 @@ const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 
 const Database = require("./lib/database");
 
-
-const user = "LOCALHOST"; // temp default user. To change whith login implementation
-
-
 var app = express();
 app.use(helmet());
 
@@ -235,7 +231,7 @@ app.get("/api/store", function(req, res) {
         let DATA_DIR = "../specs-compliance-tests/data";
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
-        let store = database.getStore(user, req.session.request.issuer, "main");
+        let store = database.getStore(req.session.user, req.session.request.issuer, "main");
 
         fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
         req.session.metadata = {
@@ -260,7 +256,7 @@ app.post("/api/store", function(req, res) {
 	}	
 
     if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-        database.saveStore(user, req.session.request.issuer, "main", req.body);
+        database.saveStore(req.session.user, req.session.request.issuer, "main", req.body);
         res.status(200).send();
 
     } else {
@@ -279,7 +275,7 @@ app.delete("/api/store", function(req, res) {
 	}	
 
     if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-        database.deleteStore(user, req.session.request.issuer, "main");
+        database.deleteStore(req.session.user, req.session.request.issuer, "main");
         res.status(200).send();
 
     } else {
@@ -302,7 +298,7 @@ app.get("/api/metadata-sp", function(req, res) {
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
         req.session.metadata = null;
 
-        let savedMetadata = database.getData(user, req.session.request.issuer, "metadata").result.metadata;
+        let savedMetadata = database.getData(req.session.user, req.session.request.issuer, "metadata").result.metadata;
         if(savedMetadata) {
             req.session.metadata = savedMetadata;
 
@@ -600,6 +596,7 @@ app.get("/authenticate", (req, res)=> {
 			apikey: sha256(config_idp.app_user + config_idp.app_password).toString()
 		}				
         console.log("SUCCESS /authenticate : APIKEY " + resobj.apikey);
+        req.session.user = user;
 		res.status(200).send(resobj);
 
 	} else {
