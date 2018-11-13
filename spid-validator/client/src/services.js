@@ -128,19 +128,6 @@ class MainService {
 		});
 	}
 
-	getNextTestResponseID(callback_response, callback_error) {
-		Utility.log("GET /api/test-response");
-		axios.get('/api/test-response?apikey=' + Utility.getApikey())
-		.then(function(response) {
-			Utility.log("getNextTestResponseID Success", response.data);
-			callback_response(response.data);
-		})
-		.catch(function(error) {
-			Utility.log("getNextTestResponseID Error", error);
-			callback_error((error.response!=null) ? error : "Service not available");
-		});
-	}
-
 	getTestResponse(options, callback_response, callback_error) {
 		Utility.log("POST /api/test-response/" + options.suiteid + "/" + options.caseid);
 		axios.post('/api/test-response/' + options.suiteid + '/' + options.caseid + '?apikey=' + Utility.getApikey(), options)

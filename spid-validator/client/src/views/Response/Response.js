@@ -98,7 +98,6 @@ class Response extends Component {
 
   getTestOptions() {
     let options = [];
-    Utility.log("SUITE ID", this.state);
     let testcases = config_test[this.state.suiteid]["cases"];
 
     for(let i in testcases) {
@@ -214,8 +213,7 @@ class Response extends Component {
   }  
 
   getTestResponse() {
-    let service = Services.getMainService();
-    Utility.log("LOAD", this.state);	
+    let service = Services.getMainService();	
     service.getTestResponse({
         suiteid: this.state.suiteid,
         caseid: this.state.caseid,
