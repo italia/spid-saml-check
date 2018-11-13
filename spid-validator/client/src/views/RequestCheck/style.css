@@ -51,12 +51,14 @@
 
 .test-success-dm {
     background: green!important;
-    color: #000000;
+    color: #FFFFFF;
+    font-weight: bold;
 }
 
 .test-fail-dm {
     background: red!important;
-    color: #000000;
+    color: #FFFFFF;
+    font-weight: bold;
 }
 
 .tools {
