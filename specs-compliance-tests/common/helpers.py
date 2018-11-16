@@ -166,4 +166,29 @@ def parse_pem(cert):
         print(err)
         return []
 
+
+    #
+    # validity
+    #
+
+    cmd = ' | '.join([
+        'openssl x509 -in %s -noout -enddate' % cert,
+        'cut -d"=" -f2',
+        'cut -b 1-20',
+    ])
+
+    try:
+        p = subprocess.run(
+            cmd,
+            shell=True,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        value = p.stdout.decode('utf-8').replace('\n', '')
+        result.append(value)
+    except subprocess.CalledProcessError as err:
+        print(err)
+        return []
+
     return result
