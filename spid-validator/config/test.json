@@ -33,7 +33,8 @@
                         "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
                         "mobilePhone": "+390000000000",
                         "email": "test@test",
-                        "address": "via Test X XXX XXXX XX"                
+                        "address": "via Test X XXX XXXX XX",
+                        "idCard": "cartaIdentita numXXX comuneXXX 2000-01-01 2020-12-31"            
                    }
                 },
                 "sign_response": true,
