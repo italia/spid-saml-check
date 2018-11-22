@@ -27,14 +27,17 @@
                         "name": "Name",
                         "familyName": "Family Name",
                         "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
                         "dateOfBirth": "1980-01-01",
                         "gender": "F",
+                        "companyName": "ACME",
+                        "registeredOffice": "My Office",
                         "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "ivaCode": "01234",
+                        "idCard": "cartaIdentita numXXX comuneXXX 2000-01-01 2020-12-31",            
                         "mobilePhone": "+390000000000",
                         "email": "test@test",
                         "address": "via Test X XXX XXXX XX",
-                        "idCard": "cartaIdentita numXXX comuneXXX 2000-01-01 2020-12-31"            
+                        "digitalAddress": "via Word, 64 bit"
                    }
                 },
                 "sign_response": true,
