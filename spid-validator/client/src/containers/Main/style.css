@@ -12,4 +12,8 @@
     .agid-logo-print {
         width: 300px;
     }
+
+    .app-footer {
+        display: none!important;
+    }
 }
