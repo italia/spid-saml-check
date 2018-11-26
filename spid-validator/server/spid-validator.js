@@ -88,7 +88,7 @@ app.post("/samlsso", function (req, res) {
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
 	let samlRequest = req.body.SAMLRequest;
-	let relayState = req.body.RelayState;
+	let relayState = (req.body.RelayState!=null)? req.body.RelayState : "";
 
 	if(samlRequest!=null && relayState!=null) {
         let xml = PayloadDecoder.decode(samlRequest);
@@ -136,7 +136,7 @@ app.get("/samlsso", function (req, res) {
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
 	let samlRequest = req.query.SAMLRequest;
-	let relayState = req.query.RelayState;
+	let relayState = (req.query.RelayState!=null)? req.query.RelayState : "";
 	let sigAlg = req.query.SigAlg;
 	let signature = req.query.Signature;
 
