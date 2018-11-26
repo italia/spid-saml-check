@@ -155,8 +155,7 @@ class Response extends Component {
     if(ok) {
       this.setState({
         response_destination: destination,
-        response_samlResponse: new Buffer(this.state.xml_signed, "utf8").toString("base64"),
-        response_relayState: "RELAY"
+        response_samlResponse: new Buffer(this.state.xml_signed, "utf8").toString("base64")
       }, ()=> {
         Utility.log("SEND Response", this.state);
         this.refs["form"].submit();
@@ -247,7 +246,8 @@ class Response extends Component {
           sign_assertion: testResponse.sign_assertion,
           test_done: test_done,
           test_success: test_success,
-          test_note: test_note
+          test_note: test_note,
+          response_relayState: testResponse.relayState
         }, ()=> {
           Utility.log("getTestResponse <-", this.state);
         });

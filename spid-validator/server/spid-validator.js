@@ -108,7 +108,8 @@ app.post("/samlsso", function (req, res) {
                 authnContextClassRef: requestAuthnContextClassRef,
                 assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
                 assertionConsumerServiceIndex: requestAssertionConsumerServiceIndex,
-                xml: xml
+                xml: xml,
+                relayState: relayState
             }        
 
             let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
@@ -161,7 +162,8 @@ app.get("/samlsso", function (req, res) {
                 issuer: requestIssuer,
                 assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
                 assertionConsumerServiceIndex: requestAssertionConsumerServiceIndex,
-                xml: xml
+                xml: xml,
+                relayState: relayState
             }        
 
             let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
@@ -549,6 +551,7 @@ app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
     testResponse.sign_response = sign_response;
     testResponse.sign_assertion = sign_assertion;
     testResponse.compiled = signed;
+    testResponse.relayState = req.session.request.relayState;
     
     res.status(200).send(testResponse);
 });
