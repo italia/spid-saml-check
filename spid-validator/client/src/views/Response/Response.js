@@ -31,9 +31,11 @@ class Response extends Component {
             }
         }
         if(nextTest==null) nextTest = "1";
+        Utility.log("LOAD RESPONSE", nextTest);
         this.newResponse("test-suite-1", nextTest);
 
     } else {
+        Utility.log("LOAD RESPONSE", props.match.params.caseid);
         this.newResponse(props.match.params.suiteid, props.match.params.caseid);  
     }
   }	
@@ -272,8 +274,10 @@ class Response extends Component {
   }
 
   setResponseTemplate(templateId) {
-    const { router } = this.context
     this.props.history.push("/response/" + this.state.suiteid + "/" + templateId);
+    this.setState({ }, ()=> {
+      this.getTestResponse();
+    });
   }
 
   render() { 
