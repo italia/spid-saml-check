@@ -275,9 +275,8 @@ class Response extends Component {
 
   setResponseTemplate(templateId) {
     this.props.history.push("/response/" + this.state.suiteid + "/" + templateId);
-    this.setState({ }, ()=> {
-      this.getTestResponse();
-    });
+    this.newResponse(this.state.suiteid, templateId); 
+    this.getTestResponse();
   }
 
   render() { 
