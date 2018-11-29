@@ -26,7 +26,7 @@
             </saml:SubjectConfirmation>
         </saml:Subject>
         <saml:Conditions 
-            NotBefore="2000-01-01T00:00:00Z" 
+            NotBefore="2099-01-01T00:00:00Z" 
             NotOnOrAfter="{{NotOnOrAfter}}" >
             <saml:AudienceRestriction>
                 <saml:Audience>{{Audience}}</saml:Audience>

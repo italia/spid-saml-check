@@ -15,7 +15,7 @@
                     "IssueInstant": "",
                     "Issuer": "",
                     "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "NameID": "",
                     "NotOnOrAfter": "",
                     "NotBefore": "",
@@ -27,22 +27,24 @@
                         "name": "Name",
                         "familyName": "Family Name",
                         "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
                         "dateOfBirth": "1980-01-01",
                         "gender": "F",
                         "companyName": "ACME",
                         "registeredOffice": "My Office",
                         "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
                         "ivaCode": "01234",
-                        "idCard": "cartaIdentita numXXX comuneXXX 2000-01-01 2020-12-31",            
+                        "idCard": "cartaIdentita numXXX comuneXXX 2000-01-01 2020-12-31",   
+                        "expirationDate": "2020-12-31",         
                         "mobilePhone": "+390000000000",
                         "email": "test@test",
                         "address": "via Test X XXX XXXX XX",
-                        "digitalAddress": "via Word, 64 bit"
+                        "digitalAddress": "via Word, 64 bit"               
                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
-            },
+            },            
             "2": {
                 "name": "02. Response non firmata",
                 "description": "Response non firmata. Risultato atteso: KO",
@@ -51,7 +53,7 @@
                     "IssueInstant": "",
                     "Issuer": "",
                     "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "NameID": "",
                     "NotOnOrAfter": "",
                     "NotBefore": "",
@@ -83,7 +85,7 @@
                     "IssueInstant": "",
                     "Issuer": "",
                     "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "NameID": "",
                     "NotOnOrAfter": "",
                     "NotBefore": "",
@@ -115,7 +117,7 @@
                     "IssueInstant": "",
                     "Issuer": "",
                     "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "NameID": "",
                     "NotOnOrAfter": "",
                     "NotBefore": "",
@@ -152,7 +154,7 @@
                     "IssueInstant": "",
                     "Issuer": "",
                     "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "NameID": "",
                     "NotOnOrAfter": "",
                     "NotBefore": "",
@@ -184,7 +186,7 @@
                     "IssueInstant": "",
                     "Issuer": "",
                     "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "NameID": "",
                     "NotOnOrAfter": "",
                     "NotBefore": "",
@@ -216,7 +218,7 @@
                     "IssueInstant": "",
                     "Issuer": "",
                     "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "NameID": "",
                     "NotOnOrAfter": "",
                     "NotBefore": "",
@@ -248,7 +250,7 @@
                     "IssueInstant": "",
                     "Issuer": "",
                     "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "NameID": "",
                     "NotOnOrAfter": "",
                     "NotBefore": "",
@@ -280,7 +282,7 @@
                     "IssueInstant": "",
                     "Issuer": "",
                     "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "NameID": "",
                     "NotOnOrAfter": "",
                     "NotBefore": "",
@@ -312,7 +314,7 @@
                     "IssueInstant": "",
                     "Issuer": "",
                     "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "NameID": "",
                     "NotOnOrAfter": "",
                     "NotBefore": "",
@@ -344,7 +346,7 @@
                     "IssueInstant": "2018-01-01T00:00:00Z",
                     "Issuer": "",
                     "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "NameID": "",
                     "NotOnOrAfter": "",
                     "NotBefore": "",
@@ -376,7 +378,7 @@
                     "IssueInstant": "2099-01-01T00:00:00Z",
                     "Issuer": "",
                     "AssertionID": "",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "NameID": "",
                     "NotOnOrAfter": "",
                     "NotBefore": "",
@@ -405,7 +407,7 @@
                 "description": "Attributo InResponseTo non specificato. Risultato atteso: KO",
                 "path": "test/case-16.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -428,7 +430,7 @@
                 "description": "Attributo InResponseTo mancante. Risultato atteso: KO",
                 "path": "test/case-17.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -452,7 +454,7 @@
                 "path": "test/base.xml",
                 "response": {
                     "AuthnRequestID": "inresponsetodiversodaidrequest",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -475,7 +477,7 @@
                 "description": "Attributo Destination non specificato. Risultato atteso: KO",
                 "path": "test/case-19.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -498,7 +500,7 @@
                 "description": "Attributo Destination mancante. Risultato atteso: KO",
                 "path": "test/case-20.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -521,7 +523,7 @@
                 "description": "Attributo Destination diverso da AssertionConsumerServiceURL. Risultato atteso: KO",
                 "path": "test/case-21.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -544,7 +546,7 @@
                 "description": "Elemento Status non specificato. Risultato atteso: KO",
                 "path": "test/case-22.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -567,7 +569,7 @@
                 "description": "Elemento Status mancante. Risultato atteso: KO",
                 "path": "test/case-23.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -590,7 +592,7 @@
                 "description": "Elemento StatusCode non specificato. Risultato atteso: KO",
                 "path": "test/case-24.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -613,7 +615,7 @@
                 "description": "Elemento StatusCode mancante. Risultato atteso: KO",
                 "path": "test/case-25.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -636,7 +638,7 @@
                 "description": "Elemento StatusCode diverso da Success (non valido). Risultato atteso: KO. il S.P. deve mostrare schermata di errore",
                 "path": "test/case-26.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -659,7 +661,7 @@
                 "description": "Elemento Issuer non specificato. Risultato atteso: KO",
                 "path": "test/case-27.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -682,7 +684,7 @@
                 "description": "Elemento Issuer mancante. Risultato atteso: KO",
                 "path": "test/case-28.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -705,7 +707,7 @@
                 "description": "Elemento Issuer diverso da EntityID IdP. Risultato atteso: KO",
                 "path": "test/case-29.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -728,7 +730,7 @@
                 "description": "Attributo Format di Issuer presente e diverso da urn:oasis:names:tc:SAML:2.0:nameid-format:entity. Risultato atteso: KO",
                 "path": "test/case-30.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -754,7 +756,7 @@
                     "StatusCode1": "urn:oasis:names:tc:SAML:2.0:status:Responder",
                     "StatusCode2": "urn:oasis:names:tc:SAML:2.0:status:AuthnFailed",
                     "StatusMessage": "ErrorCode nr23",
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -777,7 +779,7 @@
                 "description": "Elemento Assertion mancante ed esito positivo autenticazione . Risultato atteso: KO",
                 "path": "test/case-32.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -800,7 +802,7 @@
                 "description": "Attributo ID dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-33.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -823,7 +825,7 @@
                 "description": "Attributo ID dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-34.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -846,7 +848,7 @@
                 "description": "Attributo Version dell'Assertion diverso da 2.0. Risultato atteso: KO",
                 "path": "test/case-35.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -869,7 +871,7 @@
                 "description": "Attributo IssueInstant dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-36.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -892,7 +894,7 @@
                 "description": "Attributo IssueInstant dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-37.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -915,7 +917,7 @@
                 "description": "Attributo IssueInstant dell'Assertion avente formato non corretto. Risultato atteso: KO",
                 "path": "test/case-38.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -938,7 +940,7 @@
                 "description": "Attributo IssueInstant dell'Assertion precedente a IssueInstant della Request. Risultato atteso: KO",
                 "path": "test/case-39.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -961,7 +963,7 @@
                 "description": "Attributo IssueInstant dell'Assertion successivo a IssueInstant della Request. Risultato atteso: KO",
                 "path": "test/case-40.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -984,7 +986,7 @@
                 "description": "Elemento Subject dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-41.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1007,7 +1009,7 @@
                 "description": "Elemento Subject dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-42.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1030,7 +1032,7 @@
                 "description": "Elemento NameID dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-43.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1053,7 +1055,7 @@
                 "description": "Elemento NameID dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-44.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1076,7 +1078,7 @@
                 "description": "Attributo Format dell'elemento NameID dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-45.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1099,7 +1101,7 @@
                 "description": "Attributo Format dell'elemento NameID dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-46.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1122,7 +1124,7 @@
                 "description": "Attributo Format di NameID dell'Assertion diverso da urn:oasis:names:tc:SAML:2.0:nameidformat:transient. Risultato atteso: KO",
                 "path": "test/case-47.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1145,7 +1147,7 @@
                 "description": "Attributo NameQualifier di NameID dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-48.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1168,7 +1170,7 @@
                 "description": "Attributo NameQualifier di NameID dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-49.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1191,7 +1193,7 @@
                 "description": "Attributo NameQualifier di NameID dell'Assertion diverso da EntityID del S.P.. Risultato atteso: KO",
                 "path": "test/case-50.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1214,7 +1216,7 @@
                 "description": "Elemento SubjectConfirmation dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-51.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1237,7 +1239,7 @@
                 "description": "Elemento SubjectConfirmation dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-52.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1260,7 +1262,7 @@
                 "description": "Attributo Method di SubjectConfirmation dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-53.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1283,7 +1285,7 @@
                 "description": "Attributo Method di SubjectConfirmation dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-54.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1306,7 +1308,7 @@
                 "description": "Attributo Method di SubjectConfirmation dell'Assertion diverso da urn:oasis:names:tc:SAML:2.0:cm:bearer. Risultato atteso: KO",
                 "path": "test/case-55.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1329,7 +1331,7 @@
                 "description": "Elemento SubjectConfirmationData dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-56.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1352,7 +1354,7 @@
                 "description": "Attributo Recipient di SubjectConfirmationData dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-57.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1375,7 +1377,7 @@
                 "description": "Attributo Recipient di SubjectConfirmationData dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-58.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1398,7 +1400,7 @@
                 "description": "Attributo Recipient di SubjectConfirmationData dell'Assertion diverso da AssertionConsumerServiceURL. Risultato atteso: KO",
                 "path": "test/case-59.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1421,7 +1423,7 @@
                 "description": "Attributo InResponseTo di SubjectConfirmationData dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-60.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1444,7 +1446,7 @@
                 "description": "Attributo InResponseTo di SubjectConfirmationData dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-61.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1467,7 +1469,7 @@
                 "description": "Attributo InResponseTo di SubjectConfirmationData dell'Assertion diverso da ID request. Risultato atteso: KO",
                 "path": "test/case-62.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1490,7 +1492,7 @@
                 "description": "Attributo NotOnOrAfter di SubjectConfirmationData dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-63.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1513,7 +1515,7 @@
                 "description": "Attributo NotOnOrAfter di SubjectConfirmationData mancante. Risultato atteso: KO",
                 "path": "test/case-64.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1536,7 +1538,7 @@
                 "description": "Attributo NotOnOrAfter di SubjectConfirmationData avente formato non corretto. Risultato atteso: KO",
                 "path": "test/case-65.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1555,11 +1557,11 @@
                 "sign_assertion": false
             },
            "66": {
-                "name": "66. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData successivo all'istante di ricezione",
-                "description": "Attributo NotOnOrAfter di SubjectConfirmationData successivo all'istante di ricezione. Risultato atteso: KO",
+                "name": "66. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData precedente all'istante di ricezione della response",
+                "description": "Attributo NotOnOrAfter di SubjectConfirmationData precedente all'istante di ricezione della response. Risultato atteso: KO",
                 "path": "test/case-66.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1582,7 +1584,7 @@
                 "description": "Elemento Issuer dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-67.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1605,7 +1607,7 @@
                 "description": "Elemento Issuer dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-68.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1628,7 +1630,7 @@
                 "description": "Elemento Issuer dell'Assertion diverso da EntityID IdP. Risultato atteso: KO",
                 "path": "test/case-69.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1651,7 +1653,7 @@
                 "description": "Attributo Format di Issuer dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-70.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1674,7 +1676,7 @@
                 "description": "Attributo Format di Issuer dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-71.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1697,7 +1699,7 @@
                 "description": "Attributo Format di Issuer dell'Assertion diverso da urn:oasis:names:tc:SAML:2.0:nameid-format:entity. Risultato atteso: KO",
                 "path": "test/case-72.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1720,7 +1722,7 @@
                 "description": "Elemento Conditions dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-73.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1743,7 +1745,7 @@
                 "description": "Elemento Conditions dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-74.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1766,7 +1768,7 @@
                 "description": "Attributo NotBefore di Condition dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-75.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1789,7 +1791,7 @@
                 "description": "Attributo NotBefore di Condition dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-76.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1812,7 +1814,7 @@
                 "description": "Attributo NotBefore di Condition dell'Assertion avente formato non corretto. Risultato atteso: KO",
                 "path": "test/case-77.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1831,11 +1833,11 @@
                 "sign_assertion": false
             },
            "78": {
-                "name": "78. Assertion - Attributo NotBefore di Condition successivo a IssueInstant della Request",
-                "description": "Attributo NotBefore di Condition dell'Assertion successivo a IssueInstant della Request. Risultato atteso: KO",
+                "name": "78. Assertion - Attributo NotBefore di Condition successivo all'instante di ricezione della response",
+                "description": "Attributo NotBefore di Condition dell'Assertion successivo all'instante di ricezione della response. Risultato atteso: KO",
                 "path": "test/case-78.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1858,7 +1860,7 @@
                 "description": "Attributo NotOnOrAfter di Condition dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-79.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1881,7 +1883,7 @@
                 "description": "Attributo NotOnOrAfter di Condition dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-80.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1904,7 +1906,7 @@
                 "description": "Attributo NotOnOrAfter di Condition dell'Assertion avente formato non corretto. Risultato atteso: KO",
                 "path": "test/case-81.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1923,11 +1925,11 @@
                 "sign_assertion": false
             },
            "82": {
-                "name": "82. Assertion - Attributo NotOnOrAfter di Condition precedente all'istante di ricezione",
-                "description": "Attributo NotOnOrAfter di Condition dell'Assertion precedente all'istante di ricezione. Risultato atteso: KO",
+                "name": "82. Assertion - Attributo NotOnOrAfter di Condition precedente all'istante di ricezione della response",
+                "description": "Attributo NotOnOrAfter di Condition dell'Assertion precedente all'istante di ricezione della response. Risultato atteso: KO",
                 "path": "test/case-82.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1950,7 +1952,7 @@
                 "description": "Elemento AudienceRestriction di Condition dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-83.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1973,7 +1975,7 @@
                 "description": "Elemento AudienceRestriction di Condition dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-84.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -1996,7 +1998,7 @@
                 "description": "Elemento Audience di AudienceRestriction di Condition dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-85.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2019,7 +2021,7 @@
                 "description": "Elemento Audience di AudienceRestriction di Condition dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-86.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2042,7 +2044,7 @@
                 "description": "Elemento Audience di AudienceRestriction di Condition dell'Assertion diverso da Entity Id del Service Provider. Risultato atteso: KO",
                 "path": "test/case-87.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2065,7 +2067,7 @@
                 "description": "Elemento AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-88.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2088,7 +2090,7 @@
                 "description": "Elemento AuthStatement dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-89.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2111,7 +2113,7 @@
                 "description": "Elemento AuthnContext di AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-90.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2134,7 +2136,7 @@
                 "description": "Elemento AuthnContext di AuthStatement dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-91.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2157,7 +2159,7 @@
                 "description": "Elemento AuthContextClassRef di AuthnContext di AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-92.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2180,7 +2182,7 @@
                 "description": "Elemento AuthContextClassRef di AuthnContext di AuthStatement dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-93.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2203,7 +2205,7 @@
                 "description": "Elemento AuthContextClassRef minore di quello richiesto (caso minimum). Risultato atteso: fare attenzioen al livello richiesto sulla request.",
                 "path": "test/base.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL1",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
@@ -2227,7 +2229,7 @@
                 "description": "Elemento AuthContextClassRef diverso da quello richiesto (caso exact). Risultato atteso: fare attenzioen al livello richiesto sulla request.",
                 "path": "test/base.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL3",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
@@ -2251,7 +2253,7 @@
                 "description": "Elemento AuthContextClassRef diverso da quello richiesto (caso maximum). Risultato atteso: fare attenzioen al livello richiesto sulla request.",
                 "path": "test/base.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL1",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
@@ -2275,7 +2277,7 @@
                 "description": "Elemento AttributeStatement presente, ma sottoelemento Attribute mancante. Risultato atteso: KO",
                 "path": "test/case-97.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier"
+                    "NameIDNameQualifier": "https://validator.spid.gov.it"
                 },
                 "sign_response": true,
                 "sign_assertion": false
@@ -2285,7 +2287,7 @@
                 "description": "Elemento AttributeStatement presente, ma sottoelemento Attribute non specificato. Risultato atteso: KO",
                 "path": "test/case-98.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier"
+                    "NameIDNameQualifier": "https://validator.spid.gov.it"
                 },
                 "sign_response": true,
                 "sign_assertion": false
@@ -2295,7 +2297,7 @@
                 "description": "Assertion firmata con certificato diverso. Risultato atteso: KO",
                 "path": "test/base.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2323,7 +2325,7 @@
                 "description": "Set di attributi inviato diverso da quello richiesto",
                 "path": "test/base.xml",
                 "response": {
-                    "NameIDNameQualifier": "qualifier",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "address": "via Test"                
