@@ -478,7 +478,7 @@ app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
     // default params if no authnrequest
     let authnRequestID = (req.session.request!=null)? req.session.request.id : Utility.getUUID();
     let issueInstant = (req.session.request!=null)? req.session.request.issueInstant : Utility.getInstant();
-    let authnContextClassRef = (req.session.request!=null)? req.session.request.authnContextClassRef : "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL1";
+    let authnContextClassRef = (req.session.request!=null)? req.session.request.authnContextClassRef : "";          // default to none. Requested class ref is mandatory
     let assertionConsumerURL = (req.session.request!=null)? req.session.request.assertionConsumerServiceURL : null;
     let assertionConsumerIndex = (req.session.request!=null)? req.session.request.assertionConsumerServiceIndex : null;
     
