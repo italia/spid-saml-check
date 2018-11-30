@@ -2207,8 +2207,6 @@
                 "response": {
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "https://www.spid.gov.it/SpidL1",
-                    "NameIDNameQualifier": "https://validator.spid.gov.it",
-                    "AuthnContextClassRef": "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL1",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2233,8 +2231,6 @@
                 "response": {
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "https://www.spid.gov.it/SpidL2",
-                    "NameIDNameQualifier": "https://validator.spid.gov.it",
-                    "AuthnContextClassRef": "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL3",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2259,8 +2255,6 @@
                 "response": {
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "https://www.spid.gov.it/SpidL3",
-                    "NameIDNameQualifier": "https://validator.spid.gov.it",
-                    "AuthnContextClassRef": "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL1",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
