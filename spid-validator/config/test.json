@@ -2205,13 +2205,10 @@
                 "description": "Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL1. Risultato atteso: fare attenzione al livello richiesto sulla request.",
                 "path": "test/base.xml",
                 "response": {
-<<<<<<< HEAD
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "https://www.spid.gov.it/SpidL1",
-=======
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL1",
->>>>>>> b376a9be4784cb9557363e1b27eb98ab40dcd485
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2234,13 +2231,10 @@
                 "description": "Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL2. Risultato atteso: fare attenzione al livello richiesto sulla request.",
                 "path": "test/base.xml",
                 "response": {
-<<<<<<< HEAD
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "https://www.spid.gov.it/SpidL2",
-=======
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL3",
->>>>>>> b376a9be4784cb9557363e1b27eb98ab40dcd485
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
@@ -2263,13 +2257,10 @@
                 "description": "Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL3. Risultato atteso: fare attenzione al livello richiesto sulla request.",
                 "path": "test/base.xml",
                 "response": {
-<<<<<<< HEAD
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "https://www.spid.gov.it/SpidL3",
-=======
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "urn:oasis:names:tc:SAML:2.0:ac:classes:SpidL1",
->>>>>>> b376a9be4784cb9557363e1b27eb98ab40dcd485
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
