@@ -21,7 +21,7 @@
             <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
                 <saml:SubjectConfirmationData 
                     InResponseTo="{{AuthnRequestID}}"
-                    NotOnOrAfter="2099-01-01T00:00:00Z"
+                    NotOnOrAfter="2000-01-01T00:00:00Z"
                     Recipient="{{AssertionConsumerURL}}" />
             </saml:SubjectConfirmation>
         </saml:Subject>
