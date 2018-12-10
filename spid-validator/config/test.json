@@ -110,8 +110,8 @@
                 "sign_assertion": false
             },
             "4": {
-                "name": "04. Response - Firma diversa",
-                "description": "Response firmata con certificato diverso. Risultato atteso: KO",
+                "name": "04. Response - Firma non valida",
+                "description": "Response firmata con certificato diverso da quello registrato su SP. Risultato atteso: KO",
                 "path": "test/base.xml",
                 "response": {
                     "IssueInstant": "",
@@ -139,7 +139,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false,
+                "sign_assertion": true,
                 "sign_credentials": {
 		            "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
 		            "certificate": "MIIDmDCCAwECCQCAE/DU2o/PtjANBgkqhkiG9w0BAQUFADBJMQswCQYDVQQGEwJJVDENMAsGA1UECBMEUm9tZTENMAsGA1UEBxMEUm9tZTENMAsGA1UEChMEQWdJRDENMAsGA1UEAxMEQWdJRDAeFw0xNzA1MTAwODM5MTFaFw0xODA1MTAwODM5MTFaMFQxCzAJBgNVBAYTAklUMQ0wCwYDVQQIEwRSb21lMQ0wCwYDVQQHEwRSb21lMQ0wCwYDVQQKEwRBZ0lEMRgwFgYDVQQDEw9hcHAuYWdpZC5nb3YuaXQwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDL9oovvZRq4xVlaEs2kuXIiESDApBQHJ7397Q1pKtJRKW2iz0GBdtmqKdIEouzEl2KTTdJZdnIlLozrlNxesqhYJ/hxXpcWWlUDmagid6xnB5rARmcDNjcGAdslOxRUzeTenpZkjU3AJaYVC6GHRltUV334qaOoyx1j2fEUm7ySe5lEK62HUSKLMOTgbd7pSzyPnMpu8x7uA1i/g3NQzkt+WctKfQIUG+yowGPfO0ptrF2fjSQsRvGSkc20uKEK8Use9FPk1Iq1oLKIDEbsa2Z/+Sghu/bNr3CEW+YICq9kznsYXZTfzadaL7YQUXBnYf7Y1CL10SxVlDuppR/fkYUW0ph/mH2cZIBGJ+XzqEMH8FUAp/clCQ+9ntmnL643OLo/DxwXZMY2xz0jQOIgq/XCuBu0yVI4kOKqtLWz+trbyeA2hVM4Pq2nHMtmNt1pkkrK6U4OtqhkFf9gnrSD/W/Rcuv4cYDjBJu8PfM8pKsSJh/zVLkLnkQPVrsKktoM8fyFxp5a9JTFFPz2DVlIhJYeq0O9y48i53asOL0m2R8OJfDQTyLnrthdD0RkcxGht4Uchcl4Q2A4YQYU1I0IMXOcMNEMKzCL0h16Bf5pPibtBUuTdHaXnw+lDWCxNkFxNpY1TSM/RpQKtDbvu9zYt3YjhFpN93EjMleIe8XX9UfFwIDAQABMA0GCSqGSIb3DQEBBQUAA4GBAK7u/y/RvLL2dkKizOrnZnnfPhhm/X3MZ0HQeEvL2EIzrrkUXgR1S7if7CQrhLYnaF8TwwfkTSwQ6anCsX32hlI/QbduvEY2Z5W/63i8bTtedXIjn4BYNyk+F6GGsea850k43kXZ9QXXGo+ktMKFDq2qHpZfA/Thgse1a0ENTYYd",
@@ -176,7 +176,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "9": {
                 "name": "09. Response - ID mancante",
@@ -208,7 +208,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "10": {
                 "name": "10. Response - Version diverso da 2.0",
@@ -240,7 +240,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "11": {
                 "name": "11. Response - IssueInstant non specificato",
@@ -272,7 +272,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "12": {
                 "name": "12. Response - IssueInstant mancante",
@@ -304,7 +304,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "13": {
                 "name": "13. Response - Formato IssueInstant non corretto",
@@ -336,7 +336,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "14": {
                 "name": "14. Response - IssueInstant precedente Request",
@@ -368,7 +368,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "15": {
                 "name": "15. Response - IssueInstant successivo Request",
@@ -400,7 +400,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "16": {
                 "name": "16. Response - InResponseTo non specificato",
@@ -423,7 +423,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "17": {
                 "name": "17. Response - InResponseTo mancante",
@@ -446,7 +446,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "18": {
                 "name": "18. Response - InResponseTo diverso da Request",
@@ -470,7 +470,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "19": {
                 "name": "19. Response - Destination non specificato",
@@ -493,7 +493,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "20": {
                 "name": "20. Response - Destination mancante",
@@ -516,7 +516,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "21": {
                 "name": "21. Response - Destination diverso da AssertionConsumerServiceURL",
@@ -539,7 +539,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "22": {
                 "name": "22. Response - Elemento Status non specificato",
@@ -562,7 +562,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "23": {
                 "name": "23. Response - Elemento Status mancante",
@@ -585,7 +585,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "24": {
                 "name": "24. Response - Elemento StatusCode non specificato",
@@ -608,7 +608,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "25": {
                 "name": "25. Response - Elemento StatusCode mancante",
@@ -631,7 +631,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "26": {
                 "name": "26. Response - Elemento StatusCode diverso da success (non valido)",
@@ -654,7 +654,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "27": {
                 "name": "27. Response - Elemento Issuer non specificato",
@@ -677,7 +677,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "28": {
                 "name": "28. Response - Elemento Issuer mancante",
@@ -700,7 +700,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "29": {
                 "name": "29. Response - Elemento Issuer diverso da EntityID IdP",
@@ -723,7 +723,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "30": {
                 "name": "30. Response - Attributo Format di Issuer diverso",
@@ -746,7 +746,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "31": {
                 "name": "31. Response - Autenticazione annullata da IdP",
@@ -772,7 +772,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "32": {
                 "name": "32. Response - Elemento Assertion mancante",
@@ -795,7 +795,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "33": {
                 "name": "33. Assertion - Attributo ID non specificato",
@@ -818,7 +818,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "34": {
                 "name": "34. Assertion - Attributo ID mancante",
@@ -841,7 +841,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "35": {
                 "name": "35. Assertion - Attributo Version diverso da 2.0",
@@ -864,7 +864,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "36": {
                 "name": "36. Assertion - Attributo IssueInstant non specificato",
@@ -887,7 +887,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "37": {
                 "name": "37. Assertion - Attributo IssueInstant mancante",
@@ -910,7 +910,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "38": {
                 "name": "38. Assertion - Attributo IssueInstant avente formato non corretto",
@@ -933,7 +933,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "39": {
                 "name": "39. Assertion - Attributo IssueInstant precedente a IssueInstant della Request",
@@ -956,7 +956,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "40": {
                 "name": "40. Assertion - Attributo IssueInstant successivo a IssueInstant della Request",
@@ -979,7 +979,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "41": {
                 "name": "41. Assertion - Elemento Subject non specificato",
@@ -1002,7 +1002,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "42": {
                 "name": "42. Assertion - Elemento Subject mancante",
@@ -1025,7 +1025,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "43": {
                 "name": "43. Assertion - Elemento NameID non specificato",
@@ -1048,7 +1048,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "44": {
                 "name": "44. Assertion - Elemento NameID mancante",
@@ -1071,7 +1071,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "45": {
                 "name": "45. Assertion - Attributo Format di NameID non specificato",
@@ -1094,7 +1094,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "46": {
                 "name": "46. Assertion - Attributo Format di NameID mancante",
@@ -1117,7 +1117,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "47": {
                 "name": "47. Assertion - Attributo Format di NameID diverso",
@@ -1140,7 +1140,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "48": {
                 "name": "48. Assertion - Attributo NameQualifier di NameID non specificato",
@@ -1163,7 +1163,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "49": {
                 "name": "49. Assertion - Attributo NameQualifier di NameID mancante",
@@ -1186,7 +1186,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "50": {
                 "name": "50. Assertion - NameQualifier di NameID diverso da EntityID del S.P.",
@@ -1209,7 +1209,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "51": {
                 "name": "51. Assertion - Elemento SubjectConfirmation non specificato",
@@ -1232,7 +1232,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "52": {
                 "name": "52. Assertion - Elemento SubjectConfirmation mancante",
@@ -1255,7 +1255,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "53": {
                 "name": "53. Assertion - Attributo Method di SubjectConfirmation non specificato",
@@ -1278,7 +1278,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "54": {
                 "name": "54. Assertion - Attributo Method di SubjectConfirmation mancante",
@@ -1301,7 +1301,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "55": {
                 "name": "55. Assertion - Attributo Method di SubjectConfirmation diverso",
@@ -1324,7 +1324,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "56": {
                 "name": "56. Assertion - Elemento SubjectConfirmationData mancante",
@@ -1347,7 +1347,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "57": {
                 "name": "57. Assertion - Attributo Recipient di SubjectConfirmationData non specificato",
@@ -1370,7 +1370,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "58": {
                 "name": "58. Assertion - Attributo Recipient di SubjectConfirmationData mancante",
@@ -1393,7 +1393,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "59": {
                 "name": "59. Assertion - Attributo Recipient di SubjectConfirmationData diverso",
@@ -1416,7 +1416,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "60": {
                 "name": "60. Assertion - Attributo InResponseTo di SubjectConfirmationData non specificato",
@@ -1439,7 +1439,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "61": {
                 "name": "61. Assertion - Attributo InResponseTo di SubjectConfirmationData mancante",
@@ -1462,7 +1462,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "62": {
                 "name": "62. Assertion - Attributo InResponseTo di SubjectConfirmationData diverso da ID request",
@@ -1485,7 +1485,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "63": {
                 "name": "63. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData non specificato",
@@ -1508,7 +1508,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "64": {
                 "name": "64. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData mancante",
@@ -1531,7 +1531,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "65": {
                 "name": "65. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData avente formato non corretto",
@@ -1554,7 +1554,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "66": {
                 "name": "66. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData precedente all'istante di ricezione della response",
@@ -1577,7 +1577,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "67": {
                 "name": "67. Assertion - Elemento Issuer non specificato",
@@ -1600,7 +1600,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "68": {
                 "name": "68. Assertion - Elemento Issuer mancante",
@@ -1623,7 +1623,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "69": {
                 "name": "69. Assertion - Elemento Issuer diverso da EntityID IdP",
@@ -1646,7 +1646,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "70": {
                 "name": "70. Assertion - Attributo Format di Issuer non specificato",
@@ -1669,7 +1669,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "71": {
                 "name": "71. Assertion - Attributo Format di Issuer mancante",
@@ -1692,7 +1692,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "72": {
                 "name": "72. Assertion - Attributo Format di Issuer diverso",
@@ -1715,7 +1715,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "73": {
                 "name": "73. Assertion - Elemento Conditions non specificato",
@@ -1738,7 +1738,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "74": {
                 "name": "74. Assertion - Elemento Conditions mancante",
@@ -1761,7 +1761,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "75": {
                 "name": "75. Assertion - Attributo NotBefore di Condition non specificato",
@@ -1784,7 +1784,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "76": {
                 "name": "76. Assertion - Attributo NotBefore di Condition mancante",
@@ -1807,7 +1807,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "77": {
                 "name": "77. Assertion - Attributo NotBefore di Condition avente formato non corretto",
@@ -1830,7 +1830,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "78": {
                 "name": "78. Assertion - Attributo NotBefore di Condition successivo all'instante di ricezione della response",
@@ -1853,7 +1853,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "79": {
                 "name": "79. Assertion - Attributo NotOnOrAfter di Condition non specificato",
@@ -1876,7 +1876,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "80": {
                 "name": "80. Assertion - Attributo NotOnOrAfter di Condition mancante",
@@ -1899,7 +1899,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "81": {
                 "name": "81. Assertion - Attributo NotOnOrAfter di Condition avente formato non corretto",
@@ -1922,7 +1922,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "82": {
                 "name": "82. Assertion - Attributo NotOnOrAfter di Condition precedente all'istante di ricezione della response",
@@ -1945,7 +1945,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "83": {
                 "name": "83. Assertion - Elemento AudienceRestriction di Condition non specificato",
@@ -1968,7 +1968,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "84": {
                 "name": "84. Assertion - Elemento AudienceRestriction di Condition mancante",
@@ -1991,7 +1991,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "85": {
                 "name": "85. Assertion - Elemento Audience di AudienceRestriction di Condition non specificato",
@@ -2014,7 +2014,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "86": {
                 "name": "86. Assertion - Elemento Audience di AudienceRestriction di Condition mancante",
@@ -2037,7 +2037,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "87": {
                 "name": "87. Assertion - Elemento Audience di AudienceRestriction di Condition diverso da Entity Id del Service Provider",
@@ -2060,7 +2060,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "88": {
                 "name": "88. Assertion - Elemento AuthStatement non specificato",
@@ -2083,7 +2083,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "89": {
                 "name": "89. Assertion - Elemento AuthStatement mancante",
@@ -2106,7 +2106,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "90": {
                 "name": "90. Assertion - Elemento AuthnContext di AuthStatement non specificato",
@@ -2129,7 +2129,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "91": {
                 "name": "91. Assertion - Elemento AuthnContext di AuthStatement mancante",
@@ -2152,7 +2152,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "92": {
                 "name": "92. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement non specificato",
@@ -2175,7 +2175,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "93": {
                 "name": "93. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement mancante",
@@ -2198,7 +2198,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "94": {
                 "name": "94. Assertion - Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL1",
@@ -2222,7 +2222,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "95": {
                 "name": "95. Assertion - Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL2",
@@ -2246,7 +2246,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "96": {
                 "name": "96. Assertion - Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL3",
@@ -2270,7 +2270,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "97": {
                 "name": "97. Assertion - Elemento AuthContextClassRef impostato ad un valore non previsto",
@@ -2294,7 +2294,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "98": {
                 "name": "98. Assertion - Elemento AttributeStatement presente, ma sottoelemento Attribute mancante ",
@@ -2304,7 +2304,7 @@
                     "NameIDNameQualifier": "https://validator.spid.gov.it"
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
            "99": {
                 "name": "99. Assertion - Elemento AttributeStatement presente, con sottoelemento Attribute non specificato",
@@ -2314,7 +2314,7 @@
                     "NameIDNameQualifier": "https://validator.spid.gov.it"
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             },
             "100": {
                 "name": "100. Assertion - Firma diversa",
@@ -2356,7 +2356,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": false
+                "sign_assertion": true
             }
         }
     }
