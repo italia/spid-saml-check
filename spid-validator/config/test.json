@@ -772,7 +772,7 @@
                    }
                 },
                 "sign_response": true,
-                "sign_assertion": true
+                "sign_assertion": false
             },
             "32": {
                 "name": "32. Response - Elemento Assertion mancante",
