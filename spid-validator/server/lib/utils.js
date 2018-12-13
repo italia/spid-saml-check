@@ -30,7 +30,8 @@ class Utils {
     }
 
     static getUUID() {
-        return UUID.generate();
+        // NCName type (https://github.com/italia/spid-saml-check/issues/14)
+        return "_" + UUID.generate();
     }
 
     static getInstant() {
