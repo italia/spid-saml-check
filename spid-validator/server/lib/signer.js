@@ -35,8 +35,8 @@ class Signer {
         let signed = signing.signXML(
             xml, 
             {
-                reference: "//*[local-name(.)='" + element + "']",
-                action: "prepend"
+                reference: "//*[local-name(.)='" + element + "']/*[local-name(.)='Issuer']",
+                action: "after"
             },
             "//*[local-name(.)='" + element + "']",
             {
