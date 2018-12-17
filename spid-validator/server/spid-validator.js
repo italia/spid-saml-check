@@ -118,9 +118,11 @@ app.post("/samlsso", function (req, res) {
             res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
 
         } else if(requestParser.isLogoutRequest()) {
-            req.session.destroy();
 
-            fs.unlinkSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml");
+            if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
+                fs.unlinkSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml");
+            }
+            req.session.destroy();
             res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
         }
 
