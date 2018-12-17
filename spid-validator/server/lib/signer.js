@@ -32,23 +32,44 @@ class Signer {
     }
 
     singleSign(xml, element) {
-        let signed = signing.signXML(
-            xml, 
-            {
-                reference: "//*[local-name(.)='" + element + "']/*[local-name(.)='Issuer']",
-                action: "after"
-            },
-            "//*[local-name(.)='" + element + "']",
-            {
-                certificate: this.signatureOptions.certificate,
-                privateKey: this.signatureOptions.privateKey
-            }, 
-            {
-                signatureAlgorithm: this.signatureOptions.signatureAlgorithm
-            }
-        );
+        let signed = "";
+        
+        try {
+            signed = signing.signXML(
+                xml, 
+                {
+                    reference: "//*[local-name(.)='" + element + "']/*[local-name(.)='Issuer']",
+                    action: "after"
+                },
+                "//*[local-name(.)='" + element + "']",
+                {
+                    certificate: this.signatureOptions.certificate,
+                    privateKey: this.signatureOptions.privateKey
+                }, 
+                {
+                    signatureAlgorithm: this.signatureOptions.signatureAlgorithm
+                }
+            );
+        } catch(exception) {
+            signed = signing.signXML(
+                xml, 
+                {
+                    reference: "//*[local-name(.)='" + element + "']",
+                    action: "prepend"
+                },
+                "//*[local-name(.)='" + element + "']",
+                {
+                    certificate: this.signatureOptions.certificate,
+                    privateKey: this.signatureOptions.privateKey
+                }, 
+                {
+                    signatureAlgorithm: this.signatureOptions.signatureAlgorithm
+                }
+            );
+        }
+
         return signed;    
-    }    
+    }      
 }
 
 
