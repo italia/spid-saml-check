@@ -338,7 +338,7 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
         out, err = process.communicate()
         certs = out.decode('utf-8').split('\n')
 
-        exp = ['rsaEncryption', 'id-ecPublicKey']
+        pka = ['rsaEncryption', 'id-ecPublicKey']
 
         for cert_path in certs:
             if cert_path:
@@ -351,9 +351,9 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
 
                 self._assertIn(
                     r[2],
-                    exp,
+                    pka,
                     (('The key type of %s certificate must be one of [%s]') %
-                     (cert_path, ', '.join(exp)))
+                     (cert_path, ', '.join(pka)))
                 )
 
                 if r[2] == 'rsaEncryption':
@@ -361,7 +361,6 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
 
                 elif r[2] == 'id-ecPublicKey':
                     exp = 256
-                    print("\ngngne\n")
                 else:
                     pass
 
