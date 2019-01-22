@@ -2487,7 +2487,17 @@
                 },
                 "sign_response": true,
                 "sign_assertion": true
-            }
+            },
+            "109": {
+                "name": "109. Attributi senza NameFormat",
+                "description": "Response corretta. Risultato atteso: Ok",
+                "path": "test/case-109.xml",
+                "response": {
+                    "NameIDNameQualifier": "https://validator.spid.gov.it"
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            }  
         }
     }
 }
