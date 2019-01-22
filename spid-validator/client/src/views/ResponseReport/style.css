@@ -58,6 +58,8 @@
 
 .detail-result {
     width: 25%;
+    max-width: 300px;
+    word-wrap: break-word;
 }
 
 .test-none-dm {
