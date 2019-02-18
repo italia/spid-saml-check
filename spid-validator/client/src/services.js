@@ -26,6 +26,17 @@ class MainService {
 			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
 	}	
+	
+	islogged(callback_response, callback_error) {
+		Utility.log("GET /islogged");
+		axios.get('/islogged')
+		.then(function (response) {
+			callback_response(response.data.apikey);
+		})
+		.catch(function (error) {
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+	}
 
 	getInfo(callback_response, callback_error) {
 		Utility.log("GET /api/info");

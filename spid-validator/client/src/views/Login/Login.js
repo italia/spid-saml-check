@@ -14,8 +14,11 @@ class Login extends Component {
 			login_user: '',
 			login_password: '',
 			warn_user: '',
-			warn_password: ''
+			warn_password: '',
+			local_auth: true
 		}
+
+		if(!this.state.local_auth) this.checkLogged();
 	}	
   
 	setUser(val) {
@@ -63,9 +66,29 @@ class Login extends Component {
 
 		}
 	}
+
+	checkLogged() {
+		let service = Services.getMainService();
+
+		service.islogged( 
+		(data)=>{
+			Utility.setApikey(data);
+			Utility.log("Login result", Utility.isAuthenticated());	
+			if(Utility.isAuthenticated()) {
+				this.props.history.push('/worksave');
+			}			
+		}, 
+		(error)=> {
+			window.location="/login";		
+		});			
+	}
   
-	render() {    
-		return view(this);
+	render() {
+		let render = "Redirect to AgID Login..."  
+		if(this.state.local_auth) {
+			render = view(this);
+		}  
+		return render;
 	}
   
 }

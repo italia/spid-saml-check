@@ -20,6 +20,7 @@ const Signer = require("./lib/signer").Signer;
 const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 
 const Database = require("./lib/database");
+const Authenticator = require("./lib/authenticator");
 
 var app = express();
 app.use(helmet());
@@ -39,6 +40,9 @@ app.use(session({
 // create databse
 var database = new Database().connect().setup();
 
+// create authenticator
+var authenticator = new Authenticator("validator");
+
 // use template handlebars
 app.set('views', './client/view');
 app.engine('handlebars', exphbs());
@@ -46,9 +50,11 @@ app.set('view engine', 'handlebars');
 
 
 var checkAuthorisation = function(request) {
-	let authorised = false;
+    let authorised = false;
 	let apikey = request.query.apikey;
-	if(apikey == sha256(config_idp.app_user + config_idp.app_password)) {
+    if(apikey == sha256(config_idp.app_user + config_idp.app_password)
+        || (apikey == request.session.apikey) 
+    ) {
 		authorised = true;
 	} else {
 		console.log("ERROR check authorisation : " + apikey);
@@ -612,8 +618,40 @@ app.get("/authenticate", (req, res)=> {
 	}
 });
 
+
+/* AGID LOGIN */
+app.get("/login", (req, res)=> {
+    res.redirect(authenticator.getAuthURL());
+});
+
+app.post("/", function(req, res, next) {
+    let state = req.body.state;
+    authenticator.getUserInfo(req.body, state, (userinfo)=> {
+
+        //userinfo.user_policy[0].policy = JSON.stringify(userinfo.user_policy[0].policy);
+        console.log(userinfo);
+        req.session.authenticated = true;
+        res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
+
+    }, (error)=> {
+        res.status(500).send(error);
+    });
+});
+
+app.get("/islogged", (req, res)=> {
+	if(req.session.authenticated) {
+        req.session.apikey = Utility.getUUID();			
+		res.status(200).send({apikey: req.session.apikey});
+	} else {
+		error = {code: 401, msg: "Unauthorized"}
+		res.status(error.code).send(error.msg);
+		return null;				
+	}
+});
+
+
 // start
 app.listen(8080, () => {
     // eslint-disable-next-line no-console
-    console.log("\nSPID Validator\nversion: 0.1\n\nlistening on port 8080");
+    console.log("\nSPID Validator\nversion: 2.0\n\nlistening on port 8080");
 });
