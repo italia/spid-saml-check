@@ -8,7 +8,7 @@ class AgIDLoginAuthenticator {
         this.client_id = "675ca60a-a746-49f8-b262-d32786cdca2c";
         this.client_secret = "4dd05569-99c9-4dde-8f9f-5440bb33684a";
         this.response_type = "code";
-        this.redirect_uri = "http://localhost:8080/";
+        this.redirect_uri = "http://localhost:8080";
         this.scope = "openid profile";
         this.prompt = ""; //login|consent
         this.response_mode = "form_post";
@@ -71,7 +71,7 @@ class AgIDLoginAuthenticator {
 
     getLogoutURL() {
         let logoutURL = this.client.endSessionUrl({
-            post_logout_redirect_uri: 'http://localhost:8080/logout',
+            post_logout_redirect_uri: 'http://localhost:8080',
             state: this.state,
             id_token_hint: this.tokenSet
         });

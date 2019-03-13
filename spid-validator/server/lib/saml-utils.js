@@ -159,6 +159,17 @@ class MetadataParser {
         return assertionConsumerServiceURL;
     }
 
+    getSingleLogoutServiceURL() {
+        let singleLogoutServiceURL = [];
+        let doc = new DOMParser().parseFromString(this.metadata.xml);
+        let slo = select("//md:EntityDescriptor/md:SPSSODescriptor/md:SingleLogoutService", doc);
+        for(let i in slo) {
+            let sloLocation = slo[i].getAttribute("Location");
+            singleLogoutServiceURL.push(sloLocation);
+        }
+        return singleLogoutServiceURL;
+    }
+
     getAttributeConsumingService(index) {
         let attributeConsumingService = {ServiceName: "", RequestedAttributes:[]};
         let doc = new DOMParser().parseFromString(this.metadata.xml);

@@ -126,10 +126,20 @@ app.post("/samlsso", function (req, res) {
         } else if(requestParser.isLogoutRequest()) {
 
             if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-                fs.unlinkSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml");
+                let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
+                if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
             }
-            req.session.destroy();
-            res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
+
+            if(req.session.metadata!=null) {
+                let metadataParser = new MetadataParser(req.session.metadata.xml);
+                singleLogoutService = metadataParser.getSingleLogoutServiceURL();
+                req.session.destroy();
+                res.redirect(singleLogoutService[0]);
+
+            } else {
+                req.session.destroy();
+                res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
+            }
         }
 
 	} else {
@@ -184,10 +194,20 @@ app.get("/samlsso", function (req, res) {
         } else if(requestParser.isLogoutRequest()) {
 
             if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-                fs.unlinkSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml");
+                let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
+                if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
             }
-            req.session.destroy();
-            res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
+
+            if(req.session.metadata!=null) {
+                let metadataParser = new MetadataParser(req.session.metadata.xml);
+                singleLogoutService = metadataParser.getSingleLogoutServiceURL();
+                req.session.destroy();
+                res.redirect(singleLogoutService[0]);
+
+            } else {
+                req.session.destroy();
+                res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
+            }
         }
 
 	} else {
@@ -628,8 +648,12 @@ app.post("/", function(req, res, next) {
     let state = req.body.state;
     authenticator.getUserInfo(req.body, state, (userinfo)=> {
 
-        //userinfo.user_policy[0].policy = JSON.stringify(userinfo.user_policy[0].policy);
-        console.log(userinfo);
+        let entity = userinfo.user_policy[0].entity_id;
+        let policy = JSON.stringify(userinfo.user_policy[0].policy);
+
+        console.log("Entity: " + entity);
+        console.log("Policy: " + policy);
+
         req.session.authenticated = true;
         res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
 
@@ -649,9 +673,15 @@ app.get("/islogged", (req, res)=> {
 	}
 });
 
+app.get("/logout", (req, res)=> {
+	req.session.destroy((err)=> {
+        res.redirect(authenticator.getLogoutURL());
+     })
+});
+
 
 // start
 app.listen(8080, () => {
     // eslint-disable-next-line no-console
-    console.log("\nSPID Validator\nversion: 2.0\n\nlistening on port 8080");
+    console.log("\nSPID Validator\nversion: 3.0\n\nlistening on port 8080");
 });
