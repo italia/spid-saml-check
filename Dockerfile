@@ -34,6 +34,9 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
     && apt-get install -y \
         nodejs \
         build-essential
+        
+# NPM        
+RUN apt-get install -y npm 
 
 # Tox
 RUN pip3 install tox
