@@ -6,6 +6,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const path = require('path');
 const fs = require("fs");
+const moment = require("moment");
 
 const config_test = require("../config/test.json");
 const config_idp = require("../config/idp.json");
@@ -243,7 +244,9 @@ app.get("/api/info", function(req, res) {
 
         let info = {
             metadata: req.session.metadata.url,
-            issuer: req.session.request.issuer
+            issuer: req.session.request.issuer,
+            entity: req.session.entity,
+            policy: req.session.policy
         }
         res.status(200).send(info);
 
@@ -654,14 +657,34 @@ app.post("/", function(req, res, next) {
     let state = req.body.state;
     authenticator.getUserInfo(req.body, state, (userinfo)=> {
 
-        let entity = userinfo.user_policy[0].entity_id;
-        let policy = JSON.stringify(userinfo.user_policy[0].policy);
+        let userpolicy = userinfo.user_policy[0];
+        let entity = userpolicy.entity_id;
+        let policy = userpolicy.policy;
 
-        console.log("Entity: " + entity);
-        console.log("Policy: " + policy);
+        let now = moment();
+        let validfrom = moment(userpolicy.valid_from);
+        let validto = moment(userpolicy.valid_to);
+        let fromnow = now.diff(validfrom, 'days');
+        let nowto = validto.diff(now, 'days');
 
-        req.session.authenticated = true;
-        res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
+        if(policy.authorized && fromnow>0 && nowto>0) {
+            req.session.authenticated = true;
+            req.session.entity = entity;
+            req.session.policy = policy;
+    
+            res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
+        } else {
+            let msg = "Unhautorized. ";
+
+            //if(fromnow<0) msg+= "Your accounts is valid from " + userpolicy.valid_from;
+            //if(nowto<0) msg+= "Your accounts has expired on " + userpolicy.valid_to;
+
+            if(fromnow<0 || nowto<0) msg+= "Your accounts has expired";
+
+            error = {code: 401, msg: msg}
+            res.status(error.code).send(error.msg);
+            return null;
+        }
 
     }, (error)=> {
         res.status(500).send(error);

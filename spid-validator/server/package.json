@@ -16,6 +16,7 @@
     "helmet": "^3.10.0",
     "html-entities": "^1.2.1",
     "moment": "^2.21.0",
+    "moments": "0.0.2",
     "node-forge": "^0.7.4",
     "openid-client": "^2.4.5",
     "request": "^2.87.0",
