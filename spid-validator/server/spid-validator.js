@@ -134,7 +134,10 @@ app.post("/samlsso", function (req, res) {
                 let metadataParser = new MetadataParser(req.session.metadata.xml);
                 singleLogoutService = metadataParser.getSingleLogoutServiceURL();
                 req.session.destroy();
-                res.redirect(singleLogoutService[0]);
+
+                // TODO: make logout response and send it to SP
+
+                res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
 
             } else {
                 req.session.destroy();
@@ -202,7 +205,10 @@ app.get("/samlsso", function (req, res) {
                 let metadataParser = new MetadataParser(req.session.metadata.xml);
                 singleLogoutService = metadataParser.getSingleLogoutServiceURL();
                 req.session.destroy();
-                res.redirect(singleLogoutService[0]);
+
+                // TODO: make logout response and send it to SP
+
+                res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
 
             } else {
                 req.session.destroy();
