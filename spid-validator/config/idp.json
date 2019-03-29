@@ -16,5 +16,5 @@
 	"requireSignedRequests": true,
 	"requireSignedResponses": false,
 	"app_user":"validator",
-	"app_password_hash": "to configure as SHA256(password)"
+	"app_password_hash": "f82af32160bc53112ca118abbf57fa6fed47eb90291a1d1d92f438ae2ed74ef6"
 }

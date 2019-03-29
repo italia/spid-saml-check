@@ -15,7 +15,7 @@ class Login extends Component {
 			login_password: '',
 			warn_user: '',
 			warn_password: '',
-			local_auth: false
+			local_auth: true
 		}
 
 		if(!this.state.local_auth) this.checkLogged();
