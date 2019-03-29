@@ -19,9 +19,11 @@ $ docker run -t -i -p 8080:8080 spid-saml-check
 ## How to access to SPID Validator
 
 Retrieve metadata of Validator at http://localhost:8080/metadata.xml and configure it on your service provider as a new IdP.
-Send an AuthnRequest to Validator from your service provider and login on Validator with following credential:
+
+Send an AuthnRequest to Validator from your service provider and login on Validator with following credentials:
 
 Username: validator
+
 Password: validator
 
 
