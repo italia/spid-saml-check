@@ -16,7 +16,12 @@ $ docker build -t spid-saml-check .
 $ docker run -t -i -p 8080:8080 spid-saml-check
 ```
 
-## How to install Google Chrome extension
-- Go to **chrome://extensions/** and check the box for Developer mode in the top right.
-- Click the Load unpacked extension button and select the folder 'spid-validator/chrome-extension' to install it
+## How to access to SPID Validator
+
+Retrieve metadata of Validator at http://localhost:8080/metadata.xml and configure it on your service provider as a new IdP.
+Send an AuthnRequest to Validator from your service provider and login on Validator with following credential:
+
+Username: validator
+Password: validator
+
 
