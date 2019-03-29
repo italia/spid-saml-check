@@ -553,6 +553,7 @@ app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
     defaults = Utility.defaultParam(defaults, "AuthnRequestID", authnRequestID);
     defaults = Utility.defaultParam(defaults, "ResponseID", Utility.getUUID());
     defaults = Utility.defaultParam(defaults, "IssueInstant", Utility.getInstant());
+    defaults = Utility.defaultParam(defaults, "IssueInstantMillis", Utility.getInstantMillis());
     defaults = Utility.defaultParam(defaults, "AssertionID", Utility.getUUID());
     defaults = Utility.defaultParam(defaults, "NameID", Utility.getUUID());
     defaults = Utility.defaultParam(defaults, "AuthnIstant", Utility.getInstant());

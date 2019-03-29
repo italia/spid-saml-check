@@ -2497,7 +2497,45 @@
                 },
                 "sign_response": true,
                 "sign_assertion": true
-            }  
+            },
+            "110": {
+                "name": "110. Response - IssueInstant con millisecondi",
+                "description": "Attributo IssueInstant specificato con millisecondi. Risultato atteso: OK",
+                "path": "test/case-110.xml",
+                "response": {
+                    "IssueInstant": "",
+                    "Issuer": "",
+                    "AssertionID": "",
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
+                    "NameID": "",
+                    "NotOnOrAfter": "",
+                    "NotBefore": "",
+                    "AuthnIstant": "",
+                    "SessionIndex": "",
+                    "AuthnContextClassRef": "",
+                    "Attributes": {
+                        "spidCode": "TEST0000000001",
+                        "name": "Name",
+                        "familyName": "Family Name",
+                        "placeOfBirth": "Place Of Birth",
+                        "countyOfBirth": "County Of Birth",
+                        "dateOfBirth": "1980-01-01",
+                        "gender": "F",
+                        "companyName": "ACME",
+                        "registeredOffice": "My Office",
+                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
+                        "ivaCode": "01234",
+                        "idCard": "cartaIdentita numXXX comuneXXX 2000-01-01 2020-12-31",   
+                        "expirationDate": "2020-12-31",         
+                        "mobilePhone": "+390000000000",
+                        "email": "test@test",
+                        "address": "via Test X XXX XXXX XX",
+                        "digitalAddress": "via Word, 64 bit"               
+                   }
+                },                
+                "sign_response": true,
+                "sign_assertion": true
+            }   
         }
     }
 }

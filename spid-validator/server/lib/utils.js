@@ -38,6 +38,10 @@ class Utils {
         return moment().utc().format();
     }
 
+    static getInstantMillis() {
+        return moment().utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
+    }
+
     static getNotBefore(instant) {
         return moment(instant).utc().format();
     }
