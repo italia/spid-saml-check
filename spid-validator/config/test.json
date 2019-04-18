@@ -904,38 +904,6 @@
                 "sign_response": true,
                 "sign_assertion": true
             },
-            "31": {
-                "name": "31. Response - Autenticazione annullata da IdP",
-                "description": "Autenticazione annullata da IdP. Elemento StatusCode VersionMismatch, Requester o Responder. Risultato atteso: KO (messaggio autenticazione annullata). il S.P. deve mostrare schermata di errore contenente il messaggio come definito della tabella anomalie SPID.",
-                "path": "test/case-31.xml",
-                "response": {
-                    "StatusCode1": "urn:oasis:names:tc:SAML:2.0:status:Responder",
-                    "StatusCode2": "urn:oasis:names:tc:SAML:2.0:status:AuthnFailed",
-                    "StatusMessage": "ErrorCode nr23",
-                    "NameIDNameQualifier": "https://validator.spid.gov.it",
-                    "Attributes": {
-                        "spidCode": "TEST0000000001",
-                        "name": "Name",
-                        "familyName": "Family Name",
-                        "placeOfBirth": "Place Of Birth",
-                        "countyOfBirth": "County Of Birth",
-                        "dateOfBirth": "1980-01-01",
-                        "gender": "F",
-                        "companyName": "ACME",
-                        "registeredOffice": "My Office",
-                        "fiscalNumber": "TINIT-XXXXXXXXXXXXXXXX",
-                        "ivaCode": "01234",
-                        "idCard": "cartaIdentita numXXX comuneXXX 2000-01-01 2020-12-31",   
-                        "expirationDate": "2020-12-31",         
-                        "mobilePhone": "+390000000000",
-                        "email": "test@test",
-                        "address": "via Test X XXX XXXX XX",
-                        "digitalAddress": "via Word, 64 bit"               
-                   }
-                },
-                "sign_response": true,
-                "sign_assertion": false
-            },
             "32": {
                 "name": "32. Response - Elemento Assertion mancante",
                 "description": "Elemento Assertion mancante ed esito positivo autenticazione . Risultato atteso: KO",
@@ -1260,7 +1228,6 @@
                 "description": "Elemento NameID dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-43.xml",
                 "response": {
-                    "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "TEST0000000001",
                         "name": "Name",
