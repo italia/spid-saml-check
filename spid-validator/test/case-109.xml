@@ -42,15 +42,7 @@
             </saml:AuthnContext>
         </saml:AuthnStatement>
         <saml:AttributeStatement>
-                                               
-            <saml:Attribute Name="fiscalCode">
-                                                     
-                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">
-                    TINIT-SCHNNG77M06H224U
-                </saml:AttributeValue>
-                                                 
-            </saml:Attribute>
-
+            {{Attributes}}
         </saml:AttributeStatement>
     </saml:Assertion>
 </samlp:Response>

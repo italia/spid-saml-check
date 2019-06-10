@@ -25,6 +25,7 @@ class TestSuite {
         let testsuite = this.config.test[testsuiteId];
         let testcase = testsuite.cases[testcaseId];
         let template = fs.readFileSync(testcase.path, "utf8");
+        let attributesNameFormat = (testcase.attributesNameFormat!=null)? testcase.attributesNameFormat:true;
         let params = [];
         
         let compiled = template;
@@ -61,7 +62,9 @@ class TestSuite {
 
                         if(attributeVal!=null) {
                             attributesCompiled += " \
-                                <saml:Attribute Name=\"" + attributeName + "\" NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:basic\"> \
+                                <saml:Attribute Name=\"" + attributeName + "\" ";
+                                    if(attributesNameFormat) attributesCompiled += " NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:basic\"";
+                                    attributesCompiled += "> \
                                     <saml:AttributeValue xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" \
                                         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:string\">"
                                             + attributeVal +
