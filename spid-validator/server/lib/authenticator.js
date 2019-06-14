@@ -1,25 +1,23 @@
 const { Issuer } = require('openid-client');
-
+const Utility = require("./utils");
 
 class AgIDLoginAuthenticator {
 
-    constructor(state) {
+    constructor() {
         this.name = "AgIDLogin";
-        this.client_id = "675ca60a-a746-49f8-b262-d32786cdca2c";
-        this.client_secret = "4dd05569-99c9-4dde-8f9f-5440bb33684a";
+        this.client_id = "475cc308-1b8a-41f8-afb5-d74aa03c9c09";
+        this.client_secret = "21c34298-2935-4f59-a0d2-12899b0b85bb";
         this.response_type = "code";
-        this.redirect_uri = "http://localhost:8080";
+        this.redirect_uri = "https://validator.spid.gov.it";
         this.scope = "openid profile";
         this.prompt = ""; //login|consent
         this.response_mode = "form_post";
-        this.state = state;
-        this.nonce = state;
 
         this.tokenSet = null;
 
         let issuer = new Issuer({ 
             issuer: 'https://login.agid.gov.it',
-            authorization_endpoint: 'https://login.agid.gov.it/auth',
+            authorization_endpoint: 'https://login.agid.gov.it/auth?use=agid',
             token_endpoint: 'https://login.agid.gov.it/token',
             userinfo_endpoint: 'https://login.agid.gov.it/userinfo',
             jwks_uri: 'https://login.agid.gov.it/certs',
@@ -33,28 +31,33 @@ class AgIDLoginAuthenticator {
         });
     }
 
-    getAuthURL() {
+    getAuthURL() { return getAuthURL(null); }
+    getAuthURL(state) {
+        this.nonce = Utility.getUUID()
         let authURL = this.client.authorizationUrl({
             response_type: this.response_type,
             redirect_uri: this.redirect_uri,
             scope: this.scope,
             prompt: this.prompt,
             response_mode: this.response_mode,
-            state: this.state,
+            state: (state!=null && state!='')? state : this.state,
             nonce: this.nonce
         });
 
         return authURL;
     }
 
-    getUserInfo(authorizationPostData, nonce, result, error) {
+    getUserInfo(authorizationPostData, state, result, error) {
         this.client.authorizationCallback(
             this.redirect_uri, 
-            authorizationPostData,
+            {
+                state: state,
+                ...authorizationPostData
+            },
             { 
-                state: this.state, 
-                response_type: this.response_type,
-                nonce: nonce
+                state: state,
+                nonce: this.nonce,
+                response_type: this.response_type
             }
 
         ).then((tokenSet)=> {
@@ -65,13 +68,17 @@ class AgIDLoginAuthenticator {
             });
             
         }).catch((e)=> {
+            Utility.log("ERR (getUserInfo)", {
+                state: state,
+                nonce: this.nonce
+            });
             error(e);
         });
     }
 
     getLogoutURL() {
         let logoutURL = this.client.endSessionUrl({
-            post_logout_redirect_uri: 'http://localhost:8080',
+            post_logout_redirect_uri: 'https://spid-onboarding.linfabox.it/dashboard',
             state: this.state,
             id_token_hint: this.tokenSet
         });

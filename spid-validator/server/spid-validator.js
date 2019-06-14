@@ -663,25 +663,26 @@ app.post("/", function(req, res, next) {
         let policy = userpolicy.policy;
 
         let now = moment();
-        let validfrom = moment(userpolicy.valid_from);
-        let validto = moment(userpolicy.valid_to);
+        let validfrom = (userpolicy.valid_from)? moment(userpolicy.valid_from) : moment();
+        let validto = (userpolicy.valid_to)? moment(userpolicy.valid_to) : moment();
         let fromnow = now.diff(validfrom, 'days');
         let nowto = validto.diff(now, 'days');
 
-        if(policy.authorized && fromnow>0 && nowto>0) {
+        if(policy.validator && fromnow>-1 && nowto>-1) {
             req.session.authenticated = true;
             req.session.entity = entity;
             req.session.policy = policy;
     
             res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
         } else {
-            let msg = "Unhautorized. ";
+            let msg = "Accesso non autorizzato. Contattare l'amministratore di sistema.";
 
             //if(fromnow<0) msg+= "Your accounts is valid from " + userpolicy.valid_from;
             //if(nowto<0) msg+= "Your accounts has expired on " + userpolicy.valid_to;
 
-            if(fromnow<0 || nowto<0) msg+= "Your accounts has expired";
+            if(fromnow<0 || nowto<0) msg+= "Your accounts has expired.";
 
+            req.session.destroy();
             error = {code: 401, msg: msg}
             res.status(error.code).send(error.msg);
             return null;
