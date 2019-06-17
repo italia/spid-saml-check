@@ -28,6 +28,11 @@ class Request extends Component {
       (error)   => { 
         this.setState({xml: ""});
         store.dispatch(Actions.setRequestXML(""));
+        Utility.showModal({
+            title: "Errore",
+            body: error,
+            isOpen: true
+        });        
       }
     );
   }

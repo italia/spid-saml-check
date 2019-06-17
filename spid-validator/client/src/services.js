@@ -148,7 +148,7 @@ class MainService {
 		})
 		.catch(function(error) {
 			Utility.log("getTestResponse Error", error);
-			callback_error((error.response!=null) ? error : "Service not available");
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
 	}	
 

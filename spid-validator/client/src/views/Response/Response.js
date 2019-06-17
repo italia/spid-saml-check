@@ -258,7 +258,12 @@ class Response extends Component {
         this.setState({
           xml: "",
           params: []
-        });      
+        });   
+        Utility.showModal({
+            title: "Errore",
+            body: error,
+            isOpen: true
+        });           
       }
     );    
   }
