@@ -147,11 +147,13 @@ class Response extends Component {
       || audience.trim()=="") { 
 
         ok = true;
+        /*
         Utility.showModal({
             title: "Attenzione",
             body: "Inserire in Audience l'Entity ID del Service Provider oppure effettuare il download del Metadata del Service Provider",
             isOpen: true
         });
+        */
     }
 
     if(ok) {

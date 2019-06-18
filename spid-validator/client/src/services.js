@@ -143,6 +143,9 @@ class MainService {
 		Utility.log("POST /api/test-response/" + options.suiteid + "/" + options.caseid);
 		axios.post('/api/test-response/' + options.suiteid + '/' + options.caseid + '?apikey=' + Utility.getApikey(), options)
 		.then(function(response) {
+			if(response.status==206) {
+				callback_error("I dati della Response sono parziali. Assicurarsi che il metadata sia stato caricato correttamente.");
+			}
 			Utility.log("getTestResponse Success", response.data);
 			callback_response(response.data);
 		})

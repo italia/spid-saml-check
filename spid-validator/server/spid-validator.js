@@ -35,7 +35,7 @@ app.use(session({
     secret: "SAML IDP", 
     resave: true, 
     saveUninitialized: false, 
-    //cookie: { maxAge: 30*60000 }  //30min
+    cookie: { maxAge: 30*60000 }  //30*60000: 30min
 }));
 
 // create databse
@@ -541,7 +541,10 @@ app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
         // read AttributeConsumingService set from metadata
         let requestedAttributes = [];
         let serviceProviderEntityId = "";
-        if(req.session.request!=null && req.session.metadata!=null) {
+
+        let isMetadataLoaded = (req.session.metadata!=null && req.session.metadata.xml!=null);
+        
+        if(req.session.request!=null && isMetadataLoaded) {
             let requestParser = new RequestParser(req.session.request.xml);
             let metadataParser = new MetadataParser(req.session.metadata.xml);
             let attributeConsumingServiceIndex = requestParser.AttributeConsumingServiceIndex();
@@ -600,7 +603,7 @@ app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
         testResponse.compiled = signed;
         testResponse.relayState = req.session.request.relayState;
         
-        res.status(200).send(testResponse);
+        res.status(isMetadataLoaded? 200:206).send(testResponse);
 
     } else {
         res.status(400).send("Session not found");
@@ -719,7 +722,7 @@ app.get("/islogged", (req, res)=> {
 		error = {code: 401, msg: "Unauthorized"}
 		res.status(error.code).send(error.msg);
 		return null;				
-	}
+    }
 });
 
 app.get("/logout", (req, res)=> {
