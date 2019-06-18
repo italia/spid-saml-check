@@ -46,7 +46,7 @@ var authenticator = new Authenticator("validator");
 
 // use template handlebars
 app.set('views', './client/view');
-app.engine('handlebars', exphbs());
+app.engine('handlebars', exphbs({defaultLayout: false}));
 app.set('view engine', 'handlebars');
 
 
