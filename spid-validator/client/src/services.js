@@ -16,25 +16,49 @@ class MainService {
 		return this.mainService;
 	}
 
-	authenticate(options, callback_response, callback_error) {
-		Utility.log("GET /authenticate");
-		axios.get('/authenticate?user=' + options.user + '&password=' + options.password)
+	getAuthenticationType(callback_response, callback_error) {
+		Utility.log("GET /auth/type");
+		axios.get('/auth/type')
 		.then(function (response) {
-			callback_response(response.data.apikey);
+			callback_response(response.data.local);
 		})
 		.catch(function (error) {
 			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
-	}	
-	
-	islogged(callback_response, callback_error) {
-		Utility.log("GET /islogged");
-		axios.get('/islogged')
-		.then(function (response) {
+	}
+
+	login(options, callback_response, callback_error) {
+		Utility.log("GET /login");
+		axios.get('/login?user=' + options.user + '&password=' + options.password)
+		.then((response)=> {
 			callback_response(response.data.apikey);
 		})
-		.catch(function (error) {
+		.catch((error)=> {
 			callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+	}	
+
+	isLogged(callback_response, callback_error) {
+		Utility.log("GET /isLogged");
+		axios.get('/isLogged')
+		.then((response)=> {
+			callback_response(response.data.apikey);
+		})
+		.catch((error)=> {
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+	}
+
+	startPing() {
+		Utility.log("START PING");
+		setInterval(()=>this.ping(), 3000);
+	}
+
+	ping() {
+		Utility.log("GET /ping");
+		axios.get('/ping?apikey=' + Utility.getApikey())
+		.catch(function (error) {
+			window.location="/#/login";
 		});
 	}
 

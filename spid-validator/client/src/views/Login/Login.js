@@ -14,11 +14,26 @@ class Login extends Component {
 			login_user: '',
 			login_password: '',
 			warn_user: '',
-			warn_password: '',
-			local_auth: true
+			warn_password: ''
 		}
 
-		if(!this.state.local_auth) this.checkLogged();
+		let service = Services.getMainService();
+
+		service.isLogged( 
+		(data)=>{
+			Utility.setApikey(data);
+			Utility.log("Login result", Utility.isAuthenticated());	
+			if(Utility.isAuthenticated()) {
+				service.startPing();
+				this.props.history.push('/worksave');
+			}			
+		}, 
+		(error)=> {
+			service.getAuthenticationType((local)=> {
+				this.setState({local_auth:local});
+				if(!local) window.location="/login";
+			});	
+		});			
 	}	
   
 	setUser(val) {
@@ -39,7 +54,7 @@ class Login extends Component {
 		
 		if(field_compiled) {
 			Utility.blockUI(true);
-			service.authenticate({
+			service.login({
 				user: this.state.login_user, 
 				password: this.state.login_password
 			}, 
@@ -66,25 +81,9 @@ class Login extends Component {
 
 		}
 	}
-
-	checkLogged() {
-		let service = Services.getMainService();
-
-		service.islogged( 
-		(data)=>{
-			Utility.setApikey(data);
-			Utility.log("Login result", Utility.isAuthenticated());	
-			if(Utility.isAuthenticated()) {
-				this.props.history.push('/worksave');
-			}			
-		}, 
-		(error)=> {
-			window.location="/login";		
-		});			
-	}
   
 	render() {
-		let render = "Redirect to AgID Login..."  
+		let render = ""; //"Redirect to AgID Login..."  
 		if(this.state.local_auth) {
 			render = view(this);
 		}  

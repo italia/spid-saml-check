@@ -50,12 +50,10 @@ app.engine('handlebars', exphbs({defaultLayout: false}));
 app.set('view engine', 'handlebars');
 
 
-var checkAuthorisation = function(request) {
+var checkAuthorisation = function(req) {
     let authorised = false;
-	let apikey = request.query.apikey;
-    if(apikey == sha256(config_idp.app_user + config_idp.app_password)
-        || (apikey == request.session.apikey) 
-    ) {
+	let apikey = req.query.apikey;
+    if(apikey == req.session.apikey) {
 		authorised = true;
 	} else {
 		console.log("ERROR check authorisation : " + apikey);
@@ -78,6 +76,20 @@ app.get("/", function (req, res) {
         res.sendFile(path.resolve(__dirname, "..", "client/view", "front.html"));        
     } else {
         res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
+    }
+});
+
+// only check session
+app.get("/ping", function(req, res) {
+    
+    // check if apikey is correct
+    if(!checkAuthorisation(req)) {
+        error = {code: 401, msg: "Unauthorized"};
+        res.status(error.code).send(error.msg);
+        return null;
+
+    } else {
+        res.status(200).send();
     }
 });
 
@@ -221,8 +233,6 @@ app.get("/samlsso", function (req, res) {
 		res.sendFile(path.resolve(__dirname, "..", "client/view", "error.html"));
     }  
 });
-
-
 
 
 
@@ -646,34 +656,42 @@ app.post("/api/sign", function(req, res) {
 
 
 /* AUTHENTICATION */
-app.get("/authenticate", (req, res)=> {
-	
-	let user		= req.query.user;
-	let password	= req.query.password;
-	
-	if(
-		(user==config_idp.app_user && password==config_idp.app_password_hash)
-	) {
-		let resobj = {
-			apikey: sha256(config_idp.app_user + config_idp.app_password).toString()
-		}				
-        console.log("SUCCESS /authenticate : APIKEY " + resobj.apikey);
-        req.session.user = user;
-		res.status(200).send(resobj);
 
-	} else {
-		error = {code: 401, msg: "Unauthorized"}
-		console.log("ERROR /authenticate : " + error.msg + " (" + user + " : " + password + ")");
-		res.status(error.code).send(error.msg);
-		return null;				
-	}
+// get true if local authentication
+app.get("/auth/type", function(req, res) {
+    let authentication = {
+        local: (!config_idp.AgIDLoginAuthentication)? true : false
+    }
+    res.status(200).send(authentication);
 });
 
-
-/* AGID LOGIN */
 app.get("/login", (req, res)=> {
-    res.redirect(authenticator.getAuthURL());
+    
+    if(config_idp.AgIDLoginAuthentication) {
+        res.redirect(authenticator.getAuthURL());
+
+    } else {
+        let user		= req.query.user;
+        let password	= req.query.password;
+        
+        if(user==config_idp.app_user && password==config_idp.app_password_hash) {
+            let resobj = {
+                apikey: sha256(config_idp.app_user + config_idp.app_password).toString()
+            }				
+            console.log("SUCCESS /auth/local : APIKEY " + resobj.apikey);
+            req.session.user = user;
+            req.session.apikey = resobj.apikey;
+            res.status(200).send(resobj);
+    
+        } else {
+            error = {code: 401, msg: "Unauthorized"}
+            console.log("ERROR /auth/local : " + error.msg + " (" + user + " : " + password + ")");
+            res.status(error.code).send(error.msg);
+            return null;				
+        }
+    }
 });
+
 
 app.post("/", function(req, res, next) {
     let state = req.body.state;
@@ -714,7 +732,7 @@ app.post("/", function(req, res, next) {
     });
 });
 
-app.get("/islogged", (req, res)=> {
+app.get("/isLogged", (req, res)=> {
 	if(req.session.authenticated) {
         req.session.apikey = Utility.getUUID();			
 		res.status(200).send({apikey: req.session.apikey});
