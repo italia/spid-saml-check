@@ -35,7 +35,7 @@ app.use(session({
     secret: "SAML IDP", 
     resave: true, 
     saveUninitialized: false, 
-    cookie: { maxAge: 30*60000 }  //30*60000: 30min
+    //cookie: { maxAge: 30*60000 }  //30*60000: 30min
 }));
 
 // create databse
@@ -275,7 +275,6 @@ app.get("/api/store", function(req, res) {
 		res.status(error.code).send(error.msg);
 		return null;
 	}	
-
     if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
         let DATA_DIR = "../specs-compliance-tests/data";
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
@@ -657,26 +656,18 @@ app.post("/api/sign", function(req, res) {
 
 /* AUTHENTICATION */
 
-// get true if local authentication
-app.get("/auth/type", function(req, res) {
-    let authentication = {
-        local: (!config_idp.AgIDLoginAuthentication)? true : false
-    }
-    res.status(200).send(authentication);
-});
-
 app.get("/login", (req, res)=> {
     
-    if(config_idp.AgIDLoginAuthentication) {
+    if(config_idp.agidloginAuthentication) {
         res.redirect(authenticator.getAuthURL());
 
     } else {
         let user		= req.query.user;
         let password	= req.query.password;
         
-        if(user==config_idp.app_user && password==config_idp.app_password_hash) {
+        if(user==config_idp.localloginUser && password==config_idp.localloginPasswordHash) {
             let resobj = {
-                apikey: sha256(config_idp.app_user + config_idp.app_password).toString()
+                apikey: sha256(config_idp.localloginUser + config_idp.localloginPasswordHash).toString()
             }				
             console.log("SUCCESS /auth/local : APIKEY " + resobj.apikey);
             req.session.user = user;
@@ -692,7 +683,6 @@ app.get("/login", (req, res)=> {
     }
 });
 
-
 app.post("/", function(req, res, next) {
     let state = req.body.state;
     authenticator.getUserInfo(req.body, state, (userinfo)=> {
@@ -707,10 +697,13 @@ app.post("/", function(req, res, next) {
         let fromnow = now.diff(validfrom, 'days');
         let nowto = validto.diff(now, 'days');
 
+        Utility.log("AgID Login USER", userinfo);
+
         if(policy.validator && fromnow>-1 && nowto>-1) {
-            req.session.authenticated = true;
+            req.session.apikey = Utility.getUUID();
             req.session.entity = entity;
             req.session.policy = policy;
+            req.session.user = userinfo.sub;
     
             res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
         } else {
@@ -732,22 +725,24 @@ app.post("/", function(req, res, next) {
     });
 });
 
-app.get("/isLogged", (req, res)=> {
-	if(req.session.authenticated) {
-        req.session.apikey = Utility.getUUID();			
-		res.status(200).send({apikey: req.session.apikey});
+app.get("/login/assert", (req, res)=> {
+	if(req.session!=null && req.session.apikey!=null && req.session.apikey!='') {
+		res.status(200).send({
+            remote: config_idp.agidloginAuthentication,
+            apikey: req.session.apikey
+        });
 	} else {
-		error = {code: 401, msg: "Unauthorized"}
-		res.status(error.code).send(error.msg);
-		return null;				
+		error = {code: 401, data: {msg: "Unauthorized", remote: config_idp.agidloginAuthentication}};
+        res.status(error.code).send(error.data);
+        return null;
     }
 });
 
+/*
 app.get("/logout", (req, res)=> {
-	req.session.destroy((err)=> {
-        res.redirect(authenticator.getLogoutURL());
-     })
+	req.session.destroy();
 });
+*/
 
 
 // start

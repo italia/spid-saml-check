@@ -1,14 +1,16 @@
 const { Issuer } = require('openid-client');
 const Utility = require("./utils");
+const Config = require("../../config/idp");
+
 
 class AgIDLoginAuthenticator {
 
     constructor() {
         this.name = "AgIDLogin";
-        this.client_id = "475cc308-1b8a-41f8-afb5-d74aa03c9c09";
-        this.client_secret = "21c34298-2935-4f59-a0d2-12899b0b85bb";
+        this.client_id = Config.agidloginClientID;
+        this.client_secret = Config.agidloginClientSecret;
         this.response_type = "code";
-        this.redirect_uri = "https://validator.spid.gov.it";
+        this.redirect_uri = Config.agidloginRedirectURI;
         this.scope = "openid profile";
         this.prompt = ""; //login|consent
         this.response_mode = "form_post";
@@ -29,11 +31,13 @@ class AgIDLoginAuthenticator {
             client_secret: this.client_secret,
             token_endpoint_auth_method: 'client_secret_post'
         });
+
+        this.client.CLOCK_TOLERANCE = 5 * 60; // to allow a 5 min skew
     }
 
     getAuthURL() { return getAuthURL(null); }
     getAuthURL(state) {
-        this.nonce = Utility.getUUID()
+        this.nonce = Utility.getUUID();
         let authURL = this.client.authorizationUrl({
             response_type: this.response_type,
             redirect_uri: this.redirect_uri,
@@ -72,13 +76,14 @@ class AgIDLoginAuthenticator {
                 state: state,
                 nonce: this.nonce
             });
+            console.log(e);
             error(e);
         });
     }
 
     getLogoutURL() {
         let logoutURL = this.client.endSessionUrl({
-            post_logout_redirect_uri: 'https://spid-onboarding.linfabox.it/dashboard',
+            post_logout_redirect_uri: Config.agidloginPostLogoutRedirectURI,
             state: this.state,
             id_token_hint: this.tokenSet
         });

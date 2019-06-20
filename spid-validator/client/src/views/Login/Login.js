@@ -14,25 +14,25 @@ class Login extends Component {
 			login_user: '',
 			login_password: '',
 			warn_user: '',
-			warn_password: ''
+			warn_password: '',
+			local_auth: false
 		}
 
 		let service = Services.getMainService();
 
-		service.isLogged( 
+		service.assert( 
 		(data)=>{
-			Utility.setApikey(data);
+			Utility.setApikey(data.apikey);
 			Utility.log("Login result", Utility.isAuthenticated());	
 			if(Utility.isAuthenticated()) {
-				service.startPing();
 				this.props.history.push('/worksave');
-			}			
+			}
 		}, 
-		(error)=> {
-			service.getAuthenticationType((local)=> {
-				this.setState({local_auth:local});
-				if(!local) window.location="/login";
-			});	
+		(tologin)=> {
+			if(tologin.remote) window.location="/login";
+			else {
+				this.setState({local_auth: true});
+			}
 		});			
 	}	
   
@@ -58,9 +58,9 @@ class Login extends Component {
 				user: this.state.login_user, 
 				password: this.state.login_password
 			}, 
-			(data)=>{
+			(apikey)=>{
 				Utility.blockUI(false);
-				Utility.setApikey(data);
+				Utility.setApikey(apikey);
 				Utility.log("Login result", Utility.isAuthenticated());	
 				if(Utility.isAuthenticated()) {
 					//window.location="/#/worksave";

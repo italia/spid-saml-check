@@ -16,17 +16,6 @@ class MainService {
 		return this.mainService;
 	}
 
-	getAuthenticationType(callback_response, callback_error) {
-		Utility.log("GET /auth/type");
-		axios.get('/auth/type')
-		.then(function (response) {
-			callback_response(response.data.local);
-		})
-		.catch(function (error) {
-			callback_error((error.response!=null) ? error.response.data : "Service not available");
-		});
-	}
-
 	login(options, callback_response, callback_error) {
 		Utility.log("GET /login");
 		axios.get('/login?user=' + options.user + '&password=' + options.password)
@@ -38,17 +27,18 @@ class MainService {
 		});
 	}	
 
-	isLogged(callback_response, callback_error) {
-		Utility.log("GET /isLogged");
-		axios.get('/isLogged')
+	assert(callback_response, callback_error) {
+		Utility.log("GET /login/assert");
+		axios.get('/login/assert')
 		.then((response)=> {
-			callback_response(response.data.apikey);
+			callback_response(response.data);
 		})
 		.catch((error)=> {
 			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
 	}
 
+	/*
 	startPing() {
 		Utility.log("START PING");
 		setInterval(()=>this.ping(), 3000);
@@ -61,6 +51,7 @@ class MainService {
 			window.location="/#/login";
 		});
 	}
+	*/
 
 	getInfo(callback_response, callback_error) {
 		Utility.log("GET /api/info");
@@ -194,23 +185,7 @@ class MainService {
 			Utility.log("getSignedXml Error", error.response.data);
 			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
-	}	
-	
-	sendResponse(options, callback_response, callback_error) {
-		Utility.log("POST /sendResponse");
-		axios.post('/sendResponse?apikey=' + Utility.getApikey(), {
-			destination: options.destination,
-			response: options.response
-		})
-		.then(function(response) {
-			Utility.log("sendResponse Success", response.data);
-			callback_response(response.data);
-		})
-		.catch(function(error) {
-			Utility.log("sendResponse Error", error.response.data);
-			callback_error((error.response!=null) ? error.response.data : "Service not available");
-		});
-	}	
+	}		
 
 }
 
