@@ -118,6 +118,22 @@ class Database {
         } 
     }
 
+    getMetadata(user, entity_id, type) {
+        store = getStore(user, entity_id, type);
+        return {
+            url: store.metadata_SP_URL,
+            xml: store.metadata_SP_XML
+        }
+    }
+
+    setMetadata(user, entity_id, type, url, xml) {
+        let store = this.getStore(user, entity_id, type);
+        if(!store) store = {};
+        store.metadata_SP_URL = url;
+        store.metadata_SP_XML = xml;
+        this.saveStore(user, entity_id, type, store);
+    }
+
 }
     
 module.exports = Database;

@@ -353,10 +353,9 @@ app.get("/api/metadata-sp", function(req, res) {
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
         req.session.metadata = null;
 
-        let savedMetadata = database.getData(req.session.user, req.session.request.issuer, "metadata").result.metadata;
+        let savedMetadata = database.getMetadata(req.session.user, req.session.request.issuer, "main");
         if(savedMetadata) {
             req.session.metadata = savedMetadata;
-
             fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", req.session.metadata.xml, "utf8");
         }
 
@@ -392,6 +391,12 @@ app.post("/api/metadata-sp/download", function(req, res) {
                     url: req.body.url,
                     xml: xml
                 }
+
+                let metadataParser = new MetadataParser(xml);
+                let entityID = metadataParser.getServiceProviderEntityId();
+                fs.copyFileSync(getEntityDir(issuer) + "/sp-metadata.xml", getEntityDir(entityID) + "/sp-metadata.xml")
+                database.setMetadata(req.session.user, entityID, "main", req.body.url, xml);
+
                 res.status(200).send(xml);
             },
             (err) => {

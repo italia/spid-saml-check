@@ -151,15 +151,9 @@ class Sidebar extends Component {
     const navList = (items) => {
       return items.map((item, index)=> {
         // if is not requested session or it's requested and session is active
-        Utility.log("Item", item);
-        Utility.log("Session: ", this.state.sessionActive? "Y":"N");
-        Utility.log("Session Required: ", item.sessionRequired? "Y":"N");
         if(!(!this.state.sessionActive && item.sessionRequired)) {
-          Utility.log("DRAW Menu", item);
           return navType(item, index);
-        } else {
-          Utility.log("HIDE Menu", item);
-        }
+        } 
       });
     };
 
