@@ -23,6 +23,9 @@ class Worksave extends Component {
             if(!data) this.props.history.push('/request');
             else this.setState({ workspace: data });
         },
+        ()=> {
+            this.props.history.push('/metadata-sp-download');
+        },
         (error)=> {
             Utility.showModal({
                 title: "Attenzione, si è verificato un errore",

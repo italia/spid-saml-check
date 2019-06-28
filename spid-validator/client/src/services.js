@@ -53,7 +53,7 @@ class MainService {
 	}
 	*/
 
-	getInfo(callback_response, callback_error) {
+	getInfo(callback_response, callback_nosession, callback_error) {
 		Utility.log("GET /api/info");
 		axios.get('/api/info?apikey=' + Utility.getApikey())
 		.then(function(response) {
@@ -61,13 +61,17 @@ class MainService {
 			callback_response(response.data);
 		})
 		.catch(function(error) {
-			Utility.log("getInfo Error", error.response.data);
-			callback_error((error.response!=null) ? error.response.data : "Service not available");
+			if(error.response.status==400) {
+				callback_nosession();
+			} else {
+				Utility.log("getInfo Error", error.response.data);
+				callback_error((error.response!=null) ? error.response.data : "Service not available");
+			};
 		});
     }
 	
 
-	loadWorkspace(callback_response, callback_error) {
+	loadWorkspace(callback_response, callback_nosession, callback_error) {
 		Utility.log("GET /api/store?apikey=" + Utility.getApikey());
 		axios.get('/api/store?apikey=' + Utility.getApikey())
 		.then(function(response) {
@@ -75,8 +79,11 @@ class MainService {
             callback_response(response.data);
 		})
 		.catch(function(error) {
-			Utility.log("loadWorkspace Error", error.response.data);
-            callback_error((error.response!=null) ? error.response.data : "Service not available");
+			if(error.response.status==400) {
+				callback_nosession();
+			} else {
+				callback_error((error.response!=null) ? error.response.data : "Service not available");
+			}
 		});
 	}
 

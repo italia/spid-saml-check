@@ -7,6 +7,9 @@ import SidebarFooter from './../SidebarFooter';
 import SidebarForm from './../SidebarForm';
 import SidebarHeader from './../SidebarHeader';
 import SidebarMinimizer from './../SidebarMinimizer';
+import Utility from '../../utility';
+import Services from '../../services';
+
 
 class Sidebar extends Component {
 
@@ -16,6 +19,31 @@ class Sidebar extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.activeRoute = this.activeRoute.bind(this);
     this.hideMobile = this.hideMobile.bind(this);
+
+    this.state = {
+      sessionActive: false
+    }
+
+    let service = Services.getMainService();
+
+    let info = service.getInfo(
+      (info) => { 
+        this.setState({ sessionActive: true });
+        Utility.log("Session info", info);
+      }, 
+      ()=> {
+        this.setState({ sessionActive: false });
+        Utility.log("Session not found");
+      },
+      (error)   => { 
+        this.setState({ sessionActive: false });;
+        Utility.showModal({
+            title: "Errore",
+            body: error,
+            isOpen: true
+        });        
+      }
+    );
   }
 
 
@@ -25,7 +53,6 @@ class Sidebar extends Component {
   }
 
   activeRoute(routeName, props) {
-    // return this.props.location.pathname.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
     return props.location.pathname.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
 
   }
@@ -101,8 +128,9 @@ class Sidebar extends Component {
 
     // nav dropdown
     const navDropdown = (item, key) => {
+      let open = item.open && !this.state.sessionActive? "open" : "";
       return (
-        <li key={key} className={this.activeRoute(item.url, props)}>
+        <li key={key} className={open + ' ' + this.activeRoute(item.url, props)}>
           <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick}><i className={item.icon}></i>{item.name}</a>
           <ul className="nav-dropdown-items">
             {navList(item.children)}
@@ -116,10 +144,23 @@ class Sidebar extends Component {
       item.divider ? divider(item, idx) :
       item.children ? navDropdown(item, idx)
                     : navItem(item, idx) ;
+  
+    
 
     // nav list
     const navList = (items) => {
-      return items.map( (item, index) => navType(item, index) );
+      return items.map((item, index)=> {
+        // if is not requested session or it's requested and session is active
+        Utility.log("Item", item);
+        Utility.log("Session: ", this.state.sessionActive? "Y":"N");
+        Utility.log("Session Required: ", item.sessionRequired? "Y":"N");
+        if(!(!this.state.sessionActive && item.sessionRequired)) {
+          Utility.log("DRAW Menu", item);
+          return navType(item, index);
+        } else {
+          Utility.log("HIDE Menu", item);
+        }
+      });
     };
 
     const isExternal = (url) => {

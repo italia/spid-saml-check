@@ -3,6 +3,8 @@ export default {
     {
       name: 'Metadata SP',
       icon: 'icon-tag',
+      open: true,
+      sessionRequired: false,
       children: [
         {
           name: 'Download',  
@@ -25,6 +27,7 @@ export default {
     {
       name: 'Request',
       icon: 'icon-cursor',
+      sessionRequired: true,
       children: [
         {
           name: 'SAML',  
@@ -53,6 +56,7 @@ export default {
     {
       name: 'Response',
       icon: 'icon-check', 
+      sessionRequired: true,
       children: [
         { name: 'Check Response', url: '/response' },
         { name: 'Report', url: '/response-report' },

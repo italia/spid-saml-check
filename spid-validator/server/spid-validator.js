@@ -5,7 +5,7 @@ const sha256 = require('crypto-js/sha256');
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const path = require('path');
-const fs = require("fs");
+const fs = require("fs-extra");
 const moment = require("moment");
 
 const config_test = require("../config/test.json");
@@ -22,6 +22,9 @@ const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 
 const Database = require("./lib/database");
 const Authenticator = require("./lib/authenticator");
+
+const DATA_DIR = "../specs-compliance-tests/data";
+const TEMP_DIR = "temp";
 
 var app = express();
 app.use(helmet());
@@ -63,7 +66,6 @@ var checkAuthorisation = function(req) {
 }
 
 var getEntityDir = function(issuer) {
-    let DATA_DIR = "../specs-compliance-tests/data";
     let ENTITY_DIR = DATA_DIR + "/" + issuer.normalize();
     if(!fs.existsSync(ENTITY_DIR)) fs.mkdirSync(ENTITY_DIR);
     return ENTITY_DIR;
@@ -73,10 +75,20 @@ var getEntityDir = function(issuer) {
 app.get("/", function (req, res) {
 
     if(req.session.request==null) {
+        // clean temp dir and reset previous metadata info
+        fs.removeSync(DATA_DIR + "/" + TEMP_DIR);
+        req.session.metadata = null;
+    }
+
+    res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
+
+    /*
+    if(req.session.request==null) {
         res.sendFile(path.resolve(__dirname, "..", "client/view", "front.html"));        
     } else {
         res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
     }
+    */
 });
 
 // only check session
@@ -103,7 +115,6 @@ app.get("/metadata.xml", function (req, res) {
 // process sso post request
 app.post("/samlsso", function (req, res) {	
 
-    let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
 	let samlRequest = req.body.SAMLRequest;
@@ -166,7 +177,6 @@ app.post("/samlsso", function (req, res) {
 // process sso get request
 app.get("/samlsso", function (req, res) {
 
-    let DATA_DIR = "../specs-compliance-tests/data";
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
 	let samlRequest = req.query.SAMLRequest;
@@ -249,7 +259,6 @@ app.get("/api/info", function(req, res) {
 	}		
 
     if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-        let DATA_DIR = "../specs-compliance-tests/data";
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
         let info = {
@@ -276,7 +285,6 @@ app.get("/api/store", function(req, res) {
 		return null;
 	}	
     if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-        let DATA_DIR = "../specs-compliance-tests/data";
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
         let store = database.getStore(req.session.user, req.session.request.issuer, "main");
@@ -342,7 +350,6 @@ app.get("/api/metadata-sp", function(req, res) {
 	}	
 
     if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-        let DATA_DIR = "../specs-compliance-tests/data";
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
         req.session.metadata = null;
 
@@ -357,7 +364,7 @@ app.get("/api/metadata-sp", function(req, res) {
     } else {
         res.status(400).send("Session not found");
     }
-});
+})
 
 // download metadata 
 app.post("/api/metadata-sp/download", function(req, res) {
@@ -369,13 +376,17 @@ app.post("/api/metadata-sp/download", function(req, res) {
 		return null;
 	}	
 
-    if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-        let DATA_DIR = "../specs-compliance-tests/data";
+    if(!req.body.url) {
+        res.status(500).send("Inserire una URL valida");
+
+    } else {
+        let issuer = (req.session!=null && req.session.request!=null && req.session.request.issuer!=null)? req.session.request.issuer : TEMP_DIR;
+
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
-        Utility.metadataDownload(req.body.url, getEntityDir(req.session.request.issuer) + "/sp-metadata.xml").then(
+        Utility.metadataDownload(req.body.url, getEntityDir(issuer) + "/sp-metadata.xml").then(
             (file_name) => {
-                let xml = fs.readFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", "utf8");
+                let xml = fs.readFileSync(getEntityDir(issuer) + "/sp-metadata.xml", "utf8");
                 xml = xml.replaceAll("\n", "");
                 req.session.metadata = {
                     url: req.body.url,
@@ -388,9 +399,6 @@ app.post("/api/metadata-sp/download", function(req, res) {
                 res.status(500).send(err);
             }
         );
-
-    } else {
-        res.status(400).send("Session not found");
     }
 });
 
@@ -404,47 +412,43 @@ app.get("/api/metadata-sp/check/:test", function(req, res) {
 		return null;
 	}	
 
-    if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-        let DATA_DIR = "../specs-compliance-tests/data";
-        if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+    let issuer = (req.session!=null && req.session.request!=null && req.session.request.issuer!=null)? req.session.request.issuer : TEMP_DIR;
 
-        let test = req.params.test;
-        let file = null;
+    if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
-        if(req.session.metadata == null) {
+    let test = req.params.test;
+    let file = null;
 
-            res.status(404).send("Please download metadata first");
+    if(req.session.metadata == null) {
 
-        } else {
-
-            switch(test) {
-                case "strict": file = getEntityDir(req.session.request.issuer) + "/sp-metadata-strict.json"; break;
-                case "certs": file = getEntityDir(req.session.request.issuer) + "/sp-metadata-certs.json"; break;
-                case "extra": file = getEntityDir(req.session.request.issuer) + "/sp-metadata-extra.json"; break;
-            }
-            
-            if(file!=null) {
-                Utility.metadataCheck(test, req.session.request.issuer.normalize()).then(
-                    (out) => {
-                        try {
-                            let report = fs.readFileSync(file, "utf8");
-                            res.status(200).send(JSON.parse(report));
-                        } catch(err) {
-                            res.status(500).send("Error while loading report");
-                        }
-                    },
-                    (err) => {
-                        res.status(500).send(err);
-                    }
-                );
-
-            } else {
-                res.status(404).send("Test must be strict or certs or extra");
-            }
-        }
+        res.status(404).send("Please download metadata first");
 
     } else {
-        res.status(400).send("Session not found");
+
+        switch(test) {
+            case "strict": file = getEntityDir(issuer) + "/sp-metadata-strict.json"; break;
+            case "certs": file = getEntityDir(issuer) + "/sp-metadata-certs.json"; break;
+            case "extra": file = getEntityDir(issuer) + "/sp-metadata-extra.json"; break;
+        }
+        
+        if(file!=null) {
+            Utility.metadataCheck(test, issuer.normalize()).then(
+                (out) => {
+                    try {
+                        let report = fs.readFileSync(file, "utf8");
+                        res.status(200).send(JSON.parse(report));
+                    } catch(err) {
+                        res.status(500).send("Error while loading report");
+                    }
+                },
+                (err) => {
+                    res.status(500).send(err);
+                }
+            );
+
+        } else {
+            res.status(404).send("Test must be strict or certs or extra");
+        }
     }
 });
 
@@ -476,7 +480,6 @@ app.get("/api/request/check/:test", function(req, res) {
 	}	
 
     if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-        let DATA_DIR = "../specs-compliance-tests/data";
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
         let test = req.params.test;
@@ -721,7 +724,8 @@ app.post("/", function(req, res, next) {
         }
 
     }, (error)=> {
-        res.status(500).send(error);
+        //res.status(500).send(error);
+        res.redirect("/");
     });
 });
 
