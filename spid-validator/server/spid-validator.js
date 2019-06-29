@@ -610,7 +610,31 @@ app.get("/api/request/check/:test", function(req, res) {
             if(file!=null) {
                 Utility.requestCheck(test, req.session.request.issuer.normalize()).then(
                     (out) => {
-                        res.status(200).send(JSON.parse(fs.readFileSync(file, "utf8")));
+                        let report = fs.readFileSync(file, "utf8");
+                        report = JSON.parse(report);
+                        
+                        if(req.session.request!=null) {
+                            // save result validation on store
+                            let testGroup = [];
+                            switch(test) {
+                                case "strict": testGroup = report.test.sp.authn_request_strict.TestAuthnRequest; break;
+                                case "certs": testGroup = report.test.sp.authn_request_certs.TestAuthnRequestCertificates; break;
+                                case "extra": testGroup = report.test.sp.authn_request_extra.TestAuthnRequestExtra; break;
+                            }
+
+                            let validation = true;
+                            for(testGroupName in testGroup) {
+                                let groupAssertions = testGroup[testGroupName].assertions;
+                                for(assertion in groupAssertions) {
+                                    let result = groupAssertions[assertion].result;
+                                    validation = validation && (result=='success');
+                                }
+                            }
+
+                            database.setRequestValidation(req.session.user, req.session.request.issuer, req.session.external_code, "main", test, validation)
+                        }
+
+                        res.status(200).send(report);
                     },
                     (err) => {
                         res.status(500).send(err);

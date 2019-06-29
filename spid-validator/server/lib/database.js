@@ -162,6 +162,13 @@ class Database {
         if(!store) store = {};
         store.metadata_SP_URL = url;
         store.metadata_SP_XML = xml;
+        store.metadata_validation_strict = false;
+        store.metadata_validation_certs = false;
+        store.metadata_validation_extra = false;
+        store.request_validation_strict = false;
+        store.request_validation_certs = false;
+        store.request_validation_extra = false;
+        
         this.saveStore(user, entity_id, external_code, type, store);
     }
 

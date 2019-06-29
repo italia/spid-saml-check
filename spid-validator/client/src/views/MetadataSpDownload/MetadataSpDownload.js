@@ -40,7 +40,6 @@ class MetadataSpDownload extends Component {
         this.setState({xml: metadata});
         store.dispatch(Actions.setMetadataSpURL(url)); 
         store.dispatch(Actions.setMetadataSpXML(metadata)); 
-        service.saveWorkspace(store.getState());
       }, 
       (error)   => { 
         this.setState({xml: ""});
