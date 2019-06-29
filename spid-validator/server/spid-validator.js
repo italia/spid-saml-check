@@ -336,57 +336,9 @@ app.get("/api/store/:code", function(req, res) {
 
 
 // get validation info from external code
-app.get("/api/validation/:code", function(req, res) {
-    
-    // check if apikey is correct
-    /*
-    if(!checkAuthorisation(req)) {
-        error = {code: 401, msg: "Unauthorized"};
-        res.status(error.code).send(error.msg);
-        return null;
-    }
-    */
-
-    let store = null;
-    let user = Utility.decrypt(req.params.user);
-    let code = Utility.decrypt(req.params.code);
-
-    if(code!=null && code!='') {
-        store = database.getStoreByCode(user, code, "main");
-    }
-
-    let result = { 
-        response_done: false,
-        response_success: false,
-        validation: false 
-    };
-
-    if(store) {
-        let test_done = Object.keys(store.response_test_done);
-        let test_success = store.response_test_success;
-        
-        let tests = Object.keys(config_test['test-suite-1']['cases']);
-        let test_done_ok = (test_done.length==tests.length);
-        let test_success_ok = true;
-
-        let test_success_num = 0;
-        for(t in test_success) { 
-            if(!test_success[t]) test_success_ok = false;
-            else test_success_num++;
-        }
-
-        let validation = false;
-        if(test_done_ok && test_success_ok) validation = true;
-            
-        result = { 
-            response_num: tests.length,
-            response_done: test_done.length,
-            response_success: test_success_num,
-            validation: validation 
-        };
-    }
-    
-    res.status(200).send(result);
+// only for OnBoarding, protected by AgID Login
+app.get("/api/validation", function(req, res) {
+    res.redirect(authenticator.getAuthURL("validation"));
 });
 
 
@@ -841,13 +793,23 @@ app.post("/", function(req, res, next) {
 
         Utility.log("AgID Login USER", userinfo);
 
+
         if(policy.validator && fromnow>-1 && nowto>-1) {
             req.session.apikey = Utility.getUUID();
             req.session.entity = entity;
             req.session.policy = policy;
             req.session.user = userinfo.sub;
+
+            if(state!=null && state=="validation") {
     
-            res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
+                // api validation
+                res.send(getValidationInfo(userinfo.sub, userinfo.entity.code));
+    
+            } else {
+
+                res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
+            }
+
         } else {
             let msg = "Accesso non autorizzato. Contattare l'amministratore di sistema.";
 
@@ -883,8 +845,66 @@ app.get("/login/assert", (req, res)=> {
 
 app.get("/logout", (req, res)=> {
     req.session.destroy();
-    res.redirect("/");
+    if(config_idp.agidloginAuthentication) {
+        res.redirect(authenticator.getLogoutURL());
+    } else {
+        res.redirect("/");
+    }
 });
+
+
+
+
+
+// Private Funcs
+
+var getValidationInfo = function(user, code) {
+    
+    //let database = new Database().connect().setup();
+
+    Utility.log("getValidationInfo", {user: user, code: code});
+
+    let store = null;
+
+    if(code!=null && code!='') {
+        store = database.getStoreByCode(user, code, "main");
+    }
+
+    let result = { 
+        response_done: false,
+        response_success: false,
+        validation: false 
+    };
+
+    if(store) {
+        let test_done = Object.keys(store.response_test_done);
+        let test_success = store.response_test_success;
+        
+        let tests = Object.keys(config_test['test-suite-1']['cases']);
+        let test_done_ok = (test_done.length==tests.length);
+        let test_success_ok = true;
+
+        let test_success_num = 0;
+        for(t in test_success) { 
+            if(!test_success[t]) test_success_ok = false;
+            else test_success_num++;
+        }
+
+        let validation = false;
+        if(test_done_ok && test_success_ok) validation = true;
+            
+        result = { 
+            response_num: tests.length,
+            response_done: test_done.length,
+            response_success: test_success_num,
+            validation: validation 
+        };
+    }
+
+    return result;
+}
+
+
 
 
 
