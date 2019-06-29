@@ -324,7 +324,8 @@ app.get("/api/sob/store", function(req, res) {
 // get validation info from external code
 // only for OnBoarding, protected by AgID Login
 app.get("/api/sob/validation", function(req, res) {
-    res.redirect(authenticator.getAuthURL("validation"));
+    //res.redirect(authenticator.getAuthURL("validation"));
+    res.send(getValidationInfo(req.query.user, req.query.code));
 });
 
 
