@@ -142,6 +142,8 @@ app.post("/samlsso", function (req, res) {
                 relayState: relayState
             }        
 
+            req.session.metadata = null;
+
             let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
                                 "&RelayState=" + encodeURIComponent(relayState);
             fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
@@ -210,6 +212,8 @@ app.get("/samlsso", function (req, res) {
                 relayState: relayState
             }        
 
+            req.session.metadata = null;
+
             let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
                                 "&RelayState=" + encodeURIComponent(relayState) + 
                                 "&SigAlg=" + encodeURIComponent(sigAlg) + 
@@ -262,7 +266,7 @@ app.get("/api/info", function(req, res) {
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
         let info = {
-            metadata: req.session.metadata.url,
+            metadata: (req.session.metadata)? req.session.metadata.url : null,
             issuer: req.session.request.issuer,
             entity: req.session.entity,
             policy: req.session.policy
@@ -289,11 +293,16 @@ app.get("/api/store", function(req, res) {
 
         let store = database.getStore(req.session.user, req.session.request.issuer, "main");
 
-        fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
-        req.session.metadata = {
-            url: store.metadata_SP_URL,
-            xml: store.metadata_SP_XML
+        if(store) {
+            fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
+            req.session.metadata = {
+                url: store.metadata_SP_URL,
+                xml: store.metadata_SP_XML
+            }
+        } else {
+            req.session.metadata = null;
         }
+
         res.status(200).send(store);
 
     } else {
@@ -376,27 +385,22 @@ app.post("/api/metadata-sp/download", function(req, res) {
 	}	
 
     if(!req.body.url) {
-        res.status(500).send("Inserire una URL valida");
+        res.status(500).send("Please insert a valid URL");
 
     } else {
-        let issuer = (req.session!=null && req.session.request!=null && req.session.request.issuer!=null)? req.session.request.issuer : TEMP_DIR;
-
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
-
-        Utility.metadataDownload(req.body.url, getEntityDir(issuer) + "/sp-metadata.xml").then(
+        Utility.metadataDownload(req.body.url, getEntityDir(TEMP_DIR) + "/sp-metadata.xml").then(
             (file_name) => {
-                let xml = fs.readFileSync(getEntityDir(issuer) + "/sp-metadata.xml", "utf8");
+                let xml = fs.readFileSync(getEntityDir(TEMP_DIR) + "/sp-metadata.xml", "utf8");
                 xml = xml.replaceAll("\n", "");
                 req.session.metadata = {
                     url: req.body.url,
                     xml: xml
                 }
-
                 let metadataParser = new MetadataParser(xml);
                 let entityID = metadataParser.getServiceProviderEntityId();
-                fs.copyFileSync(getEntityDir(issuer) + "/sp-metadata.xml", getEntityDir(entityID) + "/sp-metadata.xml")
+                fs.copyFileSync(getEntityDir(TEMP_DIR) + "/sp-metadata.xml", getEntityDir(entityID) + "/sp-metadata.xml");
                 database.setMetadata(req.session.user, entityID, "main", req.body.url, xml);
-
                 res.status(200).send(xml);
             },
             (err) => {
@@ -424,7 +428,7 @@ app.get("/api/metadata-sp/check/:test", function(req, res) {
     let test = req.params.test;
     let file = null;
 
-    if(req.session.metadata == null) {
+    if(req.session.metadata==null) {
 
         res.status(404).send("Please download metadata first");
 
@@ -490,7 +494,7 @@ app.get("/api/request/check/:test", function(req, res) {
         let test = req.params.test;
         let file = null;
 
-        if(req.session.metadata == null) {
+        if(req.session.metadata==null) {
 
             res.status(404).send("Please download metadata first");
 
