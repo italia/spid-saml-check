@@ -334,25 +334,30 @@ app.get("/api/store/:code", function(req, res) {
     else res.status(400).send("Store not found");
 });
 
+
 // get validation info from external code
 app.get("/api/validation/:code", function(req, res) {
     
     // check if apikey is correct
+    /*
     if(!checkAuthorisation(req)) {
         error = {code: 401, msg: "Unauthorized"};
         res.status(error.code).send(error.msg);
         return null;
     }
+    */
 
     let store = null;
-    let code = req.params.code;
+    let user = Utility.decrypt(req.params.user);
+    let code = Utility.decrypt(req.params.code);
+
     if(code!=null && code!='') {
-        store = database.getStoreByCode(req.session.user, code, "main");
+        store = database.getStoreByCode(user, code, "main");
     }
 
     let result = { 
-        test_done: false,
-        test_success: false,
+        response_done: false,
+        response_success: false,
         validation: false 
     };
 

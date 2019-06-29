@@ -5,6 +5,10 @@ const child_process = require('child_process');
 const UUID = require("uuidjs");
 const moment = require("moment");
 
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('SPID-VALIDATOR');
+
+
 
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
@@ -98,6 +102,14 @@ class Utils {
                 return resolve(stdout);
             });
         });
+    }
+
+    static encrypt(toencrypt) {
+        return cryptr.encrypt(toencrypt);
+    }
+       
+    static decrypt(encrypted) {
+        return cryptr.decrypt(encrypted);
     }
 }
     
