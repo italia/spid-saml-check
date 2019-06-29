@@ -56,7 +56,7 @@ app.set('view engine', 'handlebars');
 var checkAuthorisation = function(req) {
     let authorised = false;
 	let apikey = req.query.apikey;
-    if(apikey == req.session.apikey) {
+    if(apikey!=null && apikey == req.session.apikey) {
 		authorised = true;
 	} else {
 		console.log("ERROR check authorisation : " + apikey);
