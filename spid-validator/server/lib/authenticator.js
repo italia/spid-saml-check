@@ -19,7 +19,7 @@ class AgIDLoginAuthenticator {
 
         let issuer = new Issuer({ 
             issuer: 'https://login.agid.gov.it',
-            authorization_endpoint: 'https://login.agid.gov.it/auth?show=spid,agid',
+            authorization_endpoint: 'https://login.agid.gov.it/auth?show=agid',
             token_endpoint: 'https://login.agid.gov.it/token',
             userinfo_endpoint: 'https://login.agid.gov.it/userinfo',
             jwks_uri: 'https://login.agid.gov.it/certs',

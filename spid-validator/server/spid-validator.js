@@ -38,7 +38,7 @@ app.use(session({
     secret: "SAML IDP", 
     resave: true, 
     saveUninitialized: false, 
-    //cookie: { maxAge: 30*60000 }  //30*60000: 30min
+    cookie: { maxAge: 60*60000 }  //30*60000: 30min
 }));
 
 // create databse
