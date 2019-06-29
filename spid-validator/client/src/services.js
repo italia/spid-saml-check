@@ -58,15 +58,15 @@ class MainService {
 		axios.get('/api/info?apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("getInfo Success", response.data);
-			callback_response(response.data);
+			if(response.data.request) {
+				callback_response(response.data);
+			} else {
+				callback_nosession();
+			}
 		})
 		.catch(function(error) {
-			if(error.response.status==400) {
-				callback_nosession();
-			} else {
-				Utility.log("getInfo Error", error.response.data);
-				callback_error((error.response!=null) ? error.response.data : "Service not available");
-			};
+			Utility.log("getInfo Error", error.response.data);
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
     }
 	

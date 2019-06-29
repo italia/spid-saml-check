@@ -13,7 +13,9 @@ class Database {
     }
 
     connect() {
-        this.db = new sqlite3(dbfile, {memory: false});
+        this.db = new sqlite3(dbfile, { verbose: (text)=> {
+            utility.log("DATABASE : QUERY", text);
+        }});
         return this;
     }
 
@@ -46,6 +48,7 @@ class Database {
                 CREATE TABLE store ( \
                     user                        STRING, \
                     entity_id                   STRING, \
+                    external_code               STRING UNIQUE, \
                     timestamp                   DATETIME, \
                     type                        STRING, \
                     store                       TEXT, \
@@ -65,7 +68,7 @@ class Database {
         try { 
             result = this.db.prepare(sql).all();
         } catch(exception) {
-            utility.log("DATABASE EXCEPTION", exception.toString());
+            utility.log("DATABASE EXCEPTION (select)", exception.toString());
         }
         return result;
     }
@@ -77,33 +80,60 @@ class Database {
         try { 
             result = this.db.prepare(sql).run(tag, text);
         } catch(exception) {
-            utility.log("DATABASE EXCEPTION", exception.toString());;
+            utility.log("DATABASE EXCEPTION (log)", exception.toString());;
         }
     }
 
 
-    saveStore(user, entity_id, type, store) {
+    saveStore(user, entity_id, external_code, type, store) {
         if(!this.checkdb()) return;
 
-        let sql1 = "INSERT OR IGNORE INTO store(user, entity_id, timestamp, type, store) VALUES (?, ?, DATETIME('now', 'localtime'), ?, ?);";
-        let sql2 = "UPDATE store SET timestamp=DATETIME('now', 'localtime'), type=?, store=? WHERE user=? AND entity_id=?";
+        let sql1 = "INSERT OR IGNORE INTO store(user, entity_id, external_code, timestamp, type, store) VALUES (?, ?, ?, DATETIME('now', 'localtime'), ?, ?);";
+        let sql2 = "UPDATE store SET timestamp=DATETIME('now', 'localtime'), ";
+        if(external_code!=null && external_code!='') sql2 += "external_code=?, ";
+        sql2 += "type=?, store=? WHERE user=? AND entity_id=?";
 
         try { 
             let storeSerialized = JSON.stringify(store);
-            this.db.prepare(sql1).run(user, entity_id, type, storeSerialized);
-            this.db.prepare(sql2).run(type, storeSerialized, user, entity_id);
+            this.db.prepare(sql1).run(user, entity_id, external_code, type, storeSerialized);
+            if(external_code!=null && external_code!='') {
+                this.db.prepare(sql2).run(external_code, type, storeSerialized, user, entity_id);
+            } else {
+                this.db.prepare(sql2).run(type, storeSerialized, user, entity_id);
+            }
         } catch(exception) {
-            utility.log("DATABASE EXCEPTION", exception.toString());
+            utility.log("DATABASE EXCEPTION (saveStore)", exception.toString());
         } 
     }
 
     getStore(user, entity_id, type) {
         if(!this.checkdb()) return;
 
-        let data = false;
-        let result = this.select("SELECT store FROM store WHERE user='" + user + "' AND entity_id='" + entity_id + "' AND type='" + type + "'");
-        if(result.length==1) data = JSON.parse(result[0].store);
-        return data; 
+        try {
+            let data = false;
+            let result = this.select("SELECT store FROM store WHERE user='" + user + "' AND entity_id='" + entity_id + "' AND type='" + type + "'");
+            if(result.length==1) data = JSON.parse(result[0].store);
+            return data; 
+
+        } catch(exception) {
+            utility.log("DATABASE EXCEPTION (getStore)", exception.toString());
+        }
+    }
+
+    getStoreByCode(user, external_code, type) {
+        if(!this.checkdb()) return;
+        
+        try {
+            let data = false;
+            if(external_code!=null && external_code!='') {
+                let result = this.select("SELECT store FROM store WHERE user='" + user + "' AND external_code='" + external_code + "' AND type='" + type + "'");
+                if(result.length==1) data = JSON.parse(result[0].store);    
+            }
+            return data; 
+
+        } catch(exception) {
+            utility.log("DATABASE EXCEPTION (getStoreByCode)", exception.toString());
+        }
     }
 
     deleteStore(user, entity_id, type) {
@@ -114,24 +144,82 @@ class Database {
         try { 
             this.db.prepare(sql).run(user, entity_id, type);
         } catch(exception) {
-            utility.log("DATABASE EXCEPTION", exception.toString());
+            utility.log("DATABASE EXCEPTION (deleteStore)", exception.toString());
         } 
     }
 
     getMetadata(user, entity_id, type) {
         store = getStore(user, entity_id, type);
+        if(!store) store = {};
         return {
             url: store.metadata_SP_URL,
             xml: store.metadata_SP_XML
         }
     }
 
-    setMetadata(user, entity_id, type, url, xml) {
+    setMetadata(user, entity_id, external_code, type, url, xml) {
         let store = this.getStore(user, entity_id, type);
         if(!store) store = {};
         store.metadata_SP_URL = url;
         store.metadata_SP_XML = xml;
-        this.saveStore(user, entity_id, type, store);
+        this.saveStore(user, entity_id, external_code, type, store);
+    }
+
+    getValidation(user, entity_id, type) {
+        store = getStore(user, entity_id, type);
+        if(!store) store = {};
+        return {
+            metadata_strict: store.metadata_validation_strict,
+            metadata_cert: store.metadata_validation_cert,
+            metadata_extra: store.metadata_validation_extra,
+            request_strict: store.request_validation_strict,
+            request_cert: store.request_validation_cert,
+            request_extra: store.request_validation_extra,
+            response_test_done: store.request_validation_extra,
+            response_test_success: store.request_validation_success
+        }
+    }
+
+    getValidationByCode(user, external_code, type) {
+        store = getStoreByCode(user, external_code, type);
+        if(!store) store = {};
+        return {
+            metadata_strict: store.metadata_validation_strict,
+            metadata_cert: store.metadata_validation_cert,
+            metadata_extra: store.metadata_validation_extra,
+            request_strict: store.request_validation_strict,
+            request_cert: store.request_validation_cert,
+            request_extra: store.request_validation_extra,
+            response_test_done: store.request_validation_extra,
+            response_test_success: store.request_validation_success
+        }
+    }
+
+    setMetadataValidation(user, entity_id, external_code, type, test, metadata_validation) {
+        try {
+            let store = this.getStore(user, entity_id, type);
+            if(!store) store = {};
+            switch(test) {
+                case "strict": store.metadata_validation_strict = metadata_validation; break;
+                case "certs": store.metadata_validation_certs = metadata_validation; break;
+                case "extra": store.metadata_validation_extra = metadata_validation; break;
+            }
+            
+            this.saveStore(user, entity_id, external_code, type, store);
+        } catch(exception) {
+            utility.log("DATABASE EXCEPTION (setMetadataValidation)", exception.toString());
+        }
+    }
+    setRequestValidation(user, entity_id, external_code, type, test, request_validation) {
+        let store = this.getStore(user, entity_id, type);
+        if(!store) store = {};
+        switch(test) {
+            case "strict": store.request_validation_strict = request_validation; break;
+            case "certs": store.request_validation_certs = request_validation; break;
+            case "extra": store.request_validation_extra = request_validation; break;
+        }
+        
+        this.saveStore(user, entity_id, external_code, type, store);
     }
 
 }

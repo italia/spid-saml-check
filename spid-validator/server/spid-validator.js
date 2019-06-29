@@ -80,6 +80,8 @@ app.get("/", function (req, res) {
         req.session.metadata = null;
     }
 
+    req.session.external_code = req.query.code;
+
     res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
 
     /*
@@ -262,14 +264,16 @@ app.get("/api/info", function(req, res) {
 		return null;
 	}		
 
-    if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
+    if(req.session!=null) { // TODO ASSERTSESSION
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
         let info = {
-            metadata: (req.session.metadata)? req.session.metadata.url : null,
-            issuer: req.session.request.issuer,
+            request: req.session.request,
+            metadata: (req.session.metadata)? req.session.metadata.url : undefined,
+            issuer: (req.session.request)? req.session.request.issuer : undefined,
             entity: req.session.entity,
-            policy: req.session.policy
+            policy: req.session.policy,
+            external_code: req.session.external_code
         }
         res.status(200).send(info);
 
@@ -310,6 +314,77 @@ app.get("/api/store", function(req, res) {
     }
 });
 
+// get store info from external code
+app.get("/api/store/:code", function(req, res) {
+    
+    // check if apikey is correct
+    if(!checkAuthorisation(req)) {
+        error = {code: 401, msg: "Unauthorized"};
+        res.status(error.code).send(error.msg);
+        return null;
+    }
+
+    let store = null;
+    let code = req.params.code;
+    if(code!=null && code!='') {
+        store = database.getStoreByCode(req.session.user, code, "main");
+    }
+
+    if(store) res.status(200).send(store);
+    else res.status(400).send("Store not found");
+});
+
+// get validation info from external code
+app.get("/api/validation/:code", function(req, res) {
+    
+    // check if apikey is correct
+    if(!checkAuthorisation(req)) {
+        error = {code: 401, msg: "Unauthorized"};
+        res.status(error.code).send(error.msg);
+        return null;
+    }
+
+    let store = null;
+    let code = req.params.code;
+    if(code!=null && code!='') {
+        store = database.getStoreByCode(req.session.user, code, "main");
+    }
+
+    let result = { 
+        test_done: false,
+        test_success: false,
+        validation: false 
+    };
+
+    if(store) {
+        let test_done = Object.keys(store.response_test_done);
+        let test_success = store.response_test_success;
+        
+        let tests = Object.keys(config_test['test-suite-1']['cases']);
+        let test_done_ok = (test_done.length==tests.length);
+        let test_success_ok = true;
+
+        let test_success_num = 0;
+        for(t in test_success) { 
+            if(!test_success[t]) test_success_ok = false;
+            else test_success_num++;
+        }
+
+        let validation = false;
+        if(test_done_ok && test_success_ok) validation = true;
+            
+        result = { 
+            response_num: tests.length,
+            response_done: test_done.length,
+            response_success: test_success_num,
+            validation: validation 
+        };
+    }
+    
+    res.status(200).send(result);
+});
+
+
 // save workspace to store cache 
 app.post("/api/store", function(req, res) {
 
@@ -321,7 +396,7 @@ app.post("/api/store", function(req, res) {
 	}	
 
     if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-        database.saveStore(req.session.user, req.session.request.issuer, "main", req.body);
+        database.saveStore(req.session.user, req.session.request.issuer, req.session.external_code, "main", req.body);
         res.status(200).send();
 
     } else {
@@ -400,7 +475,7 @@ app.post("/api/metadata-sp/download", function(req, res) {
                 let metadataParser = new MetadataParser(xml);
                 let entityID = metadataParser.getServiceProviderEntityId();
                 fs.copyFileSync(getEntityDir(TEMP_DIR) + "/sp-metadata.xml", getEntityDir(entityID) + "/sp-metadata.xml");
-                database.setMetadata(req.session.user, entityID, "main", req.body.url, xml);
+                database.setMetadata(req.session.user, entityID, req.session.external_code, "main", req.body.url, xml);
                 res.status(200).send(xml);
             },
             (err) => {
@@ -445,12 +520,38 @@ app.get("/api/metadata-sp/check/:test", function(req, res) {
                 (out) => {
                     try {
                         let report = fs.readFileSync(file, "utf8");
-                        res.status(200).send(JSON.parse(report));
+                        report = JSON.parse(report);
+
+                        if(req.session.request!=null) {
+                            // save result validation on store
+                            let testGroup = [];
+                            switch(test) {
+                                case "strict": testGroup = report.test.sp.metadata_strict.TestSPMetadata; break;
+                                case "certs": testGroup = report.test.sp.metadata_certs.TestSPMetadataCertificates; break;
+                                case "extra": testGroup = report.test.sp.metadata_extra.TestSPMetadataExtra; break;
+                            }
+
+                            let validation = true;
+                            for(testGroupName in testGroup) {
+                                let groupAssertions = testGroup[testGroupName].assertions;
+                                for(assertion in groupAssertions) {
+                                    let result = groupAssertions[assertion].result;
+                                    validation = validation && (result=='success');
+                                }
+                            }
+
+                            database.setMetadataValidation(req.session.user, req.session.request.issuer, req.session.external_code, "main", test, validation)
+                        }
+
+                        res.status(200).send(report);
+
                     } catch(err) {
+                        Utility.log("ERR /api/metadata-sp/check/:test", err.toString());
                         res.status(500).send("Error while loading report");
                     }
                 },
                 (err) => {
+                    Utility.log("ERR /api/metadata-sp/check/:test", err);
                     res.status(500).send(err);
                 }
             );
@@ -751,11 +852,11 @@ app.get("/login/assert", (req, res)=> {
     }
 });
 
-/*
 app.get("/logout", (req, res)=> {
-	req.session.destroy();
+    req.session.destroy();
+    res.redirect("/");
 });
-*/
+
 
 
 // start
