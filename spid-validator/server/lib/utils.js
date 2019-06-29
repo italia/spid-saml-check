@@ -4,9 +4,7 @@ const CircularJSON = require("circular-json");
 const child_process = require('child_process');
 const UUID = require("uuidjs");
 const moment = require("moment");
-
-const Cryptr = require('cryptr');
-const cryptr = new Cryptr('SPID-VALIDATOR');
+const CryptoJS = require("crypto-js");
 
 
 
@@ -104,12 +102,12 @@ class Utils {
         });
     }
 
-    static encrypt(toencrypt) {
-        return cryptr.encrypt(toencrypt);
+    static encrypt(toencrypt, key) {
+        return CryptoJS.AES.encrypt(toencrypt, key);
     }
        
-    static decrypt(encrypted) {
-        return cryptr.decrypt(encrypted);
+    static decrypt(encrypted, key) {
+        return CryptoJS.AES.decrypt(encrypted.toString(), key);
     }
 }
     
