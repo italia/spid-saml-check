@@ -315,29 +315,15 @@ app.get("/api/store", function(req, res) {
 });
 
 // get store info from external code
-app.get("/api/store/:code", function(req, res) {
-    
-    // check if apikey is correct
-    if(!checkAuthorisation(req)) {
-        error = {code: 401, msg: "Unauthorized"};
-        res.status(error.code).send(error.msg);
-        return null;
-    }
-
-    let store = null;
-    let code = req.params.code;
-    if(code!=null && code!='') {
-        store = database.getStoreByCode(req.session.user, code, "main");
-    }
-
-    if(store) res.status(200).send(store);
-    else res.status(400).send("Store not found");
+// only for OnBoarding, protected by AgID Login
+app.get("/api/sob/store", function(req, res) {
+    res.redirect(authenticator.getAuthURL("store"));
 });
 
 
 // get validation info from external code
 // only for OnBoarding, protected by AgID Login
-app.get("/api/validation", function(req, res) {
+app.get("/api/sob/validation", function(req, res) {
     res.redirect(authenticator.getAuthURL("validation"));
 });
 
@@ -795,16 +781,22 @@ app.post("/", function(req, res, next) {
 
 
         if(policy.validator && fromnow>-1 && nowto>-1) {
-            req.session.apikey = Utility.getUUID();
+            req.session.apikey = req.session.apikey? req.session.apikey : Utility.getUUID();
             req.session.entity = entity;
             req.session.policy = policy;
             req.session.user = userinfo.sub;
 
-            if(state!=null && state=="validation") {
-    
-                // api validation
+            if(state!=null && state!="") {
+                Utility.log("SOB API " + state, {user: userinfo.sub, code: userinfo.entity.code});
+            }
+
+            // API selection
+            if(state!=null && state=="store") {
+                res.send(getStoreInfo(userinfo.sub, userinfo.entity.code));
+                
+            } else if(state!=null && state=="validation") {
                 res.send(getValidationInfo(userinfo.sub, userinfo.entity.code));
-    
+
             } else {
 
                 res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
@@ -859,11 +851,6 @@ app.get("/logout", (req, res)=> {
 // Private Funcs
 
 var getValidationInfo = function(user, code) {
-    
-    //let database = new Database().connect().setup();
-
-    Utility.log("getValidationInfo", {user: user, code: code});
-
     let store = null;
 
     if(code!=null && code!='') {
@@ -871,9 +858,15 @@ var getValidationInfo = function(user, code) {
     }
 
     let result = { 
+        metadata_strict: false,
+        metadata_certs: false,
+        metadata_extra: false,
+        request_strict: false,
+        request_certs: false,
+        request_extra: false,
         response_done: false,
         response_success: false,
-        validation: false 
+        response_validation: false 
     };
 
     if(store) {
@@ -890,13 +883,31 @@ var getValidationInfo = function(user, code) {
             else test_success_num++;
         }
 
-        let validation = false;
-        if(test_done_ok && test_success_ok) validation = true;
+        let response_validation = false;
+        if(test_done_ok && test_success_ok) response_validation = true;
             
+        let validation = false;
+        if(store.metadata_validation_strict && 
+            store.metadata_validation_certs &&
+            store.metadata_validation_extra &&
+            store.request_validation_strict &&
+            store.request_validation_certs &&
+            store.request_validation_extra &&
+            //response_validation &&
+            true
+        ) validation = true;
+
         result = { 
+            metadata_strict: store.metadata_validation_strict,
+            metadata_certs: store.metadata_validation_certs,
+            metadata_extra: store.metadata_validation_extra,
+            request_strict: store.request_validation_strict,
+            request_certs: store.request_validation_certs,
+            request_extra: store.request_validation_extra,
             response_num: tests.length,
             response_done: test_done.length,
             response_success: test_success_num,
+            response_validation: response_validation,
             validation: validation 
         };
     }
@@ -904,6 +915,14 @@ var getValidationInfo = function(user, code) {
     return result;
 }
 
+
+var getStoreInfo = function(user, code) {
+    let store = null;
+    if(code!=null && code!='') {
+        store = database.getStoreByCode(user, code, "main");
+    }
+    return store;
+}
 
 
 
