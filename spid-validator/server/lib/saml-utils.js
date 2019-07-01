@@ -181,7 +181,7 @@ class MetadataParser {
             let acsIndex = acs[i].getAttribute("index");
             if(index==acsIndex) {
                 let serviceName = select("string(//md:ServiceName)", acs[i]);
-                let attributes = select("//md:RequestedAttribute", acs[i]);
+                let attributes = select("md:RequestedAttribute", acs[i]);
                 attributeConsumingService.ServiceName = serviceName;
                 for(let j in attributes) {
                     let friendlyName = attributes[j].getAttribute("FriendlyName");
