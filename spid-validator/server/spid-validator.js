@@ -867,7 +867,8 @@ var getValidationInfo = function(user, code) {
         request_extra: false,
         response_done: false,
         response_success: false,
-        response_validation: false 
+        response_validation: false,
+        validation: false
     };
 
     if(store) {
