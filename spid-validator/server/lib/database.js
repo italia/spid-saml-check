@@ -136,6 +136,29 @@ class Database {
         }
     }
 
+    getMetadataByCode(external_code, type) {
+        if(!this.checkdb()) return;
+        
+        try {
+            let data = false;
+            if(external_code!=null && external_code!='') {
+                let result = this.select("SELECT entity_id, store FROM store WHERE external_code='" + external_code + "' AND type='" + type + "'");
+                if(result.length==1) {
+                    let store = JSON.parse(result[0].store);
+                    data = {
+                        entity_id: result[0].entity_id,
+                        metadata_url: store.metadata_SP_URL,
+                        metadata_xml: store.metadata_SP_XML
+                    }
+                }
+            }
+            return data; 
+
+        } catch(exception) {
+            utility.log("DATABASE EXCEPTION (getStoreByOnlyCode)", exception.toString());
+        }
+    }
+
     deleteStore(user, entity_id, type) {
         if(!this.checkdb()) return;
 

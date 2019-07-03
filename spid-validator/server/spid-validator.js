@@ -322,10 +322,17 @@ app.get("/api/sob/store", function(req, res) {
 
 
 // get validation info from external code
-// only for OnBoarding, protected by AgID Login
+// only for OnBoarding, not protected
 app.get("/api/sob/validation", function(req, res) {
     //res.redirect(authenticator.getAuthURL("validation"));
     res.send(getValidationInfo(req.query.user, req.query.code));
+});
+
+// get metadata info from external code
+// only for OnBoarding, not protected
+app.get("/api/sob/metadata", function(req, res) {
+    //res.redirect(authenticator.getAuthURL("validation"));
+    res.send(getMetadataInfo(req.query.code));
 });
 
 
@@ -917,11 +924,17 @@ var getValidationInfo = function(user, code) {
     return result;
 }
 
-
-var getStoreInfo = function(user, code) {
-    let store = null;
+var getValidationInfo = function(user, code) {
     if(code!=null && code!='') {
         store = database.getStoreByCode(user, code, "main");
+    }
+}
+
+
+var getMetadataInfo = function(code) {
+    let store = null;
+    if(code!=null && code!='') {
+        store = database.getMetadataByCode(code, "main");
     }
     return store;
 }
