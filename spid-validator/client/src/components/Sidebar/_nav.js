@@ -8,19 +8,23 @@ export default {
       children: [
         {
           name: 'Download',  
-          url: '/metadata-sp-download',      
+          url: '/metadata-sp-download',   
+          sessionRequired: false   
         },
         {
           name: 'Check Strict',  
-          url: '/metadata-sp-check-strict',      
+          url: '/metadata-sp-check-strict',  
+          sessionRequired: true     
         },
         {
           name: 'Check Certificates',  
-          url: '/metadata-sp-check-certs',      
+          url: '/metadata-sp-check-certs',     
+          sessionRequired: true  
         },
         {
           name: 'Check Extra',  
-          url: '/metadata-sp-check-extra'     
+          url: '/metadata-sp-check-extra',
+          sessionRequired: true 
         }
       ]
     },
