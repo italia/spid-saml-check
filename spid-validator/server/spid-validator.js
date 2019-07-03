@@ -872,8 +872,8 @@ var getValidationInfo = function(user, code) {
     };
 
     if(store) {
-        let test_done = Object.keys(store.response_test_done);
-        let test_success = store.response_test_success;
+        let test_done = store.response_test_done? Object.keys(store.response_test_done) : [];
+        let test_success = store.response_test_success? store.response_test_success : [];
         
         let tests = Object.keys(config_test['test-suite-1']['cases']);
         let test_done_ok = (test_done.length==tests.length);
