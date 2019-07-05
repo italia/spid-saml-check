@@ -918,18 +918,12 @@ var getValidationInfo = function(user, code) {
             response_success: test_success_num,
             response_validation: response_validation,
             validation: validation 
-        };
+        };      
     }
 
+    Utility.log("Validation result", result);
     return result;
 }
-
-var getValidationInfo = function(user, code) {
-    if(code!=null && code!='') {
-        store = database.getStoreByCode(user, code, "main");
-    }
-}
-
 
 var getMetadataInfo = function(code) {
     let store = null;

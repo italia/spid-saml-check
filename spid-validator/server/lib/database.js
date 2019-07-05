@@ -129,6 +129,7 @@ class Database {
                 let result = this.select("SELECT store FROM store WHERE user='" + user + "' AND external_code='" + external_code + "' AND type='" + type + "'");
                 if(result.length==1) data = JSON.parse(result[0].store);    
             }
+            utility.log("getStoreByCode", data);
             return data; 
 
         } catch(exception) {
