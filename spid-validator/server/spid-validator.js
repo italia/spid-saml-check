@@ -825,8 +825,10 @@ app.post("/", function(req, res, next) {
         }
 
     }, (error)=> {
+        Utility.log("Error", error);
         //res.status(500).send(error);
-        res.redirect("/");
+        res.sendFile(path.resolve(__dirname, "..", "client/view", "error.html"));
+        //res.redirect("/");
     });
 });
 

@@ -129,7 +129,6 @@ class Database {
                 let result = this.select("SELECT store FROM store WHERE external_code='" + external_code + "' AND type='" + type + "'");
                 if(result.length==1) data = JSON.parse(result[0].store);    
             }
-            utility.log("getStoreByCode", data);
             return data; 
 
         } catch(exception) {
@@ -173,7 +172,7 @@ class Database {
     }
 
     getMetadata(user, entity_id, type) {
-        store = getStore(user, entity_id, type);
+        store = this.getStore(user, entity_id, type);
         if(!store) store = {};
         return {
             url: store.metadata_SP_URL,
@@ -197,7 +196,7 @@ class Database {
     }
 
     getValidation(user, entity_id, type) {
-        store = getStore(user, entity_id, type);
+        store = this.getStore(user, entity_id, type);
         if(!store) store = {};
         return {
             metadata_strict: store.metadata_validation_strict,
@@ -212,7 +211,7 @@ class Database {
     }
 
     getValidationByCode(user, external_code, type) {
-        store = getStoreByCode(user, external_code, type);
+        store = this.getStoreByCode(user, external_code, type);
         if(!store) store = {};
         return {
             metadata_strict: store.metadata_validation_strict,
@@ -226,7 +225,7 @@ class Database {
         }
     }
 
-    setMetadataValidation(user, entity_id, external_code, type, test, metadata_validation) {
+    setMetadataValidation(user, entity_id, type, test, metadata_validation) {
         try {
             let store = this.getStore(user, entity_id, type);
             if(!store) store = {};
@@ -236,21 +235,25 @@ class Database {
                 case "extra": store.metadata_validation_extra = metadata_validation; break;
             }
             
-            this.saveStore(user, entity_id, external_code, type, store);
+            this.saveStore(user, entity_id, null, type, store);
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (setMetadataValidation)", exception.toString());
         }
     }
-    setRequestValidation(user, entity_id, external_code, type, test, request_validation) {
-        let store = this.getStore(user, entity_id, type);
-        if(!store) store = {};
-        switch(test) {
-            case "strict": store.request_validation_strict = request_validation; break;
-            case "certs": store.request_validation_certs = request_validation; break;
-            case "extra": store.request_validation_extra = request_validation; break;
+    setRequestValidation(user, entity_id, type, test, request_validation) {
+        try {
+            let store = this.getStore(user, entity_id, type);
+            if(!store) store = {};
+            switch(test) {
+                case "strict": store.request_validation_strict = request_validation; break;
+                case "certs": store.request_validation_certs = request_validation; break;
+                case "extra": store.request_validation_extra = request_validation; break;
+            }
+            
+            this.saveStore(user, entity_id, null, type, store);
+        } catch(exception) {
+            utility.log("DATABASE EXCEPTION (setMetadataValidation)", exception.toString());
         }
-        
-        this.saveStore(user, entity_id, external_code, type, store);
     }
 
 }

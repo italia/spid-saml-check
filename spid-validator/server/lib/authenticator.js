@@ -2,9 +2,16 @@ const { Issuer } = require('openid-client');
 const Utility = require("./utils");
 const Config = require("../../config/idp");
 
+Issuer.defaultHttpOptions = { 
+    followRedirect: true,
+    //headers: { 'User-Agent': '' },
+    retries: 0,
+    timeout: 30000,
+};
+
+
 
 class AgIDLoginAuthenticator {
-
     constructor() {
         this.name = "AgIDLogin";
         this.client_id = Config.agidloginClientID;
@@ -25,6 +32,8 @@ class AgIDLoginAuthenticator {
             jwks_uri: 'https://login.agid.gov.it/certs',
             end_session_endpoint: 'https://login.agid.gov.it/session/end'
         });
+
+        
 
         this.client = new issuer.Client({
             client_id: this.client_id,
@@ -72,12 +81,12 @@ class AgIDLoginAuthenticator {
             });
             
         }).catch((e)=> {
-            Utility.log("ERR (getUserInfo)", {
+            error({
+                function: "getUserInfo",
+                error: e,
                 state: state,
                 nonce: this.nonce
             });
-            console.log(e);
-            error(e);
         });
     }
 
