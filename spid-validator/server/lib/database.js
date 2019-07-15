@@ -111,7 +111,8 @@ class Database {
 
         try {
             let data = false;
-            let result = this.select("SELECT store FROM store WHERE user='" + user + "' AND entity_id='" + entity_id + "' AND type='" + type + "'");
+            let sql = this.db.prepare("SELECT store FROM store WHERE user=? AND entity_id=? AND type=?");
+            let result = sql.all(user, entity_id, type);
             if(result.length==1) data = JSON.parse(result[0].store);
             return data; 
 
@@ -126,7 +127,8 @@ class Database {
         try {
             let data = false;
             if(external_code!=null && external_code!='') {
-                let result = this.select("SELECT store FROM store WHERE external_code='" + external_code + "' AND type='" + type + "'");
+                let sql = this.db.prepare("SELECT store FROM store WHERE user=? AND external_code=? AND type=?");
+                let result = sql.all(user, external_code, type);
                 if(result.length==1) data = JSON.parse(result[0].store);    
             }
             return data; 
@@ -136,47 +138,55 @@ class Database {
         }
     }
 
-    getMetadataByCode(external_code, type) {
+    getMetadata(user, entity_id, type) {
         if(!this.checkdb()) return;
         
         try {
             let data = false;
-            if(external_code!=null && external_code!='') {
-                let result = this.select("SELECT entity_id, store FROM store WHERE external_code='" + external_code + "' AND type='" + type + "'");
+            if(user!=null && 
+                entity_id!=null &&
+                user!='' &&
+                entity_id!='') {
+
+                let sql = this.db.prepare("SELECT entity_id, store FROM store WHERE user=? AND entity_id=? AND type=?");
+                let result = sql.all(user, entity_id, type);
                 if(result.length==1) {
                     let store = JSON.parse(result[0].store);
                     data = {
                         entity_id: result[0].entity_id,
-                        metadata_url: store.metadata_SP_URL,
-                        metadata_xml: store.metadata_SP_XML
+                        url: store.metadata_SP_URL,
+                        xml: store.metadata_SP_XML
                     }
                 }
             }
             return data; 
 
         } catch(exception) {
-            utility.log("DATABASE EXCEPTION (getStoreByOnlyCode)", exception.toString());
+            utility.log("DATABASE EXCEPTION (getMetadata)", exception.toString());
         }
     }
 
-    deleteStore(user, entity_id, type) {
+    getMetadataByCode(external_code, type) {
         if(!this.checkdb()) return;
+        
+        try {
+            let data = false;
+            if(external_code!=null && external_code!='') {
+                let sql = this.db.prepare("SELECT entity_id, store FROM store WHERE external_code=? AND type=?");
+                let result = sql.all(external_code, type);
+                if(result.length==1) {
+                    let store = JSON.parse(result[0].store);
+                    data = {
+                        entity_id: result[0].entity_id,
+                        url: store.metadata_SP_URL,
+                        xml: store.metadata_SP_XML
+                    }
+                }
+            }
+            return data; 
 
-        let sql = "DELETE FROM store WHERE user=? AND entity_id=? AND type=?";
-
-        try { 
-            this.db.prepare(sql).run(user, entity_id, type);
         } catch(exception) {
-            utility.log("DATABASE EXCEPTION (deleteStore)", exception.toString());
-        } 
-    }
-
-    getMetadata(user, entity_id, type) {
-        store = this.getStore(user, entity_id, type);
-        if(!store) store = {};
-        return {
-            url: store.metadata_SP_URL,
-            xml: store.metadata_SP_XML
+            utility.log("DATABASE EXCEPTION (getMetadataByCode)", exception.toString());
         }
     }
 
@@ -193,6 +203,18 @@ class Database {
         store.request_validation_extra = false;
         
         this.saveStore(user, entity_id, external_code, type, store);
+    }
+
+    deleteStore(user, entity_id, type) {
+        if(!this.checkdb()) return;
+
+        let sql = "DELETE FROM store WHERE user=? AND entity_id=? AND type=?";
+
+        try { 
+            this.db.prepare(sql).run(user, entity_id, type);
+        } catch(exception) {
+            utility.log("DATABASE EXCEPTION (deleteStore)", exception.toString());
+        } 
     }
 
     getValidation(user, entity_id, type) {
@@ -225,7 +247,7 @@ class Database {
         }
     }
 
-    setMetadataValidation(user, entity_id, type, test, metadata_validation) {
+    setMetadataValidation(user, entity_id, external_code, type, test, metadata_validation) {
         try {
             let store = this.getStore(user, entity_id, type);
             if(!store) store = {};
@@ -235,12 +257,12 @@ class Database {
                 case "extra": store.metadata_validation_extra = metadata_validation; break;
             }
             
-            this.saveStore(user, entity_id, null, type, store);
+            this.saveStore(user, entity_id, external_code, type, store);
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (setMetadataValidation)", exception.toString());
         }
     }
-    setRequestValidation(user, entity_id, type, test, request_validation) {
+    setRequestValidation(user, entity_id, external_code, type, test, request_validation) {
         try {
             let store = this.getStore(user, entity_id, type);
             if(!store) store = {};
@@ -250,7 +272,7 @@ class Database {
                 case "extra": store.request_validation_extra = request_validation; break;
             }
             
-            this.saveStore(user, entity_id, null, type, store);
+            this.saveStore(user, entity_id, external_code, type, store);
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (setMetadataValidation)", exception.toString());
         }

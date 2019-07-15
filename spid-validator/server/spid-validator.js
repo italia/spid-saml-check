@@ -298,8 +298,11 @@ app.get("/api/store", function(req, res) {
         let store = database.getStore(req.session.user, req.session.request.issuer, "main");
 
         if(store) {
-            fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
+            // download again from url to avoid issue with signing
+            Utility.metadataDownload(store.metadata_SP_URL, getEntityDir(req.session.request.issuer) + "/sp-metadata.xml");
+            //fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
             req.session.metadata = {
+                entity_id: req.session.request.issuer,
                 url: store.metadata_SP_URL,
                 xml: store.metadata_SP_XML
             }
