@@ -6,7 +6,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const path = require('path');
 const fs = require("fs-extra");
-const moment = require("moment");
+const moment = require("moment"); 
 
 const config_test = require("../config/test.json");
 const config_idp = require("../config/idp.json");
@@ -34,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, "..", "client/build/assets")));
 app.use("/assets", express.static(path.resolve(__dirname, "..", "client/build/assets")));
 
+app.set('trust proxy', 1);
 app.use(session({ 
     secret: "SAML IDP", 
     resave: true, 
@@ -71,6 +72,10 @@ var getEntityDir = function(issuer) {
     return ENTITY_DIR;
 }
 
+app.use((req, res, next)=> {
+    Utility.log(moment().format("YYYY-MM-DD HH:mm:ss") + " - " + req.method + " [" + req.ips.join(' - ') + "] " + req.path);
+    next();
+});
 
 app.get("/", function (req, res) {
 

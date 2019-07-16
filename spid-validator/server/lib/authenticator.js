@@ -3,9 +3,9 @@ const Utility = require("./utils");
 const Config = require("../../config/idp");
 
 Issuer.defaultHttpOptions = { 
-    followRedirect: true,
+    //followRedirect: true,
     //headers: { 'User-Agent': '' },
-    retries: 0,
+    //retries: 0,
     timeout: 30000,
 };
 
@@ -67,7 +67,7 @@ class AgIDLoginAuthenticator {
                 state: state,
                 ...authorizationPostData
             },
-            { 
+            {
                 state: state,
                 nonce: this.nonce,
                 response_type: this.response_type
