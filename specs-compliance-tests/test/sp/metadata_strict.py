@@ -1,4 +1,4 @@
-# Copyright 2018 AgID - Agenzia per l'Italia Digitale
+# Copyright 2019 AgID - Agenzia per l'Italia Digitale
 #
 # Licensed under the EUPL, Version 1.2 or - as soon they will be approved by
 # the European Commission - subsequent versions of the EUPL (the "Licence").
@@ -357,7 +357,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                 if attr == 'Binding':
                     self._assertIn(
                         a,
-                        constants.ALLOWED_BINDINGS,
+                        constants.ALLOWED_SINGLELOGOUT_BINDINGS,
                         (('The %s attribute in SingleLogoutService element must be one of [%s]') %  # noqa
                          (attr, ', '.join(constants.ALLOWED_BINDINGS)))  # noqa
                     )
