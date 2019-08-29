@@ -26,6 +26,8 @@ import zlib
 
 from io import BytesIO
 from lxml import etree as ET
+from common import constants
+
 
 import common.constants
 import common.dump_pem as dump_pem
@@ -231,10 +233,9 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                 'The ForceAuthn attribute must be present if SPID level > 1'
             )
             value = req.get('ForceAuthn')
-            self._assertEqual(
-                value.lower(),
-                'true',
-                'The ForceAuthn attribute must be true'
+            self._assertTrue(
+                (value.lower() in constants.BOOLEAN_TRUE),
+                'The ForceAuthn attribute must be true or 1'
             )
 
         attr = 'AssertionConsumerServiceIndex'
@@ -525,6 +526,14 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             # save the grubbed certificate for future alanysis
             cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
             dump_pem.dump_request_pem(cert, 'authn', 'signature', DATA_DIR)
+
+
+    def test_RelayState(self):
+        '''Test the compliance of RelayState parameter'''
+
+        if (('RelayState' in self.params) and (self.params.get('RelayState')[0].find('http') != -1 )):
+          self.fail('RelayState must not be immediately intelligible')
+
 
     def test_Scoping(self):
         '''Test the compliance of Scoping element'''

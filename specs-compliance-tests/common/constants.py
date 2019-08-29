@@ -15,9 +15,21 @@
 # Licence for the specific language governing permissions and limitations
 # under the Licence.
 
+
+BOOLEAN_TRUE = [
+    'true',
+    '1',
+]
+
 ALLOWED_BINDINGS = [
     'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
     'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
+]
+
+ALLOWED_SINGLELOGOUT_BINDINGS = [
+    'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
+    'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
+    'urn:oasis:names:tc:SAML:2.0:bindings:SOAP',
 ]
 
 ALLOWED_FORMATS = [

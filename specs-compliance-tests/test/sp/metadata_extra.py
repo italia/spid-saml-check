@@ -205,19 +205,22 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
 
     def test_Organization(self):
         '''Test the compliance of Organization element'''
-        org = self.doc.xpath('//EntityDescriptor/Organization')[0]
+        org = self.doc.xpath('//EntityDescriptor/Organization')
+        if org:
+            org= org[0]
 
-        for elem in ['Name', 'URL', 'DisplayName']:
-            e = org.xpath(
-                './Organization%s[@xml:lang="it"]' % elem,
-                namespaces={
-                    'xml': 'http://www.w3.org/XML/1998/namespace',
-                }
-            )
-            self._assertTrue(
-                (len(e) == 1),
-                'An IT localised Organization%s must be present' % elem
-            )
+            for elem in ['Name', 'URL', 'DisplayName']:
+                e = org.xpath(
+                    './Organization%s[@xml:lang="it"]' % elem,
+                    namespaces={
+                        'xml': 'http://www.w3.org/XML/1998/namespace',
+                    }
+                )
+                self._assertTrue(
+                    (len(e) == 1),
+                    'An IT localised Organization%s must be present' % elem
+                )
+
 
     @unittest.skipIf(SSLLABS_SKIP == 1, 'x')
     def test_ssllabs(self):

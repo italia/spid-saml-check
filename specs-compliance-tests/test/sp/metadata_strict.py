@@ -19,6 +19,7 @@ import json
 import os
 import subprocess
 import unittest
+import datetime
 
 from io import BytesIO
 from lxml import etree as ET
@@ -35,6 +36,8 @@ METADATA = os.getenv('SP_METADATA', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
 SSLLABS_FORCE_NEW = int(os.getenv('SSLLABS_FORCE_NEW', 0))
 SSLLABS_SKIP = int(os.getenv('SSLLABS_SKIP', 0))
+SSLLABS_RETRY_INTERVAL = 10
+SSLLABS_PARALLELISM_LIMIT = 10
 
 API = 'https://api.ssllabs.com/api/v3/'
 
@@ -48,27 +51,11 @@ def ssllabs_api(path, payload={}):
     except requests.exception.RequestException:
         sys.stderr.write('Request failed.')
         sys.exit(1)
-
     data = response.json()
     return data
 
 
-def ssllabs_from_cache(host, publish='off', startNew='off', fromCache='on',
-                       all='done'):
-    path = 'analyze'
-    payload = {
-                'host': host,
-                'publish': publish,
-                'startNew': startNew,
-                'fromCache': fromCache,
-                'all': all
-              }
-    data = ssllabs_api(path, payload)
-    return data
-
-
-def ssllabs_new_scan(host, publish='off', startNew='on', all='done',
-                     ignoreMismatch='on'):
+def ssllabs_setup_new_scan(host, publish='off', startNew='on', all='done', ignoreMismatch='on'):
     path = 'analyze'
     payload = {
                 'host': host,
@@ -78,17 +65,35 @@ def ssllabs_new_scan(host, publish='off', startNew='on', all='done',
                 'ignoreMismatch': ignoreMismatch
               }
     results = ssllabs_api(path, payload)
+    return 1
 
-    payload.pop('startNew')
+def ssllabs_analysis(host, publish='off', startNew='off', fromCache='on', all='done', ignoreMismatch='on'):
+    path = 'analyze'
+    payload = {
+        'host': host,
+        'publish': publish,
+        'startNew': startNew,
+        'fromCache': fromCache,
+        'all': all,
+        'ignoreMismatch': ignoreMismatch
+    }
+
+    results = ssllabs_api(path, payload)
 
     if 'status' in results:
         while results['status'] != 'READY' and results['status'] != 'ERROR':
-            time.sleep(30)
+            time.sleep(SSLLABS_RETRY_INTERVAL)
             results = ssllabs_api(path, payload)
-
     return results
 
 
+def ssllabs_from_cache(host, publish='off', all='done', ignoreMismatch='on'):
+    results = ssllabs_analysis(host, publish, 'off', 'on', all, ignoreMismatch)
+    return results
+
+def ssllabs_new_scan(host, publish='off', all='done', ignoreMismatch='on'):
+    results = ssllabs_analysis(host, publish, 'on', 'off', all, ignoreMismatch)
+    return results
 
 class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
     longMessage = False
@@ -357,7 +362,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                 if attr == 'Binding':
                     self._assertIn(
                         a,
-                        constants.ALLOWED_BINDINGS,
+                        constants.ALLOWED_SINGLELOGOUT_BINDINGS,
                         (('The %s attribute in SingleLogoutService element must be one of [%s]') %  # noqa
                          (attr, ', '.join(constants.ALLOWED_BINDINGS)))  # noqa
                     )
@@ -496,12 +501,12 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                     )
 
                     if ename == 'OrganizationURL':
-                        OrganizationURLvalue = element.text
+                        OrganizationURLvalue = element.text.strip()
                         if not (OrganizationURLvalue.startswith('http://') or OrganizationURLvalue.startswith('https://')):
                             OrganizationURLvalue = 'https://'+OrganizationURLvalue
                         self._assertIsValidHttpUrl(
                             OrganizationURLvalue,
-                            'The %s element must be a valid URL' % ename
+                            'The %s -element must be a valid URL' % ename
                         )
 
 
@@ -510,55 +515,71 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
     def test_TLS12Support(self):
         '''Test the support of TLS 1.2 for Locations URL'''
         locations = []
+        completed = False
+        currently_in_analysis = 0
+        acs_to_check = []
+        slo_to_check = []
+        location_to_check = []
+        index = 0
         retry_delay = 0
+
+        start= datetime.datetime.now().replace(microsecond=0)
+
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                               '/AssertionConsumerService')
-        for acs in acss:
-            url = acs.get('Location')
-            locations.append(url)
 
-        to_check = [(urllib.parse.urlparse(location).netloc, location)
-                    for location in locations]
-        for t in to_check:
-            if (SSLLABS_FORCE_NEW == 1):
-                data = ssllabs_new_scan(t[0])
-            else:
-                data = ssllabs_from_cache(t[0])
-                while data['status'] != 'ERROR' and data['status'] != 'READY':
-                    if data['status'] == 'IN_PROGRESS' and ('endpoints' in data) and ("eta" in data['endpoints'][0]) and (data['endpoints'][0]['eta'] > 0):
-                        retry_delay =  data['endpoints'][0]['eta']
-                    else:
-                        retry_delay = 10
-                    time.sleep(retry_delay)
-                    data = ssllabs_from_cache(t[0])
-            self._assertIsTLS12(
-                {'location': t[1], 'data': data,
-                 'service': 'AssertionConsumerService'},
-                ['A+', 'A', 'A-'],
-                '%s must be reachable and support TLS 1.2.' % t[1]
-            )
-
-        locations = []
         slos = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                               '/SingleLogoutService')
+
+        # Gather all the locations' domains
+        for acs in acss:
+            url = acs.get('Location')
+            parsedurl = urllib.parse.urlparse(url)
+            parsednetloc = parsedurl.netloc
+            location_to_check.append((parsednetloc, url, 'AssertionConsumerService'))
+
         for slo in slos:
             url = slo.get('Location')
-            locations.append(url)
+            parsedurl = urllib.parse.urlparse(url)
+            parsednetloc = parsedurl.netloc
+            location_to_check.append((parsednetloc, url, 'SingleLogoutService'))
 
-        to_check = [(urllib.parse.urlparse(location).netloc, location)
-                    for location in locations]
-        for t in to_check:
-            if (SSLLABS_FORCE_NEW == 1):
-                data = ssllabs_new_scan(t[0])
-            else:
-                data = ssllabs_from_cache(t[0])
-                while data['status'] != 'ERROR' and data['status'] != 'READY':
-                    time.sleep(30)
+
+        while (location_to_check):
+
+            # Setting up parallel analysis according to SSLAB limits
+            while (currently_in_analysis < SSLLABS_PARALLELISM_LIMIT) and (currently_in_analysis < len(location_to_check)):
+                location = location_to_check[currently_in_analysis]
+                domain = location[0]
+                data = ssllabs_setup_new_scan(domain)
+                currently_in_analysis += 1
+
+            #Testing Locations
+            while (index < currently_in_analysis):
+                t = location_to_check[index]
+                if (SSLLABS_FORCE_NEW == 1):
+                    data = ssllabs_new_scan(t[0])
+                else:
                     data = ssllabs_from_cache(t[0])
+                    while data['status'] != 'ERROR' and data['status'] != 'READY':
+                        if data['status'] == 'IN_PROGRESS' and ('endpoints' in data) and (
+                                "eta" in data['endpoints'][0]) and (data['endpoints'][0]['eta'] > 0):
+                            retry_delay = data['endpoints'][0]['eta']
+                        else:
+                            retry_delay = 10
+                    time.sleep(retry_delay)
+                    data = ssllabs_from_cache(t[0])
+                self._assertIsTLS12(
+                    {'location': t[1], 'data': data,
+                    'service': 'AssertionConsumerService'},
+                    ['A+', 'A', 'A-'],
+                    '%s must be reachable and support TLS 1.2.' % t[1]
+                )
+                index += 1
 
-            self._assertIsTLS12(
-                {'location': t[1], 'data': data,
-                 'service': 'SingleLogoutService'},
-                ['A+', 'A', 'A-'],
-                '%s must be reachable and support TLS 1.2.' % t[1]
-            )
+            index = 0
+            del location_to_check[:currently_in_analysis]
+            currently_in_analysis = 0
+
+        end = datetime.datetime.now().replace(microsecond=0)
+        print('TLS evaluated in %s seconds', (end - start))

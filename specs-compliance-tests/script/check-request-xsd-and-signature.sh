@@ -80,6 +80,7 @@ if [ "X${Signature}" == "X" -a "X${SigAlg}" == "X" ]; then # HTTP-POST
         --insecure \
         --id-attr:ID ${elem} \
         ${req}
+    echo ${req}
     if [ $? -ne 0 ]; then
         echo "FAIL"
         rm ${req}
