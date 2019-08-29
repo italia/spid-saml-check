@@ -2,11 +2,6 @@
 
 TEMP_PATH='/tmp/data/'
 TEMP_METADATA='sp-metadata.xml'
-SSL_ENV='testwithssl.rc'
-NOSSL_ENV='testwithnossl.rc'
-SOURCE_C="'source "
-TOX=" && /usr/bin/tox -e cleanup,sp-metadata-strict,sp-metadata-certs,sp-metadata-extra'"
-RECALL_SCRIPT=$SOURCE_C$SSL_ENV$TOX
 
 
 if [ ! -d "$TEMP_PATH" ]; then
