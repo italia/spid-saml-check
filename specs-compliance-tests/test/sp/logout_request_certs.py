@@ -76,7 +76,7 @@ class TestLogoutRequestCertificates(unittest.TestCase,
                 self._assertFalse(
                     r[0].lower().startswith('sha1'),
                     (('The %s certificate must not use '
-                      'weak signature algorithm') %
+                      'weak signature algorithm - AV n°3') %
                      cert_path)
                 )
 
@@ -84,7 +84,7 @@ class TestLogoutRequestCertificates(unittest.TestCase,
                 self._assertIn(
                     r[2],
                     exp,
-                    (('The key type of %s certificate must be one of [%s]') %
+                    (('The key type of %s certificate must be one of [%s] - AV n°3') %
                      (cert_path, ', '.join(exp)))
                 )
 
@@ -97,7 +97,7 @@ class TestLogoutRequestCertificates(unittest.TestCase,
 
                 self._assertTrue(
                     (int(r[1]) >= exp),
-                    (('The key length of %s certificate must be >= %d') %
+                    (('The key length of %s certificate must be >= %d - AV n°3') %
                      (cert_path, exp))
                 )
 

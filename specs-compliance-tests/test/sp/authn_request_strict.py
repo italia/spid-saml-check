@@ -28,7 +28,6 @@ from io import BytesIO
 from lxml import etree as ET
 from common import constants
 
-
 import common.constants
 import common.dump_pem as dump_pem
 import common.helpers
@@ -36,6 +35,7 @@ import common.regex
 import common.wrap
 
 REQUEST = os.getenv('AUTHN_REQUEST', None)
+METADATA = os.getenv('SP_METADATA', None)
 DATA_DIR = os.getenv('DATA_DIR', './data')
 DEBUG = int(os.getenv('DEBUG', 0))
 
@@ -83,9 +83,6 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         if 'Signature' in self.params and 'SigAlg' in self.params:
             self.IS_HTTP_REDIRECT = True
 
-        if 'RelayState' not in self.params:
-            self.fail('RelayState is missing')
-
         if 'SAMLRequest' not in self.params:
             self.fail('SAMLRequest is missing')
 
@@ -99,6 +96,16 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
 
         self.doc = ET.parse(BytesIO(xml))
         common.helpers.del_ns(self.doc)
+
+        if not METADATA:
+            self.fail('SP_METADATA not set')
+
+        md = None
+        with open(METADATA, 'rb') as md_file:
+            md = md_file.read()
+            md_file.close()
+        self.md = ET.parse(BytesIO(md))
+        common.helpers.del_ns(self.md)
 
     def tearDown(self):
         if self.failures:
@@ -139,29 +146,29 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
 
             if err.stdout:
                 stdout = (
-                    'stdout: ' +
-                    '\nstdout: '.join(
-                        list(
-                            filter(
-                                None,
-                                err.stdout.decode('utf-8').split('\n')
+                        'stdout: ' +
+                        '\nstdout: '.join(
+                            list(
+                                filter(
+                                    None,
+                                    err.stdout.decode('utf-8').split('\n')
+                                )
                             )
                         )
-                    )
                 )
                 lines.append(stdout)
 
             if err.stderr:
                 stderr = (
-                    'stderr: ' +
-                    '\nstderr: '.join(
-                        list(
-                            filter(
-                                None,
-                                err.stderr.decode('utf-8').split('\n')
+                        'stderr: ' +
+                        '\nstderr: '.join(
+                            list(
+                                filter(
+                                    None,
+                                    err.stderr.decode('utf-8').split('\n')
+                                )
                             )
                         )
-                    )
                 )
                 lines.append(stderr)
 
@@ -182,14 +189,14 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         for attr in ['ID', 'Version', 'IssueInstant', 'Destination']:
             self._assertTrue(
                 (attr in req.attrib),
-                'The %s attribute must be present' % attr
+                'The %s attribute must be present - TR pag. 8 ' % attr
             )
 
             value = req.get(attr)
             if (attr == 'ID'):
                 self._assertIsNotNone(
                     value,
-                    'The %s attribute must have a value' % attr
+                    'The %s attribute must have a value - TR pag. 8 ' % attr
                 )
 
             if (attr == 'Version'):
@@ -197,32 +204,32 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                 self._assertEqual(
                     value,
                     exp,
-                    'The %s attribute must be %s' % (attr, exp)
+                    'The %s attribute must be %s - TR pag. 8 ' % (attr, exp)
                 )
 
             if (attr == 'IssueInstant'):
                 self._assertIsNotNone(
                     value,
-                    'The %s attribute must have a value' % attr
+                    'The %s attribute must have a value - TR pag. 8 ' % attr
                 )
                 self._assertTrue(
                     bool(common.regex.UTC_STRING.search(value)),
-                    'The %s attribute must be a valid UTC string' % attr
+                    'The %s attribute must be a valid UTC string - TR pag. 8 ' % attr
                 )
 
             if (attr == 'Destination'):
                 self._assertIsNotNone(
                     value,
-                    'The %s attribute must have a value' % attr
+                    'The %s attribute must have a value - TR pag. 8 ' % attr
                 )
                 self._assertIsValidHttpsUrl(
                     value,
-                    'The %s attribute must be a valid HTTPS url' % attr
+                    'The %s attribute must be a valid HTTPS url - TR pag. 8 ' % attr
                 )
 
         self._assertTrue(
             ('IsPassive' not in req.attrib),
-            'The IsPassive attribute must not be present'
+            'The IsPassive attribute must not be present - TR pag. 9 '
         )
 
         level = req.xpath('//RequestedAuthnContext'
@@ -230,44 +237,72 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         if bool(common.regex.SPID_LEVEL_23.search(level)):
             self._assertTrue(
                 ('ForceAuthn' in req.attrib),
-                'The ForceAuthn attribute must be present if SPID level > 1'
+                'The ForceAuthn attribute must be present if SPID level > 1 - TR pag. 8 '
             )
             value = req.get('ForceAuthn')
             self._assertTrue(
                 (value.lower() in constants.BOOLEAN_TRUE),
-                'The ForceAuthn attribute must be true or 1'
+                'The ForceAuthn attribute must be true or 1 - TR pag. 8 '
             )
 
         attr = 'AssertionConsumerServiceIndex'
         if attr in req.attrib:
             value = req.get(attr)
+            availableassertionindexes = []
+
+            acss = self.md.xpath('//EntityDescriptor/SPSSODescriptor'
+                           '/AssertionConsumerService')
+            for acs in acss:
+                index = acs.get('index')
+                availableassertionindexes.append(index)
+
+            print("Available Indexes: ", availableassertionindexes)
+
             self._assertIsNotNone(
                 value,
-                'The %s attribute must have a value' % attr
+                'The %s attribute must have a value- TR pag. 8 ' % attr
             )
             self._assertGreaterEqual(
                 int(value),
                 0,
-                'The %s attribute must be >= 0' % attr
+                'The %s attribute must be >= 0 - TR pag. 8 and pag. 20' % attr
+            )
+            self._assertTrue(value in availableassertionindexes,
+                'The %s attribute must be equal to an AssertionConsumerService index - TR pag. 8 ' % attr
             )
         else:
+            availableassertionlocations = []
+
+            acss = self.md.xpath('//EntityDescriptor/SPSSODescriptor'
+                                 '/AssertionConsumerService')
+            for acs in acss:
+                location = acs.get('Location')
+                availableassertionlocations.append(location)
+
+            print("Available Indexes: ", availableassertionlocations)
+
+
             for attr in ['AssertionConsumerServiceURL', 'ProtocolBinding']:
                 self._assertTrue(
                     (attr in req.attrib),
-                    'The %s attribute must be present' % attr
+                    'The %s attribute must be present - TR pag. 8 ' % attr
                 )
 
                 value = req.get(attr)
 
                 self._assertIsNotNone(
                     value,
-                    'The %s attribute must have a value' % attr
+                    'The %s attribute must have a value - TR pag. 8 ' % attr
                 )
 
                 if attr == 'AssertionConsumerServiceURL':
                     self._assertIsValidHttpsUrl(
                         value,
-                        'The %s attribute must be a valid HTTPS url' % attr
+                        'The %s attribute must be a valid HTTPS url - TR pag. 8 and pag. 16' % attr
+                    )
+
+                    self._assertTrue(value in availableassertionlocations,
+                        'The %s attribute must be equal to an AssertionConsumerService Location - TR pag. 8 ' % attr
                     )
 
                 if attr == 'ProtocolBinding':
@@ -275,22 +310,35 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                     self._assertEqual(
                         value,
                         exp,
-                        'The %s attribute must be %s' % (attr, exp)
+                        'The %s attribute must be %s - TR pag. 8 ' % (attr, exp)
                     )
 
         attr = 'AttributeConsumingServiceIndex'
         if attr in req.attrib:
+            availableattributeindexes = []
+
+            acss = self.md.xpath('//EntityDescriptor/SPSSODescriptor'
+                                 '/AttributeConsumingService')
+            for acs in acss:
+                index = acs.get('index')
+                availableattributeindexes.append(index)
+
+            print("Available Indexes: ", availableattributeindexes)
+
             value = req.get(attr)
             self._assertIsNotNone(
                 value,
-                'The %s attribute must have a value' % attr
+                'The %s attribute must have a value - TR pag. 8' % attr
             )
             self._assertGreaterEqual(
                 int(value),
                 0,
-                'The %s attribute must be >= 0' % attr
+                'The %s attribute must be >= 0 - TR pag. 8 and pag. 20' % attr
             )
-
+            self._assertTrue(value in availableattributeindexes,
+                'The %s attribute must be equal to an AttributeConsumingService index - TR pag. 8 ' % attr
+            )
+      
     def test_Subject(self):
         '''Test the compliance of Subject element'''
 
@@ -299,7 +347,7 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             self._assertEqual(
                 len(subj),
                 1,
-                'Only one Subject element can be present'
+                'Only one Subject element can be present - TR pag. 9'
             )
 
         if len(subj) == 1:
@@ -308,20 +356,20 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             self._assertEqual(
                 len(name_id),
                 1,
-                'One NameID element in Subject element must be present'
+                'One NameID element in Subject element must be present - TR pag. 9'
             )
             name_id = name_id[0]
             for attr in ['Format', 'NameQualifier']:
                 self._assertTrue(
                     (attr in name_id.attrib),
-                    'The %s attribute must be present' % attr
+                    'The %s attribute must be present - TR pag. 9' % attr
                 )
 
                 value = name_id.get(attr)
 
                 self._assertIsNotNone(
                     value,
-                    'The %s attribute must have a value' % attr
+                    'The %s attribute must have a value - TR pag. 9' % attr
                 )
 
                 if attr == 'Format':
@@ -330,7 +378,7 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                     self._assertEqual(
                         value,
                         exp,
-                        'The % attribute must be %s' % (attr, exp)
+                        'The % attribute must be %s - TR pag. 9' % (attr, exp)
                     )
 
     def test_Issuer(self):
@@ -339,27 +387,31 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         e = self.doc.xpath('//AuthnRequest/Issuer')
         self._assertTrue(
             (len(e) == 1),
-            'One Issuer element must be present'
+            'One Issuer element must be present - TR pag. 9'
         )
 
         e = e[0]
 
         self._assertIsNotNone(
             e.text,
-            'The Issuer element must have a value'
+            'The Issuer element must have a value - TR pag. 9'
         )
+
+        entitydescriptor = self.md.xpath('//EntityDescriptor')
+        entityid = entitydescriptor[0].get('entityID')
+        self._assertEqual(e.text, entityid, 'The Issuer\'s value must be equal to entityID - TR pag. 9')
 
         for attr in ['Format', 'NameQualifier']:
             self._assertTrue(
                 (attr in e.attrib),
-                'The %s attribute must be present' % attr
+                'The %s attribute must be present - TR pag. 9' % attr
             )
 
             value = e.get(attr)
 
             self._assertIsNotNone(
                 value,
-                'The %s attribute must have a value' % attr
+                'The %s attribute must have a value - TR pag. 9' % attr
             )
 
             if attr == 'Format':
@@ -367,7 +419,7 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                 self._assertEqual(
                     value,
                     exp,
-                    'The %s attribute must be %s' % (attr, exp)
+                    'The %s attribute must be %s - TR pag. 9' % (attr, exp)
                 )
 
     def test_NameIDPolicy(self):
@@ -376,27 +428,27 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         e = self.doc.xpath('//AuthnRequest/NameIDPolicy')
         self._assertTrue(
             (len(e) == 1),
-            'One Issuer element must be present'
+            'One NameIDPolicy element must be present - TR pag. 9'
         )
 
         e = e[0]
 
         self._assertTrue(
             ('AllowCreate' not in e.attrib),
-            'The AllowCreate attribute must not be present'
+            'The AllowCreate attribute must not be present - AV n°5 '
         )
 
         attr = 'Format'
         self._assertTrue(
             (attr in e.attrib),
-            'The %s attribute must be present' % attr
+            'The %s attribute must be present - TR pag. 9' % attr
         )
 
         value = e.get(attr)
 
         self._assertIsNotNone(
             value,
-            'The %s attribute must have a value' % attr
+            'The %s attribute must have a value - TR pag. 9' % attr
         )
 
         if attr == 'Format':
@@ -404,7 +456,7 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             self._assertEqual(
                 value,
                 exp,
-                'The %s attribute must be %s' % (attr, exp)
+                'The %s attribute must be %s - TR pag. 9' % (attr, exp)
             )
 
     def test_Conditions(self):
@@ -415,7 +467,7 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             self._assertEqual(
                 len(1),
                 1,
-                'Only one Conditions element is allowed'
+                'Only one Conditions element is allowed - TR pag. 9'
             )
 
         if len(e) == 1:
@@ -423,19 +475,19 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             for attr in ['NotBefore', 'NotOnOrAfter']:
                 self._assertTrue(
                     (attr in e.attrib),
-                    'The %s attribute must be present' % attr
+                    'The %s attribute must be present - TR pag. 9' % attr
                 )
 
                 value = e.get(attr)
 
                 self._assertIsNotNone(
                     value,
-                    'The %s attribute must have a value' % attr
+                    'The %s attribute must have a value - TR pag. 9' % attr
                 )
 
                 self._assertTrue(
                     bool(common.regex.UTC_STRING.search(value)),
-                    'The %s attribute must have avalid UTC string' % attr
+                    'The %s attribute must have avalid UTC string - TR pag. 9' % attr
                 )
 
     def test_RequestedAuthnContext(self):
@@ -445,7 +497,7 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         self._assertEqual(
             len(e),
             1,
-            'Only one RequestedAuthnContex element must be present'
+            'Only one RequestedAuthnContext element must be present - TR pag. 9'
         )
 
         e = e[0]
@@ -453,20 +505,20 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         attr = 'Comparison'
         self._assertTrue(
             (attr in e.attrib),
-            'The %s attribute must be present' % attr
+            'The %s attribute must be present - TR pag. 10' % attr
         )
 
         value = e.get(attr)
         self._assertIsNotNone(
             value,
-            'The %s attribute must have a value' % attr
+            'The %s attribute must have a value - TR pag. 10' % attr
         )
 
         allowed = ['exact', 'minimum', 'better', 'maximum']
         self._assertIn(
             value,
             allowed,
-            (('The %s attribute must be one of [%s]') %
+            (('The %s attribute must be one of [%s] - TR pag. 10') %
              (attr, ', '.join(allowed)))
         )
 
@@ -474,19 +526,19 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         self._assertEqual(
             len(acr),
             1,
-            'Only one AuthnContexClassRef element must be present'
+            'Only one AuthnContexClassRef element must be present - TR pag. 9'
         )
 
         acr = acr[0]
 
         self._assertIsNotNone(
             acr.text,
-            'The AuthnContexClassRef element must have a value'
+            'The AuthnContexClassRef element must have a value - TR pag. 9'
         )
 
         self._assertTrue(
             bool(common.regex.SPID_LEVEL_ALL.search(acr.text)),
-            'The AuthnContextClassRef element must have a valid SPID level'
+            'The AuthnContextClassRef element must have a valid SPID level - TR pag. 9 and AV n°5'
         )
 
     def test_Signature(self):
@@ -495,19 +547,19 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         if not self.IS_HTTP_REDIRECT:
             sign = self.doc.xpath('//AuthnRequest/Signature')
             self._assertTrue((len(sign) == 1),
-                             'The Signature element must be present')
+                             'The Signature element must be present - TR pag. 10')
 
             method = sign[0].xpath('./SignedInfo/SignatureMethod')
             self._assertTrue((len(method) == 1),
-                             'The SignatureMethod element must be present')
+                             'The SignatureMethod element must be present- TR pag. 10')
 
             self._assertTrue(('Algorithm' in method[0].attrib),
                              'The Algorithm attribute must be present '
-                             'in SignatureMethod element')
+                             'in SignatureMethod element - TR pag. 10')
 
             alg = method[0].get('Algorithm')
             self._assertIn(alg, common.constants.ALLOWED_XMLDSIG_ALGS,
-                           (('The signature algorithm must be one of [%s]') %
+                           (('The signature algorithm must be one of [%s] - TR pag. 10') %
                             (', '.join(common.constants.ALLOWED_XMLDSIG_ALGS))))  # noqa
 
             method = sign[0].xpath('./SignedInfo/Reference/DigestMethod')
@@ -516,24 +568,28 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
 
             self._assertTrue(('Algorithm' in method[0].attrib),
                              'The Algorithm attribute must be present '
-                             'in DigestMethod element')
+                             'in DigestMethod element - TR pag. 10')
 
             alg = method[0].get('Algorithm')
             self._assertIn(alg, common.constants.ALLOWED_DGST_ALGS,
-                           (('The digest algorithm must be one of [%s]') %
+                           (('The digest algorithm must be one of [%s] - TR pag. 10') %
                             (', '.join(common.constants.ALLOWED_DGST_ALGS))))
 
             # save the grubbed certificate for future alanysis
             cert = sign[0].xpath('./KeyInfo/X509Data/X509Certificate')[0]
             dump_pem.dump_request_pem(cert, 'authn', 'signature', DATA_DIR)
 
-
     def test_RelayState(self):
         '''Test the compliance of RelayState parameter'''
 
-        if (('RelayState' in self.params) and (self.params.get('RelayState')[0].find('http') != -1 )):
-          self.fail('RelayState must not be immediately intelligible')
-
+        if ('RelayState' in self.params):
+            relaystate = self.params.get('RelayState')[0]
+            self._assertTrue(
+                (relaystate.find('http') == -1 ),
+                'RelayState must not be immediately intelligible - TR pag. 14 or pag. 15'
+            )
+        else:
+            self._assertTrue(False, 'RelayState is missing - TR pag. 14 or pag. 15')
 
     def test_Scoping(self):
         '''Test the compliance of Scoping element'''
@@ -542,7 +598,7 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         self._assertEqual(
             len(e),
             0,
-            'The Scoping element must not be present'
+            'The Scoping element must not be present - AV n°5'
         )
 
     def test_RequesterID(self):
@@ -552,5 +608,5 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
         self._assertEqual(
             len(e),
             0,
-            'The RequesterID  element must not be present'
+            'The RequesterID  element must not be present - AV n°5'
         )

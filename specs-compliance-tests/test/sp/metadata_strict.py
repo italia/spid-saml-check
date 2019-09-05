@@ -192,7 +192,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                         'EntityDescriptor',
                         METADATA])
         is_valid = True
-        msg = 'the metadata signature must be valid'
+        msg = 'the metadata signature must be valid - TR pag. 19'
         try:
             subprocess.run(cmd, shell=True, check=True, stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE)
@@ -234,43 +234,43 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
 
         e = self.doc.xpath('//EntityDescriptor')
         self._assertEqual(len(e), 1,
-                          'Only one EntityDescriptor element must be present')
+                          'Only one EntityDescriptor element must be present - TR pag. 19')
         self._assertTrue(('entityID' in e[0].attrib),
-                         'The entityID attribute must be present')
+                         'The entityID attribute must be present - TR pag. 19')
         a = e[0].get('entityID')
-        self._assertIsNotNone(a, 'The entityID attribute must have a value')
+        self._assertIsNotNone(a, 'The entityID attribute must have a value - TR pag. 19')
 
     def test_Signature(self):
         '''Test the compliance of Signature element'''
 
         sign = self.doc.xpath('//EntityDescriptor/Signature')
         self._assertTrue((len(sign) == 1),
-                         'The Signature element must be present')
+                         'The Signature element must be present - TR pag. 19')
 
         method = sign[0].xpath('./SignedInfo/SignatureMethod')
         self._assertTrue((len(method) == 1),
-                         'The SignatureMethod element must be present')
+                         'The SignatureMethod element must be present - TR pag. 19')
 
         self._assertTrue(('Algorithm' in method[0].attrib),
                          'The Algorithm attribute must be present '
-                         'in SignatureMethod element')
+                         'in SignatureMethod element - TR pag. 19')
 
         alg = method[0].get('Algorithm')
         self._assertIn(alg, constants.ALLOWED_XMLDSIG_ALGS,
-                       (('The signature algorithm must be one of [%s]') %
+                       (('The signature algorithm must be one of [%s] - TR pag. 19') %
                         (', '.join(constants.ALLOWED_XMLDSIG_ALGS))))
 
         method = sign[0].xpath('./SignedInfo/Reference/DigestMethod')
         self._assertTrue((len(method) == 1),
-                         'The DigestMethod element must be present')
+                         'The DigestMethod element must be present - TR pag. 19')
 
         self._assertTrue(('Algorithm' in method[0].attrib),
                          'The Algorithm attribute must be present '
-                         'in DigestMethod element')
+                         'in DigestMethod element - TR pag. 19')
 
         alg = method[0].get('Algorithm')
         self._assertIn(alg, constants.ALLOWED_DGST_ALGS,
-                       (('The digest algorithm must be one of [%s]') %
+                       (('The digest algorithm must be one of [%s] - TR pag. 19') %
                         (', '.join(constants.ALLOWED_DGST_ALGS))))
 
         # save the grubbed certificate for future alanysis
@@ -286,19 +286,19 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
 
         for attr in ['protocolSupportEnumeration', 'AuthnRequestsSigned']:
             self._assertTrue((attr in spsso[0].attrib),
-                             'The %s attribute must be present' % attr)
+                             'The %s attribute must be present - TR pag. 20' % attr)
 
             a = spsso[0].get(attr)
             self._assertIsNotNone(
                 a,
-                'The %s attribute must have a value' % attr
+                'The %s attribute must have a value - TR pag. 20' % attr
             )
 
             if attr == 'AuthnRequestsSigned':
                 self._assertEqual(
                     a.lower(),
                     'true',
-                    'The %s attribute must be true' % attr
+                    'The %s attribute must be true - TR pag. 20' % attr
                 )
 
     def test_KeyDescriptor(self):
@@ -308,13 +308,13 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                              '/KeyDescriptor[@use="signing"]')
         self._assertGreaterEqual(len(kds), 1,
                                  'At least one signing KeyDescriptor '
-                                 'must be present')
+                                 'must be present - TR pag. 19')
 
         for kd in kds:
             certs = kd.xpath('./KeyInfo/X509Data/X509Certificate')
             self._assertGreaterEqual(len(certs), 1,
                                      'At least one signing x509 '
-                                     'must be present')
+                                     'must be present - TR pag. 19')
 
             # save the grubbed certificate for future alanysis
             for cert in certs:
@@ -327,7 +327,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
             certs = kd.xpath('./KeyInfo/X509Data/X509Certificate')
             self._assertGreaterEqual(len(certs), 1,
                                      'At least one encryption x509 '
-                                     'must be present')
+                                     'must be present - TR pag. 19')
 
             # save the grubbed certificate for future alanysis
             for cert in certs:
@@ -341,7 +341,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
         self._assertGreaterEqual(
             len(slos),
             1,
-            'One or more SingleLogoutService elements must be present'
+            'One or more SingleLogoutService elements must be present - AV n° 3'
         )
 
         for slo in slos:
@@ -349,7 +349,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                 self._assertTrue((attr in slo.attrib),
                                  'The %s attribute '
                                  'in SingleLogoutService element '
-                                 'must be present' % attr)
+                                 'must be present - AV n° 3' % attr)
 
                 a = slo.get(attr)
                 self._assertIsNotNone(
@@ -363,7 +363,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                     self._assertIn(
                         a,
                         constants.ALLOWED_SINGLELOGOUT_BINDINGS,
-                        (('The %s attribute in SingleLogoutService element must be one of [%s]') %  # noqa
+                        (('The %s attribute in SingleLogoutService element must be one of [%s] - AV n° 3') %  # noqa
                          (attr, ', '.join(constants.ALLOWED_BINDINGS)))  # noqa
                     )
                 if attr == 'Location':
@@ -371,7 +371,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                         a,
                         'The %s attribute '
                         'in SingleLogoutService element '
-                        'must be a valid URL' % attr
+                        'must be a valid URL - AV n° 1 and n° 3' % attr
                     )
 
 
@@ -382,28 +382,28 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                               '/AssertionConsumerService')
         self._assertGreaterEqual(len(acss), 1,
                                  'At least one AssertionConsumerService '
-                                 'must be present')
+                                 'must be present - TR pag. 20')
 
         for acs in acss:
             for attr in ['index', 'Binding', 'Location']:
                 self._assertTrue((attr in acs.attrib),
-                                 'The %s attribute must be present' % attr)
+                                 'The %s attribute must be present - TR pag. 20' % attr)
                 a = acs.get(attr)
                 if attr == 'index':
                     self._assertGreaterEqual(
                         int(a),
                         0,
-                        'The %s attribute must be >= 0' % attr
+                        'The %s attribute must be >= 0 - TR pag. 20' % attr
                     )
                 elif attr == 'Binding':
                     self._assertIn(a, constants.ALLOWED_BINDINGS,
-                                   (('The %s attribute must be one of [%s]') %
+                                   (('The %s attribute must be one of [%s] - TR pag. 20') %
                                     (attr,
                                      ', '.join(constants.ALLOWED_BINDINGS))))
                 elif attr == 'Location':
                     self._assertIsValidHttpsUrl(a,
                                                 'The %s attribute must be a '
-                                                'valid HTTPS url' % attr)
+                                                'valid HTTPS url - TR pag. 20 and AV n° 1' % attr)
                 else:
                     pass
 
@@ -412,7 +412,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                               '[@isDefault="true"]')
         self._assertTrue((len(acss) == 1),
                          'Only one default AssertionConsumerService '
-                         'must be present')
+                         'must be present - TR pag. 20')
 
         acss = self.doc.xpath('//EntityDescriptor/SPSSODescriptor'
                               '/AssertionConsumerService'
@@ -420,7 +420,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                               '[@isDefault="true"]')
         self._assertTrue((len(acss) == 1),
                          'Must be present the default AssertionConsumerService '
-                         'with index = 0')
+                         'with index = 0 - TR pag. 20')
 
     def test_AttributeConsumingService(self):
         '''Test the compliance of AttributeConsumingService element(s)'''
@@ -430,7 +430,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
         self._assertGreaterEqual(
             len(acss),
             1,
-            'One or more AttributeConsumingService elements must be present'
+            'One or more AttributeConsumingService elements must be present - TR pag. 20'
         )
 
         for acs in acss:
@@ -444,31 +444,31 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                 idx,
                 0,
                 'The index attribute in AttributeConsumigService '
-                'element must be >= 0'
+                'element must be >= 0 - TR pag. 20'
             )
 
             sn = acs.xpath('./ServiceName')
             self._assertTrue((len(sn) == 1),
-                             'The ServiceName element must be present')
+                             'The ServiceName element must be present - TR pag. 20')
             self._assertIsNotNone(sn[0].text,
-                                  'The ServiceName element must have a value')
+                                  'The ServiceName element must have a value - TR pag. 20')
 
             ras = acs.xpath('./RequestedAttribute')
             self._assertGreaterEqual(
                 len(ras),
                 1,
-                'One or more RequestedAttribute elements must be present'
+                'One or more RequestedAttribute elements must be present - TR pag. 20'
             )
             for ra in ras:
                 self._assertTrue(('Name' in ra.attrib),
                                  'The Name attribute in '
                                  'RequestedAttribute element '
-                                 'must be present')
+                                 'must be present - TR pag. 20 and AV n° 6')
 
                 self._assertIn(ra.get('Name'), constants.SPID_ATTRIBUTES,
                                (('The Name attribute '
                                  'in RequestedAttribute element '
-                                 'must be one of [%s]') %
+                                 'must be one of [%s] - TR pag. 20 and AV n°6') %
                                 (', '.join(constants.SPID_ATTRIBUTES))))
 
     def test_Organization(self):
@@ -476,7 +476,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
 
         orgs = self.doc.xpath('//EntityDescriptor/Organization')
         self._assertTrue((len(orgs) <= 1),
-                         'Only one Organization element can be present')
+                         'Only one Organization element can be present - TR pag. 20')
 
         if len(orgs) == 1:
             org = orgs[0]
@@ -486,18 +486,18 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                 self._assertGreater(
                     len(elements),
                     0,
-                    'One or more %s elements must be present' % ename
+                    'One or more %s elements must be present - TR pag. 20' % ename
                 )
 
                 for element in elements:
                     self._assertTrue(
                         ('{http://www.w3.org/XML/1998/namespace}lang' in element.attrib),  # noqa
-                        'The lang attribute in %s element must be present' % ename  # noqa
+                        'The lang attribute in %s element must be present - TR pag. 20' % ename  # noqa
                     )
 
                     self._assertIsNotNone(
                         element.text,
-                        'The %s element must have a value' % ename
+                        'The %s element must have a value  - TR pag. 20' % ename
                     )
 
                     if ename == 'OrganizationURL':
@@ -506,7 +506,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                             OrganizationURLvalue = 'https://'+OrganizationURLvalue
                         self._assertIsValidHttpUrl(
                             OrganizationURLvalue,
-                            'The %s -element must be a valid URL' % ename
+                            'The %s -element must be a valid URL - TR pag. 20' % ename
                         )
 
 
@@ -573,7 +573,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                     {'location': t[1], 'data': data,
                     'service': 'AssertionConsumerService'},
                     ['A+', 'A', 'A-'],
-                    '%s must be reachable and support TLS 1.2.' % t[1]
+                    '%s must be reachable and support TLS 1.2.  - AV n° 1' % t[1]
                 )
                 index += 1
 

@@ -163,13 +163,13 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
                 'The %s attribute must be present' % attr
             )
 
-            a = spsso.get(attr)
-            self._assertIsNotNone(
-                a,
-                'The %s attribute must have a value' % attr
-            )
-
             if attr == 'protocolSupportEnumeration':
+                a = spsso.get(attr)
+                self._assertIsNotNone(
+                    a,
+                    'The %s attribute must have a value' % attr
+                )
+
                 self._assertEqual(
                     a,
                     'urn:oasis:names:tc:SAML:2.0:protocol',
@@ -178,6 +178,12 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
                 )
 
             if attr == 'WantAssertionsSigned':
+                a = spsso.get(attr)
+                self._assertIsNotNone(
+                    a,
+                    'The %s attribute must have a value' % attr
+                )
+
                 self._assertEqual(
                     a.lower(),
                     'true',
