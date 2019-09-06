@@ -256,8 +256,6 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                 index = acs.get('index')
                 availableassertionindexes.append(index)
 
-            print("Available Indexes: ", availableassertionindexes)
-
             self._assertIsNotNone(
                 value,
                 'The %s attribute must have a value- TR pag. 8 ' % attr
@@ -278,9 +276,6 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             for acs in acss:
                 location = acs.get('Location')
                 availableassertionlocations.append(location)
-
-            print("Available Indexes: ", availableassertionlocations)
-
 
             for attr in ['AssertionConsumerServiceURL', 'ProtocolBinding']:
                 self._assertTrue(
@@ -323,8 +318,6 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                 index = acs.get('index')
                 availableattributeindexes.append(index)
 
-            print("Available Indexes: ", availableattributeindexes)
-
             value = req.get(attr)
             self._assertIsNotNone(
                 value,
@@ -338,7 +331,7 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
             self._assertTrue(value in availableattributeindexes,
                 'The %s attribute must be equal to an AttributeConsumingService index - TR pag. 8 ' % attr
             )
-      
+
     def test_Subject(self):
         '''Test the compliance of Subject element'''
 

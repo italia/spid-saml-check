@@ -101,3 +101,23 @@ ONE_YEAR = 365
 
 MINIMUM_CERTIFICATE_LENGHT = 1024  # type: int
 DESIRED_CERTIFICATE_LENGHT = 2048  # type: int
+
+FICEP_MINIMUM_SET_SERVICENAME = 'eIDAS Natural Person Minimum Attribute Set'
+FICEP_FULL_SET_SERVICENAME = 'eIDAS Natural Person Full Attribute Set'
+
+FICEP_MIN_ATTRIBUTES = [
+    'spidCode',
+    'name',
+    'familyName',
+    'dateOfBirth',
+]
+
+FICEP_FULL_ATTRIBUTES = [
+    'spidCode',
+    'name',
+    'familyName',
+    'dateOfBirth',
+    'placeOfBirth',
+    'address',
+    'gender',
+]

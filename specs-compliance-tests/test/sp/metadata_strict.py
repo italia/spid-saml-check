@@ -459,6 +459,7 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                 1,
                 'One or more RequestedAttribute elements must be present - TR pag. 20'
             )
+
             for ra in ras:
                 self._assertTrue(('Name' in ra.attrib),
                                  'The Name attribute in '
@@ -470,6 +471,13 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
                                  'in RequestedAttribute element '
                                  'must be one of [%s] - TR pag. 20 and AV n°6') %
                                 (', '.join(constants.SPID_ATTRIBUTES))))
+
+            al = acs.xpath('RequestedAttribute/@Name')
+            self._assertEqual(
+                len(al),
+                len(set(al)),
+                'AttributeConsumigService must not contain duplicated RequestedAttribute - TR pag. 20'
+            )
 
     def test_Organization(self):
         '''Test the compliance of Organization element'''
@@ -582,4 +590,4 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
             currently_in_analysis = 0
 
         end = datetime.datetime.now().replace(microsecond=0)
-        print('TLS evaluated in %s seconds', (end - start))
+        #print('TLS evaluated in %s seconds', (end - start))
