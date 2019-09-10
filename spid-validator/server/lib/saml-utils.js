@@ -238,7 +238,7 @@ class RequestParser {
         let samlp = (this.request.type==1)? "AuthnRequest" : "LogoutRequest";
         let doc = new DOMParser().parseFromString(this.request.xml);
         let issuer = select("string(//samlp:" + samlp + "/saml:Issuer)", doc);
-        return issuer;
+        return issuer.trim();
     }
 
     AuthnContextClassRef() { // only for type 1

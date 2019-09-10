@@ -14,7 +14,7 @@ String.prototype.replaceAll = function(search, replacement) {
 
 String.prototype.normalize = function() {
     var target = this;
-    return target.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+    return target.replace(/[^a-z0-9]/gi, "_").toLowerCase().trim();
 }
 
 class Utils {
@@ -75,6 +75,8 @@ class Utils {
             //cmd+=",generate-global-json-report";
              
             child_process.exec(cmd, function (err, stdout, stderr) {
+                console.log("\n\n>>> " + cmd);
+                console.log(stdout);
                 if(err!=null && stderr!=null && stderr!="") {
                     return reject(stderr);
                 } else {
@@ -96,6 +98,8 @@ class Utils {
             //cmd+=",generate-global-json-report";
              
             child_process.exec(cmd, function (err, stdout, stderr) {
+                console.log("\n\n>>> " + cmd);
+                console.log(stdout);
                 return resolve(stdout);
             });
         });
