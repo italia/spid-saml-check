@@ -877,7 +877,7 @@
             },
             "30": {
                 "name": "30. Response - Attributo Format di Issuer diverso",
-                "description": "Attributo Format di Issuer presente e diverso da urn:oasis:names:tc:SAML:2.0:nameid-format:entity. Risultato atteso: KO",
+                "description": "L'attributo Format di Issuer deve essere presente con il valore urn:oasis:names:tc:SAML:2.0:nameid-format:entity. In questo test invece il valore è diverso. Risultato atteso: KO",
                 "path": "test/case-30.xml",
                 "response": {
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
@@ -906,7 +906,7 @@
             },
             "32": {
                 "name": "32. Response - Elemento Assertion mancante",
-                "description": "Elemento Assertion mancante ed esito positivo autenticazione . Risultato atteso: KO",
+                "description": "Elemento Assertion mancante ed esito positivo autenticazione. Risultato atteso: KO",
                 "path": "test/case-32.xml",
                 "response": {
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
@@ -2036,7 +2036,7 @@
             },
            "72": {
                 "name": "72. Assertion - Attributo Format di Issuer diverso",
-                "description": "Attributo Format di Issuer dell'Assertion diverso da urn:oasis:names:tc:SAML:2.0:nameid-format:entity. Risultato atteso: KO",
+                "description": "L'attributo Format di Issuer dell'Assertion deve essere presente con il valore urn:oasis:names:tc:SAML:2.0:nameid-format:entity. In questo test, invece, il valore è diverso. Risultato atteso: KO",
                 "path": "test/case-72.xml",
                 "response": {
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
