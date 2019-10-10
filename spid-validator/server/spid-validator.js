@@ -150,6 +150,7 @@ app.post("/samlsso", function (req, res) {
             }        
 
             req.session.metadata = null;
+            req.session.show = req.query.show;
 
             let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
                                 "&RelayState=" + encodeURIComponent(relayState);
@@ -220,6 +221,7 @@ app.get("/samlsso", function (req, res) {
             }        
 
             req.session.metadata = null;
+            req.session.show = req.query.show;            
 
             let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
                                 "&RelayState=" + encodeURIComponent(relayState) + 
@@ -755,6 +757,7 @@ app.post("/api/sign", function(req, res) {
 app.get("/login", (req, res)=> {
     
     if(config_idp.agidloginAuthentication) {
+        if(req.session.show) authenticator.setIssuer(req.session.show);
         res.redirect(authenticator.getAuthURL());
 
     } else {

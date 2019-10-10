@@ -24,16 +24,27 @@ class AgIDLoginAuthenticator {
 
         this.tokenSet = null;
 
-        let issuer = new Issuer({ 
-            issuer: 'https://login.agid.gov.it',
-            authorization_endpoint: 'https://login.agid.gov.it/auth?show=agid',
-            token_endpoint: 'https://login.agid.gov.it/token',
-            userinfo_endpoint: 'https://login.agid.gov.it/userinfo',
-            jwks_uri: 'https://login.agid.gov.it/certs',
-            end_session_endpoint: 'https://login.agid.gov.it/session/end'
-        });
+        this.issuer = 'https://login.agid.gov.it';
+        this.authorization_endpoint = 'https://login.agid.gov.it/auth';
+        this.token_endpoint = 'https://login.agid.gov.it/token';
+        this.userinfo_endpoint = 'https://login.agid.gov.it/userinfo';
+        this.jwks_uri = 'https://login.agid.gov.it/certs';
+        this.end_session_endpoint = 'https://login.agid.gov.it/session/end';
 
-        
+        this.setIssuer();
+
+    }
+
+    setIssuer(show='agid') {
+
+        let issuer = new Issuer({ 
+            issuer: this.issuer,
+            authorization_endpoint: this.authorization_endpoint + '?show=' + show,
+            token_endpoint: this.token_endpoint,
+            userinfo_endpoint: this.userinfo_endpoint,
+            jwks_uri: this.jwks_uri,
+            end_session_endpoint: this.end_session_endpoint
+        });
 
         this.client = new issuer.Client({
             client_id: this.client_id,
