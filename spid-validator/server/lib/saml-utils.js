@@ -61,7 +61,7 @@ class TestSuite {
                         userParam!=null) {
 
                         if(attributeVal!=null) {
-                            if(attributeName=="dateOfBirth") {
+                            if(attributeName=="dateOfBirth" || attributeName=="expirationDate") {
                                 attributesCompiled += " \
                                     <saml:Attribute Name=\"" + attributeName + "\" ";
                                         if(attributesNameFormat) attributesCompiled += " NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:basic\"";
