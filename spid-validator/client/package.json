@@ -30,7 +30,7 @@
     "webpack-dev-server": "2.9.7"
   },
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.19.0",
     "bootstrap": "4.0.0-beta.3",
     "chart.js": "^2.7.2",
     "circular-json": "^0.5.1",
