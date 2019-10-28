@@ -877,7 +877,7 @@
             },
             "30": {
                 "name": "30. Response - Attributo Format di Issuer diverso",
-                "description": "L'attributo Format di Issuer deve essere presente con il valore urn:oasis:names:tc:SAML:2.0:nameid-format:entity. In questo test invece il valore è diverso. Risultato atteso: KO",
+                "description": "L'attributo Format di Issuer deve essere omesso o assumere valore urn:oasis:names:tc:SAML:2.0:nameid-format:entity. In questo test il valore è diverso. Risultato atteso: KO",
                 "path": "test/case-30.xml",
                 "response": {
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
