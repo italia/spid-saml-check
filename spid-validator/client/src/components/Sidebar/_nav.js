@@ -14,17 +14,17 @@ export default {
         {
           name: 'Check Strict',  
           url: '/metadata-sp-check-strict',  
-          sessionRequired: true     
+          sessionRequired: false     
         },
         {
           name: 'Check Certificates',  
           url: '/metadata-sp-check-certs',     
-          sessionRequired: true  
+          sessionRequired: false  
         },
         {
           name: 'Check Extra',  
           url: '/metadata-sp-check-extra',
-          sessionRequired: true 
+          sessionRequired: false 
         }
       ]
     },
