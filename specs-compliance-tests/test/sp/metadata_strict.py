@@ -443,10 +443,11 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
             )
 
             sn = acs.xpath('./ServiceName')
-            self._assertTrue((len(sn) == 1),
+            self._assertTrue((len(sn) > 0),
                              'The ServiceName element must be present')
-            self._assertIsNotNone(sn[0].text,
-                                  'The ServiceName element must have a value')
+            for sns in sn:        
+                self._assertIsNotNone(sns.text,
+                                    'The ServiceName element must have a value')
 
             ras = acs.xpath('./RequestedAttribute')
             self._assertGreaterEqual(
