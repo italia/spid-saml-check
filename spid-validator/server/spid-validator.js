@@ -761,7 +761,9 @@ app.get("/login", (req, res)=> {
         let user		= req.query.user;
         let password	= req.query.password;
         
-        if(user==config_idp.localloginUser && password==config_idp.localloginPasswordHash) {
+        if((user==config_idp.localloginUser && password==config_idp.localloginPasswordHash)
+            ||(user==config_idp.localloginUser2 && password==config_idp.localloginPasswordHash2)
+        ) {
             let resobj = {
                 apikey: sha256(config_idp.localloginUser + config_idp.localloginPasswordHash).toString()
             }				
