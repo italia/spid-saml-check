@@ -231,10 +231,9 @@ class TestAuthnRequest(unittest.TestCase, common.wrap.TestCaseWrap):
                 'The ForceAuthn attribute must be present if SPID level > 1'
             )
             value = req.get('ForceAuthn')
-            self._assertEqual(
-                value.lower(),
-                'true',
-                'The ForceAuthn attribute must be true'
+            self._assertTrue(
+                value.lower()=='true' or value.lower()=='1',
+                'The ForceAuthn attribute must be true or 1'
             )
 
         attr = 'AssertionConsumerServiceIndex'
