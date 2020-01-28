@@ -6,9 +6,10 @@ const xmldom = require("xmldom");
 const xpath = require("xpath");
 const DOMParser = xmldom.DOMParser;
 const select = xpath.useNamespaces(namespaces);
-
+const zlib = require("zlib");
 const path = require("path");
 const fs = require("fs");
+
 
 
 class TestSuite {
@@ -236,14 +237,18 @@ class RequestParser {
     ID() {
         let samlp = (this.request.type==1)? "AuthnRequest" : "LogoutRequest";
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let requestID = select("//samlp:" + samlp, doc)[0].getAttribute("ID");
+        let requestID = select("//samlp:" + samlp, doc)[0];
+        if(requestID!=null) requestID = requestID.getAttribute("ID") 
+        else requestID = undefined;
         return requestID;
     }
 
     IssueInstant() {
         let samlp = (this.request.type==1)? "AuthnRequest" : "LogoutRequest";
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let requestIssueInstant = select("//samlp:" + samlp, doc)[0].getAttribute("IssueInstant");
+        let requestIssueInstant = select("//samlp:" + samlp, doc)[0];
+        if(requestIssueInstant!=null) requestIssueInstant = requestIssueInstant.getAttribute("IssueInstant") 
+        else requestIssueInstant = undefined;
         return requestIssueInstant;
     }
 
@@ -262,19 +267,25 @@ class RequestParser {
 
     AssertionConsumerServiceURL() { // only for type 1
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let requestAssertionConsumerServiceURL = select("//samlp:AuthnRequest", doc)[0].getAttribute("AssertionConsumerServiceURL");
+        let requestAssertionConsumerServiceURL = select("//samlp:AuthnRequest", doc)[0];
+        if(requestAssertionConsumerServiceURL!=null) requestAssertionConsumerServiceURL = requestAssertionConsumerServiceURL.getAttribute("AssertionConsumerServiceURL") 
+        else requestAssertionConsumerServiceURL = undefined;
         return requestAssertionConsumerServiceURL;
     }
 
     AssertionConsumerServiceIndex() { // only for type 1
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let requestAssertionConsumerServiceIndex = select("//samlp:AuthnRequest", doc)[0].getAttribute("AssertionConsumerServiceIndex");
+        let requestAssertionConsumerServiceIndex = select("//samlp:AuthnRequest", doc)[0];
+        if(requestAssertionConsumerServiceIndex!=null) requestAssertionConsumerServiceIndex = requestAssertionConsumerServiceIndex.getAttribute("AssertionConsumerServiceIndex") 
+        else requestAssertionConsumerServiceIndex = undefined;
         return requestAssertionConsumerServiceIndex;
     }
 
     AttributeConsumingServiceIndex() { // only for type 1
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let requestAttributeConsumingServiceIndex = select("//samlp:AuthnRequest", doc)[0].getAttribute("AttributeConsumingServiceIndex");
+        let requestAttributeConsumingServiceIndex = select("//samlp:AuthnRequest", doc)[0];
+        if(requestAttributeConsumingServiceIndex!=null) requestAttributeConsumingServiceIndex = requestAttributeConsumingServiceIndex.getAttribute("AttributeConsumingServiceIndex") 
+        else requestAttributeConsumingServiceIndex = undefined;
         return requestAttributeConsumingServiceIndex;
     }
 }
@@ -301,6 +312,14 @@ class IdP {
     
     getMetadata() {
         return this.idp.produceIDPMetadata(true);
+    }
+
+    getLogoutResponseURL(url, SAMLResponse, sigAlg, signature, relayState) {
+        let qs = "SAMLResponse=" + encodeURIComponent(zlib.deflateRawSync(SAMLResponse).toString("base64"));
+        qs += "&SigAlg=" + encodeURIComponent(sigAlg);
+        qs += "&Signature=" + encodeURIComponent(signature); 
+        qs += "&RelayState=" + encodeURIComponent(relayState);
+        return url + "?" + qs;
     }
 }
 

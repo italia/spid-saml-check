@@ -3,7 +3,8 @@ const signing = require("./saml-protocol/util/signing");
 const SIGN_MODE = {
     SIGN_RESPONSE: 0,
     SIGN_ASSERTION: 1,
-    SIGN_RESPONSE_ASSERTION: 2
+    SIGN_RESPONSE_ASSERTION: 2,
+    GET_SIGNATURE: 3
 }
 
 
@@ -26,6 +27,9 @@ class Signer {
             case 2: 
                 signed = this.singleSign(xml, "Assertion"); 
                 signed = this.singleSign(signed, "Response"); 
+                break;
+            case 3: 
+                signed = this.getSignature(xml); 
                 break;
         }
         return signed;
@@ -69,7 +73,13 @@ class Signer {
         }
 
         return signed;    
-    }      
+    } 
+    
+    getSignature(xml) {
+        let privateKey = this.signatureOptions.privateKey;
+        let sigAlg = this.signatureOptions.signatureAlgorithm;
+        return signing.createURLSignature(privateKey, xml, sigAlg);
+    }
 }
 
 

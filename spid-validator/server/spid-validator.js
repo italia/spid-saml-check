@@ -134,20 +134,21 @@ app.post("/samlsso", function (req, res) {
         let requestIssueInstant = requestParser.IssueInstant();
         let requestIssuer = requestParser.Issuer();
 
-        if(requestParser.isAuthnRequest()) {
-            let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
-            let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
-            let requestAssertionConsumerServiceIndex = requestParser.AssertionConsumerServiceIndex();
-            req.session.request = {
-                id: requestID,
-                issueInstant: requestIssueInstant,
-                issuer: requestIssuer,
-                authnContextClassRef: requestAuthnContextClassRef,
-                assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
-                assertionConsumerServiceIndex: requestAssertionConsumerServiceIndex,
-                xml: xml,
-                relayState: relayState
-            }        
+        let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
+        let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
+        let requestAssertionConsumerServiceIndex = requestParser.AssertionConsumerServiceIndex();
+        req.session.request = {
+            id: requestID,
+            issueInstant: requestIssueInstant,
+            issuer: requestIssuer,
+            authnContextClassRef: requestAuthnContextClassRef,
+            assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
+            assertionConsumerServiceIndex: requestAssertionConsumerServiceIndex,
+            xml: xml,
+            relayState: relayState
+        } 
+
+        if(requestParser.isAuthnRequest()) {     
 
             req.session.metadata = null;
 
@@ -158,20 +159,14 @@ app.post("/samlsso", function (req, res) {
 
         } else if(requestParser.isLogoutRequest()) {
 
-            if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
+            if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
                 let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
                 if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
             }
 
             if(req.session.metadata!=null) {
-                let metadataParser = new MetadataParser(req.session.metadata.xml);
-                singleLogoutService = metadataParser.getSingleLogoutServiceURL();
-                req.session.destroy();
-
-                // TODO: make logout response and send it to SP
-
-                res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
-
+                sendLogoutResponse(req, res);
+                //res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
             } else {
                 req.session.destroy();
                 res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
@@ -204,20 +199,21 @@ app.get("/samlsso", function (req, res) {
         let requestIssueInstant = requestParser.IssueInstant();
         let requestIssuer = requestParser.Issuer();
 
-        if(requestParser.isAuthnRequest()) {
-            let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
-            let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
-            let requestAssertionConsumerServiceIndex = requestParser.AssertionConsumerServiceIndex();
-            req.session.request = {
-                id: requestID,
-                issueInstant: requestIssueInstant,
-                authnContextClassRef: requestAuthnContextClassRef,
-                issuer: requestIssuer,
-                assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
-                assertionConsumerServiceIndex: requestAssertionConsumerServiceIndex,
-                xml: xml,
-                relayState: relayState
-            }        
+        let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
+        let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
+        let requestAssertionConsumerServiceIndex = requestParser.AssertionConsumerServiceIndex();
+        req.session.request = {
+            id: requestID,
+            issueInstant: requestIssueInstant,
+            authnContextClassRef: requestAuthnContextClassRef,
+            issuer: requestIssuer,
+            assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
+            assertionConsumerServiceIndex: requestAssertionConsumerServiceIndex,
+            xml: xml,
+            relayState: relayState
+        }  
+
+        if(requestParser.isAuthnRequest()) {    
 
             req.session.metadata = null;          
 
@@ -229,24 +225,18 @@ app.get("/samlsso", function (req, res) {
             res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
 
         } else if(requestParser.isLogoutRequest()) {
-
-            if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
+            
+            if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
                 let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
                 if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
             }
 
             if(req.session.metadata!=null) {
-                let metadataParser = new MetadataParser(req.session.metadata.xml);
-                singleLogoutService = metadataParser.getSingleLogoutServiceURL();
-                req.session.destroy();
-
-                // TODO: make logout response and send it to SP
-
-                res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
-
+                sendLogoutResponse(req, res);
+                //res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
             } else {
                 req.session.destroy();
-                res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
+                res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html")); 
             }
         }
 
@@ -943,6 +933,82 @@ var getMetadataInfo = function(code) {
         store = database.getMetadataByCode(code, "main");
     }
     return store;
+}
+
+var sendLogoutResponse = function(req, res) {
+
+    if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
+
+        // default params if no authnrequest
+        let authnRequestID = (req.session.request!=null)? req.session.request.id : Utility.getUUID();
+        let issueInstant = (req.session.request!=null)? req.session.request.issueInstant : Utility.getInstant();
+        let assertionConsumerURL = (req.session.request!=null)? req.session.request.assertionConsumerServiceURL : null;
+        let assertionConsumerIndex = (req.session.request!=null)? req.session.request.assertionConsumerServiceIndex : null;
+        
+        // if no AssertionConsumerURL from request try to get it from metadata
+        if((assertionConsumerURL==null || assertionConsumerURL=="") &&
+            (assertionConsumerIndex!=null && assertionConsumerIndex!="")) {
+
+            if(req.session.metadata!=null) {
+                let metadataParser = new MetadataParser(req.session.metadata.xml);
+                assertionConsumerURL = metadataParser.getAssertionConsumerServiceURL(assertionConsumerIndex);
+            }
+        }
+
+        let requestedAttributes = [];
+        let serviceProviderEntityId = "";
+        let singleLogoutServiceURL = [];
+
+        let isMetadataLoaded = (req.session.metadata!=null && req.session.metadata.xml!=null);
+        
+        if(req.session.request!=null && isMetadataLoaded) {
+            let requestParser = new RequestParser(req.session.request.xml);
+            let metadataParser = new MetadataParser(req.session.metadata.xml);
+            serviceProviderEntityId = metadataParser.getServiceProviderEntityId();
+            singleLogoutServiceURL = metadataParser.getSingleLogoutServiceURL();
+
+        } else {
+            requestedAttributes = true;
+        }
+
+        // defaults 
+        let defaults = []; // clone array
+        defaults = Utility.defaultParam(defaults, "ResponseID", Utility.getUUID());
+        defaults = Utility.defaultParam(defaults, "IssueInstant", Utility.getInstant());
+        defaults = Utility.defaultParam(defaults, "Destination", singleLogoutServiceURL[0]);
+        defaults = Utility.defaultParam(defaults, "AuthnRequestID", authnRequestID);
+        defaults = Utility.defaultParam(defaults, "NameQualifier", "https://validator.spid.gov.it");
+        defaults = Utility.defaultParam(defaults, "Issuer", config_idp.entityID);
+        
+        let testSuite = new TestSuite(config_idp, config_test);
+        let logoutResponse = testSuite.getTestTemplate("test-logout", "1", requestedAttributes, defaults, []);
+        let signature = "";
+
+        // defaults
+        sign_response = logoutResponse.sign_response;
+        
+        if(sign_response) {
+            let mode = SIGN_MODE.GET_SIGNATURE;
+            sign_credentials = (logoutResponse.sign_credentials!=null)? 
+                logoutResponse.sign_credentials : config_idp.credentials[0];
+            signer = new Signer(sign_credentials);
+            signature = signer.sign(logoutResponse.compiled, mode); 
+        }           
+
+        req.session.destroy();
+
+        let url = singleLogoutServiceURL[0];
+        let SAMLResponse = logoutResponse.compiled;
+        let sigAlg = sign_credentials.signatureAlgorithm;
+        let relayState = req.query.RelayState;
+
+        let idp = new IdP(config_idp);
+        let logoutURL = idp.getLogoutResponseURL(url, SAMLResponse, sigAlg, signature, relayState);
+        res.redirect(logoutURL);
+        
+    } else {
+        res.status(400).send("Session not found");
+    }          
 }
 
 

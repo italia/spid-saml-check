@@ -3036,5 +3036,28 @@
                 "sign_assertion": false
             } 
         }
-    }
+    },
+
+    "test-logout": {
+        "description": "Test Logout Response",
+        "response": {
+            "ResponseID": "",
+            "IssueInstant": "",
+            "Destination": "",
+            "AuthnRequestID": "",
+            "NameQualifier": "https://validator.spid.gov.it",
+            "Issuer": ""
+        },
+        "cases": {
+            "1": {
+                "name": "01. Logout",
+                "description": "Logout corretto",
+                "path": "test/logout-1.xml",
+                "response": {
+
+                },
+                "sign_response": true
+            }
+        } 
+    }    
 }
