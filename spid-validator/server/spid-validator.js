@@ -982,30 +982,31 @@ var sendLogoutResponse = function(req, res) {
         
         let testSuite = new TestSuite(config_idp, config_test);
         let logoutResponse = testSuite.getTestTemplate("test-logout", "1", requestedAttributes, defaults, []);
-        let signature = "";
+        let signature = null;
 
-        // defaults
-        sign_response = logoutResponse.sign_response;
-        
-        if(sign_response) {
-            let mode = SIGN_MODE.GET_SIGNATURE;
-            sign_credentials = (logoutResponse.sign_credentials!=null)? 
-                logoutResponse.sign_credentials : config_idp.credentials[0];
-            signer = new Signer(sign_credentials);
-            signature = signer.sign(logoutResponse.compiled, mode); 
-        }           
-
-        req.session.destroy();
-
-        let url = singleLogoutServiceURL[0];
+        let idp = new IdP(config_idp);
+        let sign_credentials = (logoutResponse.sign_credentials!=null)? 
+            logoutResponse.sign_credentials : config_idp.credentials[0];
         let SAMLResponse = logoutResponse.compiled;
         let sigAlg = sign_credentials.signatureAlgorithm;
         let relayState = req.query.RelayState;
 
-        let idp = new IdP(config_idp);
+        // defaults
+        sign_response = logoutResponse.sign_response;
+
+        if(sign_response) {
+            let mode = SIGN_MODE.GET_SIGNATURE;
+            let logoutResponsePayload = idp.getLogoutResponsePayload(SAMLResponse, relayState, sigAlg);
+            signer = new Signer(sign_credentials);
+            signature = signer.sign(logoutResponsePayload, mode); 
+        }
+
+        req.session.destroy();
+
+        let url = singleLogoutServiceURL[0];
         let logoutURL = idp.getLogoutResponseURL(url, SAMLResponse, sigAlg, signature, relayState);
         res.redirect(logoutURL);
-        
+
     } else {
         res.status(400).send("Session not found");
     }          

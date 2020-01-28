@@ -315,11 +315,24 @@ class IdP {
     }
 
     getLogoutResponseURL(url, SAMLResponse, sigAlg, signature, relayState) {
-        let qs = "SAMLResponse=" + encodeURIComponent(zlib.deflateRawSync(SAMLResponse).toString("base64"));
-        qs += "&SigAlg=" + encodeURIComponent(sigAlg);
-        qs += "&Signature=" + encodeURIComponent(signature); 
-        qs += "&RelayState=" + encodeURIComponent(relayState);
+        let qs = "";
+
+        if (signature !== null) {
+            qs += this.getLogoutResponsePayload(SAMLResponse, relayState, sigAlg);
+            qs += "&Signature=" + encodeURIComponent(signature);
+        } else {
+            qs += this.getLogoutResponsePayload(SAMLResponse, relayState, null);
+        }
+
         return url + "?" + qs;
+    }
+
+    getLogoutResponsePayload(SAMLResponse, relayState, sigAlg) {
+        let qs = "SAMLResponse=" + encodeURIComponent(zlib.deflateRawSync(SAMLResponse).toString("base64"));
+        qs += "&RelayState=" + encodeURIComponent(relayState);
+        qs += (sigAlg !== null) ? "&SigAlg=" + encodeURIComponent(sigAlg) : "";
+
+        return qs;
     }
 }
 
