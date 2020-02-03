@@ -137,41 +137,27 @@ app.post("/samlsso", function (req, res) {
         let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
         let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
         let requestAssertionConsumerServiceIndex = requestParser.AssertionConsumerServiceIndex();
+
+        let requestType = undefined;
+        if(requestParser.isAuthnRequest()) requestType = 'AUTHN';
+        if(requestParser.isLogoutRequest()) requestType = 'LOGOUT';
+
         req.session.request = {
             id: requestID,
+            binding: 'POST',
+            type: requestType,
             issueInstant: requestIssueInstant,
             issuer: requestIssuer,
             authnContextClassRef: requestAuthnContextClassRef,
             assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
             assertionConsumerServiceIndex: requestAssertionConsumerServiceIndex,
             xml: xml,
+            samlRequest: samlRequest,
             relayState: relayState
         } 
 
-        if(requestParser.isAuthnRequest()) {     
-
-            req.session.metadata = null;
-
-            let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
-                                "&RelayState=" + encodeURIComponent(relayState);
-            fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
-            res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
-
-        } else if(requestParser.isLogoutRequest()) {
-
-            if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
-                let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
-                if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
-            }
-
-            if(req.session.metadata!=null) {
-                sendLogoutResponse(req, res);
-                //res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
-            } else {
-                req.session.destroy();
-                res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
-            }
-        }
+        //res.send("Servizio in corso di verifica.<br/><br/><a href='/start'>Accedi allo strumento di validazione</a>");
+        res.redirect("/start");
 
 	} else {
 		res.sendFile(path.resolve(__dirname, "..", "client/view", "error.html"));
@@ -202,49 +188,102 @@ app.get("/samlsso", function (req, res) {
         let requestAuthnContextClassRef = requestParser.AuthnContextClassRef();
         let requestAssertionConsumerServiceURL = requestParser.AssertionConsumerServiceURL();
         let requestAssertionConsumerServiceIndex = requestParser.AssertionConsumerServiceIndex();
+
+        let requestType = undefined;
+        if(requestParser.isAuthnRequest()) requestType = 'AUTHN';
+        if(requestParser.isLogoutRequest()) requestType = 'LOGOUT';
+
         req.session.request = {
             id: requestID,
+            binding: 'GET',
+            type: requestType,
             issueInstant: requestIssueInstant,
             authnContextClassRef: requestAuthnContextClassRef,
             issuer: requestIssuer,
             assertionConsumerServiceURL: requestAssertionConsumerServiceURL,
             assertionConsumerServiceIndex: requestAssertionConsumerServiceIndex,
             xml: xml,
+            samlRequest: samlRequest,
+            sigAlg: sigAlg,
+            signature: signature,
             relayState: relayState
         }  
 
-        if(requestParser.isAuthnRequest()) {    
-
-            req.session.metadata = null;          
-
-            let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
-                                "&RelayState=" + encodeURIComponent(relayState) + 
-                                "&SigAlg=" + encodeURIComponent(sigAlg) + 
-                                "&Signature=" + encodeURIComponent(signature);
-            fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
-            res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
-
-        } else if(requestParser.isLogoutRequest()) {
-            
-            if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
-                let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
-                if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
-            }
-
-            if(req.session.metadata!=null) {
-                sendLogoutResponse(req, res);
-                //res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
-            } else {
-                req.session.destroy();
-                res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html")); 
-            }
-        }
-
+        //res.send("Servizio in corso di verifica.<br/><br/><a href='/start'>Accedi allo strumento di validazione</a>");
+        res.redirect("/start");
+        
 	} else {
 		res.sendFile(path.resolve(__dirname, "..", "client/view", "error.html"));
     }  
 });
 
+app.get("/start", function (req, res) {
+
+    if(req.session==undefined
+        || req.session.request==undefined
+        || req.session.request.binding==undefined
+        || req.session.request.type==undefined
+        || req.session.request.samlRequest==undefined) {
+            res.sendFile(path.resolve(__dirname, "..", "client/view", "error.html"));
+    } else {
+
+        if(req.session.request.binding=='POST') {
+            if(req.session.request.type=='AUTHN') {     
+                
+                req.session.metadata = null;
+
+                let fileContent = "SAMLRequest=" + encodeURIComponent(req.session.request.samlRequest) + 
+                                    "&RelayState=" + encodeURIComponent(req.session.request.relayState);
+                fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
+                res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
+
+            } else if(type=='LOGOUT') {
+
+                if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
+                    let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
+                    if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
+                }
+
+                if(req.session.metadata!=null) {
+                    sendLogoutResponse(req, res);
+                    //res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
+                } else {
+                    req.session.destroy();
+                    res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
+                }
+            }
+        }
+
+        if(req.session.request.binding=='GET') {
+            if(req.session.request.type=='AUTHN') { 
+            
+                req.session.metadata = null;          
+
+                let fileContent = "SAMLRequest=" + encodeURIComponent(req.session.request.samlRequest) + 
+                                    "&RelayState=" + encodeURIComponent(req.session.request.relayState) + 
+                                    "&SigAlg=" + encodeURIComponent(req.session.request.sigAlg) + 
+                                    "&Signature=" + encodeURIComponent(req.session.request.signature);
+                fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
+                res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
+
+            } else if(req.session.request.type=='LOGOUT') {
+                
+                if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
+                    let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
+                    if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
+                }
+
+                if(req.session.metadata!=null) {
+                    sendLogoutResponse(req, res);
+                    //res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html"));
+                } else {
+                    req.session.destroy();
+                    res.sendFile(path.resolve(__dirname, "..", "client/view", "logout.html")); 
+                }
+            }
+        }
+    }
+});
 
 
 /* API */
@@ -989,7 +1028,7 @@ var sendLogoutResponse = function(req, res) {
             logoutResponse.sign_credentials : config_idp.credentials[0];
         let SAMLResponse = logoutResponse.compiled;
         let sigAlg = sign_credentials.signatureAlgorithm;
-        let relayState = req.query.RelayState;
+        let relayState = req.session.request.relayState;
 
         // defaults
         sign_response = logoutResponse.sign_response;
