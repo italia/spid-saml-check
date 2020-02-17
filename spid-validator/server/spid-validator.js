@@ -237,7 +237,7 @@ app.get("/start", function (req, res) {
                 fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
                 res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
 
-            } else if(type=='LOGOUT') {
+            } else if(req.session.request.type=='LOGOUT') {
 
                 if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
                     let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
