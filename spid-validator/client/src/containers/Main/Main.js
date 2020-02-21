@@ -106,7 +106,7 @@ class Main extends Component {
                 window.print();
             });
 		  }, 
-		  ()=> { // no session
+		  (info)=> { // no session
 			this.setState({
                 infoprint_issuer: 'N/A (validazione solo metadata)',
                 infoprint_metadata: info.metadata,

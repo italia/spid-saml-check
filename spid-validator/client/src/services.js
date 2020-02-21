@@ -61,7 +61,7 @@ class MainService {
 			if(response.data.request) {
 				callback_response(response.data);
 			} else {
-				callback_nosession();
+				callback_nosession(response.data);
 			}
 		})
 		.catch(function(error) {
