@@ -66,8 +66,13 @@ var checkAuthorisation = function(req) {
 	return authorised;
 }
 
-var getEntityDir = function(issuer) {
-    let ENTITY_DIR = DATA_DIR + "/" + issuer.normalize();
+var getEntityDir = function(issuer, temp) {
+    if(temp!=undefined && temp===true) {
+        let ENTITY_DIR = DATA_DIR + "/" + TEMP_DIR + "/" + issuer.normalize();
+    } else {
+        let ENTITY_DIR = DATA_DIR + "/" + issuer.normalize();
+    }
+
     if(!fs.existsSync(ENTITY_DIR)) fs.mkdirSync(ENTITY_DIR);
     return ENTITY_DIR;
 }
@@ -446,7 +451,7 @@ app.get("/api/metadata-sp", function(req, res) {
 
     } else if(req.session!=null && req.session.request==null) { // get metadata if downloaded
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
-        req.session.metadata = fs.readFileSync(getEntityDir(TEMP_DIR + "/" + req.sessionID) + "/sp-metadata.xml", "utf8");
+        req.session.metadata = fs.readFileSync(getEntityDir(req.sessionID, true) + "/sp-metadata.xml", "utf8");
         res.status(200).send(req.session.metadata);
 
     } else {
@@ -469,9 +474,9 @@ app.post("/api/metadata-sp/download", function(req, res) {
 
     } else {
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
-        Utility.metadataDownload(req.body.url, getEntityDir(TEMP_DIR + "/" + req.sessionID) + "/sp-metadata.xml").then(
+        Utility.metadataDownload(req.body.url, getEntityDir(req.sessionID, true) + "/sp-metadata.xml").then(
             (file_name) => {
-                let xml = fs.readFileSync(getEntityDir(TEMP_DIR + "/" + req.sessionID) + "/sp-metadata.xml", "utf8");
+                let xml = fs.readFileSync(getEntityDir(req.sessionID, true) + "/sp-metadata.xml", "utf8");
                 xml = xml.replaceAll("\n", "");
                 req.session.metadata = {
                     url: req.body.url,
@@ -479,7 +484,7 @@ app.post("/api/metadata-sp/download", function(req, res) {
                 }
                 let metadataParser = new MetadataParser(xml);
                 let entityID = metadataParser.getServiceProviderEntityId();
-                fs.copyFileSync(getEntityDir(TEMP_DIR + "/" + req.sessionID) + "/sp-metadata.xml", getEntityDir(entityID) + "/sp-metadata.xml");
+                fs.copyFileSync(getEntityDir(req.sessionID, true) + "/sp-metadata.xml", getEntityDir(entityID) + "/sp-metadata.xml");
                 database.setMetadata(req.session.user, entityID, req.session.external_code, "main", req.body.url, xml);
                 res.status(200).send(xml);
             },
@@ -501,7 +506,13 @@ app.get("/api/metadata-sp/check/:test", function(req, res) {
 		return null;
 	}	
 
-    let issuer = (req.session!=null && req.session.request!=null && req.session.request.issuer!=null)? req.session.request.issuer : TEMP_DIR + "/" + req.sessionID;
+    let issuer = req.sessionID;
+    let temp_issuer = true;
+
+    if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
+        issuer = req.session.request.issuer;
+        temp_issuer = false;
+    }
 
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
@@ -515,9 +526,9 @@ app.get("/api/metadata-sp/check/:test", function(req, res) {
     } else {
 
         switch(test) {
-            case "strict": file = getEntityDir(issuer) + "/sp-metadata-strict.json"; break;
-            case "certs": file = getEntityDir(issuer) + "/sp-metadata-certs.json"; break;
-            case "extra": file = getEntityDir(issuer) + "/sp-metadata-extra.json"; break;
+            case "strict": file = getEntityDir(issuer, temp_issuer) + "/sp-metadata-strict.json"; break;
+            case "certs": file = getEntityDir(issuer, temp_issuer) + "/sp-metadata-certs.json"; break;
+            case "extra": file = getEntityDir(issuer, temp_issuer) + "/sp-metadata-extra.json"; break;
         }
         
         if(file!=null) {
