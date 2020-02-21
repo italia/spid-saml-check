@@ -309,7 +309,7 @@ app.get("/api/info", function(req, res) {
         let info = {
             request: req.session.request,
             metadata: (req.session.metadata)? req.session.metadata.url : undefined,
-            metadata_xml: (req.session.metadata.xml)? req.session.metadata.xml : undefined,
+            metadata_xml: (req.session.metadata)? req.session.metadata.xml : undefined,
             issuer: (req.session.request)? req.session.request.issuer : undefined,
             entity: req.session.entity,
             policy: req.session.policy,
