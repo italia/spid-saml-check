@@ -105,7 +105,16 @@ class Main extends Component {
             }, ()=> {
                 window.print();
             });
-          }, 
+		  }, 
+		  ()=> { // no session
+			this.setState({
+                infoprint_issuer: 'N/A (validazione solo metadata)',
+                infoprint_metadata: info.metadata,
+                infoprint_datetime: moment().format('dddd DD/MM/YYYY - HH:mm:ss')
+            }, ()=> {
+                window.print();
+            });
+		  },
           (error)   => { ;
             Utility.showModal({
                 title: "Errore",
