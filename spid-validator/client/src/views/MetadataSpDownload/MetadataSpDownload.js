@@ -18,6 +18,7 @@ class MetadataSpDownload extends Component {
   }	
 
   componentDidMount() { 
+    let service = Services.getMainService();
     let store = ReduxStore.getMain();
     //let storeState = store.getState();
 
