@@ -65,8 +65,8 @@ class MainService {
 			}
 		})
 		.catch(function(error) {
-			Utility.log("getInfo Error", error.response.data);
-			callback_error((error.response!=null) ? error.response.data : "Service not available");
+			Utility.log("getInfo Error", error);
+			callback_error((error!=null) ? error : "Service not available");
 		});
     }
 	

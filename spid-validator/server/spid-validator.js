@@ -452,9 +452,9 @@ app.post("/api/metadata-sp/download", function(req, res) {
 
     } else {
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
-        Utility.metadataDownload(req.body.url, getEntityDir(TEMP_DIR) + "/sp-metadata.xml").then(
+        Utility.metadataDownload(req.body.url, getEntityDir(TEMP_DIR + "/" + req.sessionID) + "/sp-metadata.xml").then(
             (file_name) => {
-                let xml = fs.readFileSync(getEntityDir(TEMP_DIR) + "/sp-metadata.xml", "utf8");
+                let xml = fs.readFileSync(getEntityDir(TEMP_DIR + "/" + req.sessionID) + "/sp-metadata.xml", "utf8");
                 xml = xml.replaceAll("\n", "");
                 req.session.metadata = {
                     url: req.body.url,
@@ -462,7 +462,7 @@ app.post("/api/metadata-sp/download", function(req, res) {
                 }
                 let metadataParser = new MetadataParser(xml);
                 let entityID = metadataParser.getServiceProviderEntityId();
-                fs.copyFileSync(getEntityDir(TEMP_DIR) + "/sp-metadata.xml", getEntityDir(entityID) + "/sp-metadata.xml");
+                fs.copyFileSync(getEntityDir(TEMP_DIR + "/" + req.sessionID) + "/sp-metadata.xml", getEntityDir(entityID) + "/sp-metadata.xml");
                 database.setMetadata(req.session.user, entityID, req.session.external_code, "main", req.body.url, xml);
                 res.status(200).send(xml);
             },
@@ -484,7 +484,7 @@ app.get("/api/metadata-sp/check/:test", function(req, res) {
 		return null;
 	}	
 
-    let issuer = (req.session!=null && req.session.request!=null && req.session.request.issuer!=null)? req.session.request.issuer : TEMP_DIR;
+    let issuer = (req.session!=null && req.session.request!=null && req.session.request.issuer!=null)? req.session.request.issuer : TEMP_DIR + "/" + req.sessionID;
 
     if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
