@@ -67,10 +67,11 @@ var checkAuthorisation = function(req) {
 }
 
 var getEntityDir = function(issuer, temp) {
+
+    let ENTITY_DIR = DATA_DIR + "/" + issuer.normalize();
+
     if(temp!=undefined && temp===true) {
         let ENTITY_DIR = DATA_DIR + "/" + TEMP_DIR + "/" + issuer.normalize();
-    } else {
-        let ENTITY_DIR = DATA_DIR + "/" + issuer.normalize();
     }
 
     if(!fs.existsSync(ENTITY_DIR)) fs.mkdirSync(ENTITY_DIR);
