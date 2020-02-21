@@ -18,23 +18,12 @@ class MetadataSpDownload extends Component {
   }	
 
   componentDidMount() { 
-    let service = Services.getMainService();
     let store = ReduxStore.getMain();
-    //let storeState = store.getState();
-
-    service.getInfo(
-      (info) => { 
-        if(info.metadata!=null && info.metadata_xml!=null) {
-          this.setState({
-            url: info.metadata,
-            xml: info.metadata_xml
-          });
-  
-          store.dispatch(Actions.setMetadataSpURL(info.metadata)); 
-          store.dispatch(Actions.setMetadataSpXML(info.metadata_xml));
-        } 
-      }
-    );
+    let storeState = store.getState();
+    this.setState({
+        url: storeState.metadata_SP_URL,
+        xml: storeState.metadata_SP_XML
+    });
   }
   
     render() {    
