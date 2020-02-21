@@ -35,11 +35,6 @@ class MetadataSpDownload extends Component {
         } 
       }
     );
-
-    this.setState({
-        url: storeState.metadata_SP_URL,
-        xml: storeState.metadata_SP_XML
-    });
   }
   
     render() {    
