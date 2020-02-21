@@ -346,6 +346,16 @@ app.get("/api/store", function(req, res) {
 
         res.status(200).send(store);
 
+    } else if(req.session!=null && req.session.request==null && req.session.metadata!=null) {
+        if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+        
+        let store = {
+            metadata_SP_URL: req.session.metadata.url,
+            metadata_SP_XML: req.session.metadata.xml
+        }
+
+        res.status(200).send(store);
+
     } else {
         res.status(400).send("Session not found");
     }
@@ -437,7 +447,7 @@ app.get("/api/metadata-sp", function(req, res) {
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
         req.session.metadata = fs.readFileSync(getEntityDir(TEMP_DIR + "/" + req.sessionID) + "/sp-metadata.xml", "utf8");
         res.status(200).send(req.session.metadata);
-        
+
     } else {
         res.status(400).send("Session not found");
     }
