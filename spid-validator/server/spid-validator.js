@@ -10,6 +10,7 @@ const moment = require("moment");
 
 const config_test = require("../config/test.json");
 const config_idp = require("../config/idp.json");
+const config_dir = require("../config/dir.json");
 
 const Utility = require("./lib/utils");
 const TestSuite = require("./lib/saml-utils").TestSuite;
@@ -23,8 +24,8 @@ const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 const Database = require("./lib/database");
 const Authenticator = require("./lib/authenticator");
 
-const DATA_DIR = "../specs-compliance-tests/data";
-const TEMP_DIR = "temp";
+const DATA_DIR = config_dir.DATA;
+const TEMP_DIR = config_dir.TEMP;
 
 var app = express();
 app.use(helmet());
@@ -286,7 +287,10 @@ app.get("/start", function (req, res) {
 
 /* API */
 
+require('./api/info')		(app, checkAuthorisation);
+
 // get info from session
+/*
 app.get("/api/info", function(req, res) {
 
 	// check if apikey is correct
@@ -313,6 +317,7 @@ app.get("/api/info", function(req, res) {
         res.status(400).send("Session not found");
     }
 });
+*/
 
 
 // recover workspace from store cache
