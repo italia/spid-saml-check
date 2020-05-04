@@ -1,7 +1,6 @@
 const express = require("express");
 const exphbs  = require('express-handlebars');
 const helmet = require("helmet");
-const sha256 = require('crypto-js/sha256');
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const path = require('path');
@@ -24,8 +23,7 @@ const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 const Database = require("./lib/database");
 const Authenticator = require("./lib/authenticator");
 
-const DATA_DIR = config_dir.DATA;
-const TEMP_DIR = config_dir.TEMP;
+
 
 var app = express();
 app.use(helmet());
@@ -42,6 +40,7 @@ app.use(session({
     saveUninitialized: false, 
     cookie: { maxAge: 60*60000 }  //30*60000: 30min
 }));
+
 
 // create database
 var database = new Database().connect().setup();
@@ -222,7 +221,7 @@ var checkAuthorisation = function(req) {
 }
 
 var getEntityDir = function(issuer) {
-    let ENTITY_DIR = DATA_DIR + "/" + issuer.normalize();
+    let ENTITY_DIR = config_dir.DATA + "/" + issuer.normalize();
     if(!fs.existsSync(ENTITY_DIR)) fs.mkdirSync(ENTITY_DIR);
     return ENTITY_DIR;
 }
