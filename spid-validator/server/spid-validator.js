@@ -55,6 +55,23 @@ app.set('view engine', 'handlebars');
 
 
 // Private Funcs
+var checkAuthorisation = function(req) {
+    let authorised = false;
+	let apikey = req.query.apikey;
+    if(apikey!=null && apikey == req.session.apikey) {
+		authorised = true;
+	} else {
+		console.log("ERROR check authorisation : " + apikey);
+		authorised = false;
+	}
+	return authorised;
+}
+
+var getEntityDir = function(issuer) {
+    let ENTITY_DIR = config_dir.DATA + "/" + issuer.normalize();
+    if(!fs.existsSync(ENTITY_DIR)) fs.mkdirSync(ENTITY_DIR);
+    return ENTITY_DIR;
+}
 
 var getValidationInfo = function(user, code) {
     let store = null;
@@ -208,25 +225,6 @@ var sendLogoutResponse = function(req, res) {
     }          
 }
 
-var checkAuthorisation = function(req) {
-    let authorised = false;
-	let apikey = req.query.apikey;
-    if(apikey!=null && apikey == req.session.apikey) {
-		authorised = true;
-	} else {
-		console.log("ERROR check authorisation : " + apikey);
-		authorised = false;
-	}
-	return authorised;
-}
-
-var getEntityDir = function(issuer) {
-    let ENTITY_DIR = config_dir.DATA + "/" + issuer.normalize();
-    if(!fs.existsSync(ENTITY_DIR)) fs.mkdirSync(ENTITY_DIR);
-    return ENTITY_DIR;
-}
-
-
 
 
 app.use((req, res, next)=> {
@@ -246,31 +244,7 @@ require('./api/store')		    (app, checkAuthorisation, getEntityDir, database);
 require('./api/metadata-sp')	(app, checkAuthorisation, getEntityDir, database);
 require('./api/request')    	(app, checkAuthorisation, getEntityDir, database);
 require('./api/response')    	(app, checkAuthorisation);
-
-
-
-
-// get store info from external code
-// only for OnBoarding, protected by AgID Login
-app.get("/api/sob/store", function(req, res) {
-    res.redirect(authenticator.getAuthURL("store"));
-});
-
-
-// get validation info from external code
-// only for OnBoarding, not protected
-app.get("/api/sob/validation", function(req, res) {
-    //res.redirect(authenticator.getAuthURL("validation"));
-    res.send(getValidationInfo(req.query.user, req.query.code));
-});
-
-// get metadata info from external code
-// only for OnBoarding, not protected
-app.get("/api/sob/metadata", function(req, res) {
-    //res.redirect(authenticator.getAuthURL("validation"));
-    res.send(getMetadataInfo(req.query.code));
-});
-
+require('./api/sob')    	    (app, authenticator, getValidationInfo, getMetadataInfo);
 
 
 
