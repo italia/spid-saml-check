@@ -290,6 +290,7 @@ app.get("/start", function (req, res) {
 require('./api/info')		    (app, checkAuthorisation);
 require('./api/store')		    (app, checkAuthorisation, getEntityDir, database);
 require('./api/metadata-sp')	(app, checkAuthorisation, getEntityDir, database);
+require('./api/request')    	(app, checkAuthorisation, getEntityDir, database);
 
 
 
@@ -319,7 +320,7 @@ app.get("/api/sob/metadata", function(req, res) {
 
 
 
-
+/*
 // get authn request from session
 app.get("/api/request", function(req, res) {
 
@@ -407,6 +408,7 @@ app.get("/api/request/check/:test", function(req, res) {
         res.status(400).send("Session not found");
     }          
 });
+*/
 
 // get test for response
 app.post("/api/test-response/:suiteid/:caseid", function(req, res) {

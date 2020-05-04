@@ -1,5 +1,4 @@
 const fs = require("fs-extra");
-const bodyParser = require("body-parser");
 const Utility = require("../lib/utils");
 const MetadataParser = require("../lib/saml-utils").MetadataParser;
 const config_dir = require("../../config/dir.json");
