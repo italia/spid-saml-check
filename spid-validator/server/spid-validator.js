@@ -833,15 +833,15 @@ app.post("/", function(req, res, next) {
             req.session.policy = policy;
             req.session.user = userinfo.sub;
 
-            if(state!=null && state!="") {
+            if(userinfo.entity!=null && state!=null && state!="") {
                 Utility.log("SOB API " + state, {user: userinfo.sub, code: userinfo.entity.code});
             }
 
             // API selection
-            if(state!=null && state=="store") {
+            if(userinfo.entity!=null && state!=null && state=="store") {
                 res.send(getStoreInfo(userinfo.sub, userinfo.entity.code));
                 
-            } else if(state!=null && state=="validation") {
+            } else if(userinfo.entity!=null && state!=null && state=="validation") {
                 res.send(getValidationInfo(userinfo.sub, userinfo.entity.code));
 
             } else {
