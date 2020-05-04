@@ -226,8 +226,7 @@ app.get("/start", function (req, res) {
         || req.session.request.samlRequest==undefined) {
             res.sendFile(path.resolve(__dirname, "..", "client/view", "error.html"));
     } else {
-
-        if(req.session.request.binding=='POST') {
+        if(req.session && req.session.request.binding=='POST') {
             if(req.session.request.type=='AUTHN') {     
                 
                 req.session.metadata = null;
@@ -238,8 +237,7 @@ app.get("/start", function (req, res) {
                 res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
 
             } else if(req.session.request.type=='LOGOUT') {
-
-                if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
+                if(req.session.request.issuer!=null) {
                     let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
                     if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
                 }
@@ -254,7 +252,7 @@ app.get("/start", function (req, res) {
             }
         }
 
-        if(req.session.request.binding=='GET') {
+        if(req.session && req.session.request.binding=='GET') {
             if(req.session.request.type=='AUTHN') { 
             
                 req.session.metadata = null;          
@@ -268,7 +266,7 @@ app.get("/start", function (req, res) {
 
             } else if(req.session.request.type=='LOGOUT') {
                 
-                if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
+                if(req.session.request.issuer!=null) {
                     let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
                     if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
                 }
