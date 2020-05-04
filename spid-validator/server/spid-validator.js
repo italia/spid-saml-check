@@ -288,47 +288,43 @@ app.get("/start", function (req, res) {
 /* API */
 
 require('./api/info')		(app, checkAuthorisation);
+require('./api/store')		(app, checkAuthorisation, getEntityDir, database);
 
-// get info from session
-/*
-app.get("/api/info", function(req, res) {
 
-	// check if apikey is correct
-	if(!checkAuthorisation(req)) {
-		error = {code: 401, msg: "Unauthorized"};
-		res.status(error.code).send(error.msg);
-		return null;
-	}		
 
-    if(req.session!=null) { // TODO ASSERTSESSION
-        if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
-        let info = {
-            request: req.session.request,
-            metadata: (req.session.metadata)? req.session.metadata.url : undefined,
-            issuer: (req.session.request)? req.session.request.issuer : undefined,
-            entity: req.session.entity,
-            policy: req.session.policy,
-            external_code: req.session.external_code
-        }
-        res.status(200).send(info);
-
-    } else {
-        res.status(400).send("Session not found");
-    }
+// get store info from external code
+// only for OnBoarding, protected by AgID Login
+app.get("/api/sob/store", function(req, res) {
+    res.redirect(authenticator.getAuthURL("store"));
 });
-*/
 
 
+// get validation info from external code
+// only for OnBoarding, not protected
+app.get("/api/sob/validation", function(req, res) {
+    //res.redirect(authenticator.getAuthURL("validation"));
+    res.send(getValidationInfo(req.query.user, req.query.code));
+});
+
+// get metadata info from external code
+// only for OnBoarding, not protected
+app.get("/api/sob/metadata", function(req, res) {
+    //res.redirect(authenticator.getAuthURL("validation"));
+    res.send(getMetadataInfo(req.query.code));
+});
+
+
+/*
 // recover workspace from store cache
 app.get("/api/store", function(req, res) {
-
-	// check if apikey is correct
-	if(!checkAuthorisation(req)) {
-		error = {code: 401, msg: "Unauthorized"};
-		res.status(error.code).send(error.msg);
-		return null;
-	}	
+    
+    // check if apikey is correct
+    if(!checkAuthorisation(req)) {
+        error = {code: 401, msg: "Unauthorized"};
+        res.status(error.code).send(error.msg);
+        return null;
+    }	
     if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
         if(!fs.existsSync(DATA_DIR)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
@@ -353,28 +349,6 @@ app.get("/api/store", function(req, res) {
         res.status(400).send("Session not found");
     }
 });
-
-// get store info from external code
-// only for OnBoarding, protected by AgID Login
-app.get("/api/sob/store", function(req, res) {
-    res.redirect(authenticator.getAuthURL("store"));
-});
-
-
-// get validation info from external code
-// only for OnBoarding, not protected
-app.get("/api/sob/validation", function(req, res) {
-    //res.redirect(authenticator.getAuthURL("validation"));
-    res.send(getValidationInfo(req.query.user, req.query.code));
-});
-
-// get metadata info from external code
-// only for OnBoarding, not protected
-app.get("/api/sob/metadata", function(req, res) {
-    //res.redirect(authenticator.getAuthURL("validation"));
-    res.send(getMetadataInfo(req.query.code));
-});
-
 
 // save workspace to store cache 
 app.post("/api/store", function(req, res) {
@@ -413,6 +387,9 @@ app.delete("/api/store", function(req, res) {
         res.status(400).send("Session not found");
     }
 });
+*/
+
+
 
 // get downloaded metadata
 app.get("/api/metadata-sp", function(req, res) {
