@@ -10,6 +10,7 @@ const moment = require("moment");
 const config_test = require("../config/test.json");
 const config_idp = require("../config/idp.json");
 const config_dir = require("../config/dir.json");
+const config_api = require("../config/api.json");
 
 const Utility = require("./lib/utils");
 const TestSuite = require("./lib/saml-utils").TestSuite;
@@ -55,21 +56,37 @@ app.set('view engine', 'handlebars');
 
 
 // Private Funcs
-var checkAuthorisation = function(req) {
+var checkAuth = function(req) {
+    // 'API' if checkBasicAuth = true
+    // true if checkSessionAuth = true
+    // else false 
+    return checkBasicAuth(req) || checkSessionAuth(req);
+}
+
+var checkSessionAuth = function(req) {
     let authorised = false;
 	let apikey = req.query.apikey;
     if(apikey!=null && apikey == req.session.apikey) {
 		authorised = true;
 	} else {
-        if(apikey=='061d3fde-d745-427b-9f44-5a7674db6686') {
-            Utility.log("Authorisation", "API Mode - apikey : " + apikey);
-            authorised = true;
-        } else {
-            Utility.log("Authorisation", "ERROR check authorisation : " + apikey);
-            authorised = false;
-        }
+        Utility.log("Authorisation", "ERROR check authorisation : " + apikey);
+        authorised = false;
 	}
 	return authorised;
+}
+
+var checkBasicAuth = function(req) {
+    let authorised = false;
+    if(req.headers.authorization 
+        && req.headers.authorization.substr(0,5)=="Basic") {
+            let authorization = req.headers.authorization.substr(6);
+            let authorization_buffer = new Buffer(authorization, 'base64');
+            let authorization_plain = authorization_buffer.toString('ascii');
+            let user = authorization_plain.split(":")[0];
+            let pass = authorization_plain.split(":")[1];
+            if(config_api[user]==pass) authorised = 'API';
+    }
+    return authorised;
 }
 
 var getEntityDir = function(issuer) {
@@ -240,15 +257,15 @@ app.use((req, res, next)=> {
 
 
 /* IDP */
-require('./app/idp')		    (app, checkAuthorisation, getEntityDir, sendLogoutResponse);
-require('./app/auth')		    (app, checkAuthorisation, authenticator, getValidationInfo);
+require('./app/idp')		    (app, checkAuth, getEntityDir, sendLogoutResponse);
+require('./app/auth')		    (app, checkAuth, authenticator, getValidationInfo);
 
 /* API */
-require('./api/info')		    (app, checkAuthorisation);
-require('./api/store')		    (app, checkAuthorisation, getEntityDir, database);
-require('./api/metadata-sp')	(app, checkAuthorisation, getEntityDir, database);
-require('./api/request')    	(app, checkAuthorisation, getEntityDir, database);
-require('./api/response')    	(app, checkAuthorisation);
+require('./api/info')		    (app, checkAuth);
+require('./api/store')		    (app, checkAuth, getEntityDir, database);
+require('./api/metadata-sp')	(app, checkAuth, getEntityDir, database);
+require('./api/request')    	(app, checkAuth, getEntityDir, database);
+require('./api/response')    	(app, checkAuth);
 require('./api/sob')    	    (app, authenticator, getValidationInfo, getMetadataInfo);
 
 
