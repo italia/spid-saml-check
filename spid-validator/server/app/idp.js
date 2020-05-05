@@ -4,6 +4,7 @@ const Utility = require("../lib/utils");
 const IdP = require("../lib/saml-utils").IdP;
 const PayloadDecoder = require("../lib/saml-utils").PayloadDecoder;
 const RequestParser = require("../lib/saml-utils").RequestParser;
+const config_idp = require("../../config/idp.json");
 const config_dir = require("../../config/dir.json");
 
 module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutResponse) {
