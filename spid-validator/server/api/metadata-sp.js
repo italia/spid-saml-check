@@ -10,6 +10,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
     
         // check if apikey is correct
         if(!checkAuthorisation(req)) {
+            Utility.log("SESSION", req.session);
             error = {code: 401, msg: "Unauthorized"};
             res.status(error.code).send(error.msg);
             return null;
@@ -46,9 +47,10 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
     
         } else {
             if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
-            Utility.metadataDownload(req.body.url, getEntityDir(config_dir.TEMP) + "/sp-metadata.xml").then(
+            let tempfilename = Utility.getUUID();
+            Utility.metadataDownload(req.body.url, getEntityDir(config_dir.TEMP) + "/" + tempfilename).then(
                 (file_name) => {
-                    let xml = fs.readFileSync(getEntityDir(config_dir.TEMP) + "/sp-metadata.xml", "utf8");
+                    let xml = fs.readFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, "utf8");
                     xml = xml.replaceAll("\n", "");
                     req.session.metadata = {
                         url: req.body.url,
@@ -56,8 +58,9 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                     }
                     let metadataParser = new MetadataParser(xml);
                     let entityID = metadataParser.getServiceProviderEntityId();
-                    fs.copyFileSync(getEntityDir(config_dir.TEMP) + "/sp-metadata.xml", getEntityDir(entityID) + "/sp-metadata.xml");
+                    fs.copyFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, getEntityDir(entityID) + "/sp-metadata.xml");
                     database.setMetadata(req.session.user, entityID, req.session.external_code, "main", req.body.url, xml);
+                    fs.unlinkSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename);
                     res.status(200).send(xml);
                 },
                 (err) => {
