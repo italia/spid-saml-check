@@ -95,22 +95,25 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
         if(authorisation=='API' && !req.body.user) { return res.status(400).send("Parameter user is missing"); }
         if(authorisation=='API' && !req.body.issuer) { return res.status(400).send("Parameter issuer is missing"); }
-        if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
-        if(authorisation=='API' && !req.body.metadata) { return res.status(400).send("Parameter metadata is missing"); }
+        //if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
 
-        let metadata = (authorisation=='API')? req.body.metadata : req.session.metadata;
-        if(!metadata) { return res.status(400).send("Please download metadata first"); }
+        let issuer = req.body.issuer;
 
-        let metadataParser = new MetadataParser(metadata.xml);
-        let entityID = metadataParser.getServiceProviderEntityId();
+        if(authorisation!='API') {
+            let metadata = req.session.metadata;
+            if(!metadata) { return res.status(400).send("Please download metadata first"); }
 
-        let issuer = (authorisation=='API')? req.body.issuer : entityID;
+            let metadataParser = new MetadataParser(metadata.xml);
+            let entityID = metadataParser.getServiceProviderEntityId();
+            issuer = entityID;
+        }
+
         let user = (authorisation=='API')? req.body.user : req.session.user;
         let external_code = (authorisation=='API')? req.body.external_code : req.session.external_code;
 
         let test = req.params.test;
 
-        let report = database.getValidation(user, issuer, "main");
+        let report = database.getLastCheck(user, issuer, "main");
 
         switch(test) {
             case "strict": testGroup = report.metadata_strict; break;
@@ -185,6 +188,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                             }
 
                             database.setMetadataValidation(user, issuer, external_code, "main", test, validation);
+                            database.setMetadataLastCheck(user, issuer, external_code, "main", test, report); 
                         }
 
                         res.status(200).send(report);

@@ -103,6 +103,7 @@ class Database {
             }
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (saveStore)", exception.toString());
+            throw(exception);
         } 
     }
 
@@ -118,6 +119,7 @@ class Database {
 
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (getStore)", exception.toString());
+            throw(exception);
         }
     }
 
@@ -135,6 +137,7 @@ class Database {
 
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (getStoreByCode)", exception.toString());
+            throw(exception);
         }
     }
 
@@ -163,6 +166,7 @@ class Database {
 
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (getMetadata)", exception.toString());
+            throw(exception);
         }
     }
 
@@ -187,6 +191,7 @@ class Database {
 
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (getMetadataByCode)", exception.toString());
+            throw(exception);
         }
     }
 
@@ -214,11 +219,25 @@ class Database {
             this.db.prepare(sql).run(user, entity_id, type);
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (deleteStore)", exception.toString());
+            throw(exception);
         } 
     }
 
+    getLastCheck(user, entity_id, type) {
+        let store = this.getStore(user, entity_id, type);
+        if(!store) store = {};
+        return {
+            metadata_strict: store.metadata_lastcheck_strict,
+            metadata_cert: store.metadata_lastcheck_cert,
+            metadata_extra: store.metadata_lastcheck_extra,
+            request_strict: store.request_lastcheck_strict,
+            request_cert: store.request_lastcheck_cert,
+            request_extra: store.request_lastcheck_extra
+        }
+    }
+
     getValidation(user, entity_id, type) {
-        store = this.getStore(user, entity_id, type);
+        let store = this.getStore(user, entity_id, type);
         if(!store) store = {};
         return {
             metadata_strict: store.metadata_validation_strict,
@@ -233,7 +252,7 @@ class Database {
     }
 
     getValidationByCode(user, external_code, type) {
-        store = this.getStoreByCode(user, external_code, type);
+        let store = this.getStoreByCode(user, external_code, type);
         if(!store) store = {};
         return {
             metadata_strict: store.metadata_validation_strict,
@@ -244,6 +263,23 @@ class Database {
             request_extra: store.request_validation_extra,
             response_test_done: store.request_validation_extra,
             response_test_success: store.request_validation_success
+        }
+    }
+
+    setMetadataLastCheck(user, entity_id, external_code, type, test, metadata_lastcheck) {
+        try {
+            let store = this.getStore(user, entity_id, type);
+            if(!store) store = {};
+            switch(test) {
+                case "strict": store.metadata_lastcheck_strict = metadata_lastcheck; break;
+                case "certs": store.metadata_lastcheck_certs = metadata_lastcheck; break;
+                case "extra": store.metadata_lastcheck_extra = metadata_lastcheck; break;
+            }
+            
+            this.saveStore(user, entity_id, external_code, type, store);
+        } catch(exception) {
+            utility.log("DATABASE EXCEPTION (setMetadataLastCheck)", exception.toString());
+            throw(exception);
         }
     }
 
@@ -260,8 +296,27 @@ class Database {
             this.saveStore(user, entity_id, external_code, type, store);
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (setMetadataValidation)", exception.toString());
+            throw(exception);
         }
     }
+
+    setRequestLastCheck(user, entity_id, external_code, type, test, request_lastcheck) {
+        try {
+            let store = this.getStore(user, entity_id, type);
+            if(!store) store = {};
+            switch(test) {
+                case "strict": store.request_lastcheck_strict = request_lastcheck; break;
+                case "certs": store.request_lastcheck_certs = request_lastcheck; break;
+                case "extra": store.request_lastcheck_extra = request_lastcheck; break;
+            }
+            
+            this.saveStore(user, entity_id, external_code, type, store);
+        } catch(exception) {
+            utility.log("DATABASE EXCEPTION (setRequestLastCheck)", exception.toString());
+            throw(exception);
+        }
+    }
+
     setRequestValidation(user, entity_id, external_code, type, test, request_validation) {
         try {
             let store = this.getStore(user, entity_id, type);
@@ -275,9 +330,9 @@ class Database {
             this.saveStore(user, entity_id, external_code, type, store);
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (setMetadataValidation)", exception.toString());
+            throw(exception);
         }
     }
-
 }
     
 module.exports = Database;
