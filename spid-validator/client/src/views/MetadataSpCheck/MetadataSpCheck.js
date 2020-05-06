@@ -22,6 +22,32 @@ class MetadataSpCheck extends Component {
     this.checkMetadata();
   }
   
+
+  getLastValidation() {
+    let service = Services.getMainService();
+    Utility.blockUI(true);
+    service.getLastValidationMetadataSp(
+      this.state.test,
+      (report) => { 
+        Utility.blockUI(false); 
+        this.setState({
+            result: report
+        });
+      }, 
+      (error)   => { 
+        Utility.blockUI(false);
+        this.setState({
+            result: null
+        });
+        Utility.showModal({
+            title: "Errore",
+            body: error,
+            isOpen: true
+        });
+      }
+    );
+  }
+
   checkMetadata() {
     let service = Services.getMainService();
     let store = ReduxStore.getMain();

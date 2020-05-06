@@ -82,6 +82,46 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
     });
     
+    // return last validation from store
+    app.get("/api/metadata-sp/lastcheck/:test", function(req, res) {
+
+        // check if apikey is correct
+        let authorisation = checkAuthorisation(req);
+        if(!authorisation) {
+            error = {code: 401, msg: "Unauthorized"};
+            res.status(error.code).send(error.msg);
+            return null;
+        }
+
+        if(authorisation=='API' && !req.body.user) { return res.status(400).send("Parameter user is missing"); }
+        if(authorisation=='API' && !req.body.issuer) { return res.status(400).send("Parameter issuer is missing"); }
+        if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
+        if(authorisation=='API' && !req.body.metadata) { return res.status(400).send("Parameter metadata is missing"); }
+
+        let metadata = (authorisation=='API')? req.body.metadata : req.session.metadata;
+        if(!metadata) { return res.status(400).send("Please download metadata first"); }
+
+        let metadataParser = new MetadataParser(metadata.xml);
+        let entityID = metadataParser.getServiceProviderEntityId();
+
+        let issuer = (authorisation=='API')? req.body.issuer : entityID;
+        let user = (authorisation=='API')? req.body.user : req.session.user;
+        let external_code = (authorisation=='API')? req.body.external_code : req.session.external_code;
+
+        let test = req.params.test;
+
+        let report = database.getValidation(user, issuer, "main");
+
+        switch(test) {
+            case "strict": testGroup = report.metadata_strict; break;
+            case "certs": testGroup = report.metadata_certs; break;
+            case "extra": testGroup = report.metadata_extra; break;
+        }
+
+        res.status(200).send(report);
+    });
+
+
     // execute test for metadata
     app.get("/api/metadata-sp/check/:test", function(req, res) {
     
@@ -144,7 +184,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                                 }
                             }
 
-                            database.setMetadataValidation(user, issuer, external_code, "main", test, validation)
+                            database.setMetadataValidation(user, issuer, external_code, "main", test, validation);
                         }
 
                         res.status(200).send(report);
