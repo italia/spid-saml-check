@@ -1,5 +1,6 @@
 const fs = require("fs-extra");
 const path = require('path');
+const sha256 = require("sha256");
 const moment = require("moment"); 
 const Utility = require("../lib/utils");
 const config_idp = require("../../config/idp.json");
