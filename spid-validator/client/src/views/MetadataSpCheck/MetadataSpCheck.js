@@ -83,7 +83,8 @@ class MetadataSpCheck extends Component {
       (error)   => { 
         Utility.blockUI(false);
         this.setState({
-            result: null
+          report: null,
+          report_datetime: null
         });
         Utility.showModal({
             title: "Errore",

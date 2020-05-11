@@ -161,6 +161,19 @@ class MainService {
 		});
 	}	
 
+	getLastCheckRequest(test, callback_response, callback_error) {
+		Utility.log("GET /api/request/lastcheck/" + test);
+		axios.get('/api/request/lastcheck/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})
+		.then(function(response) {
+			Utility.log("getLastCheckRequest Success", response.data);
+			callback_response(response.data);
+		})
+		.catch(function(error) {
+			Utility.log("getLastCheckRequest Error", error);
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+	}
+
 	checkRequest(test, callback_response, callback_error) {
 		Utility.log("GET /api/request/check/" + test);
 		axios.get('/api/request/check/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})

@@ -4,6 +4,7 @@ import Utility from '../../utility';
 import Services from '../../services';
 import ReduxStore from "../../redux/store";
 import Actions from "../../redux/main/actions";
+import moment from 'moment';
 
 
 class RequestCheck extends Component {
@@ -13,13 +14,49 @@ class RequestCheck extends Component {
     
     this.state = {
         test: props.test,
-        result:null,
+        report: null,
+        report_datetime: null,
         detailview: false
     };  
   }	
 
   componentDidMount() { 
-    this.checkRequest();
+    this.getLastCheck();
+  }
+
+  getLastCheck() {
+    let service = Services.getMainService(); 
+    Utility.blockUI(true);
+    service.getLastCheckRequest(
+      this.state.test,
+      (lastcheck) => { 
+        Utility.blockUI(false); 
+        let report = null;
+        switch(this.state.test) {
+            case "strict": report = lastcheck.report.test.sp.authn_request_strict.TestAuthnRequest; break;
+            case "certs": report = lastcheck.report.test.sp.authn_request_certs.TestAuthnRequestCertificates; break;
+            case "extra": report = lastcheck.report.test.sp.authn_request_extra.TestAuthnRequestExtra; break;
+        } 
+        this.setState({
+          report: report,
+          report_datetime: moment(lastcheck.datetime).format('DD/MM/YYYY HH:mm:ss')
+        });
+      }, 
+      (error)   => { 
+        Utility.blockUI(false);
+        this.checkRequest();
+        /*
+        this.setState({
+            result: null
+        });
+        Utility.showModal({
+            title: "Errore",
+            body: error,
+            isOpen: true
+        });
+        */
+      }
+    );
   }
   
   checkRequest() {
@@ -29,22 +66,24 @@ class RequestCheck extends Component {
     Utility.blockUI(true);
     service.checkRequest(
       this.state.test,
-      (test) => { 
+      (check) => { 
         Utility.blockUI(false); 
-        let result = null;
+        let report = null;
         switch(this.state.test) {
-            case "strict": result = test.test.sp.authn_request_strict.TestAuthnRequest; break;
-            case "certs": result = test.test.sp.authn_request_certs.TestAuthnRequestCertificates; break;
-            case "extra": result = test.test.sp.authn_request_extra.TestAuthnRequestExtra; break;
+            case "strict": report = check.report.test.sp.authn_request_strict.TestAuthnRequest; break;
+            case "certs": report = check.report.test.sp.authn_request_certs.TestAuthnRequestCertificates; break;
+            case "extra": report = check.report.test.sp.authn_request_extra.TestAuthnRequestExtra; break;
         } 
         this.setState({
-            result: result
+          report: report,
+          report_datetime: moment(check.datetime).format('DD/MM/YYYY HH:mm:ss')
         });
       }, 
       (error)   => { 
         Utility.blockUI(false);
         this.setState({
-            result: null
+          report: null,
+          report_datetime: null
         });
         Utility.showModal({
             title: "Errore",

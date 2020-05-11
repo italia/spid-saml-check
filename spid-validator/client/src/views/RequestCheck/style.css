@@ -1,3 +1,16 @@
+#RequestCheck .title {
+    margin-bottom: 15px!important;
+}
+
+#RequestCheck .subtitle {
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+#RequestCheck button {
+    margin: 5px!important; 
+}
+
 #RequestCheck .testset {
     background: #fff;
     padding: 15px;
