@@ -1,4 +1,4 @@
-const utility = require("./utils.js");
+const utility = require('./utils.js');
 const sqlite3 = require('better-sqlite3');
 const fs = require('fs');
 
@@ -266,14 +266,14 @@ class Database {
         }
     }
 
-    setMetadataLastCheck(user, entity_id, external_code, type, test, metadata_lastcheck) {
+    setMetadataLastCheck(user, entity_id, external_code, type, test, lastcheck) {
         try {
             let store = this.getStore(user, entity_id, type);
             if(!store) store = {};
             switch(test) {
-                case "strict": store.metadata_lastcheck_strict = metadata_lastcheck; break;
-                case "certs": store.metadata_lastcheck_certs = metadata_lastcheck; break;
-                case "extra": store.metadata_lastcheck_extra = metadata_lastcheck; break;
+                case "strict": store.metadata_lastcheck_strict = lastcheck; break;
+                case "certs": store.metadata_lastcheck_certs = lastcheck; break;
+                case "extra": store.metadata_lastcheck_extra = lastcheck; break;
             }
             
             this.saveStore(user, entity_id, external_code, type, store);

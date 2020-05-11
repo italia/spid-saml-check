@@ -1,7 +1,8 @@
-const fs = require("fs-extra");
-const Utility = require("../lib/utils");
-const MetadataParser = require("../lib/saml-utils").MetadataParser;
-const config_dir = require("../../config/dir.json");
+const fs = require('fs-extra');
+const Utility = require('../lib/utils');
+const MetadataParser = require('../lib/saml-utils').MetadataParser;
+const config_dir = require('../../config/dir.json');
+const moment = require('moment');
 
 module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
@@ -121,7 +122,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             case "extra": testGroup = report.metadata_extra; break;
         }
 
-        res.status(200).send(report);
+        res.status(200).send(testGroup);
     });
 
 
@@ -169,6 +170,11 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                         let report = fs.readFileSync(file, "utf8");
                         report = JSON.parse(report);
 
+                        let lastcheck = { 
+                            datetime: moment().format('YYYY-MM-DD HH:mm:ss'), 
+                            report: report
+                        } 
+
                         if(user && issuer) {
                             // save result validation on store
                             let testGroup = [];
@@ -188,10 +194,10 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                             }
 
                             database.setMetadataValidation(user, issuer, external_code, "main", test, validation);
-                            database.setMetadataLastCheck(user, issuer, external_code, "main", test, report); 
+                            database.setMetadataLastCheck(user, issuer, external_code, "main", test, lastcheck); 
                         }
 
-                        res.status(200).send(report);
+                        res.status(200).send(lastcheck);
 
                     } catch(err) {
                         Utility.log("ERR /api/metadata-sp/check/:test", err.toString());

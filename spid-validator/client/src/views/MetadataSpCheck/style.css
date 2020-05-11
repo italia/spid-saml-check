@@ -1,5 +1,10 @@
 #MetadataSpCheck .title {
-    margin-bottom: 30px!important;
+    margin-bottom: 15px!important;
+}
+
+#MetadataSpCheck .subtitle {
+    font-size: 1em;
+    margin-bottom: 30px;
 }
 
 #MetadataSpCheck input.metadata {
@@ -11,7 +16,7 @@
 }
 
 #MetadataSpCheck button {
-    margin: 0 5px!important;
+    margin: 5px!important; 
 }
 
 #MetadataSpCheck .testset {

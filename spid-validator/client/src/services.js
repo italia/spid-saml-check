@@ -122,15 +122,15 @@ class MainService {
 		});
 	}
 
-	getLastValidationMetadataSp(test, callback_response, callback_error) {
+	getLastCheckMetadataSp(test, callback_response, callback_error) {
 		Utility.log("GET /api/metadata-sp/lastcheck/" + test);
 		axios.get('/api/metadata-sp/lastcheck/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})
 		.then(function(response) {
-			Utility.log("getLastValidationMetadataSp Success", response.data);
+			Utility.log("getLastCheckMetadataSp Success", response.data);
 			callback_response(response.data);
 		})
 		.catch(function(error) {
-			Utility.log("getLastValidationMetadataSp Error", error);
+			Utility.log("getLastCheckMetadataSp Error", error);
 			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
 	}
