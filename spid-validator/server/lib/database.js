@@ -228,10 +228,10 @@ class Database {
         if(!store) store = {};
         return {
             metadata_strict: store.metadata_lastcheck_strict,
-            metadata_cert: store.metadata_lastcheck_cert,
+            metadata_certs: store.metadata_lastcheck_certs,
             metadata_extra: store.metadata_lastcheck_extra,
             request_strict: store.request_lastcheck_strict,
-            request_cert: store.request_lastcheck_cert,
+            request_certs: store.request_lastcheck_certs,
             request_extra: store.request_lastcheck_extra
         }
     }
@@ -241,10 +241,10 @@ class Database {
         if(!store) store = {};
         return {
             metadata_strict: store.metadata_validation_strict,
-            metadata_cert: store.metadata_validation_cert,
+            metadata_certs: store.metadata_validation_certs,
             metadata_extra: store.metadata_validation_extra,
             request_strict: store.request_validation_strict,
-            request_cert: store.request_validation_cert,
+            request_certs: store.request_validation_certs,
             request_extra: store.request_validation_extra,
             response_test_done: store.request_validation_extra,
             response_test_success: store.request_validation_success
@@ -256,10 +256,10 @@ class Database {
         if(!store) store = {};
         return {
             metadata_strict: store.metadata_validation_strict,
-            metadata_cert: store.metadata_validation_cert,
+            metadata_certs: store.metadata_validation_certs,
             metadata_extra: store.metadata_validation_extra,
             request_strict: store.request_validation_strict,
-            request_cert: store.request_validation_cert,
+            request_certs: store.request_validation_certs,
             request_extra: store.request_validation_extra,
             response_test_done: store.request_validation_extra,
             response_test_success: store.request_validation_success
