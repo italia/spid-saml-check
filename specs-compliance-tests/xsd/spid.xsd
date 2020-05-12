@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema
+    targetNamespace="https://spid.gov.it/saml-extensions"
+    xmlns:spid="https://spid.gov.it/saml-extensions"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="unqualified"
+    attributeFormDefault="unqualified"
+    version="2.0">
+
+    <attribute name="entityType" type="spid:EntityTypeType"/>
+    <simpleType name="EntityTypeType">
+        <restriction base="string">
+            <enumeration value="spid:aggregator"/>
+            <enumeration value="spid:aggregated"/>
+        </restriction>
+    </simpleType>
+
+    <element name="VATNumber" type="string"/>
+    <element name="IPACode" type="string"/>
+    <element name="FiscalCode" type="string"/>
+    
+</schema>

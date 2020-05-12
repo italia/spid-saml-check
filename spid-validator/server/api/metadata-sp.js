@@ -8,28 +8,39 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
     // get downloaded metadata
     app.get("/api/metadata-sp", function(req, res) {
-    
+
         // check if apikey is correct
-        if(!checkAuthorisation(req)) {
+        let authorisation = checkAuthorisation(req);
+        if(!authorisation) {
             error = {code: 401, msg: "Unauthorized"};
             res.status(error.code).send(error.msg);
             return null;
-        }	
-    
-        if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-            if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
-            req.session.metadata = null;
-    
-            let savedMetadata = database.getMetadata(req.session.user, req.session.request.issuer, "main");
-            if(savedMetadata) {
-                req.session.metadata = savedMetadata;
-                fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/sp-metadata.xml", req.session.metadata.xml, "utf8");
-            }
-    
-            res.status(200).send(req.session.metadata);
-        } else {
-            res.status(400).send("Session not found");
         }
+
+        if(authorisation=='API' && !req.body.user) { return res.status(400).send("Parameter user is missing"); }
+        if(authorisation=='API' && !req.body.issuer) { return res.status(400).send("Parameter issuer is missing"); }
+
+        let issuer = req.body.issuer;
+
+        if(authorisation!='API') {
+            let request = req.session.request;
+            if(!request || !request.issuer) { return res.status(400).send("Session not found"); }
+
+            issuer = request.issuer;
+        }
+
+        let user = (authorisation=='API')? req.body.user : req.session.user;
+    
+        if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+        req.session.metadata = null;
+
+        let savedMetadata = database.getMetadata(user, issuer, "main");
+        if(savedMetadata) {
+            req.session.metadata = savedMetadata;
+            fs.writeFileSync(getEntityDir(issuer) + "/sp-metadata.xml", savedMetadata.xml, "utf8");
+        }
+
+        res.status(200).send(req.session.metadata);
     })
     
     // download metadata 
@@ -117,6 +128,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let report = database.getLastCheck(user, issuer, "main");
 
         switch(test) {
+            case "xsd": testGroup = report.metadata_xsd; break;
             case "strict": testGroup = report.metadata_strict; break;
             case "certs": testGroup = report.metadata_certs; break;
             case "extra": testGroup = report.metadata_extra; break;
@@ -155,20 +167,38 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
     
         let test = req.params.test;
+        let cmd = test;
         let file = null;
+
+        let xsd_type = "metadata_xsd_sp";
     
-        switch(test) {
+        if(test=='xsd') {
+            if(metadataParser.isMetadataForAggregated()) {
+                xsd_type = "metadata_xsd_ag";
+                cmd = "xsd-ag";
+            } else {
+                xsd_type = "metadata_xsd_sp";
+                cmd = "xsd-sp";
+            }
+        }
+
+        switch(cmd) {
+            case "xsd-sp": file = getEntityDir(issuer) + "/sp-metadata-xsd-sp.json"; break;
+            case "xsd-ag": file = getEntityDir(issuer) + "/sp-metadata-xsd-ag.json"; break;
             case "strict": file = getEntityDir(issuer) + "/sp-metadata-strict.json"; break;
             case "certs": file = getEntityDir(issuer) + "/sp-metadata-certs.json"; break;
             case "extra": file = getEntityDir(issuer) + "/sp-metadata-extra.json"; break;
         }
-        
+
         if(file!=null) {
-            Utility.metadataCheck(test, issuer.normalize()).then(
+            Utility.metadataCheck(cmd, issuer.normalize()).then(
                 (out) => {
                     try {
                         let report = fs.readFileSync(file, "utf8");
                         report = JSON.parse(report);
+
+                        // polymorph xsd report
+                        if(test=='xsd') report = { test: {sp: { metadata_xsd: report.test.sp[xsd_type] }}}
 
                         let lastcheck = { 
                             datetime: moment().format('YYYY-MM-DD HH:mm:ss'), 
@@ -179,6 +209,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                             // save result validation on store
                             let testGroup = [];
                             switch(test) {
+                                case "xsd": testGroup = report.test.sp.metadata_xsd.TestSPMetadataXSD; break;
                                 case "strict": testGroup = report.test.sp.metadata_strict.TestSPMetadata; break;
                                 case "certs": testGroup = report.test.sp.metadata_certs.TestSPMetadataCertificates; break;
                                 case "extra": testGroup = report.test.sp.metadata_extra.TestSPMetadataExtra; break;
@@ -211,7 +242,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             );
 
         } else {
-            res.status(404).send("Test must be strict or certs or extra");
+            res.status(404).send("Test must be xsd or strict or certs or extra");
         }
         
     });

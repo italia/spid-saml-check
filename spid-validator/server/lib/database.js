@@ -200,6 +200,7 @@ class Database {
         if(!store) store = {};
         store.metadata_SP_URL = url;
         store.metadata_SP_XML = xml;
+        store.metadata_validation_xsd = false;
         store.metadata_validation_strict = false;
         store.metadata_validation_certs = false;
         store.metadata_validation_extra = false;
@@ -227,6 +228,7 @@ class Database {
         let store = this.getStore(user, entity_id, type);
         if(!store) store = {};
         return {
+            metadata_xsd: store.metadata_lastcheck_xsd,
             metadata_strict: store.metadata_lastcheck_strict,
             metadata_certs: store.metadata_lastcheck_certs,
             metadata_extra: store.metadata_lastcheck_extra,
@@ -240,6 +242,7 @@ class Database {
         let store = this.getStore(user, entity_id, type);
         if(!store) store = {};
         return {
+            metadata_xsd: store.metadata_validation_xsd,
             metadata_strict: store.metadata_validation_strict,
             metadata_certs: store.metadata_validation_certs,
             metadata_extra: store.metadata_validation_extra,
@@ -255,6 +258,7 @@ class Database {
         let store = this.getStoreByCode(user, external_code, type);
         if(!store) store = {};
         return {
+            metadata_xsd: store.metadata_validation_xsd,
             metadata_strict: store.metadata_validation_strict,
             metadata_certs: store.metadata_validation_certs,
             metadata_extra: store.metadata_validation_extra,
@@ -271,6 +275,7 @@ class Database {
             let store = this.getStore(user, entity_id, type);
             if(!store) store = {};
             switch(test) {
+                case "xsd": store.metadata_lastcheck_xsd = lastcheck; break;
                 case "strict": store.metadata_lastcheck_strict = lastcheck; break;
                 case "certs": store.metadata_lastcheck_certs = lastcheck; break;
                 case "extra": store.metadata_lastcheck_extra = lastcheck; break;
@@ -288,6 +293,7 @@ class Database {
             let store = this.getStore(user, entity_id, type);
             if(!store) store = {};
             switch(test) {
+                case "xsd": store.metadata_validation_xsd = metadata_validation; break;
                 case "strict": store.metadata_validation_strict = metadata_validation; break;
                 case "certs": store.metadata_validation_certs = metadata_validation; break;
                 case "extra": store.metadata_validation_extra = metadata_validation; break;

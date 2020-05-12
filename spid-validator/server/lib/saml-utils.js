@@ -5,10 +5,14 @@ const saml = require("./saml-protocol");
 const xmldom = require("xmldom");
 const xpath = require("xpath");
 const DOMParser = xmldom.DOMParser;
-const select = xpath.useNamespaces(namespaces);
 const zlib = require("zlib");
 const path = require("path");
 const fs = require("fs");
+
+const select = xpath.useNamespaces({
+    ...namespaces, 
+    "spid": "https://spid.gov.it/saml-extensions"
+});
 
 
 
@@ -206,6 +210,94 @@ class MetadataParser {
             }
         }
         return attributeConsumingService;
+    }
+
+    getOrganization() {
+        let organization = {
+            name: "",
+            displayName: "",
+            url: ""   
+        };
+
+        let doc = new DOMParser().parseFromString(this.metadata.xml);
+
+        let organization_name = select("//md:EntityDescriptor/md:Organization/md:OrganizationName", doc);
+        organization.name = select("string(//md:OrganizationName)", organization_name[0]);
+        if(organization_name.length > 1) {
+            for(let n in organization_name) {
+                let name = organization_name[n];
+                if(name.getAttribute("lang")=="it") {
+                    organization.name = select("string(//)", name);
+                }
+            }
+        }
+
+        let organization_display_name = select("//md:EntityDescriptor/md:Organization/md:OrganizationDisplayName", doc);
+        organization.displayName = select("string(//md:OrganizationDisplayName)", organization_display_name[0]);
+        if(organization_display_name.length > 1) {
+            for(let n in organization_display_name) {
+                let display_name = organization_display_name[n];
+                if(display_name.getAttribute("lang")=="it") {
+                    organization.displayName = select("string(//)", display_name);
+                }
+            }
+        }
+
+        let organization_url = select("//md:EntityDescriptor/md:Organization/md:OrganizationURL", doc);
+        organization.url = select("string(//md:OrganizationURL)", organization_url[0]);
+        if(organization_url.length > 1) {
+            for(let n in organization_url) {
+                let url = organization_url[n];
+                if(url.getAttribute("lang")=="it") {
+                    organization.url = select("string(//)", url);
+                }
+            }
+        }
+
+        return organization;
+    }
+
+    getAggregatorContactPerson() {
+        let contact_person = [];
+
+        let doc = new DOMParser().parseFromString(this.metadata.xml);
+
+        let contact_person_doc = select("//md:EntityDescriptor/md:ContactPerson", doc);
+        for(let n in contact_person_doc) {
+            let cpe = contact_person_doc[n];
+            let cpe_contact_type = cpe.getAttribute("contactType");
+            let cpe_entity_type = cpe.getAttribute("spid:entityType");
+
+            if(cpe_contact_type=="other") {
+                if(cpe_entity_type=="spid:aggregator" || cpe_entity_type=="spid:aggregated") {
+
+                    contact_person.push({
+                        type: cpe_entity_type,
+                        Company: select("string(md:Company)", cpe),
+                        VATNumber: select("string(md:Extensions/spid:VATNumber)", cpe),
+                        IPACode: select("string(md:Extensions/spid:IPACode)", cpe),
+                        FiscalCode: select("string(md:Extensions/spid:FiscalCode)", cpe)
+                    });
+                }
+            }
+        }
+
+        return contact_person;
+    }
+
+    isMetadataForAggregated() {
+        let contactPerson = this.getAggregatorContactPerson();
+
+        let assertLength = (contactPerson.length==2);
+        let assertAggregator = false;
+        let assertAggregated = false;
+
+        for(let n in contactPerson) {
+            assertAggregator = assertAggregator || (contactPerson[n].type=="spid:aggregator");
+            assertAggregated = assertAggregated || (contactPerson[n].type=="spid:aggregated");
+        }
+        
+        return assertLength && assertAggregator && assertAggregated;
     }
 }
 

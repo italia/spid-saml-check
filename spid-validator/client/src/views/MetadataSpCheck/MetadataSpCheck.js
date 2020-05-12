@@ -34,6 +34,7 @@ class MetadataSpCheck extends Component {
         Utility.blockUI(false); 
         let report = null;
         switch(this.state.test) {
+            case "xsd": report = lastcheck.report.test.sp.metadata_xsd.TestSPMetadataXSD; break;
             case "strict": report = lastcheck.report.test.sp.metadata_strict.TestSPMetadata; break;
             case "certs": report = lastcheck.report.test.sp.metadata_certs.TestSPMetadataCertificates; break;
             case "extra": report = lastcheck.report.test.sp.metadata_extra.TestSPMetadataExtra; break;
@@ -71,6 +72,7 @@ class MetadataSpCheck extends Component {
         Utility.blockUI(false); 
         let report = null;
         switch(this.state.test) {
+            case "xsd": report = check.report.test.sp.metadata_xsd.TestSPMetadataXSD; break;
             case "strict": report = check.report.test.sp.metadata_strict.TestSPMetadata; break;
             case "certs": report = check.report.test.sp.metadata_certs.TestSPMetadataCertificates; break;
             case "extra": report = check.report.test.sp.metadata_extra.TestSPMetadataExtra; break;

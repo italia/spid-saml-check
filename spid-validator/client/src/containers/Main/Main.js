@@ -153,6 +153,7 @@ class Main extends Component {
 								<Container fluid>
 									<Switch>
 									<Route path="/metadata-sp-download" name="Metadata Service Provider / Download" component={MetadataSpDownload}/>
+									<Route path="/metadata-sp-check-xsd" key="metadata-sp-check-xsd" render={()=><MetadataSpCheck test="xsd" />} />
 									<Route path="/metadata-sp-check-strict" key="metadata-sp-check-strict" render={()=><MetadataSpCheck test="strict" />} />
 									<Route path="/metadata-sp-check-certs" key="metadata-sp-check-certs" render={()=><MetadataSpCheck test="certs" />} />
 									<Route path="/metadata-sp-check-extra" key="metadata-sp-check-extra" render={()=><MetadataSpCheck test="extra" />} />

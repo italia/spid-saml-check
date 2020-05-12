@@ -12,6 +12,11 @@ export default {
           sessionRequired: false   
         },
         {
+          name: 'Check XSD',  
+          url: '/metadata-sp-check-xsd',  
+          sessionRequired: false     
+        },
+        {
           name: 'Check Strict',  
           url: '/metadata-sp-check-strict',  
           sessionRequired: false     

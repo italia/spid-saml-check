@@ -67,6 +67,8 @@ class Utils {
         return new Promise((resolve, reject) => {
             let cmd = "cd ../specs-compliance-tests && DATA_DIR=./data/" + dir + " SP_METADATA=./data/" + dir + "/sp-metadata.xml \ tox -e cleanup";
             switch(test) {
+                case "xsd-sp": cmd += ",sp-metadata-xsd-sp"; break;
+                case "xsd-ag": cmd += ",sp-metadata-xsd-ag"; break;
                 case "strict": cmd += ",sp-metadata-strict"; break;
                 case "certs": cmd += ",sp-metadata-strict,sp-metadata-certs"; break;
                 case "extra": cmd += ",sp-metadata-extra"; break;
