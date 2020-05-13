@@ -29,8 +29,8 @@ const Authenticator = require("./lib/authenticator");
 var app = express();
 app.use(helmet());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '3mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '3mb', extended: true}));
 app.use(express.static(path.resolve(__dirname, "..", "client/build/assets")));
 app.use("/assets", express.static(path.resolve(__dirname, "..", "client/build/assets")));
 
