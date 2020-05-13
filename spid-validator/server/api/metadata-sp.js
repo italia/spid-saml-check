@@ -18,29 +18,41 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }
 
         if(authorisation=='API' && !req.body.user) { return res.status(400).send("Parameter user is missing"); }
-        if(authorisation=='API' && !req.body.issuer) { return res.status(400).send("Parameter issuer is missing"); }
+        if(authorisation=='API' && !req.body.organization) { return res.status(400).send("Parameter organization is missing"); }
+        //if(authorisation=='API' && !req.body.entity_id) { return res.status(400).send("Parameter entity_id is missing"); }
 
-        let issuer = req.body.issuer;
+        let entity_id = req.body.entity_id;
 
         if(authorisation!='API') {
             let request = req.session.request;
             if(!request || !request.issuer) { return res.status(400).send("Session not found"); }
 
-            issuer = request.issuer;
+            entity_id = request.issuer;
         }
 
         let user = (authorisation=='API')? req.body.user : req.session.user;
+        let organization = (authorisation=='API')? req.body.organization : req.session.entity.id;
     
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
         req.session.metadata = null;
 
-        let savedMetadata = database.getMetadata(user, issuer, "main");
-        if(savedMetadata) {
-            req.session.metadata = savedMetadata;
-            fs.writeFileSync(getEntityDir(issuer) + "/sp-metadata.xml", savedMetadata.xml, "utf8");
-        }
+        let result = null;
 
-        res.status(200).send(req.session.metadata);
+        if(entity_id) {
+            let savedMetadata = database.getMetadata(user, entity_id, "main");
+            if(savedMetadata) {
+                req.session.metadata = savedMetadata;
+                fs.writeFileSync(getEntityDir(entity_id) + "/sp-metadata.xml", savedMetadata.xml, "utf8");
+                result = savedMetadata;
+            }
+
+        } else {
+            let listMetadata = database.getUserMetadata(user, organization, "main");
+            result = listMetadata;
+        }
+        
+
+        res.status(200).send(result);
     })
     
     // download metadata 
@@ -56,9 +68,11 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
     
         if(!req.body.url) { return res.status(500).send("Please insert a valid URL"); }
         if(authorisation=='API' && !req.body.user) { return res.status(400).send("Parameter user is missing"); }
+        if(authorisation=='API' && !req.body.organization) { return res.status(400).send("Parameter organization is missing"); }
         if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
 
         let user = (authorisation=='API')? req.body.user : req.session.user;
+        let organization = (authorisation=='API')? req.body.organization : req.session.entity.id;
         let external_code = (authorisation=='API')? req.body.external_code : req.session.external_code;
 
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
@@ -80,7 +94,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                 let entityID = metadataParser.getServiceProviderEntityId();
                 req.session.metadata = metadata;
                 fs.copyFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, getEntityDir(entityID) + "/sp-metadata.xml");
-                database.setMetadata(user, entityID, external_code, "main", req.body.url, xml);
+                database.setMetadata(user, organization, entityID, external_code, "main", req.body.url, xml);
                 fs.unlinkSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename);
 
                 let result = (authorisation=='API')? metadata : xml;
@@ -106,10 +120,10 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }
 
         if(authorisation=='API' && !req.body.user) { return res.status(400).send("Parameter user is missing"); }
-        if(authorisation=='API' && !req.body.issuer) { return res.status(400).send("Parameter issuer is missing"); }
+        if(authorisation=='API' && !req.body.entity_id) { return res.status(400).send("Parameter entity_id is missing"); }
         //if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
 
-        let issuer = req.body.issuer;
+        let entity_id = req.body.entity_id;
 
         if(authorisation!='API') {
             let metadata = req.session.metadata;
@@ -117,7 +131,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
             let metadataParser = new MetadataParser(metadata.xml);
             let entityID = metadataParser.getServiceProviderEntityId();
-            issuer = entityID;
+            entity_id = entityID;
         }
 
         let user = (authorisation=='API')? req.body.user : req.session.user;
@@ -125,7 +139,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
         let test = req.params.test;
 
-        let report = database.getLastCheck(user, issuer, "main");
+        let report = database.getLastCheck(user, entity_id, "main");
 
         switch(test) {
             case "xsd": testGroup = report.metadata_xsd; break;
@@ -150,7 +164,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }	
 
         if(authorisation=='API' && !req.body.user) { return res.status(400).send("Parameter user is missing"); }
-        if(authorisation=='API' && !req.body.issuer) { return res.status(400).send("Parameter issuer is missing"); }
+        if(authorisation=='API' && !req.body.entity_id) { return res.status(400).send("Parameter entity_id is missing"); }
         if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
         if(authorisation=='API' && !req.body.metadata) { return res.status(400).send("Parameter metadata is missing"); }
 
@@ -160,7 +174,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let metadataParser = new MetadataParser(metadata.xml);
         let entityID = metadataParser.getServiceProviderEntityId();
 
-        let issuer = (authorisation=='API')? req.body.issuer : entityID;
+        let entity_id = (authorisation=='API')? req.body.entity_id : entityID;
         let user = (authorisation=='API')? req.body.user : req.session.user;
         let external_code = (authorisation=='API')? req.body.external_code : req.session.external_code;
     
@@ -183,15 +197,15 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }
 
         switch(cmd) {
-            case "xsd-sp": file = getEntityDir(issuer) + "/sp-metadata-xsd-sp.json"; break;
-            case "xsd-ag": file = getEntityDir(issuer) + "/sp-metadata-xsd-ag.json"; break;
-            case "strict": file = getEntityDir(issuer) + "/sp-metadata-strict.json"; break;
-            case "certs": file = getEntityDir(issuer) + "/sp-metadata-certs.json"; break;
-            case "extra": file = getEntityDir(issuer) + "/sp-metadata-extra.json"; break;
+            case "xsd-sp": file = getEntityDir(entity_id) + "/sp-metadata-xsd-sp.json"; break;
+            case "xsd-ag": file = getEntityDir(entity_id) + "/sp-metadata-xsd-ag.json"; break;
+            case "strict": file = getEntityDir(entity_id) + "/sp-metadata-strict.json"; break;
+            case "certs": file = getEntityDir(entity_id) + "/sp-metadata-certs.json"; break;
+            case "extra": file = getEntityDir(entity_id) + "/sp-metadata-extra.json"; break;
         }
 
         if(file!=null) {
-            Utility.metadataCheck(cmd, issuer.normalize()).then(
+            Utility.metadataCheck(cmd, entity_id.normalize()).then(
                 (out) => {
                     try {
                         let report = fs.readFileSync(file, "utf8");
@@ -205,7 +219,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                             report: report
                         } 
 
-                        if(user && issuer) {
+                        if(user && entity_id) {
                             // save result validation on store
                             let testGroup = [];
                             switch(test) {
@@ -224,8 +238,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                                 }
                             }
 
-                            database.setMetadataValidation(user, issuer, external_code, "main", test, validation);
-                            database.setMetadataLastCheck(user, issuer, external_code, "main", test, lastcheck); 
+                            database.setMetadataValidation(user, entity_id, external_code, "main", test, validation);
+                            database.setMetadataLastCheck(user, entity_id, external_code, "main", test, lastcheck); 
                         }
 
                         res.status(200).send(lastcheck);
