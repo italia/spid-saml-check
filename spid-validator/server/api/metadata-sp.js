@@ -72,7 +72,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
 
         let user = (authorisation=='API')? req.body.user : req.session.user;
-        let organization = (authorisation=='API')? req.body.organization : req.session.entity.id;
+        let organization = (authorisation=='API')? req.body.organization : (req.session.entity)? req.session.entity.id : null;
         let external_code = (authorisation=='API')? req.body.external_code : req.session.external_code;
 
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });

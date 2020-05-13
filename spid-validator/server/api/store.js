@@ -49,7 +49,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }	
     
         if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-            database.saveStore(req.session.user, req.session.request.issuer, req.session.external_code, "main", req.body);
+            let organization = (req.session.entity!=null)? req.session.entity.id : null;
+            database.saveStore(req.session.user, organization, req.session.request.issuer, req.session.external_code, "main", req.body);
             res.status(200).send();
     
         } else {
