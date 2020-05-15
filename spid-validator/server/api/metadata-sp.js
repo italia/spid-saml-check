@@ -86,12 +86,15 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             (file_name) => {
                 let xml = fs.readFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, "utf8");
                 xml = xml.replaceAll("\n", "");
+                let metadataParser = new MetadataParser(xml);
+                let entityID = metadataParser.getServiceProviderEntityId();
+                
                 metadata = {
+                    entity_id: entityID,
                     url: req.body.url,
                     xml: xml
                 }
-                let metadataParser = new MetadataParser(xml);
-                let entityID = metadataParser.getServiceProviderEntityId();
+
                 req.session.metadata = metadata;
                 fs.copyFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, getEntityDir(entityID) + "/sp-metadata.xml");
                 database.setMetadata(user, organization, entityID, external_code, "main", req.body.url, xml);
