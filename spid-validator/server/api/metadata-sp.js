@@ -69,7 +69,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(!req.body.url) { return res.status(500).send("Please insert a valid URL"); }
         if(authorisation=='API' && !req.body.user) { return res.status(400).send("Parameter user is missing"); }
         if(authorisation=='API' && !req.body.organization) { return res.status(400).send("Parameter organization is missing"); }
-        if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
+        //if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
 
         let user = (authorisation=='API')? req.body.user : req.session.user;
         let organization = (authorisation=='API')? req.body.organization : (req.session.entity)? req.session.entity.id : null;
