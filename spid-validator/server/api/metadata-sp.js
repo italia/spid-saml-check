@@ -88,9 +88,15 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                 xml = xml.replaceAll("\n", "");
                 let metadataParser = new MetadataParser(xml);
                 let entityID = metadataParser.getServiceProviderEntityId();
+                let organization_description = metadataParser.getOrganization().displayName;
+                let type = metadataParser.isMetadataForAggregated()? 'AG':'SP'; 
+
                 
                 metadata = {
+                    type: type,
                     entity_id: entityID,
+                    organization_code: organization,
+                    organization_description: organization_description,
                     url: req.body.url,
                     xml: xml
                 }
