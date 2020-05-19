@@ -43,7 +43,20 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             if(savedMetadata) {
                 req.session.metadata = savedMetadata;
                 fs.writeFileSync(getEntityDir(entity_id) + "/sp-metadata.xml", savedMetadata.xml, "utf8");
-                result = savedMetadata;
+
+                let metadataParser = new MetadataParser(savedMetadata.xml);
+                let entityID = metadataParser.getServiceProviderEntityId();
+                let organization_description = metadataParser.getOrganization().displayName;
+                let type = metadataParser.isMetadataForAggregated()? 'AG':'SP'; 
+                
+                result = {
+                    type: type,
+                    entity_id: entityID,
+                    organization_code: organization,
+                    organization_description: organization_description,
+                    url: savedMetadata.url,
+                    xml: savedMetadata.xml
+                };
             }
 
         } else {
