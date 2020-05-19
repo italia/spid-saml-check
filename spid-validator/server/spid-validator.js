@@ -250,6 +250,7 @@ var sendLogoutResponse = function(req, res) {
 
 
 app.use((req, res, next)=> {
+    console.log(".\n.\n.");
     Utility.log(moment().format("YYYY-MM-DD HH:mm:ss") + " - " + req.method + " [" + req.ips.join(' - ') + "] " + req.path);
     next();
 });

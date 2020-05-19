@@ -174,7 +174,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
         if(authorisation=='API' && !req.query.user) { return res.status(400).send("Parameter user is missing"); }
         if(authorisation=='API' && !req.query.entity_id) { return res.status(400).send("Parameter entity_id is missing"); }
-        if(authorisation=='API' && !req.query.external_code) { return res.status(400).send("Parameter external_code is missing"); }
+        //if(authorisation=='API' && !req.query.external_code) { return res.status(400).send("Parameter external_code is missing"); }
 
         let metadata = (authorisation=='API')? database.getMetadata(req.query.user, req.query.entity_id, "main") : req.session.metadata;
         if(!metadata) { return res.status(400).send("Please download metadata first"); }
