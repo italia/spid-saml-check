@@ -148,7 +148,7 @@ class MainService {
 		});
 	}
 
-	getRequest(callback_response, callback_error) {
+	getRequest(callback_response, callback_nosession, callback_error) {
 		Utility.log("GET /api/request");
 		axios.get('/api/request?apikey=' + Utility.getApikey())
 		.then(function(response) {
@@ -157,7 +157,11 @@ class MainService {
 		})
 		.catch(function(error) {
 			Utility.log("getRequest Error", error.response.data);
-			callback_error((error.response!=null) ? error.response.data : "Service not available");
+			if(error.response.status==400) {
+				callback_nosession();
+			} else {
+				callback_error((error.response!=null) ? error.response.data : "Service not available");
+			}
 		});
 	}	
 

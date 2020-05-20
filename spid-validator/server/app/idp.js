@@ -18,6 +18,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         }
     
         req.session.external_code = req.query.code;
+        req.session.entity_id = req.query.entity_id;
     
         res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
     

@@ -18,7 +18,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
             res.status(200).send(req.session.request);
         } else {
-            res.status(400).send("Session not found");
+            res.status(400).send("Session not found"); 
         }    
     });
 
