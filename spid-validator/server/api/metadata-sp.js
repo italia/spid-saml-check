@@ -173,7 +173,6 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         res.status(200).send(testGroup);
     });
 
-
     // execute test for metadata
     app.get("/api/metadata-sp/check/:test", function(req, res) {
     
@@ -281,4 +280,33 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }
         
     });
+
+    // delete metadata
+    app.delete("/api/metadata-sp", function(req, res) {
+        
+            // check if apikey is correct
+            let authorisation = checkAuthorisation(req);
+            if(!authorisation) {
+                error = {code: 401, msg: "Unauthorized"};
+                res.status(error.code).send(error.msg);
+                return null;
+            }	
+    
+            if(authorisation=='API') {
+                if(!req.query.user) { return res.status(400).send("Parameter user is missing"); }
+                //if(!req.query.external_code) { return res.status(400).send("Parameter external_code is missing"); }
+
+                try {
+                    database.deleteStore(req.query.user, req.query.entity_id, "main");
+                    res.status(200).send();
+
+                } catch(exception) {
+                    res.status(500).send("Si è verificato un errore durante la cancellazione del metadata: " + exception.toString());
+                }
+
+            } else {
+                res.status(401).send("Unhautorized");
+            }
+            
+        });
 }
