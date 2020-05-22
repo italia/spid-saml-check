@@ -4,7 +4,7 @@ const Utility = require("../lib/utils");
 const config_idp = require("../../config/idp.json");
 
 
-module.exports = function(app, authenticator, getValidationInfo, getMetadataInfo) {
+module.exports = function(app, checkAuthorisation, authenticator, getValidationInfo, getMetadataInfo) {
 
     // get store info from external code
     // only for OnBoarding, protected by AgID Login
@@ -12,17 +12,29 @@ module.exports = function(app, authenticator, getValidationInfo, getMetadataInfo
         res.redirect(authenticator.getAuthURL("store"));
     });
 
-    // get validation info from external code
-    // only for OnBoarding, not protected
     app.get("/api/sob/validation", function(req, res) {
-        //res.redirect(authenticator.getAuthURL("validation"));
+
+        // check if apikey is correct
+        let authorisation = checkAuthorisation(req);
+        if(!authorisation) {
+            error = {code: 401, msg: "Unauthorized"};
+            res.status(error.code).send(error.msg);
+            return null;
+        }
+
         res.send(getValidationInfo(req.query.user, req.query.code));
     });
 
-    // get metadata info from external code
-    // only for OnBoarding, not protected
     app.get("/api/sob/metadata", function(req, res) {
-        //res.redirect(authenticator.getAuthURL("validation"));
+
+        // check if apikey is correct
+        let authorisation = checkAuthorisation(req);
+        if(!authorisation) {
+            error = {code: 401, msg: "Unauthorized"};
+            res.status(error.code).send(error.msg);
+            return null;
+        }
+
         res.send(getMetadataInfo(req.query.code));
     });
 

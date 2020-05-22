@@ -267,7 +267,7 @@ require('./api/store')		    (app, checkAuth, getEntityDir, database);
 require('./api/metadata-sp')	(app, checkAuth, getEntityDir, database);
 require('./api/request')    	(app, checkAuth, getEntityDir, database);
 require('./api/response')    	(app, checkAuth);
-require('./api/sob')    	    (app, authenticator, getValidationInfo, getMetadataInfo);
+require('./api/sob')    	    (app, checkAuth, authenticator, getValidationInfo, getMetadataInfo);
 
 
 
