@@ -21,13 +21,16 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(authorisation=='API' && !req.query.organization) { return res.status(400).send("Parameter organization is missing"); }
         //if(authorisation=='API' && !req.body.entity_id) { return res.status(400).send("Parameter entity_id is missing"); }
 
-        let entity_id = req.query.entity_id;
+        let entity_id = req.query.entity_id; 
 
         if(authorisation!='API') {
-            let request = req.session.request;
-            if(!request || !request.issuer) { return res.status(400).send("Session not found"); }
-
-            entity_id = request.issuer;
+            if(req.session.entity_id) {
+                entity_id = req.session.entity_id;
+            } else {
+                let request = req.session.request;
+                if(!request || !request.issuer) { return res.status(400).send("EntityID or Session not found"); }    
+                entity_id = request.issuer;
+            }
         }
 
         let user = (authorisation=='API')? req.query.user : req.session.user;

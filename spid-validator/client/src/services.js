@@ -70,7 +70,6 @@ class MainService {
 		});
     }
 	
-
 	loadWorkspace(callback_response, callback_nosession, callback_error) {
 		Utility.log("GET /api/store?apikey=" + Utility.getApikey());
 		axios.get('/api/store?apikey=' + Utility.getApikey())

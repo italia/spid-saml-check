@@ -24,8 +24,9 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
     
             if(store) {
                 // download again from url to avoid issue with signing
-                Utility.metadataDownload(store.metadata_SP_URL, getEntityDir(entity_id) + "/sp-metadata.xml");
-                //fs.writeFileSync(getEntityDir(entity_id) + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
+                // Utility.metadataDownload(store.metadata_SP_URL, getEntityDir(entity_id) + "/sp-metadata.xml");
+                // must get xml from store because if metadata was uploaded from zip it is not available online
+                fs.writeFileSync(getEntityDir(entity_id) + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
                 req.session.metadata = {
                     entity_id: entity_id,
                     url: store.metadata_SP_URL,

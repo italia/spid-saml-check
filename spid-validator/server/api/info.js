@@ -19,7 +19,8 @@ module.exports = function(app, checkAuthorisation) {
     
             let info = {
                 request: req.session.request,
-                metadata: (req.session.metadata)? req.session.metadata.url : undefined,
+                metadata_url: (req.session.metadata)? req.session.metadata.url : undefined,
+                metadata_xml: (req.session.metadata)? req.session.metadata.xml : undefined,
                 issuer: (req.session.request)? req.session.request.issuer : undefined,
                 entity: req.session.entity,
                 policy: req.session.policy,

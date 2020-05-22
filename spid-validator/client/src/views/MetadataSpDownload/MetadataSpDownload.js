@@ -24,16 +24,34 @@ class MetadataSpDownload extends Component {
 
     service.getInfo(
       (info) => {
-        this.setState({ url: info.metadata });
-        if(info.metadata!=null && info.metadata!='') 
-          this.downloadMetadata(info.metadata);
+
+        if(info.metadata_url && info.metadata_xml) {
+          this.setState({ url: info.metadata_url, xml: info.metadata_xml });
+          store.dispatch(Actions.setMetadataSpURL(info.metadata_url)); 
+          store.dispatch(Actions.setMetadataSpXML(info.metadata_xml)); 
+        }
+
+        if(info.metadata_url && !info.metadata_xml) {
+          this.setState({ url: info.metadata_url });          
+          this.downloadMetadata(info.metadata_url);
+        }
       },
+
       (info)=> { // no session
-        this.setState({ url: info.metadata });
-        if(info.metadata!=null && info.metadata!='') 
-          this.downloadMetadata(info.metadata);
+
+        if(info.metadata_url && info.metadata_xml) {
+          this.setState({ url: info.metadata_url, xml: info.metadata_xml });
+          store.dispatch(Actions.setMetadataSpURL(info.metadata_url)); 
+          store.dispatch(Actions.setMetadataSpXML(info.metadata_xml)); 
+        }
+
+        if(info.metadata_url && !info.metadata_xml) {
+          this.setState({ url: info.metadata_url });
+          this.downloadMetadata(info.metadata_url);
+        }
       },
-      (error)=> { ;
+
+      (error)=> {
         Utility.showModal({
             title: "Errore",
             body: error,
@@ -53,13 +71,13 @@ class MetadataSpDownload extends Component {
     let store = ReduxStore.getMain();
 
     service.downloadMetadataSp(url,
-      (metadata) => { 
-        this.setState({xml: metadata});
+      (metadata_xml) => { 
+        this.setState({xml: metadata_xml});
         store.dispatch(Actions.setMetadataSpURL(url)); 
-        store.dispatch(Actions.setMetadataSpXML(metadata)); 
+        store.dispatch(Actions.setMetadataSpXML(metadata_xml)); 
       }, 
       (error)   => { 
-        this.setState({xml: ""});
+        //this.setState({xml: ""}); 
         store.dispatch(Actions.setMetadataSpURL(""));
         store.dispatch(Actions.setMetadataSpXML(""));
         Utility.showModal({

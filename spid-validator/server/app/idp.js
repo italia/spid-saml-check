@@ -11,14 +11,21 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
 
     app.get("/", function (req, res) {
         
-        if(req.session.request==null) {
-            // clean temp dir and reset previous metadata info
-            fs.removeSync(config_dir.DATA + "/" + config_dir.TEMP);
-            req.session.metadata = null;
+        if(req.query.entity_id || req.query.code) {
+            req.session.regenerate((err)=> {
+                if(!err) {
+                    req.session.external_code = req.query.code;
+                    req.session.entity_id = req.query.entity_id;     
+                }
+            });
+
+        } else {
+            if(req.session.request==null) {
+                // clean temp dir and reset previous metadata info
+                fs.removeSync(config_dir.DATA + "/" + config_dir.TEMP);
+                req.session.metadata = null;
+            }
         }
-    
-        req.session.external_code = req.query.code;
-        req.session.entity_id = req.query.entity_id;
     
         res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
     
