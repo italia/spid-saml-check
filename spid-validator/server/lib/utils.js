@@ -110,9 +110,17 @@ class Utils {
     static encrypt(toencrypt, key) {
         return CryptoJS.AES.encrypt(toencrypt, key);
     }
-       
+        
     static decrypt(encrypted, key) {
         return CryptoJS.AES.decrypt(encrypted.toString(), key);
+    }
+
+    static btoa(text) {
+        return Buffer.from(text).toString('base64');
+    }
+
+    static atob(buffer) {
+        return Buffer.from(buffer, 'base64').toString('ascii');
     }
 }
     

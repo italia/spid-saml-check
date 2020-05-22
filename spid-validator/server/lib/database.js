@@ -95,6 +95,8 @@ class Database {
         sql2 += "organization=?, type=?, store=? WHERE user=? AND entity_id=?";
 
         try { 
+            store.metadata_SP_XML = utility.btoa(store.metadata_SP_XML);
+
             let storeSerialized = JSON.stringify(store);
             this.db.prepare(sql1).run(user, organization, entity_id, external_code, type, storeSerialized);
             if(external_code!=null && external_code!='') {
@@ -131,7 +133,10 @@ class Database {
             let data = false;
             let sql = this.db.prepare("SELECT store FROM store WHERE user=? AND entity_id=? AND type=?");
             let result = sql.all(user, entity_id, type);
-            if(result.length==1) data = JSON.parse(result[0].store);
+            if(result.length==1) {
+                data = JSON.parse(result[0].store);
+                data.metadata_SP_XML = utility.atob(data.metadata_SP_XML);
+            }
             return data; 
 
         } catch(exception) {
@@ -148,7 +153,10 @@ class Database {
             if(external_code!=null && external_code!='') {
                 let sql = this.db.prepare("SELECT store FROM store WHERE user=? AND external_code=? AND type=?");
                 let result = sql.all(user, external_code, type);
-                if(result.length==1) data = JSON.parse(result[0].store);    
+                if(result.length==1) {
+                    data = JSON.parse(result[0].store);   
+                    data.metadata_SP_XML = utility.atob(data.metadata_SP_XML);
+                } 
             }
             return data; 
 
@@ -175,8 +183,8 @@ class Database {
                     data = {
                         entity_id: result[0].entity_id,
                         url: store.metadata_SP_URL,
-                        xml: store.metadata_SP_XML
-                    }
+                        xml: utility.atob(store.metadata_SP_XML)
+                    } 
                 }
             }
             return data; 
@@ -222,7 +230,7 @@ class Database {
                     data = {
                         entity_id: result[0].entity_id,
                         url: store.metadata_SP_URL,
-                        xml: store.metadata_SP_XML
+                        xml: utility.atob(store.metadata_SP_XML)
                     }
                 }
             }
@@ -232,7 +240,7 @@ class Database {
             utility.log("DATABASE EXCEPTION (getMetadataByCode)", exception.toString());
             throw(exception);
         }
-    }
+    } 
 
     setMetadata(user, organization, entity_id, external_code, type, url, xml) {
         let store = this.getStore(user, entity_id, type);

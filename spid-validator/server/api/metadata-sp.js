@@ -101,7 +101,6 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         Utility.metadataDownload(req.body.url, getEntityDir(config_dir.TEMP) + "/" + tempfilename).then(
             (file_name) => {
                 let xml = fs.readFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, "utf8");
-                xml = xml.replaceAll("\n", "");
                 let metadataParser = new MetadataParser(xml);
                 let entityID = metadataParser.getServiceProviderEntityId();
                 let organization_description = metadataParser.getOrganization().displayName;
