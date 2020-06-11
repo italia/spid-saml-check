@@ -3,7 +3,7 @@ const Utility = require('../lib/utils');
 const MetadataParser = require('../lib/saml-utils').MetadataParser;
 const config_dir = require('../../config/dir.json');
 const moment = require('moment');
-
+ 
 module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
     // get downloaded metadata
