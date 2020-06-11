@@ -92,7 +92,7 @@ class Database {
         let sql1 = "INSERT OR IGNORE INTO store(user, organization, entity_id, external_code, timestamp, type, store) VALUES (?, ?, ?, ?, DATETIME('now', 'localtime'), ?, ?);";
         let sql2 = "UPDATE store SET timestamp=DATETIME('now', 'localtime'), ";
         if(external_code!=null && external_code!='') sql2 += "external_code=?, ";
-        sql2 += "organization=?, type=?, store=? WHERE user=? AND entity_id=?";
+        sql2 += "organization=?, store=? WHERE user=? AND entity_id=? AND type=?";
 
         try { 
             store.metadata_SP_XML = utility.btoa(store.metadata_SP_XML);
@@ -100,9 +100,9 @@ class Database {
             let storeSerialized = JSON.stringify(store);
             this.db.prepare(sql1).run(user, organization, entity_id, external_code, type, storeSerialized);
             if(external_code!=null && external_code!='') {
-                this.db.prepare(sql2).run(external_code, organization, type, storeSerialized, user, entity_id);
+                this.db.prepare(sql2).run(external_code, organization, storeSerialized, user, entity_id, type);
             } else {
-                this.db.prepare(sql2).run(organization, type, storeSerialized, user, entity_id);
+                this.db.prepare(sql2).run(organization, storeSerialized, user, entity_id, type);
             }
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (saveStore)", exception.toString());

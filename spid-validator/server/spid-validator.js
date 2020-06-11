@@ -85,6 +85,7 @@ var checkBasicAuth = function(req) {
             let user = authorization_plain.split(":")[0];
             let pass = authorization_plain.split(":")[1];
             if(config_api[user]==pass) authorised = 'API';
+            Utility.log("Authorisation API", authorization_plain);
     }
     return authorised;
 }
