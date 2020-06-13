@@ -117,7 +117,7 @@ class Database {
             let data = false;
             let sql = this.db.prepare("SELECT organization FROM store WHERE user=? AND entity_id=? AND type=?");
             let result = sql.all(user, entity_id, type);
-            if(result.length==1) data = JSON.parse(result[0].organization);
+            if(result.length==1) data = result[0].organization;
             return data; 
 
         } catch(exception) {
