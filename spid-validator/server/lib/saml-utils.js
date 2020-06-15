@@ -257,7 +257,7 @@ class MetadataParser {
         return organization;
     }
 
-    getAggregatorContactPerson() {
+    getSPIDContactPerson() {
         let contact_person = [];
 
         let doc = new DOMParser().parseFromString(this.metadata.xml);
@@ -286,7 +286,7 @@ class MetadataParser {
     }
 
     isMetadataForAggregated() {
-        let contactPerson = this.getAggregatorContactPerson();
+        let contactPerson = this.getSPIDContactPerson();
 
         let assertLength = (contactPerson.length==2);
         let assertAggregator = false;
@@ -298,6 +298,32 @@ class MetadataParser {
         }
         
         return assertLength && assertAggregator && assertAggregated;
+    }
+
+    getSPIDAggregatorContactPerson() {
+        let aggregator = null;
+        if(this.isMetadataForAggregated()) {
+            let contactPerson = this.getSPIDContactPerson();
+            for(let n in contactPerson) {
+                if(contactPerson[n].type=="spid:aggregator")
+                    aggregator = contactPerson[n];
+            }
+        }
+
+        return aggregator;
+    }
+
+    getSPIDAggregatedContactPerson() {
+        let aggregated = null;
+        if(this.isMetadataForAggregated()) {
+            let contactPerson = this.getSPIDContactPerson();
+            for(let n in contactPerson) {
+                if(contactPerson[n].type=="spid:aggregated")
+                    aggregated = contactPerson[n];
+            }
+        }
+        
+        return aggregated;
     }
 }
 

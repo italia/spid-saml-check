@@ -107,6 +107,11 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                 let entityID = metadataParser.getServiceProviderEntityId();
                 let organization_description = metadataParser.getOrganization().displayName;
                 let mdType = metadataParser.isMetadataForAggregated()? 'AG':'SP'; 
+                
+                let organization_aggregated = undefined;
+                if(metadataParser.isMetadataForAggregated()) {
+                    organization_aggregated = metadataParser.getSPIDAggregatedContactPerson();
+                }
 
                 
                 metadata = {
@@ -114,6 +119,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                     entity_id: entityID,
                     organization_code: organization,
                     organization_description: organization_description,
+                    organization_aggregated: organization_aggregated,
                     url: req.body.url,
                     xml: xml
                 }
