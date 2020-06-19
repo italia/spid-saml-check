@@ -2,6 +2,7 @@ const fs = require('fs-extra');
 const Utility = require('../lib/utils');
 const MetadataParser = require('../lib/saml-utils').MetadataParser;
 const config_dir = require('../../config/dir.json');
+const config_test = require("../../config/test.json");
 const moment = require('moment');
  
 module.exports = function(app, checkAuthorisation, getEntityDir, database) {
@@ -296,30 +297,125 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
     // delete metadata
     app.delete("/api/metadata-sp", function(req, res) {
         
-            // check if apikey is correct
-            let authorisation = checkAuthorisation(req);
-            if(!authorisation) {
-                error = {code: 401, msg: "Unauthorized"};
-                res.status(error.code).send(error.msg);
-                return null;
-            }	
-    
-            if(authorisation=='API') {
-                if(!req.query.user) { return res.status(400).send("Parameter user is missing"); }
-                //if(!req.query.external_code) { return res.status(400).send("Parameter external_code is missing"); }
-                let type = req.query.type? req.query.type : 'main';
+        // check if apikey is correct
+        let authorisation = checkAuthorisation(req);
+        if(!authorisation) {
+            error = {code: 401, msg: "Unauthorized"};
+            res.status(error.code).send(error.msg);
+            return null;
+        }	
 
-                try {
-                    database.deleteStore(req.query.user, req.query.entity_id, type);
-                    res.status(200).send();
+        if(authorisation=='API') {
+            if(!req.query.user) { return res.status(400).send("Parameter user is missing"); }
+            //if(!req.query.external_code) { return res.status(400).send("Parameter external_code is missing"); }
+            let type = req.query.type? req.query.type : 'main';
 
-                } catch(exception) {
-                    res.status(500).send("Si è verificato un errore durante la cancellazione del metadata: " + exception.toString());
-                }
+            try {
+                database.deleteStore(req.query.user, req.query.entity_id, type);
+                res.status(200).send();
 
-            } else {
-                res.status(401).send("Unhautorized");
+            } catch(exception) {
+                res.status(500).send("Si è verificato un errore durante la cancellazione del metadata: " + exception.toString());
             }
-            
-        });
+
+        } else {
+            res.status(401).send("Unhautorized");
+        }
+        
+    });
+
+    // get metadata validation
+    app.get("/api/metadata-sp/validation", function(req, res) {
+        
+        // check if apikey is correct
+        let authorisation = checkAuthorisation(req);
+        if(!authorisation) {
+            error = {code: 401, msg: "Unauthorized"};
+            res.status(error.code).send(error.msg);
+            return null;
+        }	
+
+        if(authorisation=='API') {
+
+            let user = req.query.user;
+            let entity_id = req.query.entity_id;
+            let type = req.query.type;
+            let skip_response = (req.query.skip_response && req.query.skip_response.toLowerCase()=='true')? true : false;
+
+            if(!user) { return res.status(400).send("Parameter user is missing"); }
+            if(!entity_id) { return res.status(400).send("Parameter entity_id is missing"); }
+            if(!type) { return res.status(400).send("Parameter type is missing"); }
+
+            let store = database.getStore(user, entity_id, type);
+        
+            let result = { 
+                metadata_strict: false,
+                metadata_certs: false,
+                metadata_extra: false,
+                request_strict: false,
+                request_certs: false,
+                request_extra: false,
+                response_done: false,
+                response_success: false,
+                response_validation: false,
+                validation: false
+            };
+        
+            if(store) {
+                let test_done = store.response_test_done? Object.keys(store.response_test_done) : [];
+                let test_success = store.response_test_success? store.response_test_success : [];
+                
+                let tests = Object.keys(config_test['test-suite-1']['cases']);
+                let test_done_ok = (test_done.length==tests.length);
+                let test_success_ok = true;
+        
+                let test_success_num = 0;
+                for(t in test_success) { 
+                    if(!test_success[t]) test_success_ok = false;
+                    else test_success_num++;
+                }
+        
+                let response_validation = false;
+                if(test_done_ok && test_success_ok) response_validation = true;
+                if(skip_response) response_validation = true;
+                    
+                let validation = false;
+                if(store.metadata_validation_strict && 
+                    store.metadata_validation_certs &&
+                    store.metadata_validation_extra &&
+                    store.request_validation_strict &&
+                    store.request_validation_certs &&
+                    store.request_validation_extra &&
+                    response_validation &&
+                    true
+                ) validation = true;
+        
+                result = { 
+                    metadata_strict: store.metadata_validation_strict,
+                    metadata_certs: store.metadata_validation_certs,
+                    metadata_extra: store.metadata_validation_extra,
+                    request_strict: store.request_validation_strict,
+                    request_certs: store.request_validation_certs,
+                    request_extra: store.request_validation_extra,
+                    response_num: tests.length,
+                    response_done: test_done.length,
+                    response_success: test_success_num,
+                    response_validation: response_validation,
+                    validation: validation 
+                };      
+            }
+        
+            Utility.log("Validation result", result);
+            res.status(200).send(result);
+
+        } else {
+            res.status(401).send("Unhautorized");
+        }
+
+    });
+
+
+
+
+
 }

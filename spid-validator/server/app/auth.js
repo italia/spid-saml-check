@@ -6,7 +6,7 @@ const Utility = require("../lib/utils");
 const config_idp = require("../../config/idp.json");
 
 
-module.exports = function(app, checkAuthorisation, authenticator, getValidationInfo) {
+module.exports = function(app, checkAuthorisation, authenticator) {
 
     // local authentication
     app.get("/login", (req, res)=> {
@@ -80,17 +80,22 @@ module.exports = function(app, checkAuthorisation, authenticator, getValidationI
                     Utility.log("SOB API " + state, {user: userinfo.sub, code: userinfo.entity.code});
                 }
     
-                // API selection
-                if(userinfo.entity!=null && state!=null && state=="store") {
-                    res.send(getStoreInfo(userinfo.sub, userinfo.entity.code));
+                // STATE custom selection
+                /*
+                if(userinfo.entity!=null && state!=null && state=="state1") {
+                    //...
                     
-                } else if(userinfo.entity!=null && state!=null && state=="validation") {
-                    res.send(getValidationInfo(userinfo.sub, userinfo.entity.code));
+                } else if(userinfo.entity!=null && state!=null && state=="state2") {
+                    //...
     
                 } else {
     
                     res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
                 }
+                */
+
+
+                res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
     
             } else {
                 let msg = "Accesso non autorizzato. Contattare l'amministratore di sistema.";

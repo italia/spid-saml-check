@@ -96,6 +96,7 @@ var getEntityDir = function(issuer) {
     return ENTITY_DIR;
 }
 
+/* OBSOLETE
 var getValidationInfo = function(user, code) {
     let store = null;
 
@@ -170,6 +171,7 @@ var getMetadataInfo = function(code) {
     }
     return store;
 }
+*/
 
 var sendLogoutResponse = function(req, res) {
 
@@ -260,7 +262,7 @@ app.use((req, res, next)=> {
 
 /* IDP */
 require('./app/idp')		    (app, checkAuth, getEntityDir, sendLogoutResponse);
-require('./app/auth')		    (app, checkAuth, authenticator, getValidationInfo);
+require('./app/auth')		    (app, checkAuth, authenticator);
 
 /* API */
 require('./api/info')		    (app, checkAuth);
@@ -268,7 +270,6 @@ require('./api/store')		    (app, checkAuth, getEntityDir, database);
 require('./api/metadata-sp')	(app, checkAuth, getEntityDir, database);
 require('./api/request')    	(app, checkAuth, getEntityDir, database);
 require('./api/response')    	(app, checkAuth);
-require('./api/sob')    	    (app, checkAuth, authenticator, getValidationInfo, getMetadataInfo);
 
 
 
@@ -276,5 +277,5 @@ require('./api/sob')    	    (app, checkAuth, authenticator, getValidationInfo, 
 // start
 app.listen(8080, () => {
     // eslint-disable-next-line no-console
-    console.log("\nSPID Validator\nversion: 3.0\n\nlistening on port 8080");
+    console.log("\nSPID Validator\nversion: 4.0\n\nlistening on port 8080");
 });
