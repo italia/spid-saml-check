@@ -14,7 +14,7 @@ String.prototype.replaceAll = function(search, replacement) {
 
 String.prototype.normalize = function() {
     var target = this;
-    return target.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+    return target.replace(/[^a-z0-9]/gi, "_").toLowerCase().trim();
 }
 
 class Utils {
@@ -67,6 +67,8 @@ class Utils {
         return new Promise((resolve, reject) => {
             let cmd = "cd ../specs-compliance-tests && DATA_DIR=./data/" + dir + " SP_METADATA=./data/" + dir + "/sp-metadata.xml \ tox -e cleanup";
             switch(test) {
+                case "xsd-sp": cmd += ",sp-metadata-xsd-sp"; break;
+                case "xsd-ag": cmd += ",sp-metadata-xsd-ag"; break;
                 case "strict": cmd += ",sp-metadata-strict"; break;
                 case "certs": cmd += ",sp-metadata-strict,sp-metadata-certs"; break;
                 case "extra": cmd += ",sp-metadata-extra"; break;
@@ -75,6 +77,8 @@ class Utils {
             //cmd+=",generate-global-json-report";
              
             child_process.exec(cmd, function (err, stdout, stderr) {
+                console.log("\n\n>>> " + cmd);
+                console.log(stdout);
                 if(err!=null && stderr!=null && stderr!="") {
                     return reject(stderr);
                 } else {
@@ -96,6 +100,8 @@ class Utils {
             //cmd+=",generate-global-json-report";
              
             child_process.exec(cmd, function (err, stdout, stderr) {
+                console.log("\n\n>>> " + cmd);
+                console.log(stdout);
                 return resolve(stdout);
             });
         });
@@ -104,9 +110,17 @@ class Utils {
     static encrypt(toencrypt, key) {
         return CryptoJS.AES.encrypt(toencrypt, key);
     }
-       
+        
     static decrypt(encrypted, key) {
         return CryptoJS.AES.decrypt(encrypted.toString(), key);
+    }
+
+    static btoa(text) {
+        return Buffer.from(text).toString('base64');
+    }
+
+    static atob(buffer) {
+        return Buffer.from(buffer, 'base64').toString('ascii');
     }
 }
     

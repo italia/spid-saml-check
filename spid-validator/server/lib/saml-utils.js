@@ -5,10 +5,15 @@ const saml = require("./saml-protocol");
 const xmldom = require("xmldom");
 const xpath = require("xpath");
 const DOMParser = xmldom.DOMParser;
-const select = xpath.useNamespaces(namespaces);
-
+const zlib = require("zlib");
 const path = require("path");
 const fs = require("fs");
+
+const select = xpath.useNamespaces({
+    ...namespaces, 
+    "spid": "https://spid.gov.it/saml-extensions"
+});
+
 
 
 class TestSuite {
@@ -61,16 +66,29 @@ class TestSuite {
                         userParam!=null) {
 
                         if(attributeVal!=null) {
-                            attributesCompiled += " \
-                                <saml:Attribute Name=\"" + attributeName + "\" ";
-                                    if(attributesNameFormat) attributesCompiled += " NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:basic\"";
-                                    attributesCompiled += "> \
-                                    <saml:AttributeValue xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" \
-                                        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:string\">"
-                                            + attributeVal +
-                                    "</saml:AttributeValue> \
-                                </saml:Attribute> \
-                            ";
+                            if(attributeName=="dateOfBirth" || attributeName=="expirationDate") {
+                                attributesCompiled += " \
+                                    <saml:Attribute Name=\"" + attributeName + "\" ";
+                                        if(attributesNameFormat) attributesCompiled += " NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:basic\"";
+                                        attributesCompiled += "> \
+                                        <saml:AttributeValue xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" \
+                                            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:date\">"
+                                                + attributeVal +
+                                        "</saml:AttributeValue> \
+                                    </saml:Attribute> \
+                                ";
+                            } else {
+                                attributesCompiled += " \
+                                    <saml:Attribute Name=\"" + attributeName + "\" ";
+                                        if(attributesNameFormat) attributesCompiled += " NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:basic\"";
+                                        attributesCompiled += "> \
+                                        <saml:AttributeValue xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" \
+                                            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:string\">"
+                                                + attributeVal +
+                                        "</saml:AttributeValue> \
+                                    </saml:Attribute> \
+                                ";
+                            }
                         }
 
                     } else {
@@ -193,6 +211,120 @@ class MetadataParser {
         }
         return attributeConsumingService;
     }
+
+    getOrganization() {
+        let organization = {
+            name: "",
+            displayName: "",
+            url: ""   
+        };
+
+        let doc = new DOMParser().parseFromString(this.metadata.xml);
+
+        let organization_name = select("//md:EntityDescriptor/md:Organization/md:OrganizationName", doc);
+        organization.name = select("string(//md:OrganizationName)", organization_name[0]);
+        if(organization_name.length > 1) {
+            for(let n in organization_name) {
+                let name = organization_name[n];
+                if(name.getAttribute("lang")=="it") {
+                    organization.name = select("string(//)", name);
+                }
+            }
+        }
+
+        let organization_display_name = select("//md:EntityDescriptor/md:Organization/md:OrganizationDisplayName", doc);
+        organization.displayName = select("string(//md:OrganizationDisplayName)", organization_display_name[0]);
+        if(organization_display_name.length > 1) {
+            for(let n in organization_display_name) {
+                let display_name = organization_display_name[n];
+                if(display_name.getAttribute("lang")=="it") {
+                    organization.displayName = select("string(//)", display_name);
+                }
+            }
+        }
+
+        let organization_url = select("//md:EntityDescriptor/md:Organization/md:OrganizationURL", doc);
+        organization.url = select("string(//md:OrganizationURL)", organization_url[0]);
+        if(organization_url.length > 1) {
+            for(let n in organization_url) {
+                let url = organization_url[n];
+                if(url.getAttribute("lang")=="it") {
+                    organization.url = select("string(//)", url);
+                }
+            }
+        }
+
+        return organization;
+    }
+
+    getSPIDContactPerson() {
+        let contact_person = [];
+
+        let doc = new DOMParser().parseFromString(this.metadata.xml);
+
+        let contact_person_doc = select("//md:EntityDescriptor/md:ContactPerson", doc);
+        for(let n in contact_person_doc) {
+            let cpe = contact_person_doc[n];
+            let cpe_contact_type = cpe.getAttribute("contactType");
+            let cpe_entity_type = cpe.getAttribute("spid:entityType");
+
+            if(cpe_contact_type=="other") {
+                if(cpe_entity_type=="spid:aggregator" || cpe_entity_type=="spid:aggregated") {
+
+                    contact_person.push({
+                        type: cpe_entity_type,
+                        Company: select("string(md:Company)", cpe),
+                        VATNumber: select("string(md:Extensions/spid:VATNumber)", cpe),
+                        IPACode: select("string(md:Extensions/spid:IPACode)", cpe),
+                        FiscalCode: select("string(md:Extensions/spid:FiscalCode)", cpe)
+                    });
+                }
+            }
+        }
+
+        return contact_person;
+    }
+
+    isMetadataForAggregated() {
+        let contactPerson = this.getSPIDContactPerson();
+
+        let assertLength = (contactPerson.length==2);
+        let assertAggregator = false;
+        let assertAggregated = false;
+
+        for(let n in contactPerson) {
+            assertAggregator = assertAggregator || (contactPerson[n].type=="spid:aggregator");
+            assertAggregated = assertAggregated || (contactPerson[n].type=="spid:aggregated");
+        }
+        
+        return assertLength && assertAggregator && assertAggregated;
+    }
+
+    getSPIDAggregatorContactPerson() {
+        let aggregator = null;
+        if(this.isMetadataForAggregated()) {
+            let contactPerson = this.getSPIDContactPerson();
+            for(let n in contactPerson) {
+                if(contactPerson[n].type=="spid:aggregator")
+                    aggregator = contactPerson[n];
+            }
+        }
+
+        return aggregator;
+    }
+
+    getSPIDAggregatedContactPerson() {
+        let aggregated = null;
+        if(this.isMetadataForAggregated()) {
+            let contactPerson = this.getSPIDContactPerson();
+            for(let n in contactPerson) {
+                if(contactPerson[n].type=="spid:aggregated")
+                    aggregated = contactPerson[n];
+            }
+        }
+        
+        return aggregated;
+    }
 }
 
 
@@ -223,14 +355,18 @@ class RequestParser {
     ID() {
         let samlp = (this.request.type==1)? "AuthnRequest" : "LogoutRequest";
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let requestID = select("//samlp:" + samlp, doc)[0].getAttribute("ID");
+        let requestID = select("//samlp:" + samlp, doc)[0];
+        if(requestID!=null) requestID = requestID.getAttribute("ID") 
+        else requestID = undefined;
         return requestID;
     }
 
     IssueInstant() {
         let samlp = (this.request.type==1)? "AuthnRequest" : "LogoutRequest";
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let requestIssueInstant = select("//samlp:" + samlp, doc)[0].getAttribute("IssueInstant");
+        let requestIssueInstant = select("//samlp:" + samlp, doc)[0];
+        if(requestIssueInstant!=null) requestIssueInstant = requestIssueInstant.getAttribute("IssueInstant") 
+        else requestIssueInstant = undefined;
         return requestIssueInstant;
     }
 
@@ -238,7 +374,7 @@ class RequestParser {
         let samlp = (this.request.type==1)? "AuthnRequest" : "LogoutRequest";
         let doc = new DOMParser().parseFromString(this.request.xml);
         let issuer = select("string(//samlp:" + samlp + "/saml:Issuer)", doc);
-        return issuer;
+        return issuer.trim();
     }
 
     AuthnContextClassRef() { // only for type 1
@@ -249,19 +385,25 @@ class RequestParser {
 
     AssertionConsumerServiceURL() { // only for type 1
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let requestAssertionConsumerServiceURL = select("//samlp:AuthnRequest", doc)[0].getAttribute("AssertionConsumerServiceURL");
+        let requestAssertionConsumerServiceURL = select("//samlp:AuthnRequest", doc)[0];
+        if(requestAssertionConsumerServiceURL!=null) requestAssertionConsumerServiceURL = requestAssertionConsumerServiceURL.getAttribute("AssertionConsumerServiceURL") 
+        else requestAssertionConsumerServiceURL = undefined;
         return requestAssertionConsumerServiceURL;
     }
 
     AssertionConsumerServiceIndex() { // only for type 1
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let requestAssertionConsumerServiceIndex = select("//samlp:AuthnRequest", doc)[0].getAttribute("AssertionConsumerServiceIndex");
+        let requestAssertionConsumerServiceIndex = select("//samlp:AuthnRequest", doc)[0];
+        if(requestAssertionConsumerServiceIndex!=null) requestAssertionConsumerServiceIndex = requestAssertionConsumerServiceIndex.getAttribute("AssertionConsumerServiceIndex") 
+        else requestAssertionConsumerServiceIndex = undefined;
         return requestAssertionConsumerServiceIndex;
     }
 
     AttributeConsumingServiceIndex() { // only for type 1
         let doc = new DOMParser().parseFromString(this.request.xml);
-        let requestAttributeConsumingServiceIndex = select("//samlp:AuthnRequest", doc)[0].getAttribute("AttributeConsumingServiceIndex");
+        let requestAttributeConsumingServiceIndex = select("//samlp:AuthnRequest", doc)[0];
+        if(requestAttributeConsumingServiceIndex!=null) requestAttributeConsumingServiceIndex = requestAttributeConsumingServiceIndex.getAttribute("AttributeConsumingServiceIndex") 
+        else requestAttributeConsumingServiceIndex = undefined;
         return requestAttributeConsumingServiceIndex;
     }
 }
@@ -288,6 +430,27 @@ class IdP {
     
     getMetadata() {
         return this.idp.produceIDPMetadata(true);
+    }
+
+    getLogoutResponseURL(url, SAMLResponse, sigAlg, signature, relayState) {
+        let qs = "";
+
+        if (signature !== null) {
+            qs += this.getLogoutResponsePayload(SAMLResponse, relayState, sigAlg);
+            qs += "&Signature=" + encodeURIComponent(signature);
+        } else {
+            qs += this.getLogoutResponsePayload(SAMLResponse, relayState, null);
+        }
+
+        return url + "?" + qs;
+    }
+
+    getLogoutResponsePayload(SAMLResponse, relayState, sigAlg) {
+        let qs = "SAMLResponse=" + encodeURIComponent(zlib.deflateRawSync(SAMLResponse).toString("base64"));
+        qs += "&RelayState=" + encodeURIComponent(relayState);
+        qs += (sigAlg !== null) ? "&SigAlg=" + encodeURIComponent(sigAlg) : "";
+
+        return qs;
     }
 }
 

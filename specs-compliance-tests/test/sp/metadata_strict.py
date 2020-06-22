@@ -131,51 +131,6 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
         if self.failures:
             self.fail(common.helpers.dump_failures(self.failures))
 
-    def test_xsd(self):
-        '''Validate the SP metadata against the SAML 2.0 Medadata XSD'''
-
-        cmd = ' '.join(['xmllint',
-                        '--noout',
-                        '--schema ./xsd/saml-schema-metadata-2.0.xsd',
-                        METADATA])
-        is_valid = True
-        msg = 'the metadata must validate against the XSD'
-        try:
-            subprocess.run(cmd, shell=True, check=True, stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE)
-        except subprocess.CalledProcessError as err:
-            is_valid = False
-            lines = [msg]
-            if err.stderr:
-                stderr = (
-                    'stderr: ' +
-                    '\nstderr: '.join(
-                        list(
-                            filter(
-                                None,
-                                err.stderr.decode('utf-8').split('\n')
-                            )
-                        )
-                    )
-                )
-                lines.append(stderr)
-            if err.stdout:
-                stdout = (
-                    'stdout: ' +
-                    '\nstdout: '.join(
-                        list(
-                            filter(
-                                None,
-                                err.stdout.decode('utf-8').split('\n')
-                            )
-                        )
-                    )
-                )
-                lines.append(stdout)
-            msg = '\n'.join(lines)
-
-        self._assertTrue(is_valid, msg)
-
     def test_xmldsig(self):
         '''Verify the SP metadata signature'''
 
@@ -443,10 +398,11 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
             )
 
             sn = acs.xpath('./ServiceName')
-            self._assertTrue((len(sn) == 1),
+            self._assertTrue((len(sn) > 0),
                              'The ServiceName element must be present')
-            self._assertIsNotNone(sn[0].text,
-                                  'The ServiceName element must have a value')
+            for sns in sn:        
+                self._assertIsNotNone(sns.text,
+                                    'The ServiceName element must have a value')
 
             ras = acs.xpath('./RequestedAttribute')
             self._assertGreaterEqual(

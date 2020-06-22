@@ -19,7 +19,7 @@
     "file-loader": "1.1.6",
     "html-loader": "0.5.4",
     "html-webpack-plugin": "2.30.1",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.13.1",
     "rimraf": "2.6.2",
     "sass-loader": "6.0.6",
     "source-list-map": "2.0.0",
@@ -30,7 +30,7 @@
     "webpack-dev-server": "2.9.7"
   },
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.19.0",
     "bootstrap": "4.0.0-beta.3",
     "chart.js": "^2.7.2",
     "circular-json": "^0.5.1",

@@ -97,7 +97,7 @@ class Main extends Component {
     getInfo() {
         let service = Services.getMainService();
         service.getInfo(
-          (info) => {  
+          (info)=> {  
             this.setState({
                 infoprint_issuer: info.issuer,
                 infoprint_metadata: info.metadata,
@@ -105,8 +105,17 @@ class Main extends Component {
             }, ()=> {
                 window.print();
             });
-          }, 
-          (error)   => { ;
+		  }, 
+		  (info)=> { // no session
+			this.setState({
+                infoprint_issuer: 'N/A (validazione solo metadata)',
+                infoprint_metadata: info.metadata,
+                infoprint_datetime: moment().format('dddd DD/MM/YYYY - HH:mm:ss')
+            }, ()=> {
+                window.print();
+            });
+		  },
+          (error)=> { ;
             Utility.showModal({
                 title: "Errore",
                 body: error,
@@ -144,6 +153,7 @@ class Main extends Component {
 								<Container fluid>
 									<Switch>
 									<Route path="/metadata-sp-download" name="Metadata Service Provider / Download" component={MetadataSpDownload}/>
+									<Route path="/metadata-sp-check-xsd" key="metadata-sp-check-xsd" render={()=><MetadataSpCheck test="xsd" />} />
 									<Route path="/metadata-sp-check-strict" key="metadata-sp-check-strict" render={()=><MetadataSpCheck test="strict" />} />
 									<Route path="/metadata-sp-check-certs" key="metadata-sp-check-certs" render={()=><MetadataSpCheck test="certs" />} />
 									<Route path="/metadata-sp-check-extra" key="metadata-sp-check-extra" render={()=><MetadataSpCheck test="extra" />} />

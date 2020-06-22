@@ -61,16 +61,15 @@ class MainService {
 			if(response.data.request) {
 				callback_response(response.data);
 			} else {
-				callback_nosession();
+				callback_nosession(response.data);
 			}
 		})
 		.catch(function(error) {
-			Utility.log("getInfo Error", error.response.data);
-			callback_error((error.response!=null) ? error.response.data : "Service not available");
+			Utility.log("getInfo Error", error);
+			callback_error((error!=null) ? error : "Service not available");
 		});
     }
 	
-
 	loadWorkspace(callback_response, callback_nosession, callback_error) {
 		Utility.log("GET /api/store?apikey=" + Utility.getApikey());
 		axios.get('/api/store?apikey=' + Utility.getApikey())
@@ -122,6 +121,19 @@ class MainService {
 		});
 	}
 
+	getLastCheckMetadataSp(test, callback_response, callback_error) {
+		Utility.log("GET /api/metadata-sp/lastcheck/" + test);
+		axios.get('/api/metadata-sp/lastcheck/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})
+		.then(function(response) {
+			Utility.log("getLastCheckMetadataSp Success", response.data);
+			callback_response(response.data);
+		})
+		.catch(function(error) {
+			Utility.log("getLastCheckMetadataSp Error", error);
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+	}
+
 	checkMetadataSp(test, callback_response, callback_error) {
 		Utility.log("GET /api/metadata-sp/check/" + test);
 		axios.get('/api/metadata-sp/check/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})
@@ -135,7 +147,7 @@ class MainService {
 		});
 	}
 
-	getRequest(callback_response, callback_error) {
+	getRequest(callback_response, callback_nosession, callback_error) {
 		Utility.log("GET /api/request");
 		axios.get('/api/request?apikey=' + Utility.getApikey())
 		.then(function(response) {
@@ -144,9 +156,26 @@ class MainService {
 		})
 		.catch(function(error) {
 			Utility.log("getRequest Error", error.response.data);
-			callback_error((error.response!=null) ? error.response.data : "Service not available");
+			if(error.response.status==400) {
+				callback_nosession();
+			} else {
+				callback_error((error.response!=null) ? error.response.data : "Service not available");
+			}
 		});
 	}	
+
+	getLastCheckRequest(test, callback_response, callback_error) {
+		Utility.log("GET /api/request/lastcheck/" + test);
+		axios.get('/api/request/lastcheck/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})
+		.then(function(response) {
+			Utility.log("getLastCheckRequest Success", response.data);
+			callback_response(response.data);
+		})
+		.catch(function(error) {
+			Utility.log("getLastCheckRequest Error", error);
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+	}
 
 	checkRequest(test, callback_response, callback_error) {
 		Utility.log("GET /api/request/check/" + test);

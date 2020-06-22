@@ -43,10 +43,12 @@ class Worksave extends Component {
     }
 
     startNew() {
-        Utility.log("WorkSave", "Start NEW");
-        let service = Services.getMainService();
-		service.resetWorkspace();
-        this.props.history.push('/request');
+        if(confirm("Sei sicuro di voler iniziare una nuova sessione di validazione? Il metadata caricato e tutti gli esiti dei test salvati andranno persi.")) {
+            Utility.log("WorkSave", "Start NEW");
+            let service = Services.getMainService();
+            service.resetWorkspace();
+            this.props.history.push('/request');
+        }
     }
   
 	render() {    

@@ -25,6 +25,7 @@ ReactDOM.render((
   <HashRouter>
     <Switch>
       <Route path="/metadata-sp-download" component={Main}/>
+      <Route path="/metadata-sp-check-xsd" component={Main}/>
       <Route path="/metadata-sp-check-strict" component={Main}/>
       <Route path="/metadata-sp-check-certs" component={Main}/>
       <Route path="/metadata-sp-check-extra" component={Main}/>
