@@ -30,5 +30,6 @@ When used in this fashion, the *SPID Validator* can be invoked as an IdP from yo
 To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin in to Validator with following credentials:
 
    Username: validator
+
    Password: validator
 
