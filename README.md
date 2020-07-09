@@ -1,8 +1,8 @@
-Per le istruzioni in Italiano, cliccare [qui](README.it.md).
+**Per le istruzioni in Italiano, cliccare [qui](README.it.md).**
 
 # *SPID SAML Check*
 
-*SPID SAML Check* is a tool that performs some tests on Service Providers, as inspecting requests shipped to an Identity Provider, checking metadata compliance and sending custom responses back to Service Provider. It includes a tool based on Tox (specs-compliance-tests) to check the SPID specifications compliance, a Node.js web application (spid-validator) that provides an easy to use interface and an extension for Google Chrome that intercepts the request.
+*SPID SAML Check* is a tool that performs some tests on Service Providers, as inspecting requests shipped to an Identity Provider, checking metadata compliance and sending custom responses back to Service Provider. It includes a tool based on Tox (_`specs-compliance-tests`_) to check the SPID specifications compliance, a Node.js web application (_`spid-validator`_) that provides an easy to use interface and an extension for Google Chrome that intercepts the request.
 
 *SPID SAML Check* has been developed and is maintained by AgID - Agenzia per l'Italia Digitale
 
