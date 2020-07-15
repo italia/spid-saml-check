@@ -15,9 +15,21 @@
 # Licence for the specific language governing permissions and limitations
 # under the Licence.
 
+
+BOOLEAN_TRUE = [
+    'true',
+    '1',
+]
+
 ALLOWED_BINDINGS = [
     'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
     'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
+]
+
+ALLOWED_SINGLELOGOUT_BINDINGS = [
+    'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
+    'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
+    'urn:oasis:names:tc:SAML:2.0:bindings:SOAP',
 ]
 
 ALLOWED_FORMATS = [
@@ -89,3 +101,23 @@ ONE_YEAR = 365
 
 MINIMUM_CERTIFICATE_LENGHT = 1024  # type: int
 DESIRED_CERTIFICATE_LENGHT = 2048  # type: int
+
+FICEP_MINIMUM_SET_SERVICENAME = 'eIDAS Natural Person Minimum Attribute Set'
+FICEP_FULL_SET_SERVICENAME = 'eIDAS Natural Person Full Attribute Set'
+
+FICEP_MIN_ATTRIBUTES = [
+    'spidCode',
+    'name',
+    'familyName',
+    'dateOfBirth',
+]
+
+FICEP_FULL_ATTRIBUTES = [
+    'spidCode',
+    'name',
+    'familyName',
+    'dateOfBirth',
+    'placeOfBirth',
+    'address',
+    'gender',
+]

@@ -129,15 +129,15 @@ class TestCaseWrap(object):
                     if ('statusMessage' in endpoint) and (endpoint['statusMessage'] != 'Unable to connect to the server'):
                         if 'details' in endpoint :
                             detail = endpoint['details']
-                            if (detail['poodle']): detectedVulnerabilities.append("POODLE")
-                            if (detail['heartbleed']): detectedVulnerabilities.append("Heartbleed")
-                            if (detail['openSslCcs'] == 3): detectedVulnerabilities.append("OpenSSL CCS vuln. (CVE-2014-0224)")
-                            if (detail['openSSLLuckyMinus20'] == 2): detectedVulnerabilities.append("OpenSSL Padding Oracle vuln. (CVE-2016-2107)")
-                            if (detail['ticketbleed'] == 2): detectedVulnerabilities.append("Ticketbleed")
-                            if (detail['bleichenbacher'] > 1): detectedVulnerabilities.append("ROBOT")
-                            if (detail['freak']): detectedVulnerabilities.append("FREAK")
-                            if (detail['drownVulnerable']): detectedVulnerabilities.append("DROWN")
-                            if (len(detectedVulnerabilities) > 0):
+                            if ('poodle' in detail) and detail['poodle']: detectedVulnerabilities.append("POODLE")
+                            if ('heartbleed'in detail)  and detail['heartbleed']: detectedVulnerabilities.append("Heartbleed")
+                            if ('openSslCcs' in detail) and (detail['openSslCcs'] == 3): detectedVulnerabilities.append("OpenSSL CCS vuln. (CVE-2014-0224)")
+                            if ('openSSLLuckyMinus20' in detail) and (detail['openSSLLuckyMinus20'] == 2): detectedVulnerabilities.append("OpenSSL Padding Oracle vuln. (CVE-2016-2107)")
+                            if ('ticketbleed' in detail) and (detail['ticketbleed'] == 2): detectedVulnerabilities.append("Ticketbleed")
+                            if ('bleichenbacher' in detail) and (detail['bleichenbacher'] > 1): detectedVulnerabilities.append("ROBOT")
+                            if ('freak' in detail)  and detail['freak']: detectedVulnerabilities.append("FREAK")
+                            if ('drownVulnerable' in detail)  and detail['drownVulnerable']: detectedVulnerabilities.append("DROWN")
+                            if len(detectedVulnerabilities) > 0:
                                 for detectedVulnerability in detectedVulnerabilities:
                                     detectedVulnerabilitiesNames += detectedVulnerability+" "
                                 raise AssertionError(
@@ -248,6 +248,10 @@ class TestCaseWrap(object):
                      msg=msg)
 
     def _assertIsNotNone(self, first, msg=None):
+        self._assert(self.assertIsNotNone,
+                     first=first,
+                     msg=msg)
+    def _assertIsIntelligible(self, first, msg=None):
         self._assert(self.assertIsNotNone,
                      first=first,
                      msg=msg)
