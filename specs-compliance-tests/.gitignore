@@ -8,8 +8,3 @@ test/sp/__pycache__
 *.rc
 
 data
-
-check_authn-request.sh
-check_metadata_ficep.sh
-check_metadata.sh
-
