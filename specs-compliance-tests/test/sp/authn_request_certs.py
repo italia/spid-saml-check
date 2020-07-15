@@ -76,7 +76,7 @@ class TestAuthnRequestCertificates(unittest.TestCase,
                 self._assertFalse(
                     r[0].lower().startswith('sha1'),
                     (('The %s certificate must not use '
-                      'weak signature algorithm (sha1)') %
+                      'weak signature algorithm (sha1) - TR pag. 10 and pag. 14') %
                      cert_path)
                 )
 
@@ -84,7 +84,7 @@ class TestAuthnRequestCertificates(unittest.TestCase,
                 self._assertIn(
                     r[2],
                     exp,
-                    (('The key type of %s certificate must be one of [%s]') %
+                    ('The key type of %s certificate must be one of [%s] - TR pag. 10 and pag. 14' %
                      (cert_path, ', '.join(exp)))
                 )
 
@@ -97,10 +97,10 @@ class TestAuthnRequestCertificates(unittest.TestCase,
 
                 self._assertTrue(
                     (int(r[1]) >= exp),
-                    (('The key length of %s certificate must be >= %d') %
+                    ('The key length of %s certificate must be >= %d - TR pag. 10 and pag. 14' %
                      (cert_path, exp))
                 )
 
     def test_signature_certificates(self):
-        '''Test the compliance of signature certificate(s)'''
+        """Test the compliance of signature certificate(s)"""
         self._test_certificates('signature')

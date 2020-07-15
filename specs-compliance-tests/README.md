@@ -30,6 +30,7 @@ The environment is organised in test suites, which are labeled as
 *   `sp-metadata-certs`
 *   `sp-metadata-extra`
 *   `sp-metadata-strict`
+*   `sp-metadata-ficep-strict` 
 
 Each test suite can be driven with environment variables, which are defined as
 follows

@@ -163,13 +163,13 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
                 'The %s attribute must be present' % attr
             )
 
-            a = spsso.get(attr)
-            self._assertIsNotNone(
-                a,
-                'The %s attribute must have a value' % attr
-            )
-
             if attr == 'protocolSupportEnumeration':
+                a = spsso.get(attr)
+                self._assertIsNotNone(
+                    a,
+                    'The %s attribute must have a value' % attr
+                )
+
                 self._assertEqual(
                     a,
                     'urn:oasis:names:tc:SAML:2.0:protocol',
@@ -178,6 +178,12 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
                 )
 
             if attr == 'WantAssertionsSigned':
+                a = spsso.get(attr)
+                self._assertIsNotNone(
+                    a,
+                    'The %s attribute must have a value' % attr
+                )
+
                 self._assertEqual(
                     a.lower(),
                     'true',
@@ -205,19 +211,22 @@ class TestSPMetadataExtra(unittest.TestCase, common.wrap.TestCaseWrap):
 
     def test_Organization(self):
         '''Test the compliance of Organization element'''
-        org = self.doc.xpath('//EntityDescriptor/Organization')[0]
+        org = self.doc.xpath('//EntityDescriptor/Organization')
+        if org:
+            org= org[0]
 
-        for elem in ['Name', 'URL', 'DisplayName']:
-            e = org.xpath(
-                './Organization%s[@xml:lang="it"]' % elem,
-                namespaces={
-                    'xml': 'http://www.w3.org/XML/1998/namespace',
-                }
-            )
-            self._assertTrue(
-                (len(e) == 1),
-                'An IT localised Organization%s must be present' % elem
-            )
+            for elem in ['Name', 'URL', 'DisplayName']:
+                e = org.xpath(
+                    './Organization%s[@xml:lang="it"]' % elem,
+                    namespaces={
+                        'xml': 'http://www.w3.org/XML/1998/namespace',
+                    }
+                )
+                self._assertTrue(
+                    (len(e) == 1),
+                    'An IT localised Organization%s must be present' % elem
+                )
+
 
     @unittest.skipIf(SSLLABS_SKIP == 1, 'x')
     def test_ssllabs(self):

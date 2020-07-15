@@ -85,7 +85,7 @@ class TestSPMetadataCertificates(unittest.TestCase, common.wrap.TestCaseWrap):
                 self._assertIn(
                     r[2],
                     exp,
-                    (('The key type of %s certificate must be one of [%s]') %
+                    (('The key type of %s certificate must be one of [%s] - TR pag. 19') %
                      (cert_path, ', '.join(exp)))
                 )
 
