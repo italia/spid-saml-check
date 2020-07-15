@@ -1,4 +1,4 @@
-# Copyright 2018 AgID - Agenzia per l'Italia Digitale
+# Copyright 2019 AgID - Agenzia per l'Italia Digitale
 #
 # Licensed under the EUPL, Version 1.2 or - as soon they will be approved by
 # the European Commission - subsequent versions of the EUPL (the "Licence").
@@ -544,6 +544,13 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
             index = 0
             del location_to_check[:currently_in_analysis]
             currently_in_analysis = 0
+
+            self._assertIsTLS12(
+                {'location': t[1], 'data': data,
+                 'service': 'SingleLogoutService'},
+                ['A+', 'A', 'A-'],
+                '%s must be reachable and support TLS 1.2.' % t[1]
+            )
 
         end = datetime.datetime.now().replace(microsecond=0)
         #print('TLS evaluated in %s seconds', (end - start))
