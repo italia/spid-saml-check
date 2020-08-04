@@ -1,7 +1,7 @@
 # *SPID SAML Check*
 
-*SPID SAML Check* effettua test su un Service Provider SPID, verificando la validità delle richieste di autenticazioni provenienti da un Identity Provider (IdP) e dellerisposte di autenticazioni restituite dall'IdP. 
-È costituito da uno strumento a riga di comando basato su Tox (_`specs-compliance-tests`_) e una web application Node.js (_`spid-validator`_) che fornisce una rapida interfaccia grafica e un'estensione per Google *Chrome* per intercettarele richieste SAML.
+*SPID SAML Check* effettua test su un Service Provider SPID, verificando la validità delle richieste di autenticazioni SAML provenienti da un Identity Provider (IdP) e dellerisposte di autenticazioni restituite dall'IdP. 
+È costituito da uno strumento a riga di comando basato su Tox (_`specs-compliance-tests`_), una web application Node.js (_`spid-validator`_) che fornisce una rapida interfaccia grafica e un'estensione per Google *Chrome* per intercettare le richieste SAML.
 *SPID SAML Check* è sviluppato e mantenuto da [AgID - Agenzia per l'Italia Digitale](https://www.agid.gov.it).
 
 ## Come costruire il contenitore Docker
