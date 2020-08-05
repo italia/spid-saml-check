@@ -103,35 +103,48 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
         Utility.metadataDownload(req.body.url, getEntityDir(config_dir.TEMP) + "/" + tempfilename).then(
             (file_name) => {
-                let xml = fs.readFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, "utf8");
-                let metadataParser = new MetadataParser(xml);
-                let entityID = metadataParser.getServiceProviderEntityId();
-                let organization_description = metadataParser.getOrganization().displayName;
-                let mdType = metadataParser.isMetadataForAggregated()? 'AG':'SP'; 
-                
-                let organization_aggregated = undefined;
-                if(metadataParser.isMetadataForAggregated()) {
-                    organization_aggregated = metadataParser.getSPIDAggregatedContactPerson();
+
+                try {
+                    let xml = fs.readFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, "utf8");
+                    let metadataParser = new MetadataParser(xml);
+
+                    let entityID = metadataParser.getServiceProviderEntityId();
+                    if(entityID==null || entityID=='') throw new Error("EntityID non specificato");
+
+                    let organization_description = metadataParser.getOrganization().displayName;
+                    if(organization_description==null || organization_description=='') throw new Error("Organization non definito");
+
+                    let mdType = metadataParser.isMetadataForAggregated()? 'AG':'SP'; 
+                    
+                    let organization_aggregated = undefined;
+                    if(metadataParser.isMetadataForAggregated()) {
+                        organization_aggregated = metadataParser.getSPIDAggregatedContactPerson();
+                    }
+    
+                    
+                    metadata = {
+                        type: mdType,
+                        entity_id: entityID,
+                        organization_code: organization,
+                        organization_description: organization_description,
+                        organization_aggregated: organization_aggregated,
+                        url: req.body.url,
+                        xml: xml
+                    }
+    
+                    req.session.metadata = metadata;
+                    fs.copyFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, getEntityDir(entityID) + "/sp-metadata.xml");
+                    database.setMetadata(user, organization, entityID, external_code, type, req.body.url, xml);
+                    fs.unlinkSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename);
+    
+                    let result = (authorisation=='API')? metadata : xml;
+                    res.status(200).send(result);
+
+                } catch(exception) {
+                    Utility.log("ERR /api/metadata-sp/download", exception);
+                    res.status(500).send("Si è verificato un errore durante il parsing del file xml. " + exception.toString());
                 }
-
-                
-                metadata = {
-                    type: mdType,
-                    entity_id: entityID,
-                    organization_code: organization,
-                    organization_description: organization_description,
-                    organization_aggregated: organization_aggregated,
-                    url: req.body.url,
-                    xml: xml
-                }
-
-                req.session.metadata = metadata;
-                fs.copyFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, getEntityDir(entityID) + "/sp-metadata.xml");
-                database.setMetadata(user, organization, entityID, external_code, type, req.body.url, xml);
-                fs.unlinkSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename);
-
-                let result = (authorisation=='API')? metadata : xml;
-                res.status(200).send(result);
+            
             },
             (err) => {
                 req.session.metadata = null;

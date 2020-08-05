@@ -222,34 +222,40 @@ class MetadataParser {
         let doc = new DOMParser().parseFromString(this.metadata.xml);
 
         let organization_name = select("//md:EntityDescriptor/md:Organization/md:OrganizationName", doc);
-        organization.name = select("string(//md:OrganizationName)", organization_name[0]);
-        if(organization_name.length > 1) {
-            for(let n in organization_name) {
-                let name = organization_name[n];
-                if(name.getAttribute("lang")=="it") {
-                    organization.name = select("string(//)", name);
+        if(organization_name && organization_name.length>0) {
+            organization.name = select("string(//md:OrganizationName)", organization_name[0]);
+            if(organization_name.length > 1) {
+                for(let n in organization_name) {
+                    let name = organization_name[n];
+                    if(name.getAttribute("lang")=="it") {
+                        organization.name = select("string(//)", name);
+                    }
                 }
             }
         }
 
         let organization_display_name = select("//md:EntityDescriptor/md:Organization/md:OrganizationDisplayName", doc);
-        organization.displayName = select("string(//md:OrganizationDisplayName)", organization_display_name[0]);
-        if(organization_display_name.length > 1) {
-            for(let n in organization_display_name) {
-                let display_name = organization_display_name[n];
-                if(display_name.getAttribute("lang")=="it") {
-                    organization.displayName = select("string(//)", display_name);
+        if(organization_display_name && organization_display_name.length>0) {
+            organization.displayName = select("string(//md:OrganizationDisplayName)", organization_display_name[0]);
+            if(organization_display_name.length > 1) {
+                for(let n in organization_display_name) {
+                    let display_name = organization_display_name[n];
+                    if(display_name.getAttribute("lang")=="it") {
+                        organization.displayName = select("string(//)", display_name);
+                    }
                 }
             }
         }
 
         let organization_url = select("//md:EntityDescriptor/md:Organization/md:OrganizationURL", doc);
-        organization.url = select("string(//md:OrganizationURL)", organization_url[0]);
-        if(organization_url.length > 1) {
-            for(let n in organization_url) {
-                let url = organization_url[n];
-                if(url.getAttribute("lang")=="it") {
-                    organization.url = select("string(//)", url);
+        if(organization_url && organization_url.length>0) {
+            organization.url = select("string(//md:OrganizationURL)", organization_url[0]);
+            if(organization_url.length > 1) {
+                for(let n in organization_url) {
+                    let url = organization_url[n];
+                    if(url.getAttribute("lang")=="it") {
+                        organization.url = select("string(//)", url);
+                    }
                 }
             }
         }
