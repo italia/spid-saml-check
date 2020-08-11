@@ -101,7 +101,7 @@ class RequestCheck extends Component {
     }
 
     print() {
-        Utility.print();
+      Utility.print("request-" + this.state.test);
     }
 
   render() {    

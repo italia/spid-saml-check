@@ -45,7 +45,7 @@ class Main extends Component {
 			modal_btn_secondary_func: null,
 			modal_btn_secondary_text: "",
 
-            print: false,
+			print: false,
             infoprint_issuer: "-",
             infoprint_metadata: "-",
             infoprint_datetime: "-"
@@ -61,13 +61,13 @@ class Main extends Component {
 		let utilState = this.utilStore.getState(); 
 		this.setState({
 			blocking: utilState.blockUI,
-            print: utilState.print
+			print: utilState.print,
 		}, ()=>{
 			// state updated
             if(this.state.print) {
-                this.getInfo();
+                this.getInfo(utilState.printTitle);
                 this.setState({
-                    print: false
+					print: false
                 });
                 Utility.printed();
             }
@@ -94,7 +94,7 @@ class Main extends Component {
 		});
 	}	
 
-    getInfo() {
+    getInfo(title) {
         let service = Services.getMainService();
         service.getInfo(
           (info)=> {  
@@ -103,7 +103,10 @@ class Main extends Component {
                 infoprint_metadata: info.metadata,
                 infoprint_datetime: moment().format('dddd DD/MM/YYYY - HH:mm:ss')
             }, ()=> {
-                window.print();
+				let doctitle = document.title;
+				document.title = "_" + moment().format("YYYYMMDD") + "_" + title + "-";
+				window.print();
+				document.title = doctitle;
             });
 		  }, 
 		  (info)=> { // no session
@@ -112,7 +115,10 @@ class Main extends Component {
                 infoprint_metadata: info.metadata,
                 infoprint_datetime: moment().format('dddd DD/MM/YYYY - HH:mm:ss')
             }, ()=> {
-                window.print();
+				let doctitle = document.title;
+				document.title = "_" + moment().format("YYYYMMDD") + "_" + title + "-";
+				window.print();
+				document.title = doctitle;
             });
 		  },
           (error)=> { ;

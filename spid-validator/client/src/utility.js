@@ -35,14 +35,14 @@ class Utility {
         util.dispatch(UtilActions.setBlockUI(value));
     }	
 
-    static print() {
+    static print(title) {
         let util = ReduxStore.getUtil();
-        util.dispatch(UtilActions.setPrint(true));
+        util.dispatch(UtilActions.setPrint(true, title));
     }
 
     static printed() {
         let util = ReduxStore.getUtil();
-        util.dispatch(UtilActions.setPrint(false));
+        util.dispatch(UtilActions.setPrint(false, ""));
     }
 	
 	static isAuthenticated() {

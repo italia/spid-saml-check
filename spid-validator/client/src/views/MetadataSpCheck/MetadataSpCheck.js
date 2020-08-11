@@ -104,7 +104,7 @@ class MetadataSpCheck extends Component {
     }
 
     print() {
-        Utility.print();
+        Utility.print("metadata-" + this.state.test);
     }
 
   render() {    

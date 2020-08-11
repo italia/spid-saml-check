@@ -58,7 +58,7 @@ class ResponseReport extends Component {
     }
 
     print() {
-        Utility.print();
+        Utility.print("response");
     }
 
   render() {    
