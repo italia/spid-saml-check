@@ -101,8 +101,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             xml: null
         }
 
-        Utility.metadataDownload(req.body.url, getEntityDir(config_dir.TEMP) + "/" + tempfilename).then(
-            (file_name) => {
+        Utility.metadataDownload(req.body.url, getEntityDir(config_dir.TEMP) + "/" + tempfilename)
+            .then((file_name) => {
 
                 try {
                     let xml = fs.readFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, "utf8");
@@ -150,7 +150,11 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                 req.session.metadata = null;
                 res.status(500).send(err);
             }
-        );
+        )
+        .catch((err) => {
+            Utility.log("ERR /api/metadata-sp/download", err);
+            res.status(500).send(err);
+        });
 
     });
     
