@@ -38,7 +38,7 @@ ReactDOM.render((
       <Route path="/response-report" component={Main}/>
       <Route path="/worksave" component={Empty}/>
       <Route path="/login" component={Empty}/>
-	  <Route path="/" name="Home" component={Empty}/>
+	    <Route path="/" name="Home" component={Empty}/>
     </Switch>
   </HashRouter>
 ), document.getElementById('root'));

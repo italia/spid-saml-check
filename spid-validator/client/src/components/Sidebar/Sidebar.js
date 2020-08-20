@@ -113,14 +113,17 @@ class Sidebar extends Component {
       const url = item.url ? item.url : '';
       return (
         <NavItem key={key} className={classes.item}>
-          { isExternal(url) ?
-            <RsNavLink href={url} className={classes.link} active>
-              <i className={classes.icon}></i>{item.name}{badge(item.badge)}
-            </RsNavLink>
+          {
+            url=='logout' ?
+              <a href="/logout" className={classes.link}><i className={classes.icon}></i>{item.name}{badge(item.badge)}</a>
+            :isExternal(url) ?
+              <RsNavLink href={url} className={classes.link} active>
+                <i className={classes.icon}></i>{item.name}{badge(item.badge)}
+              </RsNavLink>
             :
-            <NavLink to={url} className={classes.link} activeClassName="active" onClick={this.hideMobile}>
-              <i className={classes.icon}></i>{item.name}{badge(item.badge)}
-            </NavLink>
+              <NavLink to={url} className={classes.link} activeClassName="active" onClick={this.hideMobile}>
+                <i className={classes.icon}></i>{item.name}{badge(item.badge)}
+              </NavLink>
           }
         </NavItem>
       )

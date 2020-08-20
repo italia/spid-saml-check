@@ -71,5 +71,11 @@ export default {
         { name: 'Report', url: '/response-report' },
       ]
     },
+    {
+      name: 'Logout',
+      icon: 'icon-logout',
+      sessionRequired: false,
+      url: 'logout'
+    }
   ]
 };
