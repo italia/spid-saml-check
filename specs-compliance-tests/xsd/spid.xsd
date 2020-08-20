@@ -18,5 +18,12 @@
     <element name="VATNumber" type="string"/>
     <element name="IPACode" type="string"/>
     <element name="FiscalCode" type="string"/>
+
+    <element name="PublicServicesFullAggregator" type="string" fixed=""/>
+    <element name="PublicServicesLightAggregator" type="string" fixed=""/>
+    <element name="PrivateServicesFullAggregator" type="string" fixed=""/>
+    <element name="PrivateServicesLightAggregator" type="string" fixed=""/>
+    <element name="PublicServicesFullOperator" type="string" fixed=""/>
+    <element name="PublicServicesLightOperator" type="string" fixed=""/>
     
 </schema>

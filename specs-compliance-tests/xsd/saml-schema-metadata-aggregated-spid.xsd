@@ -59,6 +59,14 @@
             <element ref="spid:VATNumber" minOccurs="0"/>
             <element ref="spid:IPACode" minOccurs="0"/>
             <element ref="spid:FiscalCode" minOccurs="0"/>
+            <choice minOccurs="0" maxOccurs="1">
+                <element ref="spid:PublicServicesFullAggregator"/>
+                <element ref="spid:PublicServicesLightAggregator"/>
+                <element ref="spid:PrivateServicesFullAggregator"/>
+                <element ref="spid:PrivateServicesLightAggregator"/>
+                <element ref="spid:PublicServicesFullOperator"/>
+                <element ref="spid:PublicServicesLightOperator"/>
+            </choice>
         </sequence>
     </complexType>
     
@@ -105,11 +113,11 @@
             <choice>
                 <choice maxOccurs="unbounded">
                     <element ref="md:RoleDescriptor"/>
-                    <element ref="md:SPSSODescriptor"/>
+                    <element ref="md:SPSSODescriptor"/> 
                 </choice>
             </choice>
             <element ref="md:Organization" minOccurs="1" maxOccurs="1"/>
-            <element ref="md:ContactPerson" minOccurs="2" maxOccurs="2"/>
+            <element ref="md:ContactPerson" minOccurs="2" maxOccurs="3"/>
         </sequence>
         <attribute name="entityID" type="md:entityIDType" use="required"/>
         <attribute name="validUntil" type="dateTime" use="optional"/>
@@ -134,17 +142,22 @@
     <element name="ContactPerson" type="md:ContactType"/>
     <complexType name="ContactType">
         <sequence>
-            <element ref="md:Company" minOccurs="1" maxOccurs="1"/>
             <element ref="md:Extensions" minOccurs="1" maxOccurs="1"/>
+            <element ref="md:Company" minOccurs="1" maxOccurs="1"/>
+            <element ref="md:EmailAddress" minOccurs="0" maxOccurs="1"/>
+            <element ref="md:TelephoneNumber" minOccurs="0" maxOccurs="1"/>
         </sequence>
         <attribute name="contactType" type="md:ContactTypeType" use="required"/>
         <attribute ref="spid:entityType" use="required" />
         <anyAttribute namespace="##other" processContents="lax"/>
     </complexType>
     <element name="Company" type="string"/>
+    <element name="EmailAddress" type="string"/>
+    <element name="TelephoneNumber" type="string"/>
     <simpleType name="ContactTypeType">
         <restriction base="string">
             <enumeration value="other"/>
+            <enumeration value="billing"/>
         </restriction>
     </simpleType>
 
@@ -162,7 +175,7 @@
         <attribute name="cacheDuration" type="duration" use="optional"/>
         <attribute name="protocolSupportEnumeration" type="md:anyURIListType" use="required"/>
         <attribute name="errorURL" type="anyURI" use="optional"/>
-        <anyAttribute namespace="##other" processContents="lax"/>
+        <anyAttribute namespace="##other" processContents="lax"/> 
     </complexType>
     <simpleType name="anyURIListType">
         <list itemType="anyURI"/>
