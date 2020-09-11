@@ -81,7 +81,7 @@ class TestSPMetadataXSD(unittest.TestCase, common.wrap.TestCaseWrap):
 
         cmd = ' '.join(['xmllint',
                         '--noout',
-                        '--schema ./xsd/saml-schema-metadata-2.0.xsd',
+                        '--schema ./xsd/saml-schema-metadata-sp-spid.xsd',
                         METADATA])
         is_valid = True
         msg = 'the metadata must validate against the XSD'
