@@ -54,6 +54,7 @@ class TestSPMetadataXSD(unittest.TestCase, common.wrap.TestCaseWrap):
             if path not in _report:
                 if c == len(paths):
                     _report[path] = {
+                        'type': 'sp',
                         'description': self.shortDescription(),
                         'assertions': [],
                     }
@@ -77,7 +78,7 @@ class TestSPMetadataXSD(unittest.TestCase, common.wrap.TestCaseWrap):
             self.fail(common.helpers.dump_failures(self.failures))
 
     def test_xsd(self):
-        '''Validate the SP metadata against the SAML 2.0 Medadata XSD'''
+        '''Validate the SP metadata against the SAML 2.0 Medadata XSD (DEPRECATED)'''
 
         cmd = ' '.join(['xmllint',
                         '--noout',

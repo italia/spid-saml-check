@@ -13,7 +13,7 @@ function view(me) {
             <div className="row">
 
                 {!me.state.detailview &&
-                    <div className="col-md-9 main">
+                    <div className="col-md-7 main">
                         {me.state.report!=null && 
 
                             Object.keys(me.state.report).map((t)=> {
@@ -39,7 +39,7 @@ function view(me) {
                 }
 
                 {me.state.detailview &&
-                    <div className="col-md-9 main">
+                    <div className="col-md-7 main">
                         {me.state.report!=null && 
 
                             Object.keys(me.state.report).map((t)=> {
@@ -71,7 +71,7 @@ function view(me) {
                 }
 
 
-                <div className="col-md-3">   
+                <div className="col-md-5">   
                     <div className="tools">
                         <div className="col-sm-12">
                             <label className="switch switch-success">
@@ -83,6 +83,21 @@ function view(me) {
                             </label>
                             <span>Visualizzazione dettaglio</span>
                             <hr/>
+
+                            {me.state.deprecable && 
+                                <div>
+                                    <label className="switch switch-warning">
+                                        <input type="checkbox" className="switch-input" 
+                                            checked={me.state.deprecated}
+                                            onChange={(e)=>{me.setDeprecated(e.target.checked)}}>
+                                        </input>
+                                        <span className="switch-slider"></span>
+                                    </label>
+                                    <span>Metadata deprecato (pre Avviso n.29)</span>
+                                    <hr/>
+                                </div>
+                            }
+
                             <button type="button" className="btn btn-success"
                                 onClick={()=>{me.print()}}>
                                 <span className="cui-print"></span> Stampa

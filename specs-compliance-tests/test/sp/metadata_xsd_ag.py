@@ -54,6 +54,7 @@ class TestSPMetadataXSD(unittest.TestCase, common.wrap.TestCaseWrap):
             if path not in _report:
                 if c == len(paths):
                     _report[path] = {
+                        'type': 'ag',
                         'description': self.shortDescription(),
                         'assertions': [],
                     }

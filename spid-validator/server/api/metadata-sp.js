@@ -227,6 +227,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let entity_id = (authorisation=='API')? req.query.entity_id : entityID;
         let user = (authorisation=='API')? req.query.user : req.session.user;
         let external_code = (authorisation=='API')? req.query.external_code : req.session.external_code;
+
+        let deprecated = (req.query.deprecated=='Y')? true : false;
     
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
     
@@ -241,13 +243,19 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                 xsd_type = "metadata_xsd_ag";
                 cmd = "xsd-ag";
             } else {
-                xsd_type = "metadata_xsd_sp";
-                cmd = "xsd-sp";
+                if(deprecated) {
+                    xsd_type = "metadata_xsd_sp";
+                    cmd = "xsd-sp";
+                } else {
+                    xsd_type = "metadata_xsd_sp-av29";
+                    cmd = "xsd-sp-av29";
+                }
             }
         }
 
         switch(cmd) {
             case "xsd-sp": file = getEntityDir(entity_id) + "/sp-metadata-xsd-sp.json"; break;
+            case "xsd-sp-av29": file = getEntityDir(entity_id) + "/sp-metadata-xsd-sp-av29.json"; break;
             case "xsd-ag": file = getEntityDir(entity_id) + "/sp-metadata-xsd-ag.json"; break;
             case "strict": file = getEntityDir(entity_id) + "/sp-metadata-strict.json"; break;
             case "certs": file = getEntityDir(entity_id) + "/sp-metadata-certs.json"; break;

@@ -19,6 +19,9 @@
     <element name="IPACode" type="string"/>
     <element name="FiscalCode" type="string"/>
 
+    <element name="Public" type="string" fixed=""/>
+    <element name="Private" type="string" fixed=""/>
+
     <element name="PublicServicesFullAggregator" type="string" fixed=""/>
     <element name="PublicServicesLightAggregator" type="string" fixed=""/>
     <element name="PrivateServicesFullAggregator" type="string" fixed=""/>
