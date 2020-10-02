@@ -115,8 +115,8 @@
                     <element ref="md:SPSSODescriptor"/>
                 </choice>
             </choice>
-            <element ref="md:Organization" minOccurs="0"/>
-            <element ref="md:ContactPerson" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="md:Organization" minOccurs="1" maxOccurs="1"/>
+            <element ref="md:ContactPerson" minOccurs="1" maxOccurs="2"/>
         </sequence>
         <attribute name="entityID" type="md:entityIDType" use="required"/>
         <attribute name="validUntil" type="dateTime" use="optional"/>
@@ -129,9 +129,9 @@
     <complexType name="OrganizationType">
         <sequence>
             <element ref="md:Extensions" minOccurs="0"/>
-            <element ref="md:OrganizationName" maxOccurs="unbounded"/>
-            <element ref="md:OrganizationDisplayName" maxOccurs="unbounded"/>
-            <element ref="md:OrganizationURL" maxOccurs="unbounded"/>
+            <element ref="md:OrganizationName" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="md:OrganizationDisplayName" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="md:OrganizationURL" minOccurs="1" maxOccurs="unbounded"/>
         </sequence>
         <anyAttribute namespace="##other" processContents="lax"/>
     </complexType>
