@@ -18,8 +18,8 @@ $ docker run -t -i -p 8080:8080 spid-saml-check
 
 ## Come usare lo *SPID Validator*
 
-L'appliaczione Node.js, se invocata *così com'è*, effettua un collaudo formale del solo metadata SAML del SP.
-Per utilizzare l'intero arsenale di controlli (il vero e proprio *SPID Validator*), va scaricato il metadata SAML disponibile all'indirizzo http://localhost:8080/metadata.xml installandolo come un nuovo IdP presso la propria implementazione di SP.
+L'applicazione Node.js, se invocata *così com'è*, effettua un collaudo formale del solo metadata SAML del SP.
+Per utilizzare l'intero set di controlli (il vero e proprio *SPID Validator*), va scaricato il metadata SAML disponibile all'indirizzo http://localhost:8080/metadata.xml installandolo come un nuovo IdP presso la propria implementazione di SP.
 Usato in questo modo, lo *SPID Validator* può essere invocato come un IdP dal proprio SP, e invece dell'autenticazione fornisce un insieme di più di 300 controlli individuali, divisi in 7 famiglie:
  * 4 famiglie per la convalida formale del **metadata** SP (come sopra descritto);
  * 3 famiglie per la convalida formale delle **request** SAML;
