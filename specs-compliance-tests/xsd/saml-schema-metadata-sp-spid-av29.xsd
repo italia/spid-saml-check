@@ -6,11 +6,12 @@
     xmlns:xenc="http://www.w3.org/2001/04/xmlenc#"
     xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
     xmlns:spid="https://spid.gov.it/saml-extensions"
+    xmlns:fpa="https://spid.gov.it/invoicing-extensions"
     xmlns="http://www.w3.org/2001/XMLSchema"
     elementFormDefault="unqualified"
     attributeFormDefault="unqualified"
     blockDefault="substitution"
-    version="2.0">
+    version="2.0">  
     <import namespace="http://www.w3.org/2000/09/xmldsig#"
         schemaLocation="xmldsig-core-schema.xsd"/>
     <import namespace="http://www.w3.org/2001/04/xmlenc#"
@@ -21,13 +22,17 @@
         schemaLocation="http://www.w3.org/2001/xml.xsd"/>
     <import namespace="https://spid.gov.it/saml-extensions"
         schemaLocation="spid.xsd"/>
+    <import namespace="https://spid.gov.it/invoicing-extensions"
+        schemaLocation="spid-invoicing.xsd"/>
     <annotation>
         <documentation>
-            Document identifier: saml-schema-metadata-sp-spid-2.xsd
+            Document identifier: saml-schema-metadata-sp-spid-av29.xsd
             Location: https://github.com/italia/spid-saml-check/tree/master/specs-compliance-tests/xsd/
             Revision history:
-              V1.0 (24/09/2020):
-                Schema for SPID SAML metadata for Public Service Provider.
+                V3.0 (19/11/2020):
+                    Compliance SPID Avviso n.29 - Versione 3.
+                V2.0 (22/10/2020):
+                    Schema for SPID SAML metadata for Service Provider.
         </documentation>
     </annotation>
 
@@ -60,13 +65,14 @@
     </complexType>
     <complexType name="ContactPersonExtensionType">
         <sequence>
-            <element ref="spid:VATNumber" minOccurs="0"/>
             <element ref="spid:IPACode" minOccurs="0"/>
+            <element ref="spid:VATNumber" minOccurs="0"/>
             <element ref="spid:FiscalCode" minOccurs="0"/>
             <choice minOccurs="0" maxOccurs="1">
                 <element ref="spid:Public"/>
                 <element ref="spid:Private"/>
             </choice>
+            <element ref="fpa:CessionarioCommittente" minOccurs="0" maxOccurs="1"/>   
         </sequence>
     </complexType>
     
