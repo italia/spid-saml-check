@@ -24,9 +24,11 @@
   <element name="DatiAnagrafici" type="fpa:DatiAnagraficiCessionarioType" />
   <complexType name="DatiAnagraficiCessionarioType">
     <sequence>
-      <element ref="fpa:IdFiscaleIVA" minOccurs="0" maxOccurs="1"/> 
-      <element ref="fpa:CodiceFiscale" minOccurs="0" maxOccurs="1"/> 
-      <element ref="fpa:Anagrafica" minOccurs="1" maxOccurs="1"/> 
+      <choice minOccurs="1" maxOccurs="2">
+        <element ref="fpa:IdFiscaleIVA"   minOccurs="1" maxOccurs="1"/> 
+        <element ref="fpa:CodiceFiscale"  minOccurs="1" maxOccurs="1"/> 
+      </choice>
+      <element ref="fpa:Anagrafica"   minOccurs="1" maxOccurs="1"/> 
     </sequence>
   </complexType>
 
