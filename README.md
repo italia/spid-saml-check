@@ -42,7 +42,7 @@ $ docker run -t -i -p 8080:8080 spid-saml-check
 
 - Now you'll be able to execute all the tests, in order of appareance: Metadata, Request and Response.
 - Select in the scroll menu the test you want to execute, then mark it as done and if successful
-  ![Response](gallery/4.png)
+  ![Response](gallery/4a.png)
 
 
 ## How to use it as a *SPID Validator*
