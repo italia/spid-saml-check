@@ -30,7 +30,7 @@ $ docker run -t -i -p 8080:8080 spid-saml-check
 
 - start authentication request connecting to your SP, the AuthnRequest would be created and sent to spid-saml-check.
   You should access to a page like shown in the following picture
-  ![login page](gallery/1.png)
+  ![login page](gallery/1a.png)
 
 - submit __validator__/ __validator__ as credential
 - You would see the SAML2 Authn Request made from your SP
@@ -42,7 +42,7 @@ $ docker run -t -i -p 8080:8080 spid-saml-check
 
 - Now you'll be able to execute all the tests, in order of appareance: Metadata, Request and Response.
 - Select in the scroll menu the test you want to execute, then mark it as done and if successful
-  ![Response](gallery/4.png)
+  ![Response](gallery/4a.png)
 
 
 ## How to use it as a *SPID Validator*
