@@ -28,7 +28,7 @@ $ docker run -t -i -p 8080:8080 spid-saml-check
 
 - Connettendoti al tuo SP avvia la richiesta di autenticazione, questa ti porterà alla schermata di autenticazione
   di spid-saml-check. 
-  ![login page](gallery/1.png)
+  ![login page](gallery/1a.png)
 
 - inserisci come credenziali __validator__/ __validator__
 - Al primo accesso potrai vedere la AuthnRequest appena inviata dal tuo SP
