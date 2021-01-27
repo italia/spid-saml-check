@@ -66,6 +66,9 @@
                 <element ref="spid:PrivateServicesLightAggregator"/>
                 <element ref="spid:PublicServicesFullOperator"/>
                 <element ref="spid:PublicServicesLightOperator"/>
+                <element ref="spid:Public"/>
+                <element ref="spid:PublicOperator"/>
+                <element ref="spid:Private"/>
             </choice>
         </sequence>
     </complexType>
