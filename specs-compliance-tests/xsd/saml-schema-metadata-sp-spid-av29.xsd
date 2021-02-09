@@ -56,23 +56,11 @@
         </simpleContent>
     </complexType>
     
-    <element name="Extensions" type="md:ContactPersonExtensionType"/>
+    <element name="Extensions" type="spid:ContactPersonSPExtensionType" />  
 
     <complexType final="#all" name="ExtensionsType">
         <sequence>
             <any namespace="##other" processContents="lax" maxOccurs="unbounded"/>
-        </sequence>
-    </complexType>
-    <complexType name="ContactPersonExtensionType">
-        <sequence>
-            <element ref="spid:IPACode" minOccurs="0"/>
-            <element ref="spid:VATNumber" minOccurs="0"/>
-            <element ref="spid:FiscalCode" minOccurs="0"/>
-            <choice minOccurs="0" maxOccurs="1">
-                <element ref="spid:Public"/>
-                <element ref="spid:Private"/>
-            </choice>
-            <element ref="fpa:CessionarioCommittente" minOccurs="0" maxOccurs="1"/>   
         </sequence>
     </complexType>
     

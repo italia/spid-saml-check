@@ -15,7 +15,7 @@
             Document identifier: spid
             Location: https://github.com/italia/spid-saml-check/tree/master/specs-compliance-tests/xsd/
             Revision history:
-                V2.0 (09/02/2021):
+                V2.1 (09/02/2021):
                     Compliance SPID Avviso n.19 - Versione 4.
         </documentation>
     </annotation>
@@ -28,8 +28,20 @@
         </restriction>
     </simpleType>
 
+    <complexType name="ContactPersonSPExtensionType">
+        <sequence>
+            <element ref="spid:IPACode" minOccurs="0"/>
+            <element ref="spid:VATNumber" minOccurs="0"/>
+            <element ref="spid:FiscalCode" minOccurs="0"/>
+            <choice minOccurs="1" maxOccurs="1">
+                <element ref="spid:Public"/>
+                <element ref="spid:Private"/>
+            </choice>
+            <element ref="fpa:CessionarioCommittente" minOccurs="0" maxOccurs="1"/>   
+        </sequence>
+    </complexType>
 
-    <complexType name="ContactPersonAggregatorExtensionType">
+    <complexType name="ContactPersonAGExtensionType">
         <sequence>
             <element ref="spid:IPACode" minOccurs="0"/>
             <element ref="spid:VATNumber" minOccurs="0"/>
@@ -41,34 +53,14 @@
                 <element ref="spid:PrivateServicesLightAggregator"/>
                 <element ref="spid:PublicServicesFullOperator"/>
                 <element ref="spid:PublicServicesLightOperator"/>
-            </choice>
-        </sequence>
-    </complexType>
-
-    <complexType name="ContactPersonAggregatedExtensionType">
-        <sequence>
-            <element ref="spid:IPACode" minOccurs="0"/>
-            <element ref="spid:VATNumber" minOccurs="0"/>
-            <element ref="spid:FiscalCode" minOccurs="0"/>
-            <choice minOccurs="1" maxOccurs="1">
                 <element ref="spid:Public"/>
                 <element ref="spid:PublicOperator"/>
                 <element ref="spid:Private"/>
             </choice>
+            <element ref="fpa:CessionarioCommittente" minOccurs="0" maxOccurs="1"/>   
         </sequence>
     </complexType>
 
-    <complexType name="ContactPersonBillingExtensionType">
-        <sequence>
-            <element ref="spid:IPACode" minOccurs="0"/>
-            <element ref="spid:VATNumber" minOccurs="0"/>
-            <element ref="spid:FiscalCode" minOccurs="0"/>
-            <choice minOccurs="1" maxOccurs="1">
-                <element ref="spid:Private"/>
-            </choice>
-            <element ref="fpa:CessionarioCommittente" minOccurs="1" maxOccurs="1"/>   
-        </sequence>
-    </complexType>
 
     <element name="VATNumber" type="string"/>
     <element name="IPACode" type="string"/>
