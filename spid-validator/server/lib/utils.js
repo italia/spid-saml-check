@@ -55,7 +55,7 @@ class Utils {
         return new Promise((resolve, reject) => {
             const file_name = url.parse(src).pathname.split('/').pop();
             const file_extention = path.extname(file_name);
-            const cmd = 'wget -O ' + dest + ' ' + src + ' --no-check-certificate --no-cache --no-cookies  --user-agent="Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0"';   
+            const cmd = 'wget -O "' + dest + '" "' + src + '" --no-check-certificate --no-cache --no-cookies  --user-agent="Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0"';   
 
             child_process.exec(cmd, function (err, stdout, stderr) {
                 return err ? reject(stderr) : resolve(file_name);
