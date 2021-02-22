@@ -34,17 +34,23 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"               
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
-            },            
+            },
             "2": {
                 "name": "02. Response non firmata",
                 "description": "Response non firmata. Risultato atteso: KO",
@@ -72,13 +78,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                   
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": false,
                 "sign_assertion": false
@@ -110,13 +122,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                  
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": false
@@ -148,21 +166,27 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true,
                 "sign_credentials": {
-		            "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
-		            "certificate": "MIIDljCCAn6gAwIBAgIJAMSLv+GOwGWAMA0GCSqGSIb3DQEBCwUAMGAxCzAJBgNVBAYTAklUMQ4wDAYDVQQIDAVJdGFseTENMAsGA1UEBwwEUm9tZTENMAsGA1UECgwEQWdJRDENMAsGA1UECwwEQWdJRDEUMBIGA1UEAwwLYWdpZC5nb3YuaXQwHhcNMTkwNDA4MTc1MTMwWhcNMjAwNDA3MTc1MTMwWjBgMQswCQYDVQQGEwJJVDEOMAwGA1UECAwFSXRhbHkxDTALBgNVBAcMBFJvbWUxDTALBgNVBAoMBEFnSUQxDTALBgNVBAsMBEFnSUQxFDASBgNVBAMMC2FnaWQuZ292Lml0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsswE3L6ZbMWALv5fw73NmdZB5es3QaLNd3hq8sVVndDZUnM7yMHkYwPmlh1rFj82jPr2L9nasi32v6i283dsGCUxRH3VQo2Fi4awqvzx9g3mnd2p+CJKqN/xQuFyXkmDy7wKIopkv9EKJSFyyn9Y2h5FiKYucQoqQ2KJItt2y6tcTbhBRa7fMx99UPt1y5np31+oR4/BYWqLBtApMfGaXXDRNw/DBzmeew/uwC7tARMMG51MRBCZ83Mr5fIGeQZaYmDNCi+mIultLCVAZLqlv5h8p9bTAHNkNRpCh/V/I+q/L7Ajxfe/HEbydhJRyUjA0pmC4pAfvMlyDtQXMhh3FQIDAQABo1MwUTAdBgNVHQ4EFgQUodPRXj6pRrDfV011IiDnEOqnoMEwHwYDVR0jBBgwFoAUodPRXj6pRrDfV011IiDnEOqnoMEwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEABkraIDMLDmpATNjR0uIu01gUOfIJMLWi75Ec03JGE/ljj2Kap7FO/RgqT5pmIUorb65rPlwsiP6Bv5Q7crDQMzVJdZwPzbboGlZR/dcqmQThgY4aOp7xcrmUCm3tWgwP52nw3QpLdVoiufy+5+MSuig6dklRqvx0tLGWgG2daUbdRtpEl8KtERMbVjoZGUqQE+WpIoKqxz2R84YY024XlMhRvxRAabFpYCNg5fAw0kRRXj3Zxmg7AdLzMStXHA/bked4ZoX6uJ19qLTOCLhlufQu8m3FL5Go5VL+qDdrNg7XYLxT1I5h1wtfebCA/e1IzHZmcUcAGVex4HgaAQwTNA==",
-		            "privateKey": "MIIEpAIBAAKCAQEAsswE3L6ZbMWALv5fw73NmdZB5es3QaLNd3hq8sVVndDZUnM7yMHkYwPmlh1rFj82jPr2L9nasi32v6i283dsGCUxRH3VQo2Fi4awqvzx9g3mnd2p+CJKqN/xQuFyXkmDy7wKIopkv9EKJSFyyn9Y2h5FiKYucQoqQ2KJItt2y6tcTbhBRa7fMx99UPt1y5np31+oR4/BYWqLBtApMfGaXXDRNw/DBzmeew/uwC7tARMMG51MRBCZ83Mr5fIGeQZaYmDNCi+mIultLCVAZLqlv5h8p9bTAHNkNRpCh/V/I+q/L7Ajxfe/HEbydhJRyUjA0pmC4pAfvMlyDtQXMhh3FQIDAQABAoIBACi5PVZF904GAfcyKv+7aGvkmCfVFkXV3fSbMcjP13tViVo1MuW7+9ftmISSeMSda0BbHN2zQhOZUn0+4US865roRbty6bL55vPrnqujZz0C14cXaNJChTzHnPz9un3tQp6R2sEZQm9KHoRshOfIb6VmhbHlH+jRRuUIOXH+CKXEpTPDU4Th+fdoYEOQY7NFHoobPrQ8IegYgODrWX2pTYf9AA5RitBP0Ju4lePgJX000T7WRpkSkAgi6arWzHzf5YUyAIATIVvm0RkuLIn9Q6YDQJa3lEmhEub4LZA6EpnqJYEjmfcOp5rPEKtq8tPWyuKvlT6bzHdtXz5zSG5Bo9UCgYEA6T8UAgcgRRJDYhKhsuhzwk3qahi0XqBJJp+XO8fdQXEh783P6pv5uYR1QUdDtgFOP05NEGz0Mzkyx5qxqlOr0yXlj0Tajb64S+5jyo8dqB2zxj0M8NLCxbQMvFN88tAHCJMPZeKOyq83XgWff2GzXqbQ9yh+5jauejW7z7zDEjsCgYEAxD0pLEFuBPeS1Fzz0P2UmsvKDbViqd9BlVwNwOR3YtSzT5hihUt1qVK22EVqlSWzF+QmAK76FQMoXiiQ22fNxTcaviNj2qZ9xhadS6RuF2MbxXVVQzXY4Oie/+mZg37fP0JZCQdlwOYp4UN4ZDf7NWJC5WJph4kx9Hj1liJGNu8CgYEAiOhhkh8kreZebv6Isz8GU5LweX4uwSxMQ8OBPbG/CV6ikOO5mvgayO4a9UojUH3LtBT93xpU7IwyZj9C8btTLAkeic3ciz7bZpZzNL50pe1pTH8hTWoosWtR3mkS+mNo/Xt0mlU1g3r9gM7EJDzw0CoSlkDK285U857+sp0V02kCgYBpCnPnhH5nmj21/qtjytioozzcaaMOWrq4QDX8ck6VUFVK3b6equ2oXOYSjdWnUC61MyJEa2ThqncJL52aU84JKp3d+QOSHlxkk+ZOfw2O5zYOU+f3ufMFMH8rbNcHU/ob2l/ePV9yCcGRGpRu0KhewuIb9rmWGxHqUnTikCYVcQKBgQDUWuS6hNq5qUSCIGL5e8CMmc/wSAvQFgxZV4VgJdPexykaJc4LKoFYqbRSyOSJ2vpxxWa6qIPU0+kgNZT7lBf8JOd4MIg5sg6Q8hIQk/I6cTM3F3ehpsKoq9K7IcJQQWqHgkONEFeghIZH0nzhnwrtVuFZiCzc7c671MmJMhnPZQ=="
-	            }
+                    "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+                    "certificate": "MIIDljCCAn6gAwIBAgIJAMSLv+GOwGWAMA0GCSqGSIb3DQEBCwUAMGAxCzAJBgNVBAYTAklUMQ4wDAYDVQQIDAVJdGFseTENMAsGA1UEBwwEUm9tZTENMAsGA1UECgwEQWdJRDENMAsGA1UECwwEQWdJRDEUMBIGA1UEAwwLYWdpZC5nb3YuaXQwHhcNMTkwNDA4MTc1MTMwWhcNMjAwNDA3MTc1MTMwWjBgMQswCQYDVQQGEwJJVDEOMAwGA1UECAwFSXRhbHkxDTALBgNVBAcMBFJvbWUxDTALBgNVBAoMBEFnSUQxDTALBgNVBAsMBEFnSUQxFDASBgNVBAMMC2FnaWQuZ292Lml0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsswE3L6ZbMWALv5fw73NmdZB5es3QaLNd3hq8sVVndDZUnM7yMHkYwPmlh1rFj82jPr2L9nasi32v6i283dsGCUxRH3VQo2Fi4awqvzx9g3mnd2p+CJKqN/xQuFyXkmDy7wKIopkv9EKJSFyyn9Y2h5FiKYucQoqQ2KJItt2y6tcTbhBRa7fMx99UPt1y5np31+oR4/BYWqLBtApMfGaXXDRNw/DBzmeew/uwC7tARMMG51MRBCZ83Mr5fIGeQZaYmDNCi+mIultLCVAZLqlv5h8p9bTAHNkNRpCh/V/I+q/L7Ajxfe/HEbydhJRyUjA0pmC4pAfvMlyDtQXMhh3FQIDAQABo1MwUTAdBgNVHQ4EFgQUodPRXj6pRrDfV011IiDnEOqnoMEwHwYDVR0jBBgwFoAUodPRXj6pRrDfV011IiDnEOqnoMEwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEABkraIDMLDmpATNjR0uIu01gUOfIJMLWi75Ec03JGE/ljj2Kap7FO/RgqT5pmIUorb65rPlwsiP6Bv5Q7crDQMzVJdZwPzbboGlZR/dcqmQThgY4aOp7xcrmUCm3tWgwP52nw3QpLdVoiufy+5+MSuig6dklRqvx0tLGWgG2daUbdRtpEl8KtERMbVjoZGUqQE+WpIoKqxz2R84YY024XlMhRvxRAabFpYCNg5fAw0kRRXj3Zxmg7AdLzMStXHA/bked4ZoX6uJ19qLTOCLhlufQu8m3FL5Go5VL+qDdrNg7XYLxT1I5h1wtfebCA/e1IzHZmcUcAGVex4HgaAQwTNA==",
+                    "privateKey": "MIIEpAIBAAKCAQEAsswE3L6ZbMWALv5fw73NmdZB5es3QaLNd3hq8sVVndDZUnM7yMHkYwPmlh1rFj82jPr2L9nasi32v6i283dsGCUxRH3VQo2Fi4awqvzx9g3mnd2p+CJKqN/xQuFyXkmDy7wKIopkv9EKJSFyyn9Y2h5FiKYucQoqQ2KJItt2y6tcTbhBRa7fMx99UPt1y5np31+oR4/BYWqLBtApMfGaXXDRNw/DBzmeew/uwC7tARMMG51MRBCZ83Mr5fIGeQZaYmDNCi+mIultLCVAZLqlv5h8p9bTAHNkNRpCh/V/I+q/L7Ajxfe/HEbydhJRyUjA0pmC4pAfvMlyDtQXMhh3FQIDAQABAoIBACi5PVZF904GAfcyKv+7aGvkmCfVFkXV3fSbMcjP13tViVo1MuW7+9ftmISSeMSda0BbHN2zQhOZUn0+4US865roRbty6bL55vPrnqujZz0C14cXaNJChTzHnPz9un3tQp6R2sEZQm9KHoRshOfIb6VmhbHlH+jRRuUIOXH+CKXEpTPDU4Th+fdoYEOQY7NFHoobPrQ8IegYgODrWX2pTYf9AA5RitBP0Ju4lePgJX000T7WRpkSkAgi6arWzHzf5YUyAIATIVvm0RkuLIn9Q6YDQJa3lEmhEub4LZA6EpnqJYEjmfcOp5rPEKtq8tPWyuKvlT6bzHdtXz5zSG5Bo9UCgYEA6T8UAgcgRRJDYhKhsuhzwk3qahi0XqBJJp+XO8fdQXEh783P6pv5uYR1QUdDtgFOP05NEGz0Mzkyx5qxqlOr0yXlj0Tajb64S+5jyo8dqB2zxj0M8NLCxbQMvFN88tAHCJMPZeKOyq83XgWff2GzXqbQ9yh+5jauejW7z7zDEjsCgYEAxD0pLEFuBPeS1Fzz0P2UmsvKDbViqd9BlVwNwOR3YtSzT5hihUt1qVK22EVqlSWzF+QmAK76FQMoXiiQ22fNxTcaviNj2qZ9xhadS6RuF2MbxXVVQzXY4Oie/+mZg37fP0JZCQdlwOYp4UN4ZDf7NWJC5WJph4kx9Hj1liJGNu8CgYEAiOhhkh8kreZebv6Isz8GU5LweX4uwSxMQ8OBPbG/CV6ikOO5mvgayO4a9UojUH3LtBT93xpU7IwyZj9C8btTLAkeic3ciz7bZpZzNL50pe1pTH8hTWoosWtR3mkS+mNo/Xt0mlU1g3r9gM7EJDzw0CoSlkDK285U857+sp0V02kCgYBpCnPnhH5nmj21/qtjytioozzcaaMOWrq4QDX8ck6VUFVK3b6equ2oXOYSjdWnUC61MyJEa2ThqncJL52aU84JKp3d+QOSHlxkk+ZOfw2O5zYOU+f3ufMFMH8rbNcHU/ob2l/ePV9yCcGRGpRu0KhewuIb9rmWGxHqUnTikCYVcQKBgQDUWuS6hNq5qUSCIGL5e8CMmc/wSAvQFgxZV4VgJdPexykaJc4LKoFYqbRSyOSJ2vpxxWa6qIPU0+kgNZT7lBf8JOd4MIg5sg6Q8hIQk/I6cTM3F3ehpsKoq9K7IcJQQWqHgkONEFeghIZH0nzhnwrtVuFZiCzc7c671MmJMhnPZQ=="
+                }
             },
             "8": {
                 "name": "08. Response - ID non specificato",
@@ -191,13 +215,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -229,13 +259,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                 
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -267,13 +303,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -305,13 +347,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                 
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -343,13 +391,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                 
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -381,13 +435,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"          
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -419,13 +479,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"        
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -457,13 +523,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"          
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -486,13 +558,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"     
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -515,13 +593,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -545,13 +629,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"     
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -574,13 +664,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                  
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -603,13 +699,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                  
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -632,13 +734,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -661,13 +769,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -690,13 +804,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                   
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -719,13 +839,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                  
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -748,13 +874,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -777,13 +909,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -806,13 +944,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                  
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -835,13 +979,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                   
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": false,
                 "sign_assertion": true
@@ -864,13 +1014,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -893,13 +1049,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                  
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -922,13 +1084,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                  
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -951,13 +1119,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"        
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": false
@@ -980,13 +1154,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"       
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1009,13 +1189,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"           
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1038,13 +1224,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"     
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1067,13 +1259,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1096,13 +1294,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"       
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1125,13 +1329,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"     
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1154,13 +1364,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1183,13 +1399,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1212,13 +1434,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1241,13 +1469,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1269,13 +1503,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1298,13 +1538,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"      
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1327,13 +1573,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"      
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1356,13 +1608,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"     
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -1385,18 +1643,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"      
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "48": {
+            "48": {
                 "name": "48. Assertion - Attributo NameQualifier di NameID non specificato",
                 "description": "Attributo NameQualifier di NameID dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-48.xml",
@@ -1414,18 +1678,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"       
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "49": {
+            "49": {
                 "name": "49. Assertion - Attributo NameQualifier di NameID mancante",
                 "description": "Attributo NameQualifier di NameID dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-49.xml",
@@ -1443,18 +1713,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"          
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "51": {
+            "51": {
                 "name": "51. Assertion - Elemento SubjectConfirmation non specificato",
                 "description": "Elemento SubjectConfirmation dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-51.xml",
@@ -1472,18 +1748,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"            
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "52": {
+            "52": {
                 "name": "52. Assertion - Elemento SubjectConfirmation mancante",
                 "description": "Elemento SubjectConfirmation dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-52.xml",
@@ -1501,18 +1783,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"            
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "53": {
+            "53": {
                 "name": "53. Assertion - Attributo Method di SubjectConfirmation non specificato",
                 "description": "Attributo Method di SubjectConfirmation dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-53.xml",
@@ -1530,18 +1818,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"          
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "54": {
+            "54": {
                 "name": "54. Assertion - Attributo Method di SubjectConfirmation mancante",
                 "description": "Attributo Method di SubjectConfirmation dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-54.xml",
@@ -1559,18 +1853,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"             
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "55": {
+            "55": {
                 "name": "55. Assertion - Attributo Method di SubjectConfirmation diverso",
                 "description": "Attributo Method di SubjectConfirmation dell'Assertion diverso da urn:oasis:names:tc:SAML:2.0:cm:bearer. Risultato atteso: KO",
                 "path": "test/case-55.xml",
@@ -1588,18 +1888,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"             
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "56": {
+            "56": {
                 "name": "56. Assertion - Elemento SubjectConfirmationData mancante",
                 "description": "Elemento SubjectConfirmationData dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-56.xml",
@@ -1617,18 +1923,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"          
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "57": {
+            "57": {
                 "name": "57. Assertion - Attributo Recipient di SubjectConfirmationData non specificato",
                 "description": "Attributo Recipient di SubjectConfirmationData dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-57.xml",
@@ -1646,18 +1958,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"         
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "58": {
+            "58": {
                 "name": "58. Assertion - Attributo Recipient di SubjectConfirmationData mancante",
                 "description": "Attributo Recipient di SubjectConfirmationData dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-58.xml",
@@ -1675,18 +1993,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"             
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "59": {
+            "59": {
                 "name": "59. Assertion - Attributo Recipient di SubjectConfirmationData diverso",
                 "description": "Attributo Recipient di SubjectConfirmationData dell'Assertion diverso da AssertionConsumerServiceURL. Risultato atteso: KO",
                 "path": "test/case-59.xml",
@@ -1704,18 +2028,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "60": {
+            "60": {
                 "name": "60. Assertion - Attributo InResponseTo di SubjectConfirmationData non specificato",
                 "description": "Attributo InResponseTo di SubjectConfirmationData dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-60.xml",
@@ -1733,18 +2063,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"               
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "61": {
+            "61": {
                 "name": "61. Assertion - Attributo InResponseTo di SubjectConfirmationData mancante",
                 "description": "Attributo InResponseTo di SubjectConfirmationData dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-61.xml",
@@ -1762,18 +2098,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "62": {
+            "62": {
                 "name": "62. Assertion - Attributo InResponseTo di SubjectConfirmationData diverso da ID request",
                 "description": "Attributo InResponseTo di SubjectConfirmationData dell'Assertion diverso da ID request. Risultato atteso: KO",
                 "path": "test/case-62.xml",
@@ -1791,18 +2133,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "63": {
+            "63": {
                 "name": "63. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData non specificato",
                 "description": "Attributo NotOnOrAfter di SubjectConfirmationData dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-63.xml",
@@ -1820,18 +2168,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                 
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "64": {
+            "64": {
                 "name": "64. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData mancante",
                 "description": "Attributo NotOnOrAfter di SubjectConfirmationData mancante. Risultato atteso: KO",
                 "path": "test/case-64.xml",
@@ -1849,18 +2203,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"              
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "65": {
+            "65": {
                 "name": "65. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData avente formato non corretto",
                 "description": "Attributo NotOnOrAfter di SubjectConfirmationData avente formato non corretto. Risultato atteso: KO",
                 "path": "test/case-65.xml",
@@ -1878,18 +2238,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                 
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "66": {
+            "66": {
                 "name": "66. Assertion - Attributo NotOnOrAfter di SubjectConfirmationData precedente all'istante di ricezione della response",
                 "description": "Attributo NotOnOrAfter di SubjectConfirmationData precedente all'istante di ricezione della response. Risultato atteso: KO",
                 "path": "test/case-66.xml",
@@ -1907,18 +2273,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"             
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "67": {
+            "67": {
                 "name": "67. Assertion - Elemento Issuer non specificato",
                 "description": "Elemento Issuer dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-67.xml",
@@ -1936,18 +2308,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"               
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "68": {
+            "68": {
                 "name": "68. Assertion - Elemento Issuer mancante",
                 "description": "Elemento Issuer dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-68.xml",
@@ -1965,18 +2343,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                 
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "69": {
+            "69": {
                 "name": "69. Assertion - Elemento Issuer diverso da EntityID IdP",
                 "description": "Elemento Issuer dell'Assertion diverso da EntityID IdP. Risultato atteso: KO",
                 "path": "test/case-69.xml",
@@ -1994,18 +2378,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                   
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "70": {
+            "70": {
                 "name": "70. Assertion - Attributo Format di Issuer non specificato",
                 "description": "Attributo Format di Issuer dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-70.xml",
@@ -2023,18 +2413,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                   
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "71": {
+            "71": {
                 "name": "71. Assertion - Attributo Format di Issuer mancante",
                 "description": "Attributo Format di Issuer dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-71.xml",
@@ -2052,18 +2448,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                   
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "72": {
+            "72": {
                 "name": "72. Assertion - Attributo Format di Issuer diverso",
                 "description": "L'attributo Format di Issuer dell'Assertion deve essere presente con il valore urn:oasis:names:tc:SAML:2.0:nameid-format:entity. In questo test, invece, il valore è diverso. Risultato atteso: KO",
                 "path": "test/case-72.xml",
@@ -2081,18 +2483,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"           
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "73": {
+            "73": {
                 "name": "73. Assertion - Elemento Conditions non specificato",
                 "description": "Elemento Conditions dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-73.xml",
@@ -2110,18 +2518,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"       
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "74": {
+            "74": {
                 "name": "74. Assertion - Elemento Conditions mancante",
                 "description": "Elemento Conditions dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-74.xml",
@@ -2139,18 +2553,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"     
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "75": {
+            "75": {
                 "name": "75. Assertion - Attributo NotBefore di Condition non specificato",
                 "description": "Attributo NotBefore di Condition dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-75.xml",
@@ -2168,18 +2588,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"      
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "76": {
+            "76": {
                 "name": "76. Assertion - Attributo NotBefore di Condition mancante",
                 "description": "Attributo NotBefore di Condition dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-76.xml",
@@ -2197,18 +2623,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"     
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "77": {
+            "77": {
                 "name": "77. Assertion - Attributo NotBefore di Condition avente formato non corretto",
                 "description": "Attributo NotBefore di Condition dell'Assertion avente formato non corretto. Risultato atteso: KO",
                 "path": "test/case-77.xml",
@@ -2226,18 +2658,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"       
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "78": {
+            "78": {
                 "name": "78. Assertion - Attributo NotBefore di Condition successivo all'instante di ricezione della response",
                 "description": "Attributo NotBefore di Condition dell'Assertion successivo all'instante di ricezione della response. Risultato atteso: KO",
                 "path": "test/case-78.xml",
@@ -2255,18 +2693,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "79": {
+            "79": {
                 "name": "79. Assertion - Attributo NotOnOrAfter di Condition non specificato",
                 "description": "Attributo NotOnOrAfter di Condition dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-79.xml",
@@ -2284,18 +2728,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"         
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "80": {
+            "80": {
                 "name": "80. Assertion - Attributo NotOnOrAfter di Condition mancante",
                 "description": "Attributo NotOnOrAfter di Condition dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-80.xml",
@@ -2313,18 +2763,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"           
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "81": {
+            "81": {
                 "name": "81. Assertion - Attributo NotOnOrAfter di Condition avente formato non corretto",
                 "description": "Attributo NotOnOrAfter di Condition dell'Assertion avente formato non corretto. Risultato atteso: KO",
                 "path": "test/case-81.xml",
@@ -2342,18 +2798,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "82": {
+            "82": {
                 "name": "82. Assertion - Attributo NotOnOrAfter di Condition precedente all'istante di ricezione della response",
                 "description": "Attributo NotOnOrAfter di Condition dell'Assertion precedente all'istante di ricezione della response. Risultato atteso: KO",
                 "path": "test/case-82.xml",
@@ -2371,18 +2833,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"     
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "83": {
+            "83": {
                 "name": "83. Assertion - Elemento AudienceRestriction di Condition non specificato",
                 "description": "Elemento AudienceRestriction di Condition dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-83.xml",
@@ -2400,18 +2868,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"          
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "84": {
+            "84": {
                 "name": "84. Assertion - Elemento AudienceRestriction di Condition mancante",
                 "description": "Elemento AudienceRestriction di Condition dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-84.xml",
@@ -2429,18 +2903,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"       
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "85": {
+            "85": {
                 "name": "85. Assertion - Elemento Audience di AudienceRestriction di Condition non specificato",
                 "description": "Elemento Audience di AudienceRestriction di Condition dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-85.xml",
@@ -2458,18 +2938,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "86": {
+            "86": {
                 "name": "86. Assertion - Elemento Audience di AudienceRestriction di Condition mancante",
                 "description": "Elemento Audience di AudienceRestriction di Condition dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-86.xml",
@@ -2487,18 +2973,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"         
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "87": {
+            "87": {
                 "name": "87. Assertion - Elemento Audience di AudienceRestriction di Condition diverso da Entity Id del Service Provider",
                 "description": "Elemento Audience di AudienceRestriction di Condition dell'Assertion diverso da Entity Id del Service Provider. Risultato atteso: KO",
                 "path": "test/case-87.xml",
@@ -2516,18 +3008,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"           
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "88": {
+            "88": {
                 "name": "88. Assertion - Elemento AuthStatement non specificato",
                 "description": "Elemento AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-88.xml",
@@ -2545,18 +3043,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                   
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "89": {
+            "89": {
                 "name": "89. Assertion - Elemento AuthStatement mancante",
                 "description": "Elemento AuthStatement dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-89.xml",
@@ -2574,18 +3078,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"       
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "90": {
+            "90": {
                 "name": "90. Assertion - Elemento AuthnContext di AuthStatement non specificato",
                 "description": "Elemento AuthnContext di AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-90.xml",
@@ -2603,18 +3113,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"      
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "91": {
+            "91": {
                 "name": "91. Assertion - Elemento AuthnContext di AuthStatement mancante",
                 "description": "Elemento AuthnContext di AuthStatement dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-91.xml",
@@ -2632,18 +3148,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"        
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "92": {
+            "92": {
                 "name": "92. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement non specificato",
                 "description": "Elemento AuthContextClassRef di AuthnContext di AuthStatement dell'Assertion non specificato. Risultato atteso: KO",
                 "path": "test/case-92.xml",
@@ -2661,18 +3183,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"         
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "93": {
+            "93": {
                 "name": "93. Assertion - Elemento AuthContextClassRef di AuthnContext di AuthStatement mancante",
                 "description": "Elemento AuthContextClassRef di AuthnContext di AuthStatement dell'Assertion mancante. Risultato atteso: KO",
                 "path": "test/case-93.xml",
@@ -2690,18 +3218,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"    
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "94": {
+            "94": {
                 "name": "94. Assertion - Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL1",
                 "description": "Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL1. Risultato atteso: fare attenzione al livello richiesto sulla request.",
                 "path": "test/base.xml",
@@ -2720,18 +3254,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"        
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "95": {
+            "95": {
                 "name": "95. Assertion - Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL2",
                 "description": "Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL2. Risultato atteso: fare attenzione al livello richiesto sulla request.",
                 "path": "test/base.xml",
@@ -2750,18 +3290,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"              
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "96": {
+            "96": {
                 "name": "96. Assertion - Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL3",
                 "description": "Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL3. Risultato atteso: fare attenzione al livello richiesto sulla request.",
                 "path": "test/base.xml",
@@ -2780,18 +3326,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"               
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "97": {
+            "97": {
                 "name": "97. Assertion - Elemento AuthContextClassRef impostato ad un valore non previsto",
                 "description": "Elemento AuthContextClassRef impostato ad un valore non previsto. Es. specifica precedente. Risultato atteso: KO",
                 "path": "test/base.xml",
@@ -2810,18 +3362,24 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"              
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "98": {
+            "98": {
                 "name": "98. Assertion - Elemento AttributeStatement presente, ma sottoelemento Attribute mancante ",
                 "description": "Elemento AttributeStatement presente, ma sottoelemento Attribute mancante. Risultato atteso: KO",
                 "path": "test/case-98.xml",
@@ -2831,7 +3389,7 @@
                 "sign_response": true,
                 "sign_assertion": true
             },
-           "99": {
+            "99": {
                 "name": "99. Assertion - Elemento AttributeStatement presente, con sottoelemento Attribute non specificato",
                 "description": "Elemento AttributeStatement presente, ma sottoelemento Attribute non specificato. Risultato atteso: KO",
                 "path": "test/case-99.xml",
@@ -2859,23 +3417,29 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                  
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true,
                 "sign_credentials": {
-		            "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
-		            "certificate": "MIIDljCCAn6gAwIBAgIJAMSLv+GOwGWAMA0GCSqGSIb3DQEBCwUAMGAxCzAJBgNVBAYTAklUMQ4wDAYDVQQIDAVJdGFseTENMAsGA1UEBwwEUm9tZTENMAsGA1UECgwEQWdJRDENMAsGA1UECwwEQWdJRDEUMBIGA1UEAwwLYWdpZC5nb3YuaXQwHhcNMTkwNDA4MTc1MTMwWhcNMjAwNDA3MTc1MTMwWjBgMQswCQYDVQQGEwJJVDEOMAwGA1UECAwFSXRhbHkxDTALBgNVBAcMBFJvbWUxDTALBgNVBAoMBEFnSUQxDTALBgNVBAsMBEFnSUQxFDASBgNVBAMMC2FnaWQuZ292Lml0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsswE3L6ZbMWALv5fw73NmdZB5es3QaLNd3hq8sVVndDZUnM7yMHkYwPmlh1rFj82jPr2L9nasi32v6i283dsGCUxRH3VQo2Fi4awqvzx9g3mnd2p+CJKqN/xQuFyXkmDy7wKIopkv9EKJSFyyn9Y2h5FiKYucQoqQ2KJItt2y6tcTbhBRa7fMx99UPt1y5np31+oR4/BYWqLBtApMfGaXXDRNw/DBzmeew/uwC7tARMMG51MRBCZ83Mr5fIGeQZaYmDNCi+mIultLCVAZLqlv5h8p9bTAHNkNRpCh/V/I+q/L7Ajxfe/HEbydhJRyUjA0pmC4pAfvMlyDtQXMhh3FQIDAQABo1MwUTAdBgNVHQ4EFgQUodPRXj6pRrDfV011IiDnEOqnoMEwHwYDVR0jBBgwFoAUodPRXj6pRrDfV011IiDnEOqnoMEwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEABkraIDMLDmpATNjR0uIu01gUOfIJMLWi75Ec03JGE/ljj2Kap7FO/RgqT5pmIUorb65rPlwsiP6Bv5Q7crDQMzVJdZwPzbboGlZR/dcqmQThgY4aOp7xcrmUCm3tWgwP52nw3QpLdVoiufy+5+MSuig6dklRqvx0tLGWgG2daUbdRtpEl8KtERMbVjoZGUqQE+WpIoKqxz2R84YY024XlMhRvxRAabFpYCNg5fAw0kRRXj3Zxmg7AdLzMStXHA/bked4ZoX6uJ19qLTOCLhlufQu8m3FL5Go5VL+qDdrNg7XYLxT1I5h1wtfebCA/e1IzHZmcUcAGVex4HgaAQwTNA==",
-		            "privateKey": "MIIEpAIBAAKCAQEAsswE3L6ZbMWALv5fw73NmdZB5es3QaLNd3hq8sVVndDZUnM7yMHkYwPmlh1rFj82jPr2L9nasi32v6i283dsGCUxRH3VQo2Fi4awqvzx9g3mnd2p+CJKqN/xQuFyXkmDy7wKIopkv9EKJSFyyn9Y2h5FiKYucQoqQ2KJItt2y6tcTbhBRa7fMx99UPt1y5np31+oR4/BYWqLBtApMfGaXXDRNw/DBzmeew/uwC7tARMMG51MRBCZ83Mr5fIGeQZaYmDNCi+mIultLCVAZLqlv5h8p9bTAHNkNRpCh/V/I+q/L7Ajxfe/HEbydhJRyUjA0pmC4pAfvMlyDtQXMhh3FQIDAQABAoIBACi5PVZF904GAfcyKv+7aGvkmCfVFkXV3fSbMcjP13tViVo1MuW7+9ftmISSeMSda0BbHN2zQhOZUn0+4US865roRbty6bL55vPrnqujZz0C14cXaNJChTzHnPz9un3tQp6R2sEZQm9KHoRshOfIb6VmhbHlH+jRRuUIOXH+CKXEpTPDU4Th+fdoYEOQY7NFHoobPrQ8IegYgODrWX2pTYf9AA5RitBP0Ju4lePgJX000T7WRpkSkAgi6arWzHzf5YUyAIATIVvm0RkuLIn9Q6YDQJa3lEmhEub4LZA6EpnqJYEjmfcOp5rPEKtq8tPWyuKvlT6bzHdtXz5zSG5Bo9UCgYEA6T8UAgcgRRJDYhKhsuhzwk3qahi0XqBJJp+XO8fdQXEh783P6pv5uYR1QUdDtgFOP05NEGz0Mzkyx5qxqlOr0yXlj0Tajb64S+5jyo8dqB2zxj0M8NLCxbQMvFN88tAHCJMPZeKOyq83XgWff2GzXqbQ9yh+5jauejW7z7zDEjsCgYEAxD0pLEFuBPeS1Fzz0P2UmsvKDbViqd9BlVwNwOR3YtSzT5hihUt1qVK22EVqlSWzF+QmAK76FQMoXiiQ22fNxTcaviNj2qZ9xhadS6RuF2MbxXVVQzXY4Oie/+mZg37fP0JZCQdlwOYp4UN4ZDf7NWJC5WJph4kx9Hj1liJGNu8CgYEAiOhhkh8kreZebv6Isz8GU5LweX4uwSxMQ8OBPbG/CV6ikOO5mvgayO4a9UojUH3LtBT93xpU7IwyZj9C8btTLAkeic3ciz7bZpZzNL50pe1pTH8hTWoosWtR3mkS+mNo/Xt0mlU1g3r9gM7EJDzw0CoSlkDK285U857+sp0V02kCgYBpCnPnhH5nmj21/qtjytioozzcaaMOWrq4QDX8ck6VUFVK3b6equ2oXOYSjdWnUC61MyJEa2ThqncJL52aU84JKp3d+QOSHlxkk+ZOfw2O5zYOU+f3ufMFMH8rbNcHU/ob2l/ePV9yCcGRGpRu0KhewuIb9rmWGxHqUnTikCYVcQKBgQDUWuS6hNq5qUSCIGL5e8CMmc/wSAvQFgxZV4VgJdPexykaJc4LKoFYqbRSyOSJ2vpxxWa6qIPU0+kgNZT7lBf8JOd4MIg5sg6Q8hIQk/I6cTM3F3ehpsKoq9K7IcJQQWqHgkONEFeghIZH0nzhnwrtVuFZiCzc7c671MmJMhnPZQ=="
-	            }
+                    "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+                    "certificate": "MIIDljCCAn6gAwIBAgIJAMSLv+GOwGWAMA0GCSqGSIb3DQEBCwUAMGAxCzAJBgNVBAYTAklUMQ4wDAYDVQQIDAVJdGFseTENMAsGA1UEBwwEUm9tZTENMAsGA1UECgwEQWdJRDENMAsGA1UECwwEQWdJRDEUMBIGA1UEAwwLYWdpZC5nb3YuaXQwHhcNMTkwNDA4MTc1MTMwWhcNMjAwNDA3MTc1MTMwWjBgMQswCQYDVQQGEwJJVDEOMAwGA1UECAwFSXRhbHkxDTALBgNVBAcMBFJvbWUxDTALBgNVBAoMBEFnSUQxDTALBgNVBAsMBEFnSUQxFDASBgNVBAMMC2FnaWQuZ292Lml0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsswE3L6ZbMWALv5fw73NmdZB5es3QaLNd3hq8sVVndDZUnM7yMHkYwPmlh1rFj82jPr2L9nasi32v6i283dsGCUxRH3VQo2Fi4awqvzx9g3mnd2p+CJKqN/xQuFyXkmDy7wKIopkv9EKJSFyyn9Y2h5FiKYucQoqQ2KJItt2y6tcTbhBRa7fMx99UPt1y5np31+oR4/BYWqLBtApMfGaXXDRNw/DBzmeew/uwC7tARMMG51MRBCZ83Mr5fIGeQZaYmDNCi+mIultLCVAZLqlv5h8p9bTAHNkNRpCh/V/I+q/L7Ajxfe/HEbydhJRyUjA0pmC4pAfvMlyDtQXMhh3FQIDAQABo1MwUTAdBgNVHQ4EFgQUodPRXj6pRrDfV011IiDnEOqnoMEwHwYDVR0jBBgwFoAUodPRXj6pRrDfV011IiDnEOqnoMEwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEABkraIDMLDmpATNjR0uIu01gUOfIJMLWi75Ec03JGE/ljj2Kap7FO/RgqT5pmIUorb65rPlwsiP6Bv5Q7crDQMzVJdZwPzbboGlZR/dcqmQThgY4aOp7xcrmUCm3tWgwP52nw3QpLdVoiufy+5+MSuig6dklRqvx0tLGWgG2daUbdRtpEl8KtERMbVjoZGUqQE+WpIoKqxz2R84YY024XlMhRvxRAabFpYCNg5fAw0kRRXj3Zxmg7AdLzMStXHA/bked4ZoX6uJ19qLTOCLhlufQu8m3FL5Go5VL+qDdrNg7XYLxT1I5h1wtfebCA/e1IzHZmcUcAGVex4HgaAQwTNA==",
+                    "privateKey": "MIIEpAIBAAKCAQEAsswE3L6ZbMWALv5fw73NmdZB5es3QaLNd3hq8sVVndDZUnM7yMHkYwPmlh1rFj82jPr2L9nasi32v6i283dsGCUxRH3VQo2Fi4awqvzx9g3mnd2p+CJKqN/xQuFyXkmDy7wKIopkv9EKJSFyyn9Y2h5FiKYucQoqQ2KJItt2y6tcTbhBRa7fMx99UPt1y5np31+oR4/BYWqLBtApMfGaXXDRNw/DBzmeew/uwC7tARMMG51MRBCZ83Mr5fIGeQZaYmDNCi+mIultLCVAZLqlv5h8p9bTAHNkNRpCh/V/I+q/L7Ajxfe/HEbydhJRyUjA0pmC4pAfvMlyDtQXMhh3FQIDAQABAoIBACi5PVZF904GAfcyKv+7aGvkmCfVFkXV3fSbMcjP13tViVo1MuW7+9ftmISSeMSda0BbHN2zQhOZUn0+4US865roRbty6bL55vPrnqujZz0C14cXaNJChTzHnPz9un3tQp6R2sEZQm9KHoRshOfIb6VmhbHlH+jRRuUIOXH+CKXEpTPDU4Th+fdoYEOQY7NFHoobPrQ8IegYgODrWX2pTYf9AA5RitBP0Ju4lePgJX000T7WRpkSkAgi6arWzHzf5YUyAIATIVvm0RkuLIn9Q6YDQJa3lEmhEub4LZA6EpnqJYEjmfcOp5rPEKtq8tPWyuKvlT6bzHdtXz5zSG5Bo9UCgYEA6T8UAgcgRRJDYhKhsuhzwk3qahi0XqBJJp+XO8fdQXEh783P6pv5uYR1QUdDtgFOP05NEGz0Mzkyx5qxqlOr0yXlj0Tajb64S+5jyo8dqB2zxj0M8NLCxbQMvFN88tAHCJMPZeKOyq83XgWff2GzXqbQ9yh+5jauejW7z7zDEjsCgYEAxD0pLEFuBPeS1Fzz0P2UmsvKDbViqd9BlVwNwOR3YtSzT5hihUt1qVK22EVqlSWzF+QmAK76FQMoXiiQ22fNxTcaviNj2qZ9xhadS6RuF2MbxXVVQzXY4Oie/+mZg37fP0JZCQdlwOYp4UN4ZDf7NWJC5WJph4kx9Hj1liJGNu8CgYEAiOhhkh8kreZebv6Isz8GU5LweX4uwSxMQ8OBPbG/CV6ikOO5mvgayO4a9UojUH3LtBT93xpU7IwyZj9C8btTLAkeic3ciz7bZpZzNL50pe1pTH8hTWoosWtR3mkS+mNo/Xt0mlU1g3r9gM7EJDzw0CoSlkDK285U857+sp0V02kCgYBpCnPnhH5nmj21/qtjytioozzcaaMOWrq4QDX8ck6VUFVK3b6equ2oXOYSjdWnUC61MyJEa2ThqncJL52aU84JKp3d+QOSHlxkk+ZOfw2O5zYOU+f3ufMFMH8rbNcHU/ob2l/ePV9yCcGRGpRu0KhewuIb9rmWGxHqUnTikCYVcQKBgQDUWuS6hNq5qUSCIGL5e8CMmc/wSAvQFgxZV4VgJdPexykaJc4LKoFYqbRSyOSJ2vpxxWa6qIPU0+kgNZT7lBf8JOd4MIg5sg6Q8hIQk/I6cTM3F3ehpsKoq9K7IcJQQWqHgkONEFeghIZH0nzhnwrtVuFZiCzc7c671MmJMhnPZQ=="
+                }
             },
-           "103": {
+            "103": {
                 "name": "103. Assertion - Set di attributi inviato diverso da quello richiesto",
                 "description": "Set di attributi inviato diverso da quello richiesto",
                 "path": "test/base.xml",
@@ -2883,8 +3447,8 @@
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "Attributes": {
                         "spidCode": "AGID-001",
-                        "address": "via Test"                
-                   }
+                        "address": "via Test"
+                    }
                 },
                 "sign_response": true,
                 "sign_assertion": true
@@ -2972,13 +3536,19 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                
-                   }
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
                 },
                 "attributesNameFormat": false,
                 "sign_response": true,
@@ -3011,14 +3581,20 @@
                         "registeredOffice": "Via Listz 21 00144 Roma",
                         "fiscalNumber": "TINIT-GDASDV00A01H501J",
                         "ivaCode": "VATIT-97735020584",
-                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",   
-                        "expirationDate": "2028-01-01",         
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
                         "mobilePhone": "+393331234567",
                         "email": "spid.tech@agid.gov.it",
                         "address": "Via Listz 21 00144 Roma",
-                        "digitalAddress": "pec@pecagid.gov.it"                
-                   }
-                },                
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
                 "sign_response": true,
                 "sign_assertion": true
             },
@@ -3034,10 +3610,9 @@
                 },
                 "sign_response": true,
                 "sign_assertion": false
-            } 
+            }
         }
     },
-
     "test-logout": {
         "description": "Test Logout Response",
         "response": {
@@ -3053,11 +3628,9 @@
                 "name": "01. Logout",
                 "description": "Logout corretto",
                 "path": "test/logout-1.xml",
-                "response": {
-
-                },
+                "response": {},
                 "sign_response": true
             }
-        } 
-    }    
+        }
+    }
 }
