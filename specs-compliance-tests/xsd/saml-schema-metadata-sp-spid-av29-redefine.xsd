@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+    targetNamespace="urn:oasis:names:tc:SAML:2.0:metadata"
+    xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+    xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+    xmlns:xenc="http://www.w3.org/2001/04/xmlenc#"
+    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="unqualified"
+    attributeFormDefault="unqualified"
+    blockDefault="substitution"
+    version="3.0">  
+    <import namespace="http://www.w3.org/2000/09/xmldsig#"
+        schemaLocation="xmldsig-core-schema.xsd"/>
+    <import namespace="http://www.w3.org/2001/04/xmlenc#"
+        schemaLocation="xenc-schema.xsd"/>
+    <import namespace="urn:oasis:names:tc:SAML:2.0:assertion"
+        schemaLocation="saml-schema-assertion-2.0.xsd"/>
+    <import namespace="http://www.w3.org/XML/1998/namespace"
+        schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+    <annotation>
+        <documentation>
+            Document identifier: saml-schema-metadata-sp-spid-av29.xsd
+            Location: https://github.com/italia/spid-saml-check/tree/master/specs-compliance-tests/xsd/
+            Revision history:
+                V3.0 (19/11/2020):
+                    Compliance SPID Avviso n.29 - Versione 3.
+                V2.0 (22/10/2020):
+                    Schema for SPID SAML metadata for Service Provider.
+        </documentation>
+    </annotation>
+
+    <redefine schemaLocation="saml-schema-metadata-2.0.xsd">
+
+        <complexType name="EntityDescriptorType">
+            <complexContent>
+                <restriction base="md:EntityDescriptorType">
+                    <sequence>
+                        <element ref="ds:Signature" minOccurs="0"/>
+                        <element ref="md:Extensions" minOccurs="0"/>
+                        <choice>
+                            <!-- Note: this is an invalid restriction of the base
+                                 choice group in XSD 1.0 (it's valid in XSD 1.1). -->
+                            <choice maxOccurs="unbounded">
+                                <element ref="md:SPSSODescriptor"/>
+                            </choice>
+                        </choice>
+                        <element ref="md:Organization" minOccurs="1" maxOccurs="1"/>
+                        <element ref="md:ContactPerson" minOccurs="1" maxOccurs="2"/>
+                    </sequence>
+                    <attribute name="entityID" type="md:entityIDType" use="required"/>
+                    <attribute name="validUntil" type="dateTime" use="optional"/>
+                    <attribute name="cacheDuration" type="duration" use="optional"/>
+                    <attribute name="ID" type="ID" use="optional"/>
+                    <anyAttribute namespace="##other" processContents="lax"/>
+                </restriction>
+            </complexContent>
+        </complexType>
+
+        <complexType name="ContactType">
+            <complexContent>
+                <restriction base="md:ContactType">
+                    <sequence>
+                        <element ref="md:Extensions" minOccurs="1" maxOccurs="1"/>
+                        <element ref="md:Company" minOccurs="0" maxOccurs="1"/>
+                        <element ref="md:EmailAddress" minOccurs="1" maxOccurs="1"/>
+                        <element ref="md:TelephoneNumber" minOccurs="0" maxOccurs="1"/>
+                    </sequence>
+                    <attribute name="contactType" type="md:ContactTypeType" use="required"/>
+                    <anyAttribute namespace="##other" processContents="lax"/>
+                </restriction>
+            </complexContent>
+        </complexType>
+
+        <simpleType name="ContactTypeType">
+            <restriction base="md:ContactTypeType">
+                <enumeration value="other"/>
+                <enumeration value="billing"/>
+            </restriction>
+        </simpleType>
+
+        <complexType name="SSODescriptorType" abstract="true">
+            <complexContent>
+                <restriction base="md:SSODescriptorType">
+                    <sequence>
+                        <element ref="md:SingleLogoutService" minOccurs="0" maxOccurs="unbounded"/>
+                        <element ref="md:NameIDFormat" minOccurs="0" maxOccurs="unbounded"/>
+                    </sequence>
+                </restriction>
+            </complexContent>
+        </complexType>
+
+    </redefine>
+
+</schema>
