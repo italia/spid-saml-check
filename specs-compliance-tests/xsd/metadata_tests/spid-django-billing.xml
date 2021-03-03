@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<md:EntityDescriptor xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:fpa="https://spid.gov.it/invoicing-extensions" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="http://localhost:8000/spid/metadata" ID="id-re8L5SQ9Ckm5YDxt3"><ds:Signature Id="Signature1"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference URI="#id-re8L5SQ9Ckm5YDxt3"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>Mab5OvBtuk1KHz4SXv1t8bUh2m7tJHl9keaavCydQr4=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>bxneuzsju24EVo2vykkqGiuoC2umn8+g3wu9ArA6yEbwAwruIT5sS8y27hN2GXT+
+nEGg8KdDTB1t5qEqJM9oA+oT7oV4OCvdIXe0MOkV0wIpAG9i7ywYdkCS514DxQvg
+rEDAg18r4iYV4NALu9QIqZlQpZbJX3OwMZm/HS/R/u6srQWaSjuypHoXemjYYCZj
+H7uZ3GnXTd+TW5nWC2ZG09zHKAtwlGFOnR07nGX+QYxSCtvBOKoUAZmzHW4HKlte
+zOWwaIwL9MeLGUdK/R+TKBYFJkKLvzTVZnV9M/b5kuzvv7fRkRS0ih8SPhWKiYqr
+BQCSvlqPVEnJc68ECPFyxg==</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIDazCCAlOgAwIBAgIUd3m78rxZI604Wb78Ofm0/N/ijNEwDQYJKoZIhvcNAQELBQAwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0yMTAyMTMxMTQ4MjVaFw0zMTAyMTExMTQ4MjVaMEUxCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDIU8VNwN7pRxmP5LoELxanu9bL8+jIoQwRfJIA/NTFLSW7Znhp70IFIHxgbdRv5GeSA+EXVxaQz5lnsXXlxYnDX/oVXCaFxw+YI5Jm6qpw/if9+aSv3y1bsKp3zyGUkPiaLdfVFz/VuZZvz8izjATU1EKAT19XKTdgG/SjGgYczouSL5MguGd/oWnzn5TpyjGWk6NyV6yVHcqW2QoSzhfqOtqUedzRAC+u946ZQteNswcJuJWJ6+uyziLrrE6MphwP+ALyWkUDaV/7Yg2+ang8/z051XXFeckQ5L7Y/o60Ga53saWFVqk7f8wfE56kqnnNaPP5cio2YVdijsM4MixxAgMBAAGjUzBRMB0GA1UdDgQWBBSZSKqD+zrKer2AUm4JGZNYjKKqEjAfBgNVHSMEGDAWgBSZSKqD+zrKer2AUm4JGZNYjKKqEjAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBGqk8+W0CaPoYMp56q1svtQsQh3KGz2mwEjEJyGfyGYaQ8cBKY9yeSn55Hq+xJPDUgBJr7kPMWOfttAEHJZk9z/Y4KpGEn3Z1FPIZKkxdItUqEGwI13YjV+gmC27nqmuk0qdfO6rWYL90198q7u6KO5hqRLXR7ljdPXmiZ3qHHkAvnACQHzGU1UIl5I+PBQE8GcJqOE3YbO6n3f+4Grsjp2BJ1BkAH7eWvKDGhrmS0AfYDNDFfd0aFVT74w3I8aPaZwyIz9+qYKkEhkJeaRgGCSGzKjcKxiurBcAvqxyIfpCdSOtN7Grw5Cp6Qd/jB46ZgTAturvWjLOqWHMULAdoq</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature><md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol" AuthnRequestsSigned="true" WantAssertionsSigned="true"><md:KeyDescriptor use="signing"><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIDazCCAlOgAwIBAgIUd3m78rxZI604Wb78Ofm0/N/ijNEwDQYJKoZIhvcNAQEL
+BQAwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoM
+GEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0yMTAyMTMxMTQ4MjVaFw0zMTAy
+MTExMTQ4MjVaMEUxCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEw
+HwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwggEiMA0GCSqGSIb3DQEB
+AQUAA4IBDwAwggEKAoIBAQDIU8VNwN7pRxmP5LoELxanu9bL8+jIoQwRfJIA/NTF
+LSW7Znhp70IFIHxgbdRv5GeSA+EXVxaQz5lnsXXlxYnDX/oVXCaFxw+YI5Jm6qpw
+/if9+aSv3y1bsKp3zyGUkPiaLdfVFz/VuZZvz8izjATU1EKAT19XKTdgG/SjGgYc
+zouSL5MguGd/oWnzn5TpyjGWk6NyV6yVHcqW2QoSzhfqOtqUedzRAC+u946ZQteN
+swcJuJWJ6+uyziLrrE6MphwP+ALyWkUDaV/7Yg2+ang8/z051XXFeckQ5L7Y/o60
+Ga53saWFVqk7f8wfE56kqnnNaPP5cio2YVdijsM4MixxAgMBAAGjUzBRMB0GA1Ud
+DgQWBBSZSKqD+zrKer2AUm4JGZNYjKKqEjAfBgNVHSMEGDAWgBSZSKqD+zrKer2A
+Um4JGZNYjKKqEjAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBG
+qk8+W0CaPoYMp56q1svtQsQh3KGz2mwEjEJyGfyGYaQ8cBKY9yeSn55Hq+xJPDUg
+BJr7kPMWOfttAEHJZk9z/Y4KpGEn3Z1FPIZKkxdItUqEGwI13YjV+gmC27nqmuk0
+qdfO6rWYL90198q7u6KO5hqRLXR7ljdPXmiZ3qHHkAvnACQHzGU1UIl5I+PBQE8G
+cJqOE3YbO6n3f+4Grsjp2BJ1BkAH7eWvKDGhrmS0AfYDNDFfd0aFVT74w3I8aPaZ
+wyIz9+qYKkEhkJeaRgGCSGzKjcKxiurBcAvqxyIfpCdSOtN7Grw5Cp6Qd/jB46Zg
+TAturvWjLOqWHMULAdoq
+</ds:X509Certificate></ds:X509Data></ds:KeyInfo></md:KeyDescriptor><md:KeyDescriptor use="encryption"><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIDazCCAlOgAwIBAgIUd3m78rxZI604Wb78Ofm0/N/ijNEwDQYJKoZIhvcNAQEL
+BQAwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoM
+GEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0yMTAyMTMxMTQ4MjVaFw0zMTAy
+MTExMTQ4MjVaMEUxCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEw
+HwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwggEiMA0GCSqGSIb3DQEB
+AQUAA4IBDwAwggEKAoIBAQDIU8VNwN7pRxmP5LoELxanu9bL8+jIoQwRfJIA/NTF
+LSW7Znhp70IFIHxgbdRv5GeSA+EXVxaQz5lnsXXlxYnDX/oVXCaFxw+YI5Jm6qpw
+/if9+aSv3y1bsKp3zyGUkPiaLdfVFz/VuZZvz8izjATU1EKAT19XKTdgG/SjGgYc
+zouSL5MguGd/oWnzn5TpyjGWk6NyV6yVHcqW2QoSzhfqOtqUedzRAC+u946ZQteN
+swcJuJWJ6+uyziLrrE6MphwP+ALyWkUDaV/7Yg2+ang8/z051XXFeckQ5L7Y/o60
+Ga53saWFVqk7f8wfE56kqnnNaPP5cio2YVdijsM4MixxAgMBAAGjUzBRMB0GA1Ud
+DgQWBBSZSKqD+zrKer2AUm4JGZNYjKKqEjAfBgNVHSMEGDAWgBSZSKqD+zrKer2A
+Um4JGZNYjKKqEjAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBG
+qk8+W0CaPoYMp56q1svtQsQh3KGz2mwEjEJyGfyGYaQ8cBKY9yeSn55Hq+xJPDUg
+BJr7kPMWOfttAEHJZk9z/Y4KpGEn3Z1FPIZKkxdItUqEGwI13YjV+gmC27nqmuk0
+qdfO6rWYL90198q7u6KO5hqRLXR7ljdPXmiZ3qHHkAvnACQHzGU1UIl5I+PBQE8G
+cJqOE3YbO6n3f+4Grsjp2BJ1BkAH7eWvKDGhrmS0AfYDNDFfd0aFVT74w3I8aPaZ
+wyIz9+qYKkEhkJeaRgGCSGzKjcKxiurBcAvqxyIfpCdSOtN7Grw5Cp6Qd/jB46Zg
+TAturvWjLOqWHMULAdoq
+</ds:X509Certificate></ds:X509Data></ds:KeyInfo></md:KeyDescriptor><md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8000/spid/ls/post/"/><md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat><md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8000/spid/acs/" index="0" isDefault="true"/><md:AttributeConsumingService index="0"><md:ServiceName xml:lang="it">http://localhost:8000/spid/metadata</md:ServiceName><md:RequestedAttribute Name="spidCode" isRequired="true"/><md:RequestedAttribute Name="name" isRequired="true"/><md:RequestedAttribute Name="familyName" isRequired="true"/><md:RequestedAttribute Name="fiscalNumber" isRequired="true"/><md:RequestedAttribute Name="email" isRequired="true"/><md:RequestedAttribute Name="gender" isRequired="false"/><md:RequestedAttribute Name="companyName" isRequired="false"/><md:RequestedAttribute Name="registeredOffice" isRequired="false"/><md:RequestedAttribute Name="ivaCode" isRequired="false"/><md:RequestedAttribute Name="idCard" isRequired="false"/><md:RequestedAttribute Name="digitalAddress" isRequired="false"/><md:RequestedAttribute Name="placeOfBirth" isRequired="false"/><md:RequestedAttribute Name="countyOfBirth" isRequired="false"/><md:RequestedAttribute Name="dateOfBirth" isRequired="false"/><md:RequestedAttribute Name="address" isRequired="false"/><md:RequestedAttribute Name="mobilePhone" isRequired="false"/><md:RequestedAttribute Name="expirationDate" isRequired="false"/></md:AttributeConsumingService></md:SPSSODescriptor><md:Organization><md:OrganizationName xml:lang="it">Example</md:OrganizationName><md:OrganizationName xml:lang="en">Example</md:OrganizationName><md:OrganizationDisplayName xml:lang="it">Example</md:OrganizationDisplayName><md:OrganizationDisplayName xml:lang="en">Example</md:OrganizationDisplayName><md:OrganizationURL xml:lang="it">http://www.example.it</md:OrganizationURL><md:OrganizationURL xml:lang="en">http://www.example.it</md:OrganizationURL></md:Organization><md:ContactPerson contactType="billing"><md:Extensions><fpa:CessionarioCommittente><fpa:DatiAnagrafici><fpa:CodiceFiscale>NGLMRA80A01D086T</fpa:CodiceFiscale><fpa:IdFiscaleIVA><fpa:IdPaese>IT</fpa:IdPaese><fpa:IdCodice>983745349857</fpa:IdCodice></fpa:IdFiscaleIVA><fpa:Anagrafica><fpa:Denominazione>Destinatario Fatturazione</fpa:Denominazione></fpa:Anagrafica></fpa:DatiAnagrafici><fpa:Sede><fpa:Indirizzo>via tante cose</fpa:Indirizzo><fpa:NumeroCivico>12</fpa:NumeroCivico><fpa:CAP>87100</fpa:CAP><fpa:Comune>Cosenza</fpa:Comune><fpa:Provincia>CS</fpa:Provincia><fpa:Nazione>IT</fpa:Nazione></fpa:Sede></fpa:CessionarioCommittente></md:Extensions><md:Company>example s.p.a.</md:Company><md:EmailAddress>info@example.org</md:EmailAddress><md:TelephoneNumber>+39 84756344785</md:TelephoneNumber></md:ContactPerson></md:EntityDescriptor>

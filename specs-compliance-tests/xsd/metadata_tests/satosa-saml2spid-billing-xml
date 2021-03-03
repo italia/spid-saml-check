@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<md:EntityDescriptor xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:fpa="https://spid.gov.it/invoicing-extensions" xmlns:idpdisc="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="https://172.17.0.1:10000/spidSaml2/metadata" ID="id-gqJMaoJV50gLFsRG3"><ds:Signature Id="Signature1"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference URI="#id-gqJMaoJV50gLFsRG3"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>B9GjwfKTdvSsFQcj8gf7Y2/FeSG4ECgEKR64bgp4cJw=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>CjJvHePjU+ZN22dkq02GCgXkxGq0/mEij9GlxvaQ03ayh9ijGTfwwRVACH2Rb4Iy
+pgzYA2ilNwW/YO2D2fpIYuAwX+ceMNdihsMDRKmt6jbY7meSsjLqd6qxTAqFeLlX
+RBRE4IZ3wqT9WNZrvG97fK0J+JaKkYNJCHGgtRUYLSAE/VSsrQs/5qKOyES9bREm
+XktiQZJEWldAlbqstEJZQtoifwYXkAtw7qkEEigYS/TZxdInQXAi/Ol8yfvWUP8G
+F6Huo/Ewtkl+h5jRYXrlA5gbqTY/NJrrd2TgKJecEUFxLDY3grdpilfI53CEpjkF
+L4sUq/KHLyl0KcjAtkjUt28RqYIge8tVUIwIf9V8TN4eaqheEVjwvfyI8ttOh7+p
+FDiJSPfg8B6SEZr+kLjfxeBaf6n7sDsnDrRwweihd+Vbn67EzZl8A6SqI4eBkFlY
+qHeYcm9jKfimuEtppAMgRGPNb4uE8IkxJY+yucntSooWxQwlS2RbfRkLliyNCaH2</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIE/TCCA2WgAwIBAgIUEeBEsc8jIBXCMut2yzpO2ZjqgMQwDQYJKoZIhvcNAQEMBQAwgasxGzAZBgNVBAMMElNQSUQgZXhhbXBsZSBwcm94eTELMAkGA1UEBhMCSVQxDTALBgNVBAcMBFJvbWExFTATBgNVBGEMDFBBOklULWNfaDUwMTEbMBkGA1UECgwSU1BJRCBleGFtcGxlIHByb3h5MRMwEQYDVQQFEwoxMjM0NTY3ODkwMScwJQYDVQRTDB5odHRwczovL3NwaWQucHJveHkuZXhhbXBsZS5vcmcwHhcNMjEwMTI3MTc1MzIwWhcNNDEwMTIyMTc1MzIwWjCBqzEbMBkGA1UEAwwSU1BJRCBleGFtcGxlIHByb3h5MQswCQYDVQQGEwJJVDENMAsGA1UEBwwEUm9tYTEVMBMGA1UEYQwMUEE6SVQtY19oNTAxMRswGQYDVQQKDBJTUElEIGV4YW1wbGUgcHJveHkxEzARBgNVBAUTCjEyMzQ1Njc4OTAxJzAlBgNVBFMMHmh0dHBzOi8vc3BpZC5wcm94eS5leGFtcGxlLm9yZzCCAaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBALZH4l/Pd4r5iJIct18/tMTx1y8vMfVLEuMofiPvASoekqb86VzRQOUV5Cm5cxYa0Cpai8wN0hFn67XayvwhbqW61g9CwnJRrXbriHze955RlktIX5qKsGQQl5yc7GeKrJOT6i71x9UDxCaHZaHBaiWOB2bq3Ikfi/8d0h78/OYyc9K7+n6qHHkvh8MM+FmtKwWUhwNGIh1mKb3VCJUWfzu9G81x/oxAD++ev0yN8HKOZBhSEq+vPOJrnBXnNg1DBIBL9fXo/zXfC424Lm9NPdE4vmJI6mFC7J+xCeLC3rEDcZspPNp8KerdcmRzLH1gVn7qF0ieERYbr0SaiN4cFaTl3WTGVDIlV5Hh0P/7dmf+IeeTFNsoI1i6sqiIsgV3YwEY0NhwGqNcnTy8ryQZMO9+OFnJGNvrCn7Jpe6DF1rPVYCvFnK+dZnBIqNct19znE0BKolsNmiNiOqH9ji3Ro+7h6xvUnKnuvHoLcmZ24HPF5dCFDk5KQNLCCQxNbwVpQIDAQABoxcwFTATBgNVHSAEDDAKMAgGBitMEAQCATANBgkqhkiG9w0BAQwFAAOCAYEAFj3rgGgZjUY9692iEMpU83OtzXsBB2jQoSX68xLetsvSADi0vJBUBaiHrfncE90XWGl8IN+0wdhMidgMw/JisKp+GyVN9NEsdvW6QBwPAg6P6Af59MEv2nKWCvlld+inRvTFKl/xLlINPtZH46VFrInQOnOhvAmuTnitZm8HD0Rm88wMmNG9ja9e1L9hv67RADtoDnmXO9J+tfzW98GgiNtp9pmS/zioEdZJ7hSHWsUTfoKs+1tOcyQWnzlTfLYYbaENnJcEpUFetVc/SKYKegZQrNt5S/5LVWd1mNvgR4JE0yl832B+2LiNGYsqeazR/ncQbFekrTvGHwpOA6brD03lKQwBOv+xP9vyx1CCvQAXMmjqew4cH5VVVoSYl1km7TZ00NM56eqyIypKX/6XQVcTY49wESVbJ4SQdkJUYXiaY/MVuJ64AqJZsQdV/3ckf9jR3JwzaTVfraHWfRhONv9pHQdOVXURgMa070OZDrKfFvOQH3iBIAB2QhHFNtXz</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature><md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol" AuthnRequestsSigned="true" WantAssertionsSigned="true"><md:Extensions><idpdisc:DiscoveryResponse Binding="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol" Location="https://172.17.0.1:10000/spidSaml2/disco" index="1"/></md:Extensions><md:KeyDescriptor use="signing"><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIE/TCCA2WgAwIBAgIUEeBEsc8jIBXCMut2yzpO2ZjqgMQwDQYJKoZIhvcNAQEM
+BQAwgasxGzAZBgNVBAMMElNQSUQgZXhhbXBsZSBwcm94eTELMAkGA1UEBhMCSVQx
+DTALBgNVBAcMBFJvbWExFTATBgNVBGEMDFBBOklULWNfaDUwMTEbMBkGA1UECgwS
+U1BJRCBleGFtcGxlIHByb3h5MRMwEQYDVQQFEwoxMjM0NTY3ODkwMScwJQYDVQRT
+DB5odHRwczovL3NwaWQucHJveHkuZXhhbXBsZS5vcmcwHhcNMjEwMTI3MTc1MzIw
+WhcNNDEwMTIyMTc1MzIwWjCBqzEbMBkGA1UEAwwSU1BJRCBleGFtcGxlIHByb3h5
+MQswCQYDVQQGEwJJVDENMAsGA1UEBwwEUm9tYTEVMBMGA1UEYQwMUEE6SVQtY19o
+NTAxMRswGQYDVQQKDBJTUElEIGV4YW1wbGUgcHJveHkxEzARBgNVBAUTCjEyMzQ1
+Njc4OTAxJzAlBgNVBFMMHmh0dHBzOi8vc3BpZC5wcm94eS5leGFtcGxlLm9yZzCC
+AaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBALZH4l/Pd4r5iJIct18/tMTx
+1y8vMfVLEuMofiPvASoekqb86VzRQOUV5Cm5cxYa0Cpai8wN0hFn67XayvwhbqW6
+1g9CwnJRrXbriHze955RlktIX5qKsGQQl5yc7GeKrJOT6i71x9UDxCaHZaHBaiWO
+B2bq3Ikfi/8d0h78/OYyc9K7+n6qHHkvh8MM+FmtKwWUhwNGIh1mKb3VCJUWfzu9
+G81x/oxAD++ev0yN8HKOZBhSEq+vPOJrnBXnNg1DBIBL9fXo/zXfC424Lm9NPdE4
+vmJI6mFC7J+xCeLC3rEDcZspPNp8KerdcmRzLH1gVn7qF0ieERYbr0SaiN4cFaTl
+3WTGVDIlV5Hh0P/7dmf+IeeTFNsoI1i6sqiIsgV3YwEY0NhwGqNcnTy8ryQZMO9+
+OFnJGNvrCn7Jpe6DF1rPVYCvFnK+dZnBIqNct19znE0BKolsNmiNiOqH9ji3Ro+7
+h6xvUnKnuvHoLcmZ24HPF5dCFDk5KQNLCCQxNbwVpQIDAQABoxcwFTATBgNVHSAE
+DDAKMAgGBitMEAQCATANBgkqhkiG9w0BAQwFAAOCAYEAFj3rgGgZjUY9692iEMpU
+83OtzXsBB2jQoSX68xLetsvSADi0vJBUBaiHrfncE90XWGl8IN+0wdhMidgMw/Ji
+sKp+GyVN9NEsdvW6QBwPAg6P6Af59MEv2nKWCvlld+inRvTFKl/xLlINPtZH46VF
+rInQOnOhvAmuTnitZm8HD0Rm88wMmNG9ja9e1L9hv67RADtoDnmXO9J+tfzW98Gg
+iNtp9pmS/zioEdZJ7hSHWsUTfoKs+1tOcyQWnzlTfLYYbaENnJcEpUFetVc/SKYK
+egZQrNt5S/5LVWd1mNvgR4JE0yl832B+2LiNGYsqeazR/ncQbFekrTvGHwpOA6br
+D03lKQwBOv+xP9vyx1CCvQAXMmjqew4cH5VVVoSYl1km7TZ00NM56eqyIypKX/6X
+QVcTY49wESVbJ4SQdkJUYXiaY/MVuJ64AqJZsQdV/3ckf9jR3JwzaTVfraHWfRhO
+Nv9pHQdOVXURgMa070OZDrKfFvOQH3iBIAB2QhHFNtXz
+</ds:X509Certificate></ds:X509Data></ds:KeyInfo></md:KeyDescriptor><md:KeyDescriptor use="encryption"><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIE/TCCA2WgAwIBAgIUEeBEsc8jIBXCMut2yzpO2ZjqgMQwDQYJKoZIhvcNAQEM
+BQAwgasxGzAZBgNVBAMMElNQSUQgZXhhbXBsZSBwcm94eTELMAkGA1UEBhMCSVQx
+DTALBgNVBAcMBFJvbWExFTATBgNVBGEMDFBBOklULWNfaDUwMTEbMBkGA1UECgwS
+U1BJRCBleGFtcGxlIHByb3h5MRMwEQYDVQQFEwoxMjM0NTY3ODkwMScwJQYDVQRT
+DB5odHRwczovL3NwaWQucHJveHkuZXhhbXBsZS5vcmcwHhcNMjEwMTI3MTc1MzIw
+WhcNNDEwMTIyMTc1MzIwWjCBqzEbMBkGA1UEAwwSU1BJRCBleGFtcGxlIHByb3h5
+MQswCQYDVQQGEwJJVDENMAsGA1UEBwwEUm9tYTEVMBMGA1UEYQwMUEE6SVQtY19o
+NTAxMRswGQYDVQQKDBJTUElEIGV4YW1wbGUgcHJveHkxEzARBgNVBAUTCjEyMzQ1
+Njc4OTAxJzAlBgNVBFMMHmh0dHBzOi8vc3BpZC5wcm94eS5leGFtcGxlLm9yZzCC
+AaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBALZH4l/Pd4r5iJIct18/tMTx
+1y8vMfVLEuMofiPvASoekqb86VzRQOUV5Cm5cxYa0Cpai8wN0hFn67XayvwhbqW6
+1g9CwnJRrXbriHze955RlktIX5qKsGQQl5yc7GeKrJOT6i71x9UDxCaHZaHBaiWO
+B2bq3Ikfi/8d0h78/OYyc9K7+n6qHHkvh8MM+FmtKwWUhwNGIh1mKb3VCJUWfzu9
+G81x/oxAD++ev0yN8HKOZBhSEq+vPOJrnBXnNg1DBIBL9fXo/zXfC424Lm9NPdE4
+vmJI6mFC7J+xCeLC3rEDcZspPNp8KerdcmRzLH1gVn7qF0ieERYbr0SaiN4cFaTl
+3WTGVDIlV5Hh0P/7dmf+IeeTFNsoI1i6sqiIsgV3YwEY0NhwGqNcnTy8ryQZMO9+
+OFnJGNvrCn7Jpe6DF1rPVYCvFnK+dZnBIqNct19znE0BKolsNmiNiOqH9ji3Ro+7
+h6xvUnKnuvHoLcmZ24HPF5dCFDk5KQNLCCQxNbwVpQIDAQABoxcwFTATBgNVHSAE
+DDAKMAgGBitMEAQCATANBgkqhkiG9w0BAQwFAAOCAYEAFj3rgGgZjUY9692iEMpU
+83OtzXsBB2jQoSX68xLetsvSADi0vJBUBaiHrfncE90XWGl8IN+0wdhMidgMw/Ji
+sKp+GyVN9NEsdvW6QBwPAg6P6Af59MEv2nKWCvlld+inRvTFKl/xLlINPtZH46VF
+rInQOnOhvAmuTnitZm8HD0Rm88wMmNG9ja9e1L9hv67RADtoDnmXO9J+tfzW98Gg
+iNtp9pmS/zioEdZJ7hSHWsUTfoKs+1tOcyQWnzlTfLYYbaENnJcEpUFetVc/SKYK
+egZQrNt5S/5LVWd1mNvgR4JE0yl832B+2LiNGYsqeazR/ncQbFekrTvGHwpOA6br
+D03lKQwBOv+xP9vyx1CCvQAXMmjqew4cH5VVVoSYl1km7TZ00NM56eqyIypKX/6X
+QVcTY49wESVbJ4SQdkJUYXiaY/MVuJ64AqJZsQdV/3ckf9jR3JwzaTVfraHWfRhO
+Nv9pHQdOVXURgMa070OZDrKfFvOQH3iBIAB2QhHFNtXz
+</ds:X509Certificate></ds:X509Data></ds:KeyInfo></md:KeyDescriptor><md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://172.17.0.1:10000/spidSaml2/ls/post/"/><md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat><md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://172.17.0.1:10000/spidSaml2/acs/post" index="0" isDefault="true"/><md:AttributeConsumingService index="0"><md:ServiceName xml:lang="it">https://172.17.0.1:10000/spidSaml2/metadata</md:ServiceName><md:RequestedAttribute Name="spidCode" isRequired="true"/><md:RequestedAttribute Name="name" isRequired="true"/><md:RequestedAttribute Name="familyName" isRequired="true"/><md:RequestedAttribute Name="fiscalNumber" isRequired="true"/><md:RequestedAttribute Name="email" isRequired="true"/></md:AttributeConsumingService></md:SPSSODescriptor><md:Organization><md:OrganizationName xml:lang="it">Spid Authentication Proxy</md:OrganizationName><md:OrganizationDisplayName xml:lang="it">Saml2 Authentication Proxy</md:OrganizationDisplayName><md:OrganizationURL xml:lang="it">https://spid.proxy.example.org</md:OrganizationURL></md:Organization><md:ContactPerson contactType="billing"><md:Extensions><fpa:CessionarioCommittente><fpa:DatiAnagrafici><fpa:CodiceFiscale>NGLMRA80A01D086T</fpa:CodiceFiscale><fpa:IdFiscaleIVA><fpa:IdPaese>IT</fpa:IdPaese><fpa:IdCodice>983745349857</fpa:IdCodice></fpa:IdFiscaleIVA><fpa:Anagrafica><fpa:Denominazione>Destinatario Fatturazione</fpa:Denominazione></fpa:Anagrafica></fpa:DatiAnagrafici><fpa:Sede><fpa:Indirizzo>via tante cose</fpa:Indirizzo><fpa:NumeroCivico>12</fpa:NumeroCivico><fpa:CAP>87100</fpa:CAP><fpa:Comune>Cosenza</fpa:Comune><fpa:Provincia>CS</fpa:Provincia><fpa:Nazione>IT</fpa:Nazione></fpa:Sede></fpa:CessionarioCommittente></md:Extensions><md:Company>example s.p.a.</md:Company><md:EmailAddress>info@example.org</md:EmailAddress><md:TelephoneNumber>+39 84756344785</md:TelephoneNumber></md:ContactPerson></md:EntityDescriptor>

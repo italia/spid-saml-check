@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<md:EntityDescriptor xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:spid="https://spid.gov.it/saml-extensions" entityID="http://localhost:8000/spid/metadata" ID="id-swFY5LtNt7V3qRH7U"><ds:Signature Id="Signature1"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference URI="#id-swFY5LtNt7V3qRH7U"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>5LMIgBKEticpfkqHqInLjdUkWVOoStXEvYwk1yuI6Ck=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>pdu3SQ0nff6kqRTFRUMSYqgNplK2ouBKPMx3zLwWL6sZEmBLqgFRcP+ryekCwPMj
+Ja+W3WXd+BkaRkr78TmXMGgeDQxZMidbom0E9EZUlYLXZVCh68PtxqCtPAQLgWEK
+Gnr7XgFfMfHjwR5JPi7Flw3rbjZkJ+pyC8zfhmMA2g0dMANQnKuH74WyMD9+be0R
+a4S43SyDF6xqflKDdIcb5t4pZF4xbzn3m5QJQfOt9jfARINnvjliCHvB6/jHE77L
+v46zxikzm3AjfTFKdFrVf3OzE2zhIoCNmnOdGA7zbJjsDOdar1QiZfQXQbjoC9rS
+ZmC3JZ8oBOfMxakbuKjPxw==</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIDazCCAlOgAwIBAgIUd3m78rxZI604Wb78Ofm0/N/ijNEwDQYJKoZIhvcNAQELBQAwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0yMTAyMTMxMTQ4MjVaFw0zMTAyMTExMTQ4MjVaMEUxCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDIU8VNwN7pRxmP5LoELxanu9bL8+jIoQwRfJIA/NTFLSW7Znhp70IFIHxgbdRv5GeSA+EXVxaQz5lnsXXlxYnDX/oVXCaFxw+YI5Jm6qpw/if9+aSv3y1bsKp3zyGUkPiaLdfVFz/VuZZvz8izjATU1EKAT19XKTdgG/SjGgYczouSL5MguGd/oWnzn5TpyjGWk6NyV6yVHcqW2QoSzhfqOtqUedzRAC+u946ZQteNswcJuJWJ6+uyziLrrE6MphwP+ALyWkUDaV/7Yg2+ang8/z051XXFeckQ5L7Y/o60Ga53saWFVqk7f8wfE56kqnnNaPP5cio2YVdijsM4MixxAgMBAAGjUzBRMB0GA1UdDgQWBBSZSKqD+zrKer2AUm4JGZNYjKKqEjAfBgNVHSMEGDAWgBSZSKqD+zrKer2AUm4JGZNYjKKqEjAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBGqk8+W0CaPoYMp56q1svtQsQh3KGz2mwEjEJyGfyGYaQ8cBKY9yeSn55Hq+xJPDUgBJr7kPMWOfttAEHJZk9z/Y4KpGEn3Z1FPIZKkxdItUqEGwI13YjV+gmC27nqmuk0qdfO6rWYL90198q7u6KO5hqRLXR7ljdPXmiZ3qHHkAvnACQHzGU1UIl5I+PBQE8GcJqOE3YbO6n3f+4Grsjp2BJ1BkAH7eWvKDGhrmS0AfYDNDFfd0aFVT74w3I8aPaZwyIz9+qYKkEhkJeaRgGCSGzKjcKxiurBcAvqxyIfpCdSOtN7Grw5Cp6Qd/jB46ZgTAturvWjLOqWHMULAdoq</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature><md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol" AuthnRequestsSigned="true" WantAssertionsSigned="true"><md:KeyDescriptor use="signing"><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIDazCCAlOgAwIBAgIUd3m78rxZI604Wb78Ofm0/N/ijNEwDQYJKoZIhvcNAQEL
+BQAwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoM
+GEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0yMTAyMTMxMTQ4MjVaFw0zMTAy
+MTExMTQ4MjVaMEUxCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEw
+HwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwggEiMA0GCSqGSIb3DQEB
+AQUAA4IBDwAwggEKAoIBAQDIU8VNwN7pRxmP5LoELxanu9bL8+jIoQwRfJIA/NTF
+LSW7Znhp70IFIHxgbdRv5GeSA+EXVxaQz5lnsXXlxYnDX/oVXCaFxw+YI5Jm6qpw
+/if9+aSv3y1bsKp3zyGUkPiaLdfVFz/VuZZvz8izjATU1EKAT19XKTdgG/SjGgYc
+zouSL5MguGd/oWnzn5TpyjGWk6NyV6yVHcqW2QoSzhfqOtqUedzRAC+u946ZQteN
+swcJuJWJ6+uyziLrrE6MphwP+ALyWkUDaV/7Yg2+ang8/z051XXFeckQ5L7Y/o60
+Ga53saWFVqk7f8wfE56kqnnNaPP5cio2YVdijsM4MixxAgMBAAGjUzBRMB0GA1Ud
+DgQWBBSZSKqD+zrKer2AUm4JGZNYjKKqEjAfBgNVHSMEGDAWgBSZSKqD+zrKer2A
+Um4JGZNYjKKqEjAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBG
+qk8+W0CaPoYMp56q1svtQsQh3KGz2mwEjEJyGfyGYaQ8cBKY9yeSn55Hq+xJPDUg
+BJr7kPMWOfttAEHJZk9z/Y4KpGEn3Z1FPIZKkxdItUqEGwI13YjV+gmC27nqmuk0
+qdfO6rWYL90198q7u6KO5hqRLXR7ljdPXmiZ3qHHkAvnACQHzGU1UIl5I+PBQE8G
+cJqOE3YbO6n3f+4Grsjp2BJ1BkAH7eWvKDGhrmS0AfYDNDFfd0aFVT74w3I8aPaZ
+wyIz9+qYKkEhkJeaRgGCSGzKjcKxiurBcAvqxyIfpCdSOtN7Grw5Cp6Qd/jB46Zg
+TAturvWjLOqWHMULAdoq
+</ds:X509Certificate></ds:X509Data></ds:KeyInfo></md:KeyDescriptor><md:KeyDescriptor use="encryption"><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIDazCCAlOgAwIBAgIUd3m78rxZI604Wb78Ofm0/N/ijNEwDQYJKoZIhvcNAQEL
+BQAwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoM
+GEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0yMTAyMTMxMTQ4MjVaFw0zMTAy
+MTExMTQ4MjVaMEUxCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEw
+HwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwggEiMA0GCSqGSIb3DQEB
+AQUAA4IBDwAwggEKAoIBAQDIU8VNwN7pRxmP5LoELxanu9bL8+jIoQwRfJIA/NTF
+LSW7Znhp70IFIHxgbdRv5GeSA+EXVxaQz5lnsXXlxYnDX/oVXCaFxw+YI5Jm6qpw
+/if9+aSv3y1bsKp3zyGUkPiaLdfVFz/VuZZvz8izjATU1EKAT19XKTdgG/SjGgYc
+zouSL5MguGd/oWnzn5TpyjGWk6NyV6yVHcqW2QoSzhfqOtqUedzRAC+u946ZQteN
+swcJuJWJ6+uyziLrrE6MphwP+ALyWkUDaV/7Yg2+ang8/z051XXFeckQ5L7Y/o60
+Ga53saWFVqk7f8wfE56kqnnNaPP5cio2YVdijsM4MixxAgMBAAGjUzBRMB0GA1Ud
+DgQWBBSZSKqD+zrKer2AUm4JGZNYjKKqEjAfBgNVHSMEGDAWgBSZSKqD+zrKer2A
+Um4JGZNYjKKqEjAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBG
+qk8+W0CaPoYMp56q1svtQsQh3KGz2mwEjEJyGfyGYaQ8cBKY9yeSn55Hq+xJPDUg
+BJr7kPMWOfttAEHJZk9z/Y4KpGEn3Z1FPIZKkxdItUqEGwI13YjV+gmC27nqmuk0
+qdfO6rWYL90198q7u6KO5hqRLXR7ljdPXmiZ3qHHkAvnACQHzGU1UIl5I+PBQE8G
+cJqOE3YbO6n3f+4Grsjp2BJ1BkAH7eWvKDGhrmS0AfYDNDFfd0aFVT74w3I8aPaZ
+wyIz9+qYKkEhkJeaRgGCSGzKjcKxiurBcAvqxyIfpCdSOtN7Grw5Cp6Qd/jB46Zg
+TAturvWjLOqWHMULAdoq
+</ds:X509Certificate></ds:X509Data></ds:KeyInfo></md:KeyDescriptor><md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8000/spid/ls/post/"/><md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat><md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8000/spid/acs/" index="0" isDefault="true"/><md:AttributeConsumingService index="0"><md:ServiceName xml:lang="it">http://localhost:8000/spid/metadata</md:ServiceName><md:RequestedAttribute Name="spidCode" isRequired="true"/><md:RequestedAttribute Name="name" isRequired="true"/><md:RequestedAttribute Name="familyName" isRequired="true"/><md:RequestedAttribute Name="fiscalNumber" isRequired="true"/><md:RequestedAttribute Name="email" isRequired="true"/><md:RequestedAttribute Name="gender" isRequired="false"/><md:RequestedAttribute Name="companyName" isRequired="false"/><md:RequestedAttribute Name="registeredOffice" isRequired="false"/><md:RequestedAttribute Name="ivaCode" isRequired="false"/><md:RequestedAttribute Name="idCard" isRequired="false"/><md:RequestedAttribute Name="digitalAddress" isRequired="false"/><md:RequestedAttribute Name="placeOfBirth" isRequired="false"/><md:RequestedAttribute Name="countyOfBirth" isRequired="false"/><md:RequestedAttribute Name="dateOfBirth" isRequired="false"/><md:RequestedAttribute Name="address" isRequired="false"/><md:RequestedAttribute Name="mobilePhone" isRequired="false"/><md:RequestedAttribute Name="expirationDate" isRequired="false"/></md:AttributeConsumingService></md:SPSSODescriptor><md:Organization><md:OrganizationName xml:lang="it">Example</md:OrganizationName><md:OrganizationName xml:lang="en">Example</md:OrganizationName><md:OrganizationDisplayName xml:lang="it">Example</md:OrganizationDisplayName><md:OrganizationDisplayName xml:lang="en">Example</md:OrganizationDisplayName><md:OrganizationURL xml:lang="it">http://www.example.it</md:OrganizationURL><md:OrganizationURL xml:lang="en">http://www.example.it</md:OrganizationURL></md:Organization><md:ContactPerson contactType="other"><md:Extensions><spid:VATNumber>IT12345678901</spid:VATNumber><spid:FiscalCode>XYasdasdadasdGGJ000W</spid:FiscalCode><spid:Public/></md:Extensions><md:EmailAddress>info@example.org</md:EmailAddress><md:TelephoneNumber>+39 84756344785</md:TelephoneNumber></md:ContactPerson></md:EntityDescriptor>

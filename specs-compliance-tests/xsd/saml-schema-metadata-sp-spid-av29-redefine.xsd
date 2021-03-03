@@ -18,6 +18,11 @@
         schemaLocation="saml-schema-assertion-2.0.xsd"/>
     <import namespace="http://www.w3.org/XML/1998/namespace"
         schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+    <import namespace="https://spid.gov.it/saml-extensions"
+        schemaLocation="spid.xsd"/>
+    <import namespace="https://spid.gov.it/invoicing-extensions"
+        schemaLocation="spid-invoicing.xsd"/>
+
     <annotation>
         <documentation>
             Document identifier: saml-schema-metadata-sp-spid-av29.xsd
@@ -83,9 +88,20 @@
             <complexContent>
                 <restriction base="md:SSODescriptorType">
                     <sequence>
+                        <element ref="ds:Signature" minOccurs="0"/>
+                        <element ref="md:Extensions" minOccurs="0"/>
+                        <element ref="md:KeyDescriptor" minOccurs="0" maxOccurs="unbounded"/>
+                        <element ref="md:Organization" minOccurs="0"/>
+                        <element ref="md:ContactPerson" minOccurs="0" maxOccurs="unbounded"/>
                         <element ref="md:SingleLogoutService" minOccurs="0" maxOccurs="unbounded"/>
                         <element ref="md:NameIDFormat" minOccurs="0" maxOccurs="unbounded"/>
                     </sequence>
+                    <attribute name="ID" type="ID" use="optional"/>
+                    <attribute name="validUntil" type="dateTime" use="optional"/>
+                    <attribute name="cacheDuration" type="duration" use="optional"/>
+                    <attribute name="protocolSupportEnumeration" type="md:anyURIListType" use="required"/>
+                    <attribute name="errorURL" type="anyURI" use="optional"/>
+                    <anyAttribute namespace="##other" processContents="lax"/>
                 </restriction>
             </complexContent>
         </complexType>

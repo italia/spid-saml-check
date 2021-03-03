@@ -138,7 +138,9 @@
         <anyAttribute namespace="##other" processContents="lax"/>
     </complexType>
     <element name="Company" type="string"/>
-    <element name="EmailAddress" type="string"/>
+    <element name="GivenName" type="string"/>
+    <element name="SurName" type="string"/>
+    <element name="EmailAddress" type="anyURI"/>
     <element name="TelephoneNumber" type="string"/>
     <simpleType name="ContactTypeType">
         <restriction base="string">
