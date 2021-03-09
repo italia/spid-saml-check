@@ -13,6 +13,9 @@ coverage
 # production
 build
 client/build
+config/idp.json
+config/api.json
+config/database.sqlite
 
 # certificates
 cert

@@ -28,8 +28,6 @@ moment.locale('it');
 import "./style.css";
 
 
-new ReduxStore();
-
 class Main extends Component {
 
 	constructor(props) {
@@ -47,7 +45,7 @@ class Main extends Component {
 			modal_btn_secondary_func: null,
 			modal_btn_secondary_text: "",
 
-            print: false,
+			print: false,
             infoprint_issuer: "-",
             infoprint_metadata: "-",
             infoprint_datetime: "-"
@@ -63,13 +61,13 @@ class Main extends Component {
 		let utilState = this.utilStore.getState(); 
 		this.setState({
 			blocking: utilState.blockUI,
-            print: utilState.print
+			print: utilState.print,
 		}, ()=>{
 			// state updated
             if(this.state.print) {
-                this.getInfo();
+                this.getInfo(utilState.printTitle);
                 this.setState({
-                    print: false
+					print: false
                 });
                 Utility.printed();
             }
@@ -96,19 +94,34 @@ class Main extends Component {
 		});
 	}	
 
-    getInfo() {
+    getInfo(title) {
         let service = Services.getMainService();
         service.getInfo(
-          (info) => {  
+          (info)=> {  
             this.setState({
                 infoprint_issuer: info.issuer,
                 infoprint_metadata: info.metadata,
                 infoprint_datetime: moment().format('dddd DD/MM/YYYY - HH:mm:ss')
             }, ()=> {
-                window.print();
+				let doctitle = document.title;
+				document.title = "_" + moment().format("YYYYMMDD") + "_" + title + "-";
+				window.print();
+				document.title = doctitle;
             });
-          }, 
-          (error)   => { ;
+		  }, 
+		  (info)=> { // no session
+			this.setState({
+                infoprint_issuer: 'N/A (validazione solo metadata)',
+                infoprint_metadata: info.metadata,
+                infoprint_datetime: moment().format('dddd DD/MM/YYYY - HH:mm:ss')
+            }, ()=> {
+				let doctitle = document.title;
+				document.title = "_" + moment().format("YYYYMMDD") + "_" + title + "-";
+				window.print();
+				document.title = doctitle;
+            });
+		  },
+          (error)=> { ;
             Utility.showModal({
                 title: "Errore",
                 body: error,
@@ -146,6 +159,7 @@ class Main extends Component {
 								<Container fluid>
 									<Switch>
 									<Route path="/metadata-sp-download" name="Metadata Service Provider / Download" component={MetadataSpDownload}/>
+									<Route path="/metadata-sp-check-xsd" key="metadata-sp-check-xsd" render={()=><MetadataSpCheck test="xsd" />} />
 									<Route path="/metadata-sp-check-strict" key="metadata-sp-check-strict" render={()=><MetadataSpCheck test="strict" />} />
 									<Route path="/metadata-sp-check-certs" key="metadata-sp-check-certs" render={()=><MetadataSpCheck test="certs" />} />
 									<Route path="/metadata-sp-check-extra" key="metadata-sp-check-extra" render={()=><MetadataSpCheck test="extra" />} />
@@ -154,6 +168,7 @@ class Main extends Component {
 									<Route path="/request-check-certs" key="request-check-certs" render={()=><RequestCheck test="certs" />} />
 									<Route path="/request-check-extra" key="request-check-extra" render={()=><RequestCheck test="extra" />} />
 									<Route path="/response/:suiteid/:caseid" component={Response}/>
+                                    <Route path="/response" component={Response}/>
 									<Route path="/response-report" component={ResponseReport}/>
 									<Redirect from="/" to="/request"/>
 									</Switch>

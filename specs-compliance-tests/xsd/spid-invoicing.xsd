@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema 
+	targetNamespace="https://spid.gov.it/invoicing-extensions" 
+  xmlns:fpa="https://spid.gov.it/invoicing-extensions" 
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#" 
+	xmlns="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified"
+	version="1.0">
+   
+  <import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd" />
+    
+  <element name="CessionarioCommittente" type="fpa:CessionarioCommittenteType" />
+  <complexType name="CessionarioCommittenteType">
+    <annotation>
+      <documentation>Blocco relativo ai dati del Cessionario / Committente</documentation>
+    </annotation>
+    <sequence>
+      <element ref="fpa:DatiAnagrafici" minOccurs="1" maxOccurs="1"/> 
+      <element ref="fpa:Sede" minOccurs="1" maxOccurs="1"/> 
+    </sequence>
+  </complexType>
+
+  <element name="DatiAnagrafici" type="fpa:DatiAnagraficiCessionarioType" />
+  <complexType name="DatiAnagraficiCessionarioType">
+    <sequence>
+      <choice minOccurs="1" maxOccurs="2">
+        <element ref="fpa:IdFiscaleIVA"   minOccurs="1" maxOccurs="1"/> 
+        <element ref="fpa:CodiceFiscale"  minOccurs="1" maxOccurs="1"/> 
+      </choice>
+      <element ref="fpa:Anagrafica"   minOccurs="1" maxOccurs="1"/> 
+    </sequence>
+  </complexType>
+
+  <element name="Anagrafica" type="fpa:AnagraficaType" />
+  <complexType name="AnagraficaType">
+    <annotation>
+      <documentation>Il campo Denominazione è in alternativa ai campi Nome e Cognome</documentation>
+    </annotation>
+    <sequence>
+      <choice>
+        <sequence>
+          <element ref="fpa:Denominazione" minOccurs="1" maxOccurs="1"/> 
+        </sequence>
+        <sequence>
+          <element ref="fpa:Nome"     minOccurs="1" maxOccurs="1"/> 
+          <element ref="fpa:Cognome"  minOccurs="1" maxOccurs="1"/> 
+        </sequence>
+      </choice>
+      <element ref="fpa:Titolo"       minOccurs="0" maxOccurs="1"/> 
+      <element ref="fpa:CodEORI"      minOccurs="0" maxOccurs="1"/> 
+    </sequence>
+  </complexType>
+
+  <element name="Sede" type="fpa:IndirizzoType" />
+  <complexType name="IndirizzoType">
+    <sequence>
+      <element ref="fpa:Indirizzo"    minOccurs="1" maxOccurs="1"/> 
+      <element ref="fpa:NumeroCivico" minOccurs="0" maxOccurs="1"/> 
+      <element ref="fpa:CAP"          minOccurs="1" maxOccurs="1"/> 
+      <element ref="fpa:Comune"       minOccurs="1" maxOccurs="1"/> 
+      <element ref="fpa:Provincia"    minOccurs="0" maxOccurs="1"/> 
+      <element ref="fpa:Nazione"      minOccurs="1" maxOccurs="1"/> 
+    </sequence>
+  </complexType>
+
+
+  <element name="Denominazione" type="fpa:String80LatinType"/>
+  <simpleType name="String80LatinType">
+    <restriction base="normalizedString">
+      <pattern value="[\p{IsBasicLatin}\p{IsLatin-1Supplement}]{1,80}" />
+    </restriction>
+  </simpleType>
+
+  <element name="Nome"      type="fpa:String60LatinType"/>
+  <element name="Cognome"   type="fpa:String60LatinType"/>
+  <element name="Indirizzo" type="fpa:String60LatinType"/>
+  <element name="Comune"    type="fpa:String60LatinType" />
+  <simpleType name="String60LatinType">
+    <restriction base="normalizedString">
+      <pattern value="[\p{IsBasicLatin}\p{IsLatin-1Supplement}]{1,60}" />
+    </restriction>
+  </simpleType>
+
+  <element name="IdFiscaleIVA"  type="fpa:IdFiscaleType" />
+  <complexType name="IdFiscaleType">
+    <sequence>
+      <element ref="fpa:IdPaese"  minOccurs="1" maxOccurs="1"/>
+      <element ref="fpa:IdCodice" minOccurs="1" maxOccurs="1"/>
+    </sequence>
+  </complexType>
+
+  <simpleType name="CodiceType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="28" />
+    </restriction>
+  </simpleType>
+
+  <element name="CodiceFiscale" type="fpa:CodiceFiscaleType" />
+  <element name="IdCodice"      type="fpa:CodiceType"  />
+  <simpleType name="CodiceFiscaleType">
+    <restriction base="string">
+      <pattern value="[A-Z0-9]{11,16}" />
+    </restriction>
+  </simpleType>
+
+  <element name="Titolo" type="fpa:TitoloType" />
+  <simpleType name="TitoloType">
+    <restriction base="normalizedString">
+      <whiteSpace value="collapse" />
+      <pattern value="(\p{IsBasicLatin}{2,10})" />
+    </restriction>
+  </simpleType>
+
+  <element name="CodEORI" type="fpa:CodEORIType" />
+  <simpleType name="CodEORIType">
+    <restriction base="string">
+      <minLength value="13" />
+      <maxLength value="17" />
+    </restriction>
+  </simpleType>
+
+  <element name="NumeroCivico" type="fpa:NumeroCivicoType" />
+  <simpleType name="NumeroCivicoType">
+    <restriction base="normalizedString">
+      <pattern value="(\p{IsBasicLatin}{1,8})" />
+    </restriction>
+  </simpleType>
+
+  <element name="CAP" type="fpa:CAPType" />
+  <simpleType name="CAPType">
+    <restriction base="string">
+      <pattern value="[0-9][0-9][0-9][0-9][0-9]" />
+    </restriction>
+  </simpleType>
+
+  <element name="Provincia" type="fpa:ProvinciaType" />
+  <simpleType name="ProvinciaType">
+    <restriction base="string">
+      <pattern value="[A-Z]{2}" />
+    </restriction>
+  </simpleType>
+
+  <element name="Nazione" type="fpa:NazioneType" default="IT" />
+  <element name="IdPaese" type="fpa:NazioneType" />
+  <simpleType name="NazioneType">
+    <restriction base="string">
+      <pattern value="[A-Z]{2}" />
+    </restriction>
+  </simpleType>
+
+</schema>

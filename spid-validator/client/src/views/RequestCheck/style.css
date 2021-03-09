@@ -1,72 +1,101 @@
-.testset {
+#RequestCheck .title {
+    margin-bottom: 15px!important;
+}
+
+#RequestCheck .subtitle {
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+#RequestCheck button {
+    margin: 5px!important; 
+}
+
+#RequestCheck .testset {
     background: #fff;
     padding: 15px;
     margin-bottom: 20px;
 }
 
-.test-success {
-    color: green!important;
-    font-size: 32px;
-    line-height: 25px;
-    margin: -5px;
+#RequestCheck .test-success {
+    display: block;
+    float: left;
+    width: 30px;
+    line-height: 23px;
+    margin: 1px;
+    border: 1px solid #000;
+    background-color: green;
+    color: #fff!important;
+    font-size: 13px;
+    text-align: center;
+    padding: 3px;
+    cursor: pointer;
+} 
+
+#RequestCheck .test-fail {
+    display: block;
+    float: left;
+    width: 30px;
+    line-height: 23px;
+    margin: 1px;
+    border: 1px solid #000;
+    background-color: red;
+    color: #fff!important;
+    font-size: 13px;
+    text-align: center;
+    padding: 3px;
     cursor: pointer;
 }
 
-.test-fail {
-    color: red!important;
-    font-size: 32px;
-    line-height: 25px;
-    margin: -5px;
-    cursor: pointer
-}
-
-.detail-table {
+#RequestCheck .detail-table {
     border:1px solid #999;
     width: 100%;
 }
 
-.detail-table th, .detail-table td {
+#RequestCheck .detail-table th, #RequestCheck .detail-table td {
     padding: 5px;
 }
 
-.detail-header {
+#RequestCheck .detail-header {
     background: #DDDDDD;
 }
 
-.detail-row {
+#RequestCheck .detail-row {
     border:1px solid #000;
 }
 
-.detail-row:hover {
+#RequestCheck .detail-row:hover {
     background: #EEEEEE;
 }
 
-.detail-num {
+#RequestCheck .detail-num {
     width: 50px;
 }
 
-.detail-result {
+#RequestCheck .detail-result {
     width: 100px;
 }
 
-.test-success-dm {
+#RequestCheck .test-success-dm {
     background: green!important;
-    color: #000000;
+    color: #FFFFFF;
+    font-weight: bold;
 }
 
-.test-fail-dm {
+#RequestCheck .test-fail-dm {
     background: red!important;
-    color: #000000;
+    color: #FFFFFF;
+    font-weight: bold;
 }
 
-.tools {
+#RequestCheck .tools {
     padding: 30px 5px;
     background: #FFFFFF;
     margin-left: 15px;
 }
 
 @media print {
-    .tools {
+    #RequestCheck .tools {
         display: none;
     }
 }

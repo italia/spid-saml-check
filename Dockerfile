@@ -29,8 +29,8 @@ RUN apt-get update \
         xmlsec1 \ 
         apache2
 
-# Node 6
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+# Node.js
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y \
         nodejs \
         build-essential

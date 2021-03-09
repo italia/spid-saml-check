@@ -18,12 +18,47 @@ class MetadataSpDownload extends Component {
   }	
 
   componentDidMount() { 
+    let service = Services.getMainService();
     let store = ReduxStore.getMain();
     let storeState = store.getState();
-    this.setState({
-        url: storeState.metadata_SP_URL,
-        xml: storeState.metadata_SP_XML
-    });
+
+    service.getInfo(
+      (info) => {
+
+        if(info.metadata_url && info.metadata_xml) {
+          this.setState({ url: info.metadata_url, xml: info.metadata_xml });
+          store.dispatch(Actions.setMetadataSpURL(info.metadata_url)); 
+          store.dispatch(Actions.setMetadataSpXML(info.metadata_xml)); 
+        }
+
+        if(info.metadata_url && !info.metadata_xml) {
+          this.setState({ url: info.metadata_url });          
+          this.downloadMetadata(info.metadata_url);
+        }
+      },
+
+      (info)=> { // no session
+
+        if(info.metadata_url && info.metadata_xml) {
+          this.setState({ url: info.metadata_url, xml: info.metadata_xml });
+          store.dispatch(Actions.setMetadataSpURL(info.metadata_url)); 
+          store.dispatch(Actions.setMetadataSpXML(info.metadata_xml)); 
+        }
+
+        if(info.metadata_url && !info.metadata_xml) {
+          this.setState({ url: info.metadata_url });
+          this.downloadMetadata(info.metadata_url);
+        }
+      },
+
+      (error)=> {
+        Utility.showModal({
+            title: "Errore",
+            body: error,
+            isOpen: true
+        });
+      }
+    );
   }
   
     render() {    
@@ -36,14 +71,13 @@ class MetadataSpDownload extends Component {
     let store = ReduxStore.getMain();
 
     service.downloadMetadataSp(url,
-      (metadata) => { 
-        this.setState({xml: metadata});
+      (metadata_xml) => { 
+        this.setState({xml: metadata_xml});
         store.dispatch(Actions.setMetadataSpURL(url)); 
-        store.dispatch(Actions.setMetadataSpXML(metadata)); 
-        service.saveWorkspace(store.getState());
+        store.dispatch(Actions.setMetadataSpXML(metadata_xml)); 
       }, 
       (error)   => { 
-        this.setState({xml: ""});
+        //this.setState({xml: ""}); 
         store.dispatch(Actions.setMetadataSpURL(""));
         store.dispatch(Actions.setMetadataSpXML(""));
         Utility.showModal({

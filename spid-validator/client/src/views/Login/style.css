@@ -1,3 +1,7 @@
 .warn {
 	border-color: red!important;
 }
+
+.bg-logo {
+    background: #333333!important;
+}

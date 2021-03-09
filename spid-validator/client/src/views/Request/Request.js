@@ -25,9 +25,17 @@ class Request extends Component {
         this.setState({xml: request.xml});
         store.dispatch(Actions.setRequestXML(request.xml)); 
       }, 
+      (nosession)=> {
+        this.props.history.push('/metadata-sp-download');
+      },
       (error)   => { 
         this.setState({xml: ""});
         store.dispatch(Actions.setRequestXML(""));
+        Utility.showModal({
+            title: "Errore",
+            body: error,
+            isOpen: true
+        });        
       }
     );
   }

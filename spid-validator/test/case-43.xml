@@ -15,7 +15,7 @@
         <saml:Subject>
             <saml:NameID 
                 Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"
-                NameQualifier="{{NameIDNameQualifier}}">
+                NameQualifier="">
                     
             </saml:NameID>
             <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">

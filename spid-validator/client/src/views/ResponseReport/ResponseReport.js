@@ -21,13 +21,29 @@ class ResponseReport extends Component {
   componentDidMount() { 
     let store = ReduxStore.getMain();
     let storeState = store.getState();
+    let testDone = storeState.response_test_done;
     let testSuccess = storeState.response_test_success;
-    Utility.log("Response Success", testSuccess);
+    let testNote = storeState.response_test_note;
 
     let testCases = config_test["test-suite-1"].cases;
 
     for(let i in testCases) {
-        testCases[i].success = (testSuccess!=null && testSuccess[i])? true:false;
+        testCases[i].done = (testDone[i]!=null && testDone[i])? true:false;
+        testCases[i].success = (testSuccess[i]!=null && testSuccess[i])? true:false;
+
+        if(!testDone[i]) {
+            testCases[i].classColor = "test-none";
+            testCases[i].result = "non effettuato";
+        } else {
+            if(testSuccess[i]) {
+                testCases[i].classColor = "test-success";
+                testCases[i].result = "Success";
+            } else {
+                testCases[i].classColor = "test-fail";
+                testCases[i].result = "FAIL";
+            }
+            testCases[i].note = testNote[i];
+        }
     }
     
     this.setState({
@@ -42,7 +58,7 @@ class ResponseReport extends Component {
     }
 
     print() {
-        Utility.print();
+        Utility.print("response");
     }
 
   render() {    

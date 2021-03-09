@@ -1,4 +1,4 @@
-var host = "http://localhost:8080/samlsso";
+var host = "https://validator.spid.gov.it/samlsso";
 var SAMLRequest = "";
 var RelayState = "";
 var action = host;

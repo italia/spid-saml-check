@@ -7,7 +7,7 @@ Spid Validator has been developed and is maintained by AgID - Agenzia per l'Ital
 ## How to buld with Docker
 
 ```
-$ docker buld -t spid-validator .
+$ docker build -t spid-validator .
 ```
 
 ## How to run with Docker

@@ -1,4 +1,4 @@
-# Copyright 2018 AgID - Agenzia per l'Italia Digitale
+# Copyright 2019 AgID - Agenzia per l'Italia Digitale
 #
 # Licensed under the EUPL, Version 1.2 or - as soon they will be approved by
 # the European Commission - subsequent versions of the EUPL (the "Licence").
@@ -135,51 +135,6 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
     def tearDown(self):
         if self.failures:
             self.fail(common.helpers.dump_failures(self.failures))
-
-    def test_xsd(self):
-        '''Validate the SP metadata against the SAML 2.0 Medadata XSD'''
-
-        cmd = ' '.join(['xmllint',
-                        '--noout',
-                        '--schema ./xsd/saml-schema-metadata-2.0.xsd',
-                        METADATA])
-        is_valid = True
-        msg = 'the metadata must validate against the XSD'
-        try:
-            subprocess.run(cmd, shell=True, check=True, stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE)
-        except subprocess.CalledProcessError as err:
-            is_valid = False
-            lines = [msg]
-            if err.stderr:
-                stderr = (
-                    'stderr: ' +
-                    '\nstderr: '.join(
-                        list(
-                            filter(
-                                None,
-                                err.stderr.decode('utf-8').split('\n')
-                            )
-                        )
-                    )
-                )
-                lines.append(stderr)
-            if err.stdout:
-                stdout = (
-                    'stdout: ' +
-                    '\nstdout: '.join(
-                        list(
-                            filter(
-                                None,
-                                err.stdout.decode('utf-8').split('\n')
-                            )
-                        )
-                    )
-                )
-                lines.append(stdout)
-            msg = '\n'.join(lines)
-
-        self._assertTrue(is_valid, msg)
 
     def test_xmldsig(self):
         '''Verify the SP metadata signature'''
@@ -448,10 +403,11 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
             )
 
             sn = acs.xpath('./ServiceName')
-            self._assertTrue((len(sn) == 1),
-                             'The ServiceName element must be present - TR pag. 20')
-            self._assertIsNotNone(sn[0].text,
-                                  'The ServiceName element must have a value - TR pag. 20')
+            self._assertTrue((len(sn) > 0),
+                             'The ServiceName element must be present')
+            for sns in sn:        
+                self._assertIsNotNone(sns.text,
+                                    'The ServiceName element must have a value')
 
             ras = acs.xpath('./RequestedAttribute')
             self._assertGreaterEqual(
@@ -588,6 +544,13 @@ class TestSPMetadata(unittest.TestCase, common.wrap.TestCaseWrap):
             index = 0
             del location_to_check[:currently_in_analysis]
             currently_in_analysis = 0
+
+            self._assertIsTLS12(
+                {'location': t[1], 'data': data,
+                 'service': 'SingleLogoutService'},
+                ['A+', 'A', 'A-'],
+                '%s must be reachable and support TLS 1.2.' % t[1]
+            )
 
         end = datetime.datetime.now().replace(microsecond=0)
         #print('TLS evaluated in %s seconds', (end - start))

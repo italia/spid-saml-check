@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import sha256 from 'crypto-js/sha256';
 import view from "./view.js";
-import Services from '../../services';
 import Utility from '../../utility';
+import Services from '../../services';
 import ReduxStore from "../../redux/store";
 import Actions from "../../redux/main/actions";
 
@@ -12,13 +11,20 @@ class Worksave extends Component {
 	constructor(props) {
 		super(props);
         this.state = { workspace: false };
+	}
 
+    componentDidMount() {
         let service = Services.getMainService();
+        let store = ReduxStore.getMain();
+
         service.loadWorkspace(
         (data)=> {
             // no workspace found
-            if(!data) window.location="/#/request";
+            if(!data) this.props.history.push('/request');
             else this.setState({ workspace: data });
+        },
+        ()=> {
+            this.props.history.push('/metadata-sp-download');
         },
         (error)=> {
             Utility.showModal({
@@ -27,7 +33,7 @@ class Worksave extends Component {
                 isOpen: true
             });
         });
-	}
+    }
   
     startContinue() {
         Utility.log("WorkSave", "Start CONTINUE");	
@@ -37,50 +43,13 @@ class Worksave extends Component {
     }
 
     startNew() {
-        Utility.log("WorkSave", "Start NEW");
-        let service = Services.getMainService();
-		service.resetWorkspace();
-        window.location="/#/request";
+        if(confirm("Sei sicuro di voler iniziare una nuova sessione di validazione? Il metadata caricato e tutti gli esiti dei test salvati andranno persi.")) {
+            Utility.log("WorkSave", "Start NEW");
+            let service = Services.getMainService();
+            service.resetWorkspace();
+            this.props.history.push('/request');
+        }
     }
-    
-/*
-	login() {	
-		let service = Services.getMainService();
-
-		let field_compiled = true;
-		this.setState({warn_user: '', warn_password: ''});
-		if(this.state.login_user==null || this.state.login_user=="") { this.setState({warn_user: 'warn'}); field_compiled = false; }
-		if(this.state.login_password==null || this.state.login_password=="") { this.setState({warn_password: 'warn'}); field_compiled = false; }
-		
-		if(field_compiled) {
-			Utility.blockUI(true);
-			service.authenticate({
-				user: this.state.login_user, 
-				password: this.state.login_password
-			}, 
-			(data)=>{
-				Utility.blockUI(false);
-				Utility.setApikey(data);
-				Utility.log("Login result", Utility.isAuthenticated());	
-				if(Utility.isAuthenticated()) {
-					window.location="/#/dashboard";
-				}			
-			}, 
-			(error)=> {
-				Utility.blockUI(false);
-				Utility.showModal({
-					title: "Login",
-					subtitle: "Accesso non consentito",
-					body: error,
-					isOpen: true
-				}); 
-				Utility.log("login", error);	
-				this.setState({warn_user: 'warn', warn_password: 'warn'});			
-			});
-
-		}
-	}
-*/
   
 	render() {    
 		if(this.state.workspace!=false) {

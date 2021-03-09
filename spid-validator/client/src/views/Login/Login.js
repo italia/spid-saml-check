@@ -14,8 +14,26 @@ class Login extends Component {
 			login_user: '',
 			login_password: '',
 			warn_user: '',
-			warn_password: ''
+			warn_password: '',
+			local_auth: false
 		}
+
+		let service = Services.getMainService();
+
+		service.assert( 
+		(data)=>{
+			Utility.setApikey(data.apikey);
+			Utility.log("Login result", Utility.isAuthenticated());	
+			if(Utility.isAuthenticated()) {
+				this.props.history.push('/worksave');
+			}
+		}, 
+		(tologin)=> {
+			if(tologin.remote) window.location="/login";
+			else {
+				this.setState({local_auth: true});
+			}
+		});			
 	}	
   
 	setUser(val) {
@@ -36,16 +54,17 @@ class Login extends Component {
 		
 		if(field_compiled) {
 			Utility.blockUI(true);
-			service.authenticate({
+			service.login({
 				user: this.state.login_user, 
 				password: this.state.login_password
 			}, 
-			(data)=>{
+			(apikey)=>{
 				Utility.blockUI(false);
-				Utility.setApikey(data);
+				Utility.setApikey(apikey);
 				Utility.log("Login result", Utility.isAuthenticated());	
 				if(Utility.isAuthenticated()) {
-					window.location="/#/dashboard";
+					//window.location="/#/worksave";
+                    this.props.history.push('/worksave');
 				}			
 			}, 
 			(error)=> {
@@ -63,8 +82,12 @@ class Login extends Component {
 		}
 	}
   
-	render() {    
-		return view(this);
+	render() {
+		let render = ""; //"Redirect to AgID Login..."  
+		if(this.state.local_auth) {
+			render = view(this);
+		}  
+		return render;
 	}
   
 }

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+    targetNamespace="urn:oasis:names:tc:SAML:2.0:metadata"
+    xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+    xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+    xmlns:xenc="http://www.w3.org/2001/04/xmlenc#"
+    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+    xmlns:spid="https://spid.gov.it/saml-extensions"
+    xmlns:fpa="https://spid.gov.it/invoicing-extensions"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="unqualified"
+    attributeFormDefault="unqualified"
+    blockDefault="substitution"
+    version="3.0">  
+    <import namespace="http://www.w3.org/2000/09/xmldsig#"
+        schemaLocation="xmldsig-core-schema.xsd"/>
+    <import namespace="http://www.w3.org/2001/04/xmlenc#"
+        schemaLocation="xenc-schema.xsd"/>
+    <import namespace="urn:oasis:names:tc:SAML:2.0:assertion"
+        schemaLocation="saml-schema-assertion-2.0.xsd"/>
+    <import namespace="http://www.w3.org/XML/1998/namespace"
+        schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+    <import namespace="https://spid.gov.it/saml-extensions"
+        schemaLocation="spid.xsd"/>
+    <import namespace="https://spid.gov.it/invoicing-extensions"
+        schemaLocation="spid-invoicing.xsd"/>
+    <annotation>
+        <documentation>
+            Document identifier: saml-schema-metadata-sp-spid-av29.xsd
+            Location: https://github.com/italia/spid-saml-check/tree/master/specs-compliance-tests/xsd/
+            Revision history:
+                V3.0 (19/11/2020):
+                    Compliance SPID Avviso n.29 - Versione 3.
+                V2.0 (22/10/2020):
+                    Schema for SPID SAML metadata for Service Provider.
+        </documentation>
+    </annotation>
+
+    <simpleType name="entityIDType">
+        <restriction base="anyURI">
+            <maxLength value="1024"/>
+        </restriction>
+    </simpleType>
+    <complexType name="localizedNameType">
+        <simpleContent>
+            <extension base="string">
+                <attribute ref="xml:lang" use="required"/>
+            </extension>
+        </simpleContent>
+    </complexType>
+    <complexType name="localizedURIType">
+        <simpleContent>
+            <extension base="anyURI">
+                <attribute ref="xml:lang" use="required"/>
+            </extension>
+        </simpleContent>
+    </complexType>
+    
+    <element name="Extensions" type="spid:ContactPersonSPExtensionType" />  
+
+    <complexType final="#all" name="ExtensionsType">
+        <sequence>
+            <any namespace="##other" processContents="lax" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    
+    <complexType name="EndpointType">
+        <sequence>
+            <any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="Binding" type="anyURI" use="required"/>
+        <attribute name="Location" type="anyURI" use="required"/>
+        <attribute name="ResponseLocation" type="anyURI" use="optional"/>
+        <anyAttribute namespace="##other" processContents="lax"/>
+    </complexType>
+    
+    <complexType name="IndexedEndpointType">
+        <complexContent>
+            <extension base="md:EndpointType">
+                <attribute name="index" type="unsignedShort" use="required"/>
+                <attribute name="isDefault" type="boolean" use="optional"/>
+            </extension>
+        </complexContent>
+    </complexType>
+    
+    <element name="EntitiesDescriptor" type="md:EntitiesDescriptorType"/>
+    <complexType name="EntitiesDescriptorType">
+        <sequence>
+            <element ref="ds:Signature" minOccurs="0"/>
+            <element ref="md:Extensions" minOccurs="0"/>
+            <choice minOccurs="1" maxOccurs="unbounded">
+                <element ref="md:EntityDescriptor"/>
+                <element ref="md:EntitiesDescriptor"/>
+            </choice>
+        </sequence>
+        <attribute name="validUntil" type="dateTime" use="optional"/>
+        <attribute name="cacheDuration" type="duration" use="optional"/>
+        <attribute name="ID" type="ID" use="optional"/>
+        <attribute name="Name" type="string" use="optional"/>
+    </complexType>
+
+    <element name="EntityDescriptor" type="md:EntityDescriptorType"/>
+    <complexType name="EntityDescriptorType">
+        <sequence>
+            <element ref="ds:Signature" minOccurs="0"/>
+            <element ref="md:Extensions" minOccurs="0"/>
+            <choice>
+                <choice maxOccurs="unbounded">
+                    <element ref="md:SPSSODescriptor"/>
+                </choice>
+            </choice>
+            <element ref="md:Organization" minOccurs="1" maxOccurs="1"/>
+            <element ref="md:ContactPerson" minOccurs="1" maxOccurs="2"/>
+        </sequence>
+        <attribute name="entityID" type="md:entityIDType" use="required"/>
+        <attribute name="validUntil" type="dateTime" use="optional"/>
+        <attribute name="cacheDuration" type="duration" use="optional"/>
+        <attribute name="ID" type="ID" use="optional"/>
+        <anyAttribute namespace="##other" processContents="lax"/>
+    </complexType>
+    
+    <element name="Organization" type="md:OrganizationType"/>
+    <complexType name="OrganizationType">
+        <sequence>
+            <element ref="md:Extensions" minOccurs="0"/>
+            <element ref="md:OrganizationName" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="md:OrganizationDisplayName" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="md:OrganizationURL" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+        <anyAttribute namespace="##other" processContents="lax"/>
+    </complexType>
+    <element name="OrganizationName" type="md:localizedNameType"/>
+    <element name="OrganizationDisplayName" type="md:localizedNameType"/>
+    <element name="OrganizationURL" type="md:localizedURIType"/>
+    <element name="ContactPerson" type="md:ContactType"/>
+    <complexType name="ContactType">
+        <sequence>
+            <element ref="md:Extensions" minOccurs="1" maxOccurs="1"/>
+            <element ref="md:Company" minOccurs="0" maxOccurs="1"/>
+            <element ref="md:EmailAddress" minOccurs="1" maxOccurs="1"/>
+            <element ref="md:TelephoneNumber" minOccurs="0" maxOccurs="1"/>
+        </sequence>
+        <attribute name="contactType" type="md:ContactTypeType" use="required"/>
+        <anyAttribute namespace="##other" processContents="lax"/>
+    </complexType>
+    <element name="Company" type="string"/>
+    <element name="EmailAddress" type="string"/>
+    <element name="TelephoneNumber" type="string"/>
+    <simpleType name="ContactTypeType">
+        <restriction base="string">
+            <enumeration value="other"/>
+            <enumeration value="billing"/>
+        </restriction>
+    </simpleType>
+
+    <element name="RoleDescriptor" type="md:RoleDescriptorType"/>
+    <complexType name="RoleDescriptorType" abstract="true">
+        <sequence>
+            <element ref="ds:Signature" minOccurs="0"/>
+            <element ref="md:Extensions" minOccurs="0"/>
+            <element ref="md:KeyDescriptor" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="md:Organization" minOccurs="0"/>
+            <element ref="md:ContactPerson" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="ID" type="ID" use="optional"/>
+        <attribute name="validUntil" type="dateTime" use="optional"/>
+        <attribute name="cacheDuration" type="duration" use="optional"/>
+        <attribute name="protocolSupportEnumeration" type="md:anyURIListType" use="required"/>
+        <attribute name="errorURL" type="anyURI" use="optional"/>
+        <anyAttribute namespace="##other" processContents="lax"/> 
+    </complexType>
+    <simpleType name="anyURIListType">
+        <list itemType="anyURI"/>
+    </simpleType>
+
+    <element name="KeyDescriptor" type="md:KeyDescriptorType"/>
+    <complexType name="KeyDescriptorType">
+        <sequence>
+            <element ref="ds:KeyInfo"/>
+            <element ref="md:EncryptionMethod" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="use" type="md:KeyTypes" use="optional"/>
+    </complexType>
+    <simpleType name="KeyTypes">
+        <restriction base="string">
+            <enumeration value="encryption"/>
+            <enumeration value="signing"/>
+        </restriction>
+    </simpleType>
+    <element name="EncryptionMethod" type="xenc:EncryptionMethodType"/>
+    
+    <complexType name="SSODescriptorType" abstract="true">
+        <complexContent>
+            <extension base="md:RoleDescriptorType">
+                <sequence>
+                    <element ref="md:SingleLogoutService" minOccurs="0" maxOccurs="unbounded"/>
+                    <element ref="md:NameIDFormat" minOccurs="0" maxOccurs="unbounded"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+    <element name="SingleLogoutService" type="md:EndpointType"/>
+    <element name="NameIDFormat" type="anyURI"/>
+    
+    <element name="SPSSODescriptor" type="md:SPSSODescriptorType"/>
+    <complexType name="SPSSODescriptorType">
+        <complexContent>
+            <extension base="md:SSODescriptorType">
+                <sequence>
+                    <element ref="md:AssertionConsumerService" maxOccurs="unbounded"/>
+                    <element ref="md:AttributeConsumingService" minOccurs="0" maxOccurs="unbounded"/>
+                </sequence>
+                <attribute name="AuthnRequestsSigned" type="boolean" use="optional"/>
+                <attribute name="WantAssertionsSigned" type="boolean" use="optional"/>
+            </extension>
+        </complexContent>
+    </complexType>
+    <element name="AssertionConsumerService" type="md:IndexedEndpointType"/>
+    <element name="AttributeConsumingService" type="md:AttributeConsumingServiceType"/>
+    <complexType name="AttributeConsumingServiceType">
+        <sequence>
+            <element ref="md:ServiceName" maxOccurs="unbounded"/>
+            <element ref="md:ServiceDescription" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="md:RequestedAttribute" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="index" type="unsignedShort" use="required"/>
+        <attribute name="isDefault" type="boolean" use="optional"/>
+    </complexType>
+    <element name="ServiceName" type="md:localizedNameType"/>
+    <element name="ServiceDescription" type="md:localizedNameType"/>
+    <element name="RequestedAttribute" type="md:RequestedAttributeType"/>
+    <complexType name="RequestedAttributeType">
+        <complexContent>
+            <extension base="saml:AttributeType">
+                <attribute name="isRequired" type="boolean" use="optional"/>
+            </extension>
+        </complexContent>
+    </complexType>
+  
+</schema>

@@ -40,7 +40,7 @@
             </saml:AuthnContext>
         </saml:AuthnStatement>
         <saml:AttributeStatement>
-            
+            <saml:Attribute Name="spidCode" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"></saml:Attribute>
         </saml:AttributeStatement>
     </saml:Assertion>
 </samlp:Response>

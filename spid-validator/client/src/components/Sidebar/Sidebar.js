@@ -7,6 +7,9 @@ import SidebarFooter from './../SidebarFooter';
 import SidebarForm from './../SidebarForm';
 import SidebarHeader from './../SidebarHeader';
 import SidebarMinimizer from './../SidebarMinimizer';
+import Utility from '../../utility';
+import Services from '../../services';
+
 
 class Sidebar extends Component {
 
@@ -16,6 +19,31 @@ class Sidebar extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.activeRoute = this.activeRoute.bind(this);
     this.hideMobile = this.hideMobile.bind(this);
+
+    this.state = {
+      sessionActive: false
+    }
+
+    let service = Services.getMainService();
+
+    let info = service.getInfo(
+      (info) => { 
+        this.setState({ sessionActive: true });
+        Utility.log("Session info", info);
+      }, 
+      ()=> {
+        this.setState({ sessionActive: false });
+        Utility.log("Session not found");
+      },
+      (error)   => { 
+        this.setState({ sessionActive: false });;
+        Utility.showModal({
+            title: "Errore",
+            body: error,
+            isOpen: true
+        });        
+      }
+    );
   }
 
 
@@ -25,7 +53,6 @@ class Sidebar extends Component {
   }
 
   activeRoute(routeName, props) {
-    // return this.props.location.pathname.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
     return props.location.pathname.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
 
   }
@@ -86,14 +113,17 @@ class Sidebar extends Component {
       const url = item.url ? item.url : '';
       return (
         <NavItem key={key} className={classes.item}>
-          { isExternal(url) ?
-            <RsNavLink href={url} className={classes.link} active>
-              <i className={classes.icon}></i>{item.name}{badge(item.badge)}
-            </RsNavLink>
+          {
+            url=='logout' ?
+              <a href="/logout" className={classes.link}><i className={classes.icon}></i>{item.name}{badge(item.badge)}</a>
+            :isExternal(url) ?
+              <RsNavLink href={url} className={classes.link} active>
+                <i className={classes.icon}></i>{item.name}{badge(item.badge)}
+              </RsNavLink>
             :
-            <NavLink to={url} className={classes.link} activeClassName="active" onClick={this.hideMobile}>
-              <i className={classes.icon}></i>{item.name}{badge(item.badge)}
-            </NavLink>
+              <NavLink to={url} className={classes.link} activeClassName="active" onClick={this.hideMobile}>
+                <i className={classes.icon}></i>{item.name}{badge(item.badge)}
+              </NavLink>
           }
         </NavItem>
       )
@@ -101,8 +131,9 @@ class Sidebar extends Component {
 
     // nav dropdown
     const navDropdown = (item, key) => {
+      let open = item.open && !this.state.sessionActive? "open" : "";
       return (
-        <li key={key} className={this.activeRoute(item.url, props)}>
+        <li key={key} className={open + ' ' + this.activeRoute(item.url, props)}>
           <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick}><i className={item.icon}></i>{item.name}</a>
           <ul className="nav-dropdown-items">
             {navList(item.children)}
@@ -116,10 +147,17 @@ class Sidebar extends Component {
       item.divider ? divider(item, idx) :
       item.children ? navDropdown(item, idx)
                     : navItem(item, idx) ;
+  
+    
 
     // nav list
     const navList = (items) => {
-      return items.map( (item, index) => navType(item, index) );
+      return items.map((item, index)=> {
+        // if is not requested session or it's requested and session is active
+        if(!(!this.state.sessionActive && item.sessionRequired)) {
+          return navType(item, index);
+        } 
+      });
     };
 
     const isExternal = (url) => {

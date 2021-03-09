@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema
+    targetNamespace="https://spid.gov.it/saml-extensions"
+    xmlns:spid="https://spid.gov.it/saml-extensions"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:fpa="https://spid.gov.it/invoicing-extensions"
+    elementFormDefault="unqualified"
+    attributeFormDefault="unqualified"
+    version="2.0">
+    <import namespace="https://spid.gov.it/invoicing-extensions"
+        schemaLocation="spid-invoicing.xsd"/>
+ 
+    <annotation>
+        <documentation>
+            Document identifier: spid
+            Location: https://github.com/italia/spid-saml-check/tree/master/specs-compliance-tests/xsd/
+            Revision history:
+                V2.1 (09/02/2021):
+                    Compliance SPID Avviso n.19 - Versione 4.
+        </documentation>
+    </annotation>
+    
+    <attribute name="entityType" type="spid:EntityTypeType"/>
+    <simpleType name="EntityTypeType">
+        <restriction base="string">
+            <enumeration value="spid:aggregator"/>
+            <enumeration value="spid:aggregated"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="ContactPersonSPExtensionType">
+        <sequence>
+            <element ref="spid:IPACode" minOccurs="0"/>
+            <element ref="spid:VATNumber" minOccurs="0"/>
+            <element ref="spid:FiscalCode" minOccurs="0"/>
+            <choice minOccurs="1" maxOccurs="1">
+                <element ref="spid:Public"/>
+                <element ref="spid:Private"/>
+            </choice>
+            <element ref="fpa:CessionarioCommittente" minOccurs="0" maxOccurs="1"/>   
+        </sequence>
+    </complexType>
+
+    <complexType name="ContactPersonAGExtensionType">
+        <sequence>
+            <element ref="spid:IPACode" minOccurs="0"/>
+            <element ref="spid:VATNumber" minOccurs="0"/>
+            <element ref="spid:FiscalCode" minOccurs="0"/>
+            <choice minOccurs="1" maxOccurs="1">
+                <element ref="spid:PublicServicesFullAggregator"/>
+                <element ref="spid:PublicServicesLightAggregator"/>
+                <element ref="spid:PrivateServicesFullAggregator"/>
+                <element ref="spid:PrivateServicesLightAggregator"/>
+                <element ref="spid:PublicServicesFullOperator"/>
+                <element ref="spid:PublicServicesLightOperator"/>
+                <element ref="spid:Public"/>
+                <element ref="spid:PublicOperator"/>
+                <element ref="spid:Private"/>
+            </choice>
+            <element ref="fpa:CessionarioCommittente" minOccurs="0" maxOccurs="1"/>   
+        </sequence>
+    </complexType>
+
+
+    <element name="VATNumber" type="string"/>
+    <element name="IPACode" type="string"/>
+    <element name="FiscalCode" type="string"/>
+
+    <element name="PublicServicesFullAggregator" type="string" fixed=""/>
+    <element name="PublicServicesLightAggregator" type="string" fixed=""/>
+    <element name="PrivateServicesFullAggregator" type="string" fixed=""/>
+    <element name="PrivateServicesLightAggregator" type="string" fixed=""/>
+    <element name="PublicServicesFullOperator" type="string" fixed=""/>
+    <element name="PublicServicesLightOperator" type="string" fixed=""/>
+
+    <element name="Public" type="string" fixed=""/>
+    <element name="PublicOperator" type="string" fixed=""/>
+    <element name="Private" type="string" fixed=""/>
+
+</schema>

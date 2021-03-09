@@ -24,6 +24,15 @@ function transitions(state = initialState, action) {
             });
             break;     
 
+        case Type.SET_RESPONSE_TEST_DONE:
+            let response_test_done = state.response_test_done;
+            response_test_done[action.key] = action.value;
+
+            state = Object.assign({}, state, {
+                response_test_done: response_test_done
+            });
+            break
+
         case Type.SET_RESPONSE_TEST_SUCCESS:
             let response_test_success = state.response_test_success;
             response_test_success[action.key] = action.value;
@@ -32,7 +41,16 @@ function transitions(state = initialState, action) {
                 response_test_success: response_test_success
             });
             break; 
-            
+
+        case Type.SET_RESPONSE_TEST_NOTE:
+            let response_test_note = state.response_test_note;
+            response_test_note[action.key] = action.value;
+
+            state = Object.assign({}, state, {
+                response_test_note: response_test_note
+            });
+            break; 
+
         case Type.SET_STORE:
             state = Object.assign({}, state, action.value);
             break; 

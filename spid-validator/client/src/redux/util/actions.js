@@ -34,12 +34,13 @@ class Actions {
         }        
     }	
 
-    static setPrint(value) {
+    static setPrint(enable, title) {
         return {
             type: SET_PRINT,
-            value: value
+            enable: enable,
+            title: title
         }        
-    }	
+    }		
 
 }
 

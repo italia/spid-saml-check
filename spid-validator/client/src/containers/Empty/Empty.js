@@ -8,8 +8,6 @@ import Worksave from '../../views/Worksave/';
 import Utility from '../../utility';
 
 
-new ReduxStore();
-
 class Empty extends Component {
 
 	constructor(props) {
@@ -70,7 +68,7 @@ class Empty extends Component {
 							<Switch>
 							<Route path="/login" name="Login" component={Login}/>
                             <Route path="/worksave" name="Worksave" component={Worksave}/>
-                            <Redirect from="/" to="/worksave"/>
+                            <Redirect from="/" to="/login"/>
 							</Switch>
 						</Container>
 					</div>

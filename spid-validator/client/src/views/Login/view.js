@@ -47,7 +47,7 @@ function view(me) {
 								</div>
 							</div>
 						</div>
-						<div className="text-white bg-primary py-5 d-md-down-none card">
+						<div className="text-white bg-logo py-5 d-md-down-none card">
 							<div className="text-center card-body align-middle">
 								<div>
 									<img className="img-fluid img-login-logo" src="/img/logo2.png" />

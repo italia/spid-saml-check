@@ -32,9 +32,10 @@ function transitions(state = initialState, action) {
 
         case Type.SET_PRINT:
             state = Object.assign({}, state, {
-                print: action.value
+                print: action.enable,
+                printTitle: action.title
             });
-            break;		
+            break;	
 			
         default: 
             state = Object.assign({}, state);

@@ -3,7 +3,8 @@ let state = {
 	applicationName: "",
 	authenticated: false,
 	apikey: "",
-    print: false
+	print: false,
+	printTitle: ""
 }
 
 export default state;

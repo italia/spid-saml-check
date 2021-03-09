@@ -9,8 +9,6 @@ import Utility from "../utility";
 
 class Store {
 
-    //store = null;
-
     constructor() {
         this.modal 	= createStore(transitions_Modal, initialState_Modal, applyMiddleware(logger));
         this.util 	= createStore(transitions_Util, initialState_Util, applyMiddleware(logger));
@@ -22,6 +20,7 @@ class Store {
     static getModal() {
         if(this.modal == null) {
             this.modal = createStore(transitions_Modal, initialState_Modal, applyMiddleware(logger));
+            Utility.log("STORE", "MODAL STORE CREATED");
         }
         return this.modal;
     }    
@@ -29,6 +28,7 @@ class Store {
     static getUtil() {
         if(this.util == null) {
             this.util = createStore(transitions_Util, initialState_Util, applyMiddleware(logger));
+            Utility.log("STORE", "UTIL STORE CREATED");
         }
         return this.util;
     }    
@@ -36,6 +36,7 @@ class Store {
     static getMain() {
         if(this.main == null) {
             this.main = createStore(transitions_Main, initialState_Main, applyMiddleware(logger));
+            Utility.log("STORE", "MAIN STORE CREATED");
         }
         return this.main;
     }      

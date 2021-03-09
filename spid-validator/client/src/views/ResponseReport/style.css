@@ -1,75 +1,113 @@
-.testset {
+#ResponseReport .testset {
     background: #fff;
     padding: 15px;
     margin-bottom: 20px;
 }
 
-.test-success {
-    color: green!important;
-    font-size: 32px;
-    line-height: 25px;
-    margin: -5px;
+#ResponseReport .test-none {
+    display: block;
+    float: left;
+    width: 30px;
+    line-height: 23px;
+    margin: 1px;
+    border: 1px solid #000;
+    background-color: grey;
+    color: #fff!important;
+    font-size: 13px;
+    text-align: center;
+    padding: 3px;
     cursor: pointer;
 }
 
-.test-fail {
-    color: red!important;
-    font-size: 32px;
-    line-height: 25px;
-    margin: -5px;
-    cursor: pointer
+#ResponseReport .test-success {
+    display: block;
+    float: left;
+    width: 30px;
+    line-height: 23px;
+    margin: 1px;
+    border: 1px solid #000;
+    background-color: green;
+    color: #fff!important;
+    font-size: 13px;
+    text-align: center;
+    padding: 3px;
+    cursor: pointer;
+}
+
+#ResponseReport .test-fail {
+    display: block;
+    float: left;
+    width: 30px;
+    line-height: 23px;
+    margin: 1px;
+    border: 1px solid #000;
+    background-color: red;
+    color: #fff!important;
+    font-size: 13px;
+    text-align: center;
+    padding: 3px;
+    cursor: pointer;
 }
 
 
-.detail-table {
+#ResponseReport .detail-table {
     border:1px solid #999;
     background: #FFFFFF;
     width: 100%;
 }
 
-.detail-table th, .detail-table td {
+#ResponseReport .detail-table th, .detail-table td {
     padding: 5px;
 }
 
 
-.detail-header {
+#ResponseReport .detail-header {
     background: #DDDDDD;
 }
 
-.detail-row {
+#ResponseReport .detail-row {
     border:1px solid #000;
 }
 
-.detail-row:hover {
+#ResponseReport .detail-row:hover {
     background: #EEEEEE;
 }
 
-.detail-num {
+#ResponseReport .detail-num {
     width: 50px;
 }
 
-.detail-result {
-    width: 100px;
+#ResponseReport .detail-result {
+    width: 25%;
+    max-width: 300px;
+    word-wrap: break-word;
 }
 
-.test-success-dm {
+#ResponseReport .test-none-dm {
+    background: grey!important;
+    color: #000000;
+}
+
+#ResponseReport .test-success-dm {
     background: green!important;
-    color: #000000;
+    color: #FFFFFF;
+    font-weight: bold;
 }
 
-.test-fail-dm {
+#ResponseReport .test-fail-dm {
     background: red!important;
-    color: #000000;
+    color: #FFFFFF;
+    font-weight: bold;
 }
 
-.tools {
+#ResponseReport .tools {
     padding: 30px 5px;
     background: #FFFFFF;
     margin-left: 10px;
 }
 
 @media print {
-    .tools {
+    #ResponseReport .tools {
         display: none!important;
     }
 }

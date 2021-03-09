@@ -3,28 +3,40 @@ export default {
     {
       name: 'Metadata SP',
       icon: 'icon-tag',
+      open: true,
+      sessionRequired: false,
       children: [
         {
           name: 'Download',  
-          url: '/metadata-sp-download',      
+          url: '/metadata-sp-download',   
+          sessionRequired: false   
+        },
+        {
+          name: 'Check XSD',  
+          url: '/metadata-sp-check-xsd',  
+          sessionRequired: false     
         },
         {
           name: 'Check Strict',  
-          url: '/metadata-sp-check-strict',      
+          url: '/metadata-sp-check-strict',  
+          sessionRequired: false     
         },
         {
           name: 'Check Certificates',  
-          url: '/metadata-sp-check-certs',      
+          url: '/metadata-sp-check-certs',     
+          sessionRequired: false  
         },
         {
           name: 'Check Extra',  
-          url: '/metadata-sp-check-extra'     
+          url: '/metadata-sp-check-extra',
+          sessionRequired: false 
         }
       ]
     },
     {
       name: 'Request',
       icon: 'icon-cursor',
+      sessionRequired: true,
       children: [
         {
           name: 'SAML',  
@@ -53,10 +65,17 @@ export default {
     {
       name: 'Response',
       icon: 'icon-check', 
+      sessionRequired: true,
       children: [
-        { name: 'Check Response', url: '/response/test-suite-1/1' },
+        { name: 'Check Response', url: '/response' },
         { name: 'Report', url: '/response-report' },
       ]
     },
+    {
+      name: 'Logout',
+      icon: 'icon-logout',
+      sessionRequired: false,
+      url: 'logout'
+    }
   ]
 };
