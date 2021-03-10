@@ -6,11 +6,6 @@ const bodyParser = require("body-parser");
 const path = require('path');
 const fs = require("fs-extra");
 const moment = require("moment");
-const https = require('https');
-
-const httpsPrivateKey  = fs.readFileSync('./config/privkey.pem', 'utf8');
-const httpsCertificate = fs.readFileSync('./config/fullchain.pem', 'utf8');
-const httpsCredentials = {key: httpsPrivateKey, cert: httpsCertificate};
 
 const config_test = require("../config/test.json");
 const config_idp = require("../config/idp.json");
@@ -29,7 +24,14 @@ const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 const Database = require("./lib/database");
 const Authenticator = require("./lib/authenticator");
 
+const using_https = config_idp.entityID.startsWith('https');
+if (using_https) {
+  const https = require('https');
 
+  const httpsPrivateKey  = fs.readFileSync(config_idp.httpsPrivateKey, 'utf8');
+  const httpsCertificate = fs.readFileSync(config_idp.httpsCertificate, 'utf8');
+  const httpsCredentials = {key: httpsPrivateKey, cert: httpsCertificate};
+}
 
 var app = express();
 app.use(helmet());
@@ -280,8 +282,8 @@ require('./api/response')    	(app, checkAuth);
 
 
 // start
-const httpsServer = https.createServer(httpsCredentials, app);
-httpsServer.listen(8080, () => {
+if (using_https) app = https.createServer(httpsCredentials, app);
+app.listen(8080, () => {
     // eslint-disable-next-line no-console
     console.log("\nSPID Validator\nversion: 4.0\n\nlistening on port 8080");
 });
