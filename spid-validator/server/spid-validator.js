@@ -24,8 +24,8 @@ const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 const Database = require("./lib/database");
 const Authenticator = require("./lib/authenticator");
 
-const using_https = config_idp.entityID.startsWith('https');
-if (using_https) {
+const useHttps = config_idp.useHttps;
+if (useHttps) {
   const https = require('https');
 
   const httpsPrivateKey  = fs.readFileSync(config_idp.httpsPrivateKey, 'utf8');
@@ -282,7 +282,7 @@ require('./api/response')    	(app, checkAuth);
 
 
 // start
-if (using_https) app = https.createServer(httpsCredentials, app);
+if (useHttps) app = https.createServer(httpsCredentials, app);
 app.listen(8080, () => {
     // eslint-disable-next-line no-console
     console.log("\nSPID Validator\nversion: 4.0\n\nlistening on port 8080");
