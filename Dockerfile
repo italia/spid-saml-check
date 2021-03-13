@@ -1,20 +1,6 @@
 FROM debian:buster
 LABEL mantainer="Michele D'Amico, michele.damico@agid.gov.it"
 
-# Set the working directory
-WORKDIR /spid-saml-check
-
-# Copy the current directory to /spid-validator
-ADD . /spid-saml-check
-
-# Create directory for tests data
-RUN mkdir /spid-saml-check/specs-compliance-tests/data
-
-ENV \
-    DATA_DIR=/spid-saml-check/specs-compliance-tests/data \
-    SP_METADATA=/spid-saml-check/specs-compliance-tests/data/sp-metadata.xml \
-    AUTHN_REQUEST=/spid-saml-check/specs-compliance-tests/data/authn-request.xml
-
 # Update and install utilities
 RUN apt-get update \
     && apt-get install -y \
@@ -37,6 +23,15 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
 
 # Tox
 RUN pip3 install tox
+
+# Set the working directory
+WORKDIR /spid-saml-check
+
+# Copy the current directory to /spid-validator
+ADD . /spid-saml-check
+
+# Create directory for tests data
+RUN mkdir /spid-saml-check/specs-compliance-tests/data
 
 # Build validator
 RUN cd /spid-saml-check/spid-validator && \
