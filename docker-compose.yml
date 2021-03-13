@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  spid-saml-check:
+    build: .
+    container_name: spid-saml-check
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
