@@ -36,19 +36,19 @@ class Utils {
     }
 
     static getInstant() {
-        return moment().utc().format();
+        return moment().format();
     }
 
     static getInstantMillis() {
-        return moment().utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
+        return moment().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
     }
 
     static getNotBefore(instant) {
-        return moment(instant).utc().format();
+        return moment(instant).format();
     }
 
     static getNotOnOrAfter(instant) {
-        return moment(instant).add(5, 'm').utc().format();
+        return moment(instant).add(5, 'm').format();
     }
 
     static metadataDownload(src, dest) {
