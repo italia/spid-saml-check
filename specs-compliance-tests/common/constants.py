@@ -85,6 +85,11 @@ SPID_ATTRIBUTES = [
 	'placeOfBirth',
 	'registeredOffice',
 	'spidCode',
+	'domicileStreetAddress',
+	'domicilePostalCode',
+	'domicileMunicipality',
+	'domicileProvince',
+	'domicileNation'
 ]
 
 SPID_LEVELS = [
