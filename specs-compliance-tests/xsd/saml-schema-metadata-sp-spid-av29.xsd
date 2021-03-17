@@ -56,7 +56,7 @@
         </simpleContent>
     </complexType>
     
-    <element name="Extensions" type="spid:ContactPersonSPExtensionType" />  
+    <element name="Extensions" type="md:ExtensionsType" />
 
     <complexType final="#all" name="ExtensionsType">
         <sequence>
