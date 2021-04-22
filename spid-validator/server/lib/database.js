@@ -130,14 +130,43 @@ class Database {
         if(!this.checkdb()) return;
 
         try {
-            let data = false;
-            let sql = this.db.prepare("SELECT store FROM store WHERE user=? AND entity_id=? AND type=?");
-            let result = sql.all(user, entity_id, type);
-            if(result.length==1) {
-                data = JSON.parse(result[0].store);
-                data.metadata_SP_XML = utility.atob(data.metadata_SP_XML);
+            let sql_query = "SELECT store, type FROM store WHERE user=? AND entity_id=? ";
+
+            let multiple_type = type.indexOf(',')!=-1;
+            let type_value;
+            if(multiple_type) {
+                type = type.replaceAll(' ', '');
+                let types = type.split(',');
+                sql_query += " AND type IN('" + types.join("', '") + "')";
+
+            } else {
+                sql_query += " AND type='" + type + "'";
             }
-            return data; 
+
+            let sql = this.db.prepare(sql_query);
+            let result = sql.all(user, entity_id);
+            
+            let data = false;
+
+            if(multiple_type) {
+                if(result.length>0) {
+                    data = [];
+                    for(let row in result) {
+                        let store = JSON.parse(result[row].store);
+                        store.metadata_SP_XML = utility.atob(store.metadata_SP_XML);
+                        store.type = result[row].type;
+                        data.push(store);
+                    }
+                }
+
+            } else {
+                if(result.length==1) {
+                    data = JSON.parse(result[0].store);
+                    data.metadata_SP_XML = utility.atob(data.metadata_SP_XML);
+                }
+            }
+
+            return data;
 
         } catch(exception) {
             utility.log("DATABASE EXCEPTION (getStore)", exception.toString());

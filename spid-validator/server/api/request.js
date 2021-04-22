@@ -40,10 +40,11 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let user = (authorisation=='API')? req.body.user : req.session.user;
         let issuer = (authorisation=='API')? req.body.issuer : req.session.request.issuer;
         let external_code = (authorisation=='API')? req.body.external_code : req.session.external_code;
+        let type = (req.session && req.session.metadata && req.session.metadata.type)? req.session.metadata.type : 'main';
 
-        let test = req.params.test;
+        let test = req.params.test; 
 
-        let report = database.getLastCheck(user, issuer, "main");
+        let report = database.getLastCheck(user, issuer, type);
 
         switch(test) {
             case "strict": testGroup = report.request_strict; break;
@@ -74,6 +75,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let request = (authorisation=='API')? req.body.request : req.session.request;
         let issuer = (authorisation=='API')? req.body.issuer : req.session.request.issuer;
         let external_code = (authorisation=='API')? req.body.external_code : req.session.external_code;
+        let type = (req.session && req.session.metadata && req.session.metadata.type)? req.session.metadata.type : 'main';
     
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
     
@@ -115,8 +117,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                             }
                         }
 
-                        database.setRequestValidation(user, issuer, external_code, "main", test, validation);
-                        database.setRequestLastCheck(user, issuer, external_code, "main", test, lastcheck); 
+                        database.setRequestValidation(user, issuer, external_code, type, test, validation);
+                        database.setRequestLastCheck(user, issuer, external_code, type, test, lastcheck); 
                     }
 
                     res.status(200).send(lastcheck);

@@ -23,7 +23,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         //if(authorisation=='API' && !req.body.entity_id) { return res.status(400).send("Parameter entity_id is missing"); }
 
         let entity_id = req.query.entity_id; 
-        let type = req.query.type? req.query.type : 'main'; 
+        let type = (req.session && req.session.metadata && req.session.metadata.type)? req.session.metadata.type : 'main';
 
         if(authorisation!='API') {
             if(req.session.entity_id) {
@@ -92,7 +92,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let user = (authorisation=='API')? req.body.user : req.session.user;
         let organization = (authorisation=='API')? req.body.organization : (req.session.entity)? req.session.entity.id : null;
         let external_code = (authorisation=='API')? req.body.external_code : req.session.external_code;
-        let type = req.body.type? req.body.type : 'main';
+        let type = (req.session && req.session.metadata && req.session.metadata.type)? req.session.metadata.type : 'main';
 
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
         let tempfilename = Utility.getUUID();
@@ -174,7 +174,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         //if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
 
         let entity_id = req.query.entity_id;
-        let type = req.query.type? req.query.type : 'main';
+        let type = (req.session && req.session.metadata && req.session.metadata.type)? req.session.metadata.type : 'main';
 
         if(authorisation!='API') {
             let metadata = req.session.metadata;
@@ -216,7 +216,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(authorisation=='API' && !req.query.user) { return res.status(400).send("Parameter user is missing"); }
         if(authorisation=='API' && !req.query.entity_id) { return res.status(400).send("Parameter entity_id is missing"); }
         //if(authorisation=='API' && !req.query.external_code) { return res.status(400).send("Parameter external_code is missing"); }
-        let type = req.query.type? req.query.type : 'main';
+        let type = (req.session && req.session.metadata && req.session.metadata.type)? req.session.metadata.type : 'main';
 
         let metadata = (authorisation=='API')? database.getMetadata(req.query.user, req.query.entity_id, type) : req.session.metadata;
         if(!metadata) { return res.status(400).send("Please download metadata first"); }
@@ -333,7 +333,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(authorisation=='API') {
             if(!req.query.user) { return res.status(400).send("Parameter user is missing"); }
             //if(!req.query.external_code) { return res.status(400).send("Parameter external_code is missing"); }
-            let type = req.query.type? req.query.type : 'main';
+            let type = (req.session && req.session.metadata && req.session.metadata.type)? req.session.metadata.type : 'main';
 
             try {
                 database.deleteStore(req.query.user, req.query.entity_id, type);

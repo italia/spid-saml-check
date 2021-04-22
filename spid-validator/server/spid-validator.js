@@ -44,7 +44,7 @@ app.use("/assets", express.static(path.resolve(__dirname, "..", "client/build/as
 app.set('trust proxy', 1);
 app.use(session({
     secret: "SAML IDP",
-    resave: true,
+    resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 60*60000 }  //30*60000: 30min
 }));

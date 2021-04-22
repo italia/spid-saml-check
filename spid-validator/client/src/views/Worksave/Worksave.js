@@ -10,45 +10,115 @@ class Worksave extends Component {
 
 	constructor(props) {
 		super(props);
-        this.state = { workspace: false };
+        this.state = { 
+            available_stores: [],
+            selected_type: 'test',
+            workspace: false 
+        };
 	}
 
     componentDidMount() {
         let service = Services.getMainService();
         let store = ReduxStore.getMain();
 
-        service.loadWorkspace(
-        (data)=> {
-            // no workspace found
-            if(!data) this.props.history.push('/request');
-            else this.setState({ workspace: data });
-        },
-        ()=> {
-            this.props.history.push('/metadata-sp-download');
-        },
-        (error)=> {
-            Utility.showModal({
-                title: "Attenzione, si è verificato un errore",
-                body: error,
-                isOpen: true
-            });
-        });
+        service.loadAllWorkspace(
+            (data)=> {
+                if(data.length==0) {
+                    this.startWorkspace('main');
+                } else {
+                    this.setState({ 
+                        available_stores: data,
+                        selected_type: data[0].type,
+                        workspace: data[0]
+                    });
+                }
+            },
+            ()=> {
+                // case no workspace, go to download metadata
+                this.props.history.push('/metadata-sp-download');
+            },
+            (error)=> {
+                Utility.showModal({
+                    title: "Attenzione, si è verificato un errore",
+                    body: error,
+                    isOpen: true
+                });
+            }
+        );
+    }
+
+    isTypeAvailable(type) {
+        for(let t in this.state.available_stores) {
+            if(this.state.available_stores[t].type==type) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    setType(type) {
+        Utility.blockUI(true);
+        for(let t in this.state.available_stores) {
+            let store = this.state.available_stores[t];
+            if(store.type==type) {
+                this.setState({ 
+                    selected_type: store.type,
+                    workspace: store
+                }, ()=> {
+                    Utility.log("Selected STORE", this.state.workspace);
+                    Utility.blockUI(false);
+                    return;
+                });
+            }
+        }
+        return;
     }
   
     startContinue() {
         Utility.log("WorkSave", "Start CONTINUE");	
         let store = ReduxStore.getMain();
         store.dispatch(Actions.setStore(this.state.workspace)); 
+        this.startWorkspace(this.state.selected_type);
         this.props.history.push('/request');
     }
 
     startNew() {
-        if(confirm("Sei sicuro di voler iniziare una nuova sessione di validazione? Il metadata caricato e tutti gli esiti dei test salvati andranno persi.")) {
+        let md_type = "";
+        switch(this.state.selected_type) {
+            case 'main': md_type = ""; break;
+            case 'test': md_type = " Test"; break;
+            case 'prod': md_type = " Produzione"; break;
+        }
+        if(confirm("Sei sicuro di voler iniziare una nuova sessione di validazione per il metadata" + md_type
+                 + "? Il metadata caricato e tutti gli esiti dei test salvati andranno persi.")) {
             Utility.log("WorkSave", "Start NEW");
             let service = Services.getMainService();
-            service.resetWorkspace();
-            this.props.history.push('/request');
+            service.resetWorkspace(this.state.selected_type, ()=> {
+                this.startWorkspace(this.state.selected_type);
+            });
         }
+    }
+
+    startWorkspace(type) {
+        Utility.blockUI(true);
+        let service = Services.getMainService();
+        service.loadWorkspace(type,
+            (data)=> {
+                this.props.history.push('/request');
+                Utility.blockUI(false);
+            },
+            ()=> {
+                this.props.history.push('/metadata-sp-download');
+            },
+            (error)=> {
+                Utility.blockUI(false);
+                Utility.showModal({
+                    title: "Attenzione, si è verificato un errore",
+                    body: error,
+                    isOpen: true
+                });
+            }
+        );
     }
   
 	render() {    

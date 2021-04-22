@@ -69,10 +69,27 @@ class MainService {
 			callback_error((error!=null) ? error : "Service not available");
 		});
     }
-	
-	loadWorkspace(callback_response, callback_nosession, callback_error) {
-		Utility.log("GET /api/store?apikey=" + Utility.getApikey());
-		axios.get('/api/store?apikey=' + Utility.getApikey())
+
+	loadAllWorkspace(callback_response, callback_nosession, callback_error) {
+		Utility.log("GET /api/stores?apikey=" + Utility.getApikey());
+		axios.get('/api/stores?apikey=' + Utility.getApikey())
+		.then(function(response) {
+			Utility.log("loadAllWorkspace Success", response.data);
+            callback_response(response.data);
+		})
+		.catch(function(error) {
+			console.log(error);
+			if(error.response.status==400) {
+				callback_nosession();
+			} else {
+				callback_error((error.response!=null) ? error.response.data : "Service not available");
+			}
+		});
+	}
+
+	loadWorkspace(type, callback_response, callback_nosession, callback_error) {
+		Utility.log("GET /api/store?type=" + type + "&apikey=" + Utility.getApikey());
+		axios.get('/api/store?type=' + type + '&apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("loadWorkspace Success", response.data);
             callback_response(response.data);
@@ -97,14 +114,16 @@ class MainService {
 		});
 	}
 
-	resetWorkspace() {
-		Utility.log("DELETE /api/store");
-		axios.delete('/api/store?apikey=' + Utility.getApikey())
+	resetWorkspace(type, callback_response, callback_error) {
+		Utility.log("DELETE /api/store?type=" + type);
+		axios.delete('/api/store?type='+type+'&apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("resetWorkspace Success", response.data);
+			callback_response();
 		})
 		.catch(function(error) {
 			Utility.log("resetWorkspace Error", error.response.data);
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
 	}
 
