@@ -28,7 +28,7 @@ class Worksave extends Component {
                 } else {
                     this.setState({ 
                         available_stores: data,
-                        selected_type: data[0].type,
+                        selected_type: data[0].store_type,
                         workspace: data[0]
                     });
                 }
@@ -47,22 +47,22 @@ class Worksave extends Component {
         );
     }
 
-    isTypeAvailable(type) {
+    isTypeAvailable(store_type) {
         for(let t in this.state.available_stores) {
-            if(this.state.available_stores[t].type==type) {
+            if(this.state.available_stores[t].store_type==store_type) {
                 return true;
             }
         }
         return false;
     }
 
-    setType(type) {
+    setType(store_type) {
         Utility.blockUI(true);
         for(let t in this.state.available_stores) {
             let store = this.state.available_stores[t];
-            if(store.type==type) {
+            if(store.store_type==store_type) {
                 this.setState({ 
-                    selected_type: store.type,
+                    selected_type: store.store_type,
                     workspace: store
                 }, ()=> {
                     Utility.log("Selected STORE", this.state.workspace);
@@ -83,13 +83,13 @@ class Worksave extends Component {
     }
 
     startNew() {
-        let md_type = "";
+        let store_type = "";
         switch(this.state.selected_type) {
-            case 'main': md_type = ""; break;
-            case 'test': md_type = " Test"; break;
-            case 'prod': md_type = " Produzione"; break;
+            case 'main': store_type = ""; break;
+            case 'test': store_type = " Test"; break;
+            case 'prod': store_type = " Produzione"; break;
         }
-        if(confirm("Sei sicuro di voler iniziare una nuova sessione di validazione per il metadata" + md_type
+        if(confirm("Sei sicuro di voler iniziare una nuova sessione di validazione per il metadata" + store_type
                  + "? Il metadata caricato e tutti gli esiti dei test salvati andranno persi.")) {
             Utility.log("WorkSave", "Start NEW");
             let service = Services.getMainService();
@@ -99,10 +99,10 @@ class Worksave extends Component {
         }
     }
 
-    startWorkspace(type) {
+    startWorkspace(store_type) {
         Utility.blockUI(true);
         let service = Services.getMainService();
-        service.loadWorkspace(type,
+        service.loadWorkspace(store_type,
             (data)=> {
                 this.props.history.push('/request');
                 Utility.blockUI(false);

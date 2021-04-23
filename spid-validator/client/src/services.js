@@ -87,9 +87,9 @@ class MainService {
 		});
 	}
 
-	loadWorkspace(type, callback_response, callback_nosession, callback_error) {
-		Utility.log("GET /api/store?type=" + type + "&apikey=" + Utility.getApikey());
-		axios.get('/api/store?type=' + type + '&apikey=' + Utility.getApikey())
+	loadWorkspace(store_type, callback_response, callback_nosession, callback_error) {
+		Utility.log("GET /api/store?store_type=" + store_type + "&apikey=" + Utility.getApikey());
+		axios.get('/api/store?store_type=' + store_type + '&apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("loadWorkspace Success", response.data);
             callback_response(response.data);
@@ -114,9 +114,9 @@ class MainService {
 		});
 	}
 
-	resetWorkspace(type, callback_response, callback_error) {
-		Utility.log("DELETE /api/store?type=" + type);
-		axios.delete('/api/store?type='+type+'&apikey=' + Utility.getApikey())
+	resetWorkspace(store_type, callback_response, callback_error) {
+		Utility.log("DELETE /api/store?store_type=" + store_type);
+		axios.delete('/api/store?store_type='+store_type+'&apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("resetWorkspace Success", response.data);
 			callback_response();

@@ -35,16 +35,18 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
         if(authorisation=='API' && !req.body.user) { return res.status(400).send("Parameter user is missing"); }
         if(authorisation=='API' && !req.body.issuer) { return res.status(400).send("Parameter issuer is missing"); }
+        if(authorisation=='API' && !req.query.store_type) { return res.status(400).send("Parameter store_type is missing"); }
         //if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
 
         let user = (authorisation=='API')? req.body.user : req.session.user;
         let issuer = (authorisation=='API')? req.body.issuer : req.session.request.issuer;
         let external_code = (authorisation=='API')? req.body.external_code : req.session.external_code;
-        let type = (req.session && req.session.metadata && req.session.metadata.type)? req.session.metadata.type : 'main';
+        let store_type = (authorisation=='API')? req.query.store_type : 
+            (req.session.metadata && req.session.metadata.store_type)? req.session.metadata.store_type : 'main';
 
         let test = req.params.test; 
 
-        let report = database.getLastCheck(user, issuer, type);
+        let report = database.getLastCheck(user, issuer, store_type);
 
         switch(test) {
             case "strict": testGroup = report.request_strict; break;
@@ -70,12 +72,14 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(authorisation=='API' && !req.body.request) { return res.status(400).send("Parameter request is missing"); }
         if(authorisation=='API' && !req.body.issuer) { return res.status(400).send("Parameter issuer is missing"); }
         if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
+        if(authorisation=='API' && !req.query.store_type) { return res.status(400).send("Parameter store_type is missing"); }
 
         let user = (authorisation=='API')? req.body.user : req.session.user;
         let request = (authorisation=='API')? req.body.request : req.session.request;
         let issuer = (authorisation=='API')? req.body.issuer : req.session.request.issuer;
         let external_code = (authorisation=='API')? req.body.external_code : req.session.external_code;
-        let type = (req.session && req.session.metadata && req.session.metadata.type)? req.session.metadata.type : 'main';
+        let store_type = (authorisation=='API')? req.query.store_type : 
+            (req.session.metadata && req.session.metadata.store_type)? req.session.metadata.store_type : 'main';
     
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
     
@@ -117,8 +121,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                             }
                         }
 
-                        database.setRequestValidation(user, issuer, external_code, type, test, validation);
-                        database.setRequestLastCheck(user, issuer, external_code, type, test, lastcheck); 
+                        database.setRequestValidation(user, issuer, external_code, store_type, test, validation);
+                        database.setRequestLastCheck(user, issuer, external_code, store_type, test, lastcheck); 
                     }
 
                     res.status(200).send(lastcheck);

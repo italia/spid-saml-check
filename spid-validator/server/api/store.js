@@ -22,7 +22,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(entity_id) { // TODO ASSERTSESSION
             if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
     
-            let stores = database.getStore(user, entity_id, "test,main"); 
+            let stores = database.getStore(user, entity_id, "test, main"); 
             if(!stores) stores = [];
             if(!Array.isArray(stores)) stores = [stores];
             res.status(200).send(stores);
@@ -46,13 +46,13 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let entity_id = (req.session && req.session.request && req.session.request.issuer)?
             req.session.request.issuer : (req.session.entity_id)? req.session.entity_id : null;
 
-        let type = (req.query.type!=null && req.query.type!='')? req.query.type : 'main';
+        let store_type = (req.query.store_type!=null && req.query.store_type!='')? req.query.store_type : 'main';
 
         if(entity_id) { // TODO ASSERTSESSION
             if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
 
-            let store = database.getStore(req.session.user, entity_id, type);
-            Utility.log("SELECT STORE - Type: " + type, store);
+            let store = database.getStore(req.session.user, entity_id, store_type);
+            Utility.log("SELECT STORE - Type: " + store_type, store);
 
             if(store) {
                 // download again from url to avoid issue with signing
@@ -60,7 +60,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                 // must get xml from store because if metadata was uploaded from zip it is not available online
                 fs.writeFileSync(getEntityDir(entity_id) + "/sp-metadata.xml", store.metadata_SP_XML, "utf8");
                 req.session.metadata = {
-                    type: type,
+                    store_type: store_type,
                     entity_id: entity_id,
                     url: store.metadata_SP_URL,
                     xml: store.metadata_SP_XML
@@ -89,9 +89,9 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
     
         if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
             let organization = (req.session.entity!=null)? req.session.entity.id : null;
-            let type = (req.session && req.session.metadata && req.session.metadata.type)? req.session.metadata.type : 'main';
-            Utility.log("POST STORE - Type", type);
-            database.saveStore(req.session.user, organization, req.session.request.issuer, req.session.external_code, type, req.body);
+            let store_type = (req.session && req.session.metadata && req.session.metadata.store_type)? req.session.metadata.store_type : 'main';
+            Utility.log("POST STORE - Type", store_type);
+            database.saveStore(req.session.user, organization, req.session.request.issuer, req.session.external_code, store_type, req.body);
             res.status(200).send();
     
         } else {
@@ -110,9 +110,9 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }	
     
         if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) { // TODO ASSERTSESSION
-            let type = (req.query.type!=null && req.query.type!='')? req.query.type : 'main';
-            Utility.log("DELETE STORE - Type", type);
-            database.deleteStore(req.session.user, req.session.request.issuer, type);
+            let store_type = (req.query.store_type!=null && req.query.store_type!='')? req.query.store_type : 'main';
+            Utility.log("DELETE STORE - Type", store_type);
+            database.deleteStore(req.session.user, req.session.request.issuer, store_type);
             res.status(200).send();
     
         } else {
