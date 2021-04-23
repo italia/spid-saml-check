@@ -224,6 +224,9 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(authorisation=='API' && !req.query.store_type) { return res.status(400).send("Parameter store_type is missing"); }
         //if(authorisation=='API' && !req.query.external_code) { return res.status(400).send("Parameter external_code is missing"); }
 
+        let store_type = (authorisation=='API')? req.query.store_type : 
+            (req.session.metadata && req.session.metadata.store_type)? req.session.metadata.store_type : 'main';
+
         let metadata = (authorisation=='API')? database.getMetadata(req.query.user, req.query.entity_id, store_type) : req.session.metadata;
         if(!metadata) { return res.status(400).send("Please download metadata first"); }
 
@@ -233,8 +236,6 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let entity_id = (authorisation=='API')? req.query.entity_id : entityID;
         let user = (authorisation=='API')? req.query.user : req.session.user;
         let external_code = (authorisation=='API')? req.query.external_code : req.session.external_code;
-        let store_type = (authorisation=='API')? req.query.store_type : 
-            (req.session.metadata && req.session.metadata.store_type)? req.session.metadata.store_type : 'main';
 
         let deprecated = (req.query.deprecated=='Y')? true : false;
     
