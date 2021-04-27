@@ -117,7 +117,12 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                             let groupAssertions = testGroup[testGroupName].assertions;
                             for(assertion in groupAssertions) {
                                 let result = groupAssertions[assertion].result;
-                                validation = validation && (result=='success');
+                                if(result===undefined) {
+                                    // fix request extra if not defined
+                                    validation = true;
+                                } else {
+                                    validation = validation && (result=='success');
+                                }
                             }
                         }
 

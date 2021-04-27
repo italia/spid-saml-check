@@ -92,7 +92,7 @@ class Database {
 
         try { 
             let store = this.getStore(user, entity_id, store_type);
-            for(let key in store) {
+            for(let key in new_store) {
                 store[key] = new_store[key];
             }
 
@@ -338,8 +338,8 @@ class Database {
             request_strict: store.request_validation_strict,
             request_certs: store.request_validation_certs,
             request_extra: store.request_validation_extra,
-            response_test_done: store.request_validation_extra,
-            response_test_success: store.request_validation_success
+            response_test_done: store.response_test_done,
+            response_test_success: store.response_test_success
         }
     }
 
@@ -354,8 +354,8 @@ class Database {
             request_strict: store.request_validation_strict,
             request_certs: store.request_validation_certs,
             request_extra: store.request_validation_extra,
-            response_test_done: store.request_validation_extra,
-            response_test_success: store.request_validation_success
+            response_test_done: store.response_test_done,
+            response_test_success: store.response_test_success
         }
     }
 
