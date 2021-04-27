@@ -84,13 +84,18 @@ class Database {
     }
 
 
-    saveStore(user, organization, entity_id, external_code, store_type, store) {
+    saveStore(user, organization, entity_id, external_code, store_type, new_store) {
         if(!this.checkdb()) return;
 
         let sql1 = "INSERT OR IGNORE INTO store(user, organization, entity_id, external_code, timestamp, type, store) VALUES (?, ?, ?, ?, DATETIME('now', 'localtime'), ?, ?);";
         let sql2 = "UPDATE store SET timestamp=DATETIME('now', 'localtime'), ";
 
         try { 
+            let store = this.getStore(user, entity_id, store_type);
+            for(let key in store) {
+                store[key] = new_store[key];
+            }
+
             store.metadata_SP_XML = utility.btoa(store.metadata_SP_XML);
             let storeSerialized = JSON.stringify(store);
 
