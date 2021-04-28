@@ -92,6 +92,8 @@ class Database {
 
         try { 
             let store = this.getStore(user, entity_id, store_type);
+            if(!store) store = {};
+
             for(let key in new_store) {
                 store[key] = new_store[key];
             }
@@ -296,7 +298,7 @@ class Database {
         store.request_validation_strict = false;
         store.request_validation_certs = false;
         store.request_validation_extra = false;
-        
+    
         this.saveStore(user, organization, entity_id, external_code, store_type, store);
     }
 
