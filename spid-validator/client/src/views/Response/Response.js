@@ -174,7 +174,18 @@ class Response extends Component {
       store.dispatch(Actions.setResponseTestDone(this.state.caseid, this.state.test_done)); 
 
       let service = Services.getMainService();
-      service.saveWorkspace(store.getState());
+
+      // workaround delete lastcheck and validation info to avoid saveStore issue
+      let new_store = store.getState();
+      delete new_store.metadata_validation_xsd;
+      delete new_store.metadata_validation_strict;
+      delete new_store.metadata_validation_certs;
+      delete new_store.metadata_validation_extra;
+      delete new_store.request_validation_strict;
+      delete new_store.request_validation_certs;
+      delete new_store.request_validation_extra;
+
+      service.saveWorkspace(new_store);
     });  
     
     if(!done) {
@@ -189,7 +200,18 @@ class Response extends Component {
       store.dispatch(Actions.setResponseTestSuccess(this.state.caseid, this.state.test_success)); 
 
       let service = Services.getMainService();
-      service.saveWorkspace(store.getState());
+
+      // workaround delete lastcheck and validation info to avoid saveStore issue
+      let new_store = store.getState();
+      delete new_store.metadata_validation_xsd;
+      delete new_store.metadata_validation_strict;
+      delete new_store.metadata_validation_certs;
+      delete new_store.metadata_validation_extra;
+      delete new_store.request_validation_strict;
+      delete new_store.request_validation_certs;
+      delete new_store.request_validation_extra;
+
+      service.saveWorkspace(new_store); 
     });     
   }
 
@@ -199,7 +221,18 @@ class Response extends Component {
       store.dispatch(Actions.setResponseTestNote(this.state.caseid, this.state.test_note)); 
 
       let service = Services.getMainService();
-      service.saveWorkspace(store.getState());
+
+      // workaround delete lastcheck and validation info to avoid saveStore issue
+      let new_store = store.getState();
+      delete new_store.metadata_validation_xsd;
+      delete new_store.metadata_validation_strict;
+      delete new_store.metadata_validation_certs;
+      delete new_store.metadata_validation_extra;
+      delete new_store.request_validation_strict;
+      delete new_store.request_validation_certs;
+      delete new_store.request_validation_extra;
+
+      service.saveWorkspace(new_store);
     });     
   }
 

@@ -189,6 +189,7 @@ class Database {
         }
     }
 
+    /* deprecated
     getStoreByCode(user, external_code, store_type) {
         if(!this.checkdb()) return;
         
@@ -202,6 +203,10 @@ class Database {
                     data.metadata_SP_XML = utility.atob(data.metadata_SP_XML);
                 } 
             }
+
+            // workaround delete validation info to avoid saveStore issue
+            //...
+
             return data; 
 
         } catch(exception) {
@@ -209,6 +214,7 @@ class Database {
             throw(exception);
         }
     }
+    */
 
     getMetadata(user, entity_id, store_type) {
         if(!this.checkdb()) return;
@@ -261,6 +267,7 @@ class Database {
         }
     }
 
+    /* deprecated
     getMetadataByCode(external_code, store_type) {
         if(!this.checkdb()) return;
         
@@ -285,6 +292,7 @@ class Database {
             throw(exception);
         }
     } 
+    */
 
     setMetadata(user, organization, entity_id, external_code, store_type, url, xml) {
         let store = this.getStore(user, entity_id, store_type);
@@ -345,6 +353,7 @@ class Database {
         }
     }
 
+    /* deprecated
     getValidationByCode(user, external_code, store_type) {
         let store = this.getStoreByCode(user, external_code, store_type);
         if(!store) store = {};
@@ -360,6 +369,7 @@ class Database {
             response_test_success: store.response_test_success
         }
     }
+    */
 
     setMetadataLastCheck(user, entity_id, external_code, store_type, test, lastcheck) {
         try {
