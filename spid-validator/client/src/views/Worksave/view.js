@@ -19,10 +19,10 @@ function view(me) {
 							</div>
 						</div>
 					)}
-					{ me.isTypeAvailable('main') && (
+					{ me.isTypeAvailable('prod') && (
 						<div className="col col-12 col-md-12 col-lg-4">
-							<div className={`btn ${me.state.selected_type=='main'? "btn-selector btn-selector-active" : "btn-selector"}`}
-								onClick={()=>{me.setType('main')}}>
+							<div className={`btn ${me.state.selected_type=='prod'? "btn-selector btn-selector-active" : "btn-selector"}`}
+								onClick={()=>{me.setType('prod')}}>
 
 								<img src="/img/metadata-prod.svg" />
 								<span className="d-none d-sm-inline">Metadata di Produzione</span>

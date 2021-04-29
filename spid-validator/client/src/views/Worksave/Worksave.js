@@ -86,8 +86,8 @@ class Worksave extends Component {
         let store_type = "";
         switch(this.state.selected_type) {
             case 'main': store_type = ""; break;
-            case 'test': store_type = " Test"; break;
-            case 'prod': store_type = " Produzione"; break;
+            case 'test': store_type = " di TEST"; break;
+            case 'prod': store_type = " di PRODUZIONE"; break;
         }
         if(confirm("Sei sicuro di voler iniziare una nuova sessione di validazione per il metadata" + store_type
                  + "? Il metadata caricato e tutti gli esiti dei test salvati andranno persi.")) {
