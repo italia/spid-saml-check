@@ -22,7 +22,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(entity_id) { // TODO ASSERTSESSION
             if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
     
-            let stores = database.getStore(user, entity_id, "test, prod"); 
+            let stores = database.getStore(user, entity_id, "test, prod, main"); 
             if(!stores) stores = [];
             if(!Array.isArray(stores)) stores = [stores];
             res.status(200).send(stores);
