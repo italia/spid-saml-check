@@ -35,16 +35,22 @@
     <div id="outer">
 	    <div id="contain-all">
             <div class="inner">
+                <!-- SPID LOGIN ALERTS * begin * -->
                 <div class="grid">
                     <div class="width-one-whole">
-                        <!-- ERROR -->
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-loading" role="info">
                             <div class="alert-body">
-                                <h3 class="alert-heading">Logout</h3>
-                                <p class="alert-text">Logout eseguito con successo</p>
+                                <h3 class="alert-heading">Attendere prego...</h3>
+                                <p class="alert-text">{{{ message }}}</p>
                             </div>
                         </div>
                     </div>
+                    <form name="form" action="/testenv/start" method="post">
+                        <input type="hidden" name="samlRequest" value={{ samlRequest }} ></input>                                                  
+                        <input type="hidden" name="relayState" value={{ relayState }} ></input>                                                  
+                        <input type="hidden" name="sigAlg" value={{ sigAlg }} ></input>                                                  
+                        <input type="hidden" name="signature" value={{ signature }} ></input>                                                  
+                    </form>
                 </div>
             </div>
         </div>
@@ -56,10 +62,11 @@
         </div>
     </div>
     <div id="footer">
-	    <div id="footer-inner">
-            <img id="spid-agid-logo" src="/img/spid-agid-logo-lb.png" alt="SPID - AgID Agenzia per l'Italia Digitale" />
+	<div id="footer-inner">
+            <img id="spid-agid-logo" src="/img/spid-agid-logo-bb.svg" onerror="this.src='/img/spid-agid-logo-bb.png'; this.onerror=null;" alt="SPID - AgID Agenzia per l'Italia Digitale" />
         </div>
     </div>
     <script src="/js/jquery.min.js"></script>
+    <script type="text/javascript">document.form.submit();</script>
 </body>
 </html>

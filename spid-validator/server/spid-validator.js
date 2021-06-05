@@ -103,83 +103,6 @@ var getEntityDir = function(issuer) {
     return ENTITY_DIR;
 }
 
-/* OBSOLETE
-var getValidationInfo = function(user, code) {
-    let store = null;
-
-    if(code!=null && code!='') {
-        store = database.getStoreByCode(user, code, "main");
-    }
-
-    let result = {
-        metadata_strict: false,
-        metadata_certs: false,
-        metadata_extra: false,
-        request_strict: false,
-        request_certs: false,
-        request_extra: false,
-        response_done: false,
-        response_success: false,
-        response_validation: false,
-        validation: false
-    };
-
-    if(store) {
-        let test_done = store.response_test_done? Object.keys(store.response_test_done) : [];
-        let test_success = store.response_test_success? store.response_test_success : [];
-
-        let tests = Object.keys(config_test['test-suite-1']['cases']);
-        let test_done_ok = (test_done.length==tests.length);
-        let test_success_ok = true;
-
-        let test_success_num = 0;
-        for(t in test_success) {
-            if(!test_success[t]) test_success_ok = false;
-            else test_success_num++;
-        }
-
-        let response_validation = false;
-        if(test_done_ok && test_success_ok) response_validation = true;
-
-        let validation = false;
-        if(store.metadata_validation_strict &&
-            store.metadata_validation_certs &&
-            store.metadata_validation_extra &&
-            store.request_validation_strict &&
-            store.request_validation_certs &&
-            store.request_validation_extra &&
-            //response_validation &&
-            true
-        ) validation = true;
-
-        result = {
-            metadata_strict: store.metadata_validation_strict,
-            metadata_certs: store.metadata_validation_certs,
-            metadata_extra: store.metadata_validation_extra,
-            request_strict: store.request_validation_strict,
-            request_certs: store.request_validation_certs,
-            request_extra: store.request_validation_extra,
-            response_num: tests.length,
-            response_done: test_done.length,
-            response_success: test_success_num,
-            response_validation: response_validation,
-            validation: validation
-        };
-    }
-
-    Utility.log("Validation result", result);
-    return result;
-}
-
-var getMetadataInfo = function(code) {
-    let store = null;
-    if(code!=null && code!='') {
-        store = database.getMetadataByCode(code, "main");
-    }
-    return store;
-}
-*/
-
 var sendLogoutResponse = function(req, res) {
 
     if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
@@ -269,6 +192,7 @@ app.use((req, res, next)=> {
 
 /* IDP */
 require('./app/idp')		    (app, checkAuth, getEntityDir, sendLogoutResponse);
+require('./app/idp_testenv')    (app, checkAuth, getEntityDir, sendLogoutResponse, database);
 require('./app/auth')		    (app, checkAuth, authenticator);
 
 /* API */
@@ -285,5 +209,5 @@ require('./api/response')    	(app, checkAuth);
 if (useHttps) app = https.createServer(httpsCredentials, app);
 app.listen(8080, () => {
     // eslint-disable-next-line no-console
-    console.log("\nSPID Validator\nversion: 4.0\n\nlistening on port 8080");
+    console.log("\nSPID Validator\nversion: 1.5.0\n\nlistening on port 8080");
 });
