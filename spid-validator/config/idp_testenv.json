@@ -16,9 +16,9 @@
 	"requireSignedRequests": true,
 	"requireSignedResponses": false,
 
-	"checkStrict": false,
-	"checkCerts": false,
-	"checkExtra": false,
+	"checkStrict": true,
+	"checkCerts": true,
+	"checkExtra": true,
 	"maxRetry": 3,
 	"loginTimeout": 60000
 }
