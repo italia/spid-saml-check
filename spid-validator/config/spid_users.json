@@ -2,6 +2,7 @@
 	{
 		"username": "cesare",
 		"password": "password123",
+		"spidLevel": 1,
 
 		"spidCode": "SPID-001",
 		"name": "Gaio Giulio",
@@ -30,6 +31,7 @@
 	{
 		"username": "ada",
 		"password": "password123",
+		"spidLevel": 2,
 
 		"spidCode": "SPID-002",
 		"familyName": "Lovelace",
@@ -58,6 +60,7 @@
 	{
 		"username": "garibaldi",
 		"password": "password123",
+		"spidLevel": 1,
 
 		"spidCode": "SPID-003",
 		"familyName": "Garibaldi",
@@ -86,6 +89,7 @@
 	{
 		"username": "lucrezia",
 		"password": "password123",
+		"spidLevel": 1,
 
 		"spidCode": "SPID-004",
 		"familyName": "Borgia",
@@ -114,6 +118,7 @@
 	{
 		"username": "cristoforocolombo",
 		"password": "password123",
+		"spidLevel": 2,
 
 		"spidCode": "SPID-005",
 		"familyName": "Colombo",
@@ -142,6 +147,7 @@
 	{
 		"username": "lapulzella",
 		"password": "password123",
+		"spidLevel": 2,
 
 		"spidCode": "SPID-006",
 		"familyName": "D'Arco",
@@ -170,6 +176,7 @@
 	{
 		"username": "fieramosca",
 		"password": "password123",
+		"spidLevel": 2,
 
 		"spidCode": "SPID-007",
 		"familyName": "Fieramosca",
@@ -198,6 +205,7 @@
 	{
 		"username": "cleopatra",
 		"password": "password123",
+		"spidLevel": 2,
 
 		"spidCode": "SPID-008",
 		"familyName": "Filopatore",
@@ -226,6 +234,7 @@
 	{
 		"username": "marcopolo",
 		"password": "password123",
+		"spidLevel": 3,
 
 		"spidCode": "SPID-009",
 		"familyName": "Polo",
@@ -254,6 +263,7 @@
 	{
 		"username": "lucia.mondella",
 		"password": "password123",
+		"spidLevel": 3,
 
 		"spidCode": "SPID-010",
 		"familyName": "Mondella",
@@ -283,6 +293,7 @@
 		"username": "innominato",
 		"password": "password123",
 		"purposeIDType": "1",
+		"spidLevel": 2,
 
 		"spidCode": "SPID-011",
 		"familyName": "Manzoni",
@@ -312,6 +323,7 @@
 		"username": "agid",
 		"password": "password123",
 		"purposeIDType": "2",
+		"spidLevel": 2,
 
 		"spidCode": "SPID-012",
 		"familyName": "",
@@ -341,6 +353,7 @@
 		"username": "Louis",
 		"password": "password123",
 		"purposeIDType": "3",
+		"spidLevel": 3,
 
 		"spidCode": "SPID-013",
 		"familyName": "Armstrong",
@@ -370,6 +383,7 @@
 		"username": "montessori",
 		"password": "password123",
 		"purposeIDType": "4",
+		"spidLevel": 3,
 
 		"spidCode": "SPID-014",
 		"familyName": "Montessori",
@@ -396,9 +410,10 @@
 		"domicileNation": "IT"
 	},
 	{
-		"username": "topino",
+		"username": "little",
 		"password": "password123",
 		"purposeIDType": "1",
+		"spidLevel": 2,
 
 		"spidCode": "SPID-015",
 		"familyName": "Little",
@@ -423,6 +438,36 @@
 		"domicileMunicipality": "Roma",
 		"domicileProvince": "RM",
 		"domicileNation": "IT"
+	},
+	{
+		"username": "dino",
+		"password": "password123",
+		"spidLevel": 1,
+		"disabled": true,
+
+		"spidCode": "SPID-016",
+		"familyName": "De Sauro",
+		"name": "Dino",
+		"gender": "M",
+		"dateOfBirth": "0000-00-00",
+		"countyOfBirth": "BA",
+		"placeOfBirth": "Altamura",
+		"idCard": "cartaIdentita JUR4SS1C comuneAltamura 0000-00-00 0000-00-00",
+		"expirationDate": "0001-00-00",
+		"fiscalNumber": "DSRDNI00A01A225I",
+		"mobilePhone": "000000000",
+		"email": "noreply@estinti.paleo",
+		"digitalAddress": "",
+		"ivaCode": "",
+		"companyName": "",
+		"registeredOffice": "",
+		"companyFiscalNumber": "",
+		"address": "",
+		"domicileStreetAddress": "",
+		"domicilePostalCode": "",
+		"domicileMunicipality": "",
+		"domicileProvince": "",
+		"domicileNation": ""
 	}	
 	
 ]	

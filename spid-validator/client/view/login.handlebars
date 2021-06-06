@@ -30,6 +30,23 @@
     <script src="/js/respond.min.js"></script>
     <script src="/js/rem.min.js"></script>
     <![endif]-->
+
+    <style>
+        .btn-link,
+        .btn-link:hover {
+            background: none;
+            border: none;
+            font-size: 0.9em;
+            font-weight: normal;
+        }
+        .btn-link {
+            margin: 0!important;
+            padding: 0;
+        }
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body> 
     <div id="outer">
@@ -65,8 +82,8 @@
                 {{/if}}
 
                 <!-- SPID LOGIN FORM * begin * -->
-                <form name="spid-login" id="spid-login" action="/testenv/login" method="post" class="grid">
-                    <div class="width-one-whole">         
+                <div class="width-one-whole">       
+                    <form name="formLogin" id="formLogin" action="/testenv/login" method="post" class="grid">  
                         <fieldset>
                             <div>
                                 <label for="nome_utente" class="float-left label-bold">Nome utente</label>
@@ -98,14 +115,23 @@
                             <input id="purpose" name="params[purpose]" type="hidden" value="{{ params.purpose }}" />
                             <input id="minAge" name="params[minAge]" type="hidden" value="{{ params.minAge }}" />
                             <input id="maxAge" name="params[maxAge]" type="hidden" value="{{ params.maxAge }}" />
-
+                            <input id="retry" name="retry" type="hidden" value={{ retry }} />
                         </fieldset>
                         <button type="submit" class="italia-it-button italia-it-button-size-m button-spid spacer-top-1">
                             <span class="italia-it-button-icon"><img src="/img/spid-ico-circle-bb.svg" onerror="this.src='/img/spid-ico-circle-bb.png'; this.onerror=null;" alt="" /></span>
                             <span class="italia-it-button-text">Entra con SPID</span>
                         </button>
-                    </div>
-                </form>
+                    </form>
+                    <form name="formCancel" id="formCancel" action="/testenv/cancel" method="post" class="grid">
+                        <input id="samlRequest" name="params[samlRequest]" type="hidden" value="{{ params.samlRequest }}" />
+                        <input id="relayState" name="params[relayState]" type="hidden" value="{{ params.relayState }}" />
+                        <button type="submit" class="btn-link">Annulla autenticazione</button>
+                    </form>
+                    <form name="formTimeout" id="formTimeout" action="/testenv/timeout" method="post" class="grid">
+                        <input id="samlRequest" name="params[samlRequest]" type="hidden" value="{{ params.samlRequest }}" />
+                        <input id="relayState" name="params[relayState]" type="hidden" value="{{ params.relayState }}" />
+                    </form>
+                </div>
             </div>
 	     </div>
     </div>
@@ -121,22 +147,9 @@
     </div>    
     <script src="/js/jquery.min.js"></script>
     <script>
-        $(function(){
-            $(".showpassword").each(function(index,input) {
-                var $input = $(input);
-                $(".showpasswordcheckbox").click(function() {
-                    var change = $(this).is(":checked") ? "text" : "password";
-                    var rep = $("<input type='" + change + "' />")
-                    .attr("id", $input.attr("id"))
-                    .attr("name", $input.attr("name"))
-                    .attr('class', $input.attr('class'))
-                    .val($input.val())
-                    .insertBefore($input);
-                    $input.remove();
-                    $input = rep;
-                })
-            });
-        });
+        setTimeout(()=> {
+            document.formTimeout.submit();
+        }, {{timeout}});
     </script>
 </body>
 </html>

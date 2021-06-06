@@ -14,5 +14,11 @@
 	"signAllRequests": false,
 	"signAllResponses": true,
 	"requireSignedRequests": true,
-	"requireSignedResponses": false
+	"requireSignedResponses": false,
+
+	"checkStrict": false,
+	"checkCerts": false,
+	"checkExtra": false,
+	"maxRetry": 3,
+	"loginTimeout": 60000
 }
