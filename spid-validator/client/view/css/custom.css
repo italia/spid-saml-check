@@ -1,0 +1,140 @@
+/* Custom CSS */
+
+html, body {height: 100%; }
+body {display: flex; flex-direction: column;}
+.container { flex: 1 0 auto;}
+.footer {flex-shrink: 0;}
+h1 {font-size: 1.6em; margin-top: 0.6em; font-weight: 600 !important}
+h2 {font-size: 1.5em;}
+h3 {text-transform: uppercase; font-size: 1em}
+
+.navbar-brand{margin-top: 1.2em; margin-right: 1em}
+.form-text {color: #575757; }
+.form-check.form-check-group .form-text {opacity: 1}
+header {padding: 2em 0}
+label {color: #000; font-weight: bold;}
+.navbar-brand img { height: 25px}
+span.logo-spid {background: url("../img/spid.png") no-repeat; background-size: 25px; background-position: left center; padding-left: 40px }
+.card a.read-more {position: relative}
+.card:after {margin-top: 0px}
+.applications-button img{height: 35px}
+.applications-start {text-align: center;}
+.applications-start img{display: block; width: 150px; margin: 50px auto 20px auto}
+.applications-start-modal img{display: block; width: 80px; margin: 30px auto 10px auto}
+.applications-start .read-more {text-align: center; display: block;}
+footer{margin-top: 3em; padding:3em 0;}
+.icon-action {height: 30px; margin: 0 1em 0 0}
+.disabled {opacity: 0.4; filter: alpha(opacity=40)}
+.card .card-body p {font-size: 1em; font-family:  "Titillium Web"}
+
+.registration-header {height: 150px; background: url("../svg/registration.svg") no-repeat; background-size: 100px; background-position: left center; padding-left: 140px; border-bottom: solid 1px #ccc }
+.test-header {height: 150px; background: url("../svg/test.svg") no-repeat; background-size: 100px; background-position: left center; padding-left: 140px; border-bottom: solid 1px #ccc }
+.delegation-header {height: 150px; background: url("../svg/delegation.svg") no-repeat; background-size: 100px; background-position: left center; padding-left: 140px; border-bottom: solid 1px #ccc }
+.validator-header {height: 150px; background: url("../svg/validator.svg") no-repeat; background-size: 100px; background-position: left center; padding-left: 140px; border-bottom: solid 1px #ccc }
+.agreement-header {height: 150px; background: url("../svg/agreement.svg") no-repeat; background-size: 100px; background-position: left center; padding-left: 140px; border-bottom: solid 1px #ccc }
+.publish-header {height: 150px; background: url("../svg/publish.svg") no-repeat; background-size: 100px; background-position: left center; padding-left: 140px; border-bottom: solid 1px #ccc }
+.error-header {height: 150px; background: url("../svg/error.svg") no-repeat; background-size: 100px; background-position: left center; padding-left: 140px; border-bottom: solid 1px #ccc }
+
+
+.custom-card{border: solid 1px #ccc; margin: 0; padding: 0}
+.custom-card-light{ margin: 1em 0; padding: 1em 0}
+.custom-card-hinner {border-left:solid 2px #0073e6; padding-left: 1em}
+.form-text-description {margin-left: 2em; padding-right: 1em 1em 3em 0; border-bottom: solid 1px #ccc; margin-bottom: 2em}
+.modal h1{font-size: 1.2em}
+article, .article-like {margin-top: 2em;	padding: 2em;  background-color: #fff;  box-shadow: 0 10px 80px 0 rgba(90, 103, 114, 0.1);}
+
+.table thead th.w50 {width: 50%}
+.table thead th.w40 {width: 40%}
+.table thead th.w20 {width: 20%}
+
+.logo-footer {width: 250px;}
+.footer-link li{display: inline-block; font-size: 1em;  list-style-type: none; margin-right: 32px;max-width: 100%;  margin-top: 10px}
+.footer-link li a{color: #64dadd;}
+
+.administration-status {border-bottom: 1px solid rgba(0,89,179,.2); font-size: 0.8em;  } /*#0066cc*/
+.administration-status .administration {padding-left: 24px}
+.administration-status .progress {height: 25px}
+
+/* Combobox */
+
+ul[role="listbox"] {
+  margin: -5px 0 0 0;
+  padding: 0;
+  position: absolute;
+  top: 3em;
+  list-style: none;
+  background-color: #fff;
+  display: none;
+  height: 12em;
+  width: 100%;
+  overflow: scroll;
+  border: solid 1px #ccc;
+  border-top: none;
+
+}
+
+ul[role="listbox"] li[role="option"] {
+  margin: 0;
+  padding: 0.3em 0.8em ;
+}
+
+[role="listbox"].focus {
+  border-color: #0073e6;
+}
+
+[role="listbox"] [role="option"] {
+  display: block;
+  margin: 0.25em;
+  padding: 0;
+  background-color: #fff;
+  font-size: 100%;
+}
+
+
+[role="listbox"] [role="option"][aria-selected="true"] {
+  background-color: #ccc;
+}
+
+[role="listbox"].focus [role="option"][aria-selected="true"] {
+  background-color: #aed2ea;
+  border-color: #348ccb;
+}
+
+[role="listbox"] li[role="option"]:hover {
+  background-color: #c2ddef;
+  cursor: pointer;
+}
+
+/* Fine combobox */
+
+
+/* MEDIA QUERY */
+
+@media (min-width: 576px) {
+  h1 {fmargin-top: 0.2em}
+	.custom-card{ margin: 1em; padding: 1em}
+	.custom-card-light{ margin: 1em; padding: 1em}
+}
+
+@media (min-width: 768px) {
+  h1 {font-size: 2em;}
+	.custom-card{ margin: 2em; padding: 2em}
+	.custom-card-light{ margin: 2em; padding: 2em}
+}
+
+@media (min-width: 992px) {
+  .navbar-brand{margin-top: .2em}
+}
+
+@media (min-width: 1200px) {
+	
+}
+
+/* print */
+    .logo-agid-print {width: 250px;}
+    .logo-spid-print {width: 200px;}
+    .print-delega {font-weight: bold; font-size: 1.1em; text-align: center;}
+
+@page{size:auto; margin-bottom:5mm;}
+
+

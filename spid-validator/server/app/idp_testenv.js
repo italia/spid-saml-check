@@ -25,6 +25,19 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         res.status(200).send("<?xml version=\"1.0\"?>" + idp.getMetadata());
     });
 
+    // Testenv Front Page
+    app.get("/testenv", function (req, res) {
+        return res.render("testenv_index.handlebars", {
+        });
+    });
+
+    // Testenv Front Page
+    app.get("/testenv/users", function (req, res) {
+        return res.render("testenv_users.handlebars", {
+            users: spid_users
+        });
+    });
+
     // process sso post request
     app.post("/testenv/samlsso", function(req, res) {	
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', 

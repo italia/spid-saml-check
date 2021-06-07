@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/bootstrap-italia.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
+
+    <script>window.__PUBLIC_PATH__ = '/fonts'</script>
+
+  </head>
+  <body>
+
+    <div class="container">
+
+          <header class="test-header">
+              <h1>Ambiente di Test SPID</h1>
+            </header>
+
+      <main>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="article-like">
+
+              <a href="/testenv">Come utilizzare l'ambiente di test SPID</a>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row mb-5">
+          <div class="col-md-12">
+           
+            <article>
+            
+            <h2>Utenti di test</h2>
+
+            <div class="row">
+              <div class="col-md-12">
+               
+                  <div class="table-responsive-md" style="font-size:0.75em">
+                    <table class="table table-striped table-hover">
+                      <caption>Lista degli utenti di test disponibili sull'ambiente di test SPID</caption>
+                      <thead>
+                        <tr>
+                          <th scope="col">Username</th>
+                          <th scope="col">Password</th>
+                          <th scope="col">Nome</th>
+                          <th scope="col">Cognome</th>
+                          <th scope="col">Tipo d'identità</th>
+                          <th scope="col">Livello SPID</th>
+                          <th scope="col">Disattivata</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{#each users}}
+                        <tr>
+                          <th>{{this.username}}</th>
+                          <td>{{this.password}}</td>
+                          <td>{{this.name}}</td>
+                          <td>{{this.familyName}}</td>
+                          <td>{{this.purposeIDType}}</td>
+                          <td>SPID Livello {{this.spidLevel}}</td>
+                          <td>{{this.disabled}}</td>
+                        </tr>
+                        {{/each}}
+                      </tbody>
+                    </table>  
+                  </div>          
+                
+              </div>
+            </div> 
+
+            </article> 
+
+
+          </div>
+        </div> 
+
+
+      </main>       
+
+    </div> 
+
+    <div id="footer"></div>
+
+
+
+
+    
+
+
+    <!-- JS -->
+    <script src="/js/bootstrap-italia.bundle.min.js"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
