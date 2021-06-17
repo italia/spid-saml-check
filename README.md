@@ -2,7 +2,11 @@
 
 # *SPID SAML Check*
 
-*SPID SAML Check* is a tool that performs some tests on Service Providers, as inspecting requests shipped to an Identity Provider, checking metadata compliance and sending custom responses back to Service Provider. It includes a tool based on Tox (_`specs-compliance-tests`_) to check the SPID specifications compliance, a Node.js web application (_`spid-validator`_) that provides an easy to use interface and an extension for Google Chrome that intercepts the request.
+*SPID SAML Check* is an application suite that provider some tools for Service Providers, useful for inspecting requests shipped to an Identity Provider, checking metadata compliance and sending custom responses back to Service Provider. It includes:
+ - a tool based on Tox (_`specs-compliance-tests`_) to check the SPID specifications compliance
+ - a web application (_`spid-validator`_) that provides an easy to use interface
+ - a web application (_`spid-demo`_) that acts as a test IdP for demo purpose
+ - an extension for Google Chrome that intercepts the request (deprecated)
 
 *SPID SAML Check* has been developed and is maintained by AgID - Agenzia per l'Italia Digitale
 
@@ -20,10 +24,28 @@ $ docker build -t spid-saml-check .
 $ docker run -t -i -p 8080:8080 spid-saml-check
 ```
 
-## Usage
+## How to use it as a *SPID Validator*
 
-- copy spid-saml-check metadata to the SP you want to test with.
-  spid-saml-check metadata can be downloaded at: [http://localhost:8080/metadata.xml](http://localhost:8080/metadata.xml)
+The Node.js application spid-validator, if invoked as a web application *as is*, provides "basic", formal validation of a Service Provider's SAML metadata.
+
+In order to unleash the **full** set of SPID compliance tests (the proper *SPID Validator*), retrieve the metadata of *SPID Validator* at http://localhost:8080/metadata.xml and configure it on as a new Identity Provider (IdP) under your Service Provider (SP) implementation.
+
+When used in this fashion, the *SPID Validator* can be invoked as an IdP from your SP, listing 300+ individual controls, divided into 7 families:
+ * 4 families for the formal validation of the SP **metadata** (already described);
+ * 3 families for the formal validation of the SP's SAML **request**;
+ * 1 family (111 controls) for *interactively* validating the SP behaviour to SAML **response**s from IdP's.
+
+To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin in to Validator with following credentials:
+
+   Username: validator
+   
+   Password: validator
+   
+   
+### Usage ###
+
+- copy spid-validator metadata to the SP you want to test with.
+  spid-validator can be downloaded at: [http://localhost:8080/metadata.xml](http://localhost:8080/metadata.xml)
   ````
   wget http://localhost:8080/metadata.xml -O /path/to/your/sp/metadata/folder/spid-saml-check-metadata.xml
   ````
@@ -46,20 +68,29 @@ $ docker run -t -i -p 8080:8080 spid-saml-check
   ![Response](gallery/4a.png)
 
 
-## How to use it as a *SPID Validator*
+## How to use it as a *SPID Demo*
 
-The Node.js application, if invoked as a web application *as is*, provides "basic", formal validation of a Service Provider's SAML metadata.
+The Node.js application spid-demo run at: [http://localhost:8080/demo](http://localhost:8080/demo)
+   
+   
+### Usage ###
 
-In order to unleash the **full** set of SPID compliance tests (the proper *SPID Validator*), retrieve the metadata of *SPID Validator* at http://localhost:8080/metadata.xml and configure it on as a new Identity Provider (IdP) under your Service Provider (SP) implementation.
+- copy spid-demo metadata to the SP you want to test with.
+  spid-demo metadata can be downloaded at: [http://localhost:8080/demo/metadata.xml](http://localhost:8080/demo/metadata.xml)
+  ````
+  wget http://localhost:8080/demo/metadata.xml -O /path/to/your/sp/metadata/folder/spid-demo.xml
+  ````
 
-When used in this fashion, the *SPID Validator* can be invoked as an IdP from your SP, listing 300+ individual controls, divided into 7 families:
- * 4 families for the formal validation of the SP **metadata** (already described);
- * 3 families for the formal validation of the SP's SAML **request**;
- * 1 family (111 controls) for *interactively* validating the SP behaviour to SAML **response**s from IdP's.
+- go to http://localhost:8080 to register metadata of your SP on spid-validator.
+  You should access to a page like shown in the following picture
+  ![login page](gallery/1a.png)
 
-To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin in to Validator with following credentials:
+- submit __validator__/ __validator__ as credential
+- You would see the SAML2 Authn Request made from your SP
+  ![authn request](gallery/2.png)
 
-   Username: validator
+- Click on Metadata -> Download and submit your SP metadata url.
+  **Warning**: If your SP is on your localhost, please use your host Docker IP and not "localhost"!
+  ![metadata](gallery/3.png)
 
-   Password: validator
-
+- Send an authn request to spid-demo in order to use Demo environment
