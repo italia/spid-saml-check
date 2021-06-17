@@ -26,7 +26,7 @@ $ docker run -t -i -p 8080:8080 spid-saml-check
 
 ## How to use it as a *SPID Validator*
 
-The Node.js application spid-validator, if invoked as a web application *as is*, provides "basic", formal validation of a Service Provider's SAML metadata.
+The application spid-validator, if invoked as a web application *as is*, provides "basic", formal validation of a Service Provider's SAML metadata.
 
 In order to unleash the **full** set of SPID compliance tests (the proper *SPID Validator*), retrieve the metadata of *SPID Validator* at http://localhost:8080/metadata.xml and configure it on as a new Identity Provider (IdP) under your Service Provider (SP) implementation.
 
@@ -40,19 +40,19 @@ To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin 
 
 ### Usage steps
 
-- copy spid-validator metadata to the SP you want to test with.
+- Copy spid-validator metadata to the SP you want to test with.
   spid-validator can be downloaded at: [http://localhost:8080/metadata.xml](http://localhost:8080/metadata.xml)
   ````
   wget http://localhost:8080/metadata.xml -O /path/to/your/sp/metadata/folder/spid-saml-check-metadata.xml
   ````
 
-- start authentication request connecting to your SP, the AuthnRequest would be created and sent to spid-saml-check.
+- Start authentication request connecting to your SP, the AuthnRequest would be created and sent to spid-saml-check.
   You should access to a page like shown in the following picture
   
   <img src="doc/img/login.png" width="500" alt="login page" />
   
 
-- submit __validator__ / __validator__ as credential
+- Submit __validator__ / __validator__ as credential
 - You would see the SAML2 Authn Request made from your SP
 
   <img src="doc/img/2.png" width="500" alt="authn request page" />
@@ -63,17 +63,15 @@ To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin 
 
   <img src="doc/img/3.png" width="500" alt="metadata download page" />
   
-
-- Send an authn request to spid-saml-chek in order to unlock Request and Response menu
 - Now you'll be able to execute all the tests, in order of appareance: Metadata, Request and Response.
-- Select in the scroll menu the test you want to execute, then mark it as done and if successful
+- To check a Response, from Response section, select in the scroll menu the test you want to execute, then mark it as done and if successful
 
   <img src="doc/img/4a.png" width="500" alt="response select page" />
 
 
 ## How to use it as a *SPID Demo*
 
-The Node.js application spid-demo runs at: [http://localhost:8080/demo](http://localhost:8080/demo)
+The application spid-demo runs at: [http://localhost:8080/demo](http://localhost:8080/demo)
 
 <img src="doc/img/demo_idp_index.png" width="500" alt="demo index page" />
    
@@ -85,19 +83,19 @@ Test users of spid-demo that can be used are listed at: [http://localhost:8080/d
 
 <h3>Usage steps</h3>
 
-- copy spid-demo metadata to the SP you want to test with.
+- Copy spid-demo metadata to the SP you want to test with.
   spid-demo metadata can be downloaded at: [http://localhost:8080/demo/metadata.xml](http://localhost:8080/demo/metadata.xml)
   ````
   wget http://localhost:8080/demo/metadata.xml -O /path/to/your/sp/metadata/folder/spid-demo.xml
   ````
 
-- go to http://localhost:8080 to register metadata of your SP on spid-validator.
+- Go to http://localhost:8080 to register metadata of your SP on spid-validator.
   You should access to a page like shown in the following picture
   
   <img src="doc/img/login.png" width="500" alt="login page" />
   
   
-- submit __validator__/ __validator__ as credential
+- Submit __validator__/ __validator__ as credential
 
 - Click on Metadata -> Download and submit your SP metadata url.<br/>
   **Warning**: If your SP is on your localhost, please use your host Docker IP and not "localhost"!
