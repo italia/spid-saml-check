@@ -18,16 +18,9 @@ module.exports = function(app, checkAuthorisation, authenticator) {
             let user		= req.query.user;
             let password	= req.query.password;
             
-            if((user==config_idp.localloginUser && password==config_idp.localloginPasswordHash)
-                ||(user==config_idp.localloginUser2 && password==config_idp.localloginPasswordHash2)
-            ) {
-                let resobj = {
-                    apikey: sha256(config_idp.localloginUser + config_idp.localloginPasswordHash).toString()
-                }				
-                console.log("SUCCESS /auth/local : APIKEY " + resobj.apikey);
-                req.session.user = user;
-                req.session.apikey = resobj.apikey;
-                res.status(200).send(resobj);
+            if((user==config_idp.localloginUser && password==config_idp.localloginPasswordHash)) {
+                let apikey = recLocalLoginSession(req);
+                res.status(200).send({ apikey: apikey });
         
             } else {
                 error = {code: 401, msg: "Unauthorized"}
@@ -40,6 +33,10 @@ module.exports = function(app, checkAuthorisation, authenticator) {
 
     // assert if local authentication apikey or AgID Login authentication
     app.get("/login/assert", (req, res)=> {
+
+        // if autoLogin autologin with localloginUser
+        if(config_idp.autoLogin) recLocalLoginSession(req);
+
         if(req.session!=null && req.session.apikey!=null && req.session.apikey!='') {
             res.status(200).send({
                 remote: config_idp.agidloginAuthentication,
@@ -129,4 +126,14 @@ module.exports = function(app, checkAuthorisation, authenticator) {
         }
     });
     
+
+    function recLocalLoginSession(req) {
+        let user = config_idp.localloginUser;
+        let passwordHash = config_idp.localloginPasswordHash;
+        let apikey = sha256(user + passwordHash).toString();	
+        console.log("SUCCESS /auth/local : APIKEY " + apikey);
+        req.session.user = user;
+        req.session.apikey = apikey;
+        return apikey;
+    }
 }
