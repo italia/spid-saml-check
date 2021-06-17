@@ -86,11 +86,8 @@ The Node.js application spid-demo run at: [http://localhost:8080/demo](http://lo
   ![login page](gallery/1a.png)
 
 - submit __validator__/ __validator__ as credential
-- You would see the SAML2 Authn Request made from your SP
-  ![authn request](gallery/2.png)
 
 - Click on Metadata -> Download and submit your SP metadata url.
   **Warning**: If your SP is on your localhost, please use your host Docker IP and not "localhost"!
-  ![metadata](gallery/3.png)
 
 - Send an authn request to spid-demo in order to use Demo environment
