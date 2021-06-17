@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/bootstrap-italia.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
+
+    <script>window.__PUBLIC_PATH__ = '/fonts'</script>
+
+  </head>
+  <body>
+
+    <div class="container">
+
+      <header class="test-header">
+        <h1>Ambiente Demo SPID</h1>
+      </header>
+
+      <main>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="article-like">
+            
+            <a href="/demo/metadata.xml" target="_blank" class="btn btn-primary mb-2">Scarica Metadata IdP dell'ambiente Demo SPID</a>
+            <a href="/" target="_blank" class="btn btn-primary mb-2">Registra Metadata Service Provider</a>
+            <a href="/demo/users" class="btn btn-primary mb-2">Visualizza Utenti di test</a>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+                <div class="col-md-12">
+                  <div class="article-like">
+      
+                    <h2>Cos'è l'ambiente Demo SPID</h2>
+                    <p>L'ambiente Demo SPID è un Identity Provider di test basato su SPID Validator che consente di simulare il corretto funzionamento del protocollo di autenticazione SPID e verificare l'implementazione del proprio Service Provider effettuando l'autenticazione con <a href="/demo/users">utenti fittizi</a>.</p>
+                
+                    <h2 class="mt-5">Come utilizzare l'ambiente Demo SPID</h2>
+                    <p>Per utilizzare l'ambiente Demo SPID occorre:
+                        <ul>
+                            <li><a target="_blank" href="/demo/metadata.xml">Scaricare il metadata IdP dell'ambiente Demo SPID</a> e configurarlo sul proprio Service Provider</li>
+                            <li><a target="_blank" href="/">Registrare il metadata del proprio Service Provider</a> sull'ambiente Demo SPID tramite l'interfaccia di SPID Validator<br/>
+                              <i>per accedere all'interfaccia di SPID Validator puoi utilizzare come username e password <b>validator</b>: <b>validator</b></i>
+                            </li>
+                            <li>Inviare una AuthnRequest dal proprio Service Provider all'IdP dell'ambiente Demo SPID</li>
+                        </ul>
+                    </p>
+
+                    <h2 class="mt-5">Caratteristiche dell'ambiente Demo SPID</h2>
+                    <p>L'ambiente Demo SPID implementa le specifiche SPID che consentono di verificare i seguenti casi:
+                        <ul>
+                            <li>Normale autenticazione SPID</li>
+                            <li>Validazione della AuthnRequest sulla base dei test definiti nel documento di Request Quality Assessment</li>
+                            <li>Ripetuta sottomissione di credenziali errate (ErrorCode n.19)</li>
+                            <li>Livello di credenziali dell'utente non compatibile con il livello richiesto (ErrorCode n.20)</li>
+                            <li>Timout ovvero troppo tempo impiegato per completare l'autenticazione (ErrorCode n.21)</li>
+                            <li>Negato consenso all'invio dei dati (ErrorCode n.22)</li>
+                            <li>Identità digitale sospesa o revocata (ErrorCode n.23)</li>
+                            <li>Processo di autenticazione annullato dall'utente (ErrorCode n.25)</li>
+                            <li>Identità digitale non compatibile con il tipo richiesto per accedere al servizio (ErrorCode n.30)</li>
+                            <li>Età dell'utente non rientrante nei limiti di età richiesti dal servizio (Linee Guida SPID per minori)</li>
+                        </ul>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+            
+              <div class="row mb-5">
+                    <div class="col-md-12">
+                      <div class="article-like">
+          
+                        <h2>Riferimenti</h2>
+
+                            <ul>
+                                <li><a target="_blank" href="https://www.agid.gov.it/it/piattaforme/spid">Informazioni, Regole tecniche e Avvisi SPID sul sito dell'Agenzia per l'Italia Digitale</a></li>
+                                <li><a target="_blank" href="https://www.spid.gov.it/come-diventare-fornitore-di-servizi-pubblici-e-privati-con-spid">Procedura per diventare Service Provider SPID sul sito ufficiale SPID</a></li>
+                                <li><a target="_blank" href="https://developers.italia.it/it/spid">Risorse messe a disposizione dalla community degli sviluppatori su Developers Italia</a></li>
+                            </ul>
+
+                      </div>
+                    </div>
+                  </div>
+      </main>       
+
+    </div> 
+
+    <div id="footer"></div>
+
+
+
+
+    
+
+
+    <!-- JS -->
+    <script src="/js/bootstrap-italia.bundle.min.js"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+

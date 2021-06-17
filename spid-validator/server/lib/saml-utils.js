@@ -412,6 +412,24 @@ class RequestParser {
         else requestAttributeConsumingServiceIndex = undefined;
         return requestAttributeConsumingServiceIndex;
     }
+
+    Purpose() { // only for type 1
+        let doc = new DOMParser().parseFromString(this.request.xml);
+        let purpose = select("string(//samlp:AuthnRequest/samlp:Extensions/spid:Purpose)", doc);
+        return purpose;
+    }
+
+    MinAge() { // only for type 1
+        let doc = new DOMParser().parseFromString(this.request.xml);
+        let minAge = select("string(//samlp:AuthnRequest/samlp:Extensions/spid:AgeLimit/spid:MinAge)", doc);
+        return minAge;
+    }
+
+    MaxAge() { // only for type 1
+        let doc = new DOMParser().parseFromString(this.request.xml);
+        let maxAge = select("string(//samlp:AuthnRequest/samlp:Extensions/spid:AgeLimit/spid:MaxAge)", doc);
+        return maxAge;
+    }
 }
 
 class IdPModel { 

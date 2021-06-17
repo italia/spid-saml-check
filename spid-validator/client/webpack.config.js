@@ -105,6 +105,7 @@ module.exports = (env = {}) => {
       ),
       new CopyWebpackPlugin([
           {from: './view/img', to: 'img'},
+          {from: './view/svg', to: 'svg'},
           {from: './view/css', to: 'css'},
           {from: './view/js', to: 'js'},
           {from: './view/favicon.ico', to: 'favicon.ico'}         

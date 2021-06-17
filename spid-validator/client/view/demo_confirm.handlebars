@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="it"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="it"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="it"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="it"><!--<![endif]-->
+<head>
+    <title>SPID</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="manifest" href="/img/favicon/manifest.json">
+    <link rel="mask-icon" href="/img/favicon/safari-pinned-tab.svg">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="/img/favicon/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" type="text/css" href="/css/main.min.css" />
+	<!--[if lt IE 9]>
+    <script src="/js/selectivizr.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <script src="/js/rem.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div id="outer">
+	    <div id="contain-all">
+            <div class="inner">
+                <div class="grid spacer-top-5">
+                    <div class="width-one-whole spid-logo">
+                        <img src="/img/spid-level{{ params.spidLevel }}-logo-bb.svg" 
+                            onerror="this.src='/img/spid-level{{ params.spidLevel }}-logo-bb.png'; this.onerror=null;"
+                            alt="SPID {{ params.spidLevel }}" />
+                    </div>
+                </div> 
+
+                <div class="grid spacer-top-1">
+                    <div class="width-one-whole pa-title">{{ params.organizationDisplayName }}</div>
+                </div>
+                <div class="grid spacer-top-1">
+                    <div class="width-one-whole"><span class="spid-hr"></span></div>
+                </div>
+
+                <!-- SPID LOGIN ALERTS * begin * -->
+                <div class="grid" style="max-width: 600px;">
+                    <div class="width-one-whole">
+                        <!-- INFO -->
+                        <div class="alert alert-info">
+                            <div class="alert-body">
+                                <h3 class="alert-heading" style="margin-bottom: 2em;">Stai per inviare le seguenti informazioni</h3>
+                                <ul class="alert-text">
+                                    {{#each attributes}}
+                                        <li>{{ this.name }}: <strong>{{ this.value }}</strong></li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
+                        <form name="formConfirm" action={{ destination }} method="post" style="float:left;">
+                            <input type="hidden" name="RelayState" value={{ params.relayState }} ></input>
+                            <input type="hidden" name="SAMLResponse" value={{ samlResponse }} ></input>                                                   
+                            <input type="submit" value="Conferma" class="btn btn-send btn-success"></input>
+                        </form>
+                        <form name="formDeny" action="/demo/deny" method="post" style="float:left;">
+                            <input type="hidden" name="params[samlRequest]" value={{ params.samlRequest }} ></input>                                                   
+                            <input type="hidden" name="params[relayState]" value={{ params.relayState }} ></input>
+                            <input type="submit" value="Nega il consenso all'invio dei dati" class="btn btn-send btn-secondary"></input>
+                        </form>
+                        <form name="formTimeout" id="formTimeout" action="/demo/timeout" method="post" class="grid">
+                            <input id="samlRequest" name="params[samlRequest]" type="hidden" value="{{ params.samlRequest }}" />
+                            <input id="relayState" name="params[relayState]" type="hidden" value="{{ params.relayState }}" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+    </div>
+    <div id="header">
+        <div id="header-inner">
+            <img id="idp-logo" src="/img/idp-logo.png" alt="SPID Validator" />
+        </div>
+    </div>
+    <div id="footer">
+	    <div id="footer-inner">
+            <img id="spid-agid-logo" src="/img/spid-agid-logo-bb.png" alt="SPID - AgID Agenzia per l'Italia Digitale" />
+        </div>
+    </div>
+    <script src="/js/jquery.min.js"></script>
+    <script>
+        setTimeout(()=> {
+            document.formTimeout.submit();
+        }, {{timeout}});
+    </script>
+</body>
+</html>
