@@ -36,7 +36,8 @@ When used in this fashion, the *SPID Validator* can be invoked as an IdP from yo
  * 1 family (111 controls) for *interactively* validating the SP behaviour to SAML **response**s from IdP's.
 
 To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin in to Validator with credentials __validator__ / __validator__
-<br/><br/>
+
+
 ### Usage steps
 
 - copy spid-validator metadata to the SP you want to test with.
@@ -80,7 +81,8 @@ The Node.js application spid-demo runs at: [http://localhost:8080/demo](http://l
 Test users of spid-demo that can be used are listed at: [http://localhost:8080/demo/users](http://localhost:8080/demo/users)
 
 <img src="doc/img/demo_idp_users.png" width="500" alt="demo users page" />
-<br/><br/>
+
+
 <h3>Usage steps</h3>
 
 - copy spid-demo metadata to the SP you want to test with.
