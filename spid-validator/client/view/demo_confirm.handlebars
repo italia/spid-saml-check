@@ -69,12 +69,12 @@
                             <input type="hidden" name="SAMLResponse" value={{ samlResponse }} ></input>                                                   
                             <input type="submit" value="Conferma" class="btn btn-send btn-success"></input>
                         </form>
-                        <form name="formDeny" action="/testenv/deny" method="post" style="float:left;">
+                        <form name="formDeny" action="/demo/deny" method="post" style="float:left;">
                             <input type="hidden" name="params[samlRequest]" value={{ params.samlRequest }} ></input>                                                   
                             <input type="hidden" name="params[relayState]" value={{ params.relayState }} ></input>
                             <input type="submit" value="Nega il consenso all'invio dei dati" class="btn btn-send btn-secondary"></input>
                         </form>
-                        <form name="formTimeout" id="formTimeout" action="/testenv/timeout" method="post" class="grid">
+                        <form name="formTimeout" id="formTimeout" action="/demo/timeout" method="post" class="grid">
                             <input id="samlRequest" name="params[samlRequest]" type="hidden" value="{{ params.samlRequest }}" />
                             <input id="relayState" name="params[relayState]" type="hidden" value="{{ params.relayState }}" />
                         </form>

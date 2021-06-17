@@ -1,11 +1,11 @@
 {
   "name": "spid-validator",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Tool for validating Service Provider compliance to SPID response from Identity Provider",
   "main": "spid-validator",
-  "author": "Michele D'Amico - AgID",
+  "author": "Michele D'Amico (damikael) - AgID",
   "license": "ISC",
-  "repository": "damikael/spid-validator",
+  "repository": "https://github.com/italia/spid-saml-check",
   "dependencies": {
     "better-sqlite3": "^5.4.0",
     "circular-json": "^0.5.5",

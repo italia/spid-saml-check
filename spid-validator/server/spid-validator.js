@@ -1,3 +1,4 @@
+const p = require("./package.json");
 const express = require("express");
 const exphbs  = require('express-handlebars');
 const helmet = require("helmet");
@@ -192,7 +193,7 @@ app.use((req, res, next)=> {
 
 /* IDP */
 require('./app/idp')		    (app, checkAuth, getEntityDir, sendLogoutResponse);
-require('./app/idp_testenv')    (app, checkAuth, getEntityDir, sendLogoutResponse, database);
+require('./app/idp_demo')       (app, checkAuth, getEntityDir, sendLogoutResponse, database);
 require('./app/auth')		    (app, checkAuth, authenticator);
 
 /* API */
@@ -209,5 +210,5 @@ require('./api/response')    	(app, checkAuth);
 if (useHttps) app = https.createServer(httpsCredentials, app);
 app.listen(8080, () => {
     // eslint-disable-next-line no-console
-    console.log("\nSPID Validator\nversion: 1.5.0\n\nlistening on port 8080");
+    console.log("\n" + p.name + "\nversion: " + p.version + "\n\nlistening on port 8080");
 });

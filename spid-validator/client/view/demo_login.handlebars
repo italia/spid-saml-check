@@ -83,7 +83,7 @@
 
                 <!-- SPID LOGIN FORM * begin * -->
                 <div class="width-one-whole">       
-                    <form name="formLogin" id="formLogin" action="/testenv/login" method="post" class="grid">  
+                    <form name="formLogin" id="formLogin" action="/demo/login" method="post" class="grid">  
                         <fieldset>
                             <div>
                                 <label for="nome_utente" class="float-left label-bold">Nome utente</label>
@@ -122,12 +122,12 @@
                             <span class="italia-it-button-text">Entra con SPID</span>
                         </button>
                     </form>
-                    <form name="formCancel" id="formCancel" action="/testenv/cancel" method="post" class="grid">
+                    <form name="formCancel" id="formCancel" action="/demo/cancel" method="post" class="grid">
                         <input id="samlRequest" name="params[samlRequest]" type="hidden" value="{{ params.samlRequest }}" />
                         <input id="relayState" name="params[relayState]" type="hidden" value="{{ params.relayState }}" />
                         <button type="submit" class="btn-link">Annulla autenticazione</button>
                     </form>
-                    <form name="formTimeout" id="formTimeout" action="/testenv/timeout" method="post" class="grid">
+                    <form name="formTimeout" id="formTimeout" action="/demo/timeout" method="post" class="grid">
                         <input id="samlRequest" name="params[samlRequest]" type="hidden" value="{{ params.samlRequest }}" />
                         <input id="relayState" name="params[relayState]" type="hidden" value="{{ params.relayState }}" />
                     </form>
