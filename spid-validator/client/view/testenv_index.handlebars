@@ -42,13 +42,13 @@
                     <p>L'ambiente di test SPID (Testenv Validator) è un Identity Provider basato su SPID Validator che consente di simulare il corretto funzionamento del protocollo di autenticazione SPID e verificare l'implementazione del proprio Service Provider effettuando l'autenticazione con <a href="/testenv/users">utenti fittizi</a>.</p>
                 
                     <h2 class="mt-5">Come utilizzare l'ambiente di test SPID</h2>
-                    <p>Per utilizzare l'ambiente di test SPID occorre
+                    <p>Per utilizzare l'ambiente di test SPID occorre:
                         <ul>
                             <li><a target="_blank" href="/testenv/metadata.xml">Scaricare il metadata dell'IdP di test</a> e configurarlo sul proprio Service Provider</li>
                             <li><a target="_blank" href="/">Registrare il metadata del proprio Service Provider</a> sull'ambiente di test tramite l'interfaccia di SPID Validator<br/>
                               <i>per accedere all'interfaccia di SPID Validator puoi utilizzare come username e password <b>validator</b>: <b>validator</b></i>
                             </li>
-                            <li>Inviare una AuthnRequest dal proprio Service Provider all'IdP di test</li>
+                            <li>Inviare una AuthnRequest dal proprio Service Provider all'IdP di test Testenv Validator</li>
                         </ul>
                     </p>
 
@@ -56,7 +56,7 @@
                     <p>L'ambiente di test Testenv Validator implementa le specifiche SPID che consentono di verificare i seguenti casi:
                         <ul>
                             <li>Normale autenticazione SPID</li>
-                            <li>Validazione della AuthnRequest sulla base dei test definiti nel documento di Request Quality Assesment</li>
+                            <li>Validazione della AuthnRequest sulla base dei test definiti nel documento di Request Quality Assessment</li>
                             <li>Ripetuta sottomissione di credenziali errate (ErrorCode n.19)</li>
                             <li>Livello di credenziali dell'utente non compatibile con il livello richiesto (ErrorCode n.20)</li>
                             <li>Timout ovvero troppo tempo impiegato per completare l'autenticazione (ErrorCode n.21)</li>
