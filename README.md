@@ -81,7 +81,7 @@ Test users of spid-demo that can be used are listed at: [http://localhost:8080/d
 
 <img src="doc/img/demo_idp_users.png" width="500" alt="demo users page" />
 <br/><br/>
-### Usage steps
+<h3>Usage steps</h3>
 
 - copy spid-demo metadata to the SP you want to test with.
   spid-demo metadata can be downloaded at: [http://localhost:8080/demo/metadata.xml](http://localhost:8080/demo/metadata.xml)
