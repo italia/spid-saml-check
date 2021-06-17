@@ -35,14 +35,9 @@ When used in this fashion, the *SPID Validator* can be invoked as an IdP from yo
  * 3 families for the formal validation of the SP's SAML **request**;
  * 1 family (111 controls) for *interactively* validating the SP behaviour to SAML **response**s from IdP's.
 
-To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin in to Validator with following credentials:
-
-   Username: validator
-   
-   Password: validator
-   
-   
-### Usage ###
+To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin in to Validator with credentials __validator__ / __validator__
+<br/><br/>
+### Usage steps
 
 - copy spid-validator metadata to the SP you want to test with.
   spid-validator can be downloaded at: [http://localhost:8080/metadata.xml](http://localhost:8080/metadata.xml)
@@ -52,28 +47,41 @@ To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin 
 
 - start authentication request connecting to your SP, the AuthnRequest would be created and sent to spid-saml-check.
   You should access to a page like shown in the following picture
-  ![login page](gallery/1a.png)
+  
+  <img src="doc/img/login.png" width="500" alt="login page" />
+  
 
-- submit __validator__/ __validator__ as credential
+- submit __validator__ / __validator__ as credential
 - You would see the SAML2 Authn Request made from your SP
-  ![authn request](gallery/2.png)
 
-- Click on Metadata -> Download and submit your SP metadata url.
+  <img src="doc/img/2.png" width="500" alt="authn request page" />
+  
+
+- Click on Metadata -> Download and submit your SP metadata url.<br/>
   **Warning**: If your SP is on your localhost, please use your host Docker IP and not "localhost"!
-  ![metadata](gallery/3.png)
+
+  <img src="doc/img/3.png" width="500" alt="metadata download page" />
+  
 
 - Send an authn request to spid-saml-chek in order to unlock Request and Response menu
 - Now you'll be able to execute all the tests, in order of appareance: Metadata, Request and Response.
 - Select in the scroll menu the test you want to execute, then mark it as done and if successful
-  ![Response](gallery/4a.png)
+
+  <img src="doc/img/4a.png" width="500" alt="response select page" />
 
 
 ## How to use it as a *SPID Demo*
 
-The Node.js application spid-demo run at: [http://localhost:8080/demo](http://localhost:8080/demo)
+The Node.js application spid-demo runs at: [http://localhost:8080/demo](http://localhost:8080/demo)
+
+<img src="doc/img/demo_idp_index.png" width="500" alt="demo index page" />
    
    
-### Usage ###
+Test users of spid-demo that can be used are listed at: [http://localhost:8080/demo/users](http://localhost:8080/demo/users)
+
+<img src="doc/img/demo_idp_users.png" width="500" alt="demo users page" />
+<br/><br/>
+### Usage steps
 
 - copy spid-demo metadata to the SP you want to test with.
   spid-demo metadata can be downloaded at: [http://localhost:8080/demo/metadata.xml](http://localhost:8080/demo/metadata.xml)
@@ -83,11 +91,18 @@ The Node.js application spid-demo run at: [http://localhost:8080/demo](http://lo
 
 - go to http://localhost:8080 to register metadata of your SP on spid-validator.
   You should access to a page like shown in the following picture
-  ![login page](gallery/1a.png)
-
+  
+  <img src="doc/img/login.png" width="500" alt="login page" />
+  
+  
 - submit __validator__/ __validator__ as credential
 
-- Click on Metadata -> Download and submit your SP metadata url.
+- Click on Metadata -> Download and submit your SP metadata url.<br/>
   **Warning**: If your SP is on your localhost, please use your host Docker IP and not "localhost"!
+  
+  <img src="doc/img/demo_download_metadata_sp.png" width="500" alt="download metadata page" />
+  
 
 - Send an authn request to spid-demo in order to use Demo environment
+
+  <img src="doc/img/demo_idp.png" width="500" alt="demo idp" />
