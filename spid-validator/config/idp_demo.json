@@ -1,5 +1,5 @@
 {
-	"entityID": "http://localhost:8080",
+	"entityID": "http://localhost:8080/demo",
 	"signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
 	"credentials": [{
 		"signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
@@ -7,8 +7,8 @@
 		"privateKey": "MIIEogIBAAKCAQEAryQlWj66BGttu/3GFcK5WuqLgHv8xDNBzrahzCUUW6Mk13ibWZeRQcVuC/CFGRCqjYMCYV4eLAKQlPcrV55cgWE0UWugTMY/M43J6QumM2+ZgizUIW+KsY6PRuQSIZooSz7+6bMaPEiHLklCWpcT3rLX4jOnZCEmKYMrT8o2KPwjVvPGx4/RiBzhIW94pL7tA74+svNaSURYYyzgMzllzdVEruDgtY9ZmEp0iYLWudL7+USYdK8eKx1Wn8Mm1tKtnBJhNG9NPPkhkNKriQDOsN+mPXqHtve3ecUZzxShjZGji1FndqEnavdvv3IroLmmFjsIAA25beAN2FWOIE1izQIDAQABAoIBAGo9x/bNdDO4IzHViHKs05mGC6eeDr/JxBKsEMvwdj/8YB3hCIO5gKDgLZhKh8KjrIH5RdlgqXbS+3eR1BXrd3v4Ri9Z1TydSbtxOFkI+wHaockofmnl6sE4lEtRkHoXtHeouCN1xOVqra3zPLANUz1VScXqxZDk1ux5qC1XobEL+RfCsyhvq2u0djq0Qcto4sjIimWcl41cIxQc2FQoGeilEs5wOl/2X4sZKz4dLQ6b3PlV+o6doqHnDVu03OAuZJIuS2UYIDC0VPEsyGo3Oq6vTyU2eU2qM9NMFMprdu/dEJcNXoPSJxBb7TjQVg1msJaHH2+xzputB474Baj11QECgYEA3OomifYxbnf/xFMk8Jh3AMTx9QW/r+RQoZFLFER4xvppAT2q1daq7mP3f+5iKAhreGfydY9J2nggSd8yJpLOMPy2leRVZ87cAInzALACCygpHYuhuiN/P83QuWmQ0z6Jh5qYpFRaW5Tjz7XgDazmOeuO4/DNlhPk6gsSOi1DhUECgYEAyvT1ZqDV8vGDpe7DGa89UNnQBYH2BrXiiY4vRevgrpW2vt0cM8KI2mQlKzrcnCYWaW9kSImHfQ1D2YwdoNU4AQHdEz0sGukpZf8XFn1GKJa4B20OiW7YoYS2luwpdU6c9DOnTsWfHs/EHRYpqEEHrbz1hmQZ+4HvA0unEiHHfo0CgYAg1PvdTSWTkWoFt4Wp7D7jcmGzVKNkdL43BOzvmi2JBPZOJOga18iXnWvPK5KS+I1gW7KBHkaPnYLO98jwSqkyRpysMj8vKmMwAVCILaBgIBvcNEBY9aWXyfLXW4UWoBi4epVs9sxnB/3DhPhDkAq3WPbnkYY8Y8CFuBeBZfC/AQKBgFQRBx0NfdF1rHws2+9loNY+gmXloQzChiVIGdiyjYyDQwDoAWiHKbycQrEXXo3nUN03YKiTHuXzeqk/2n3mE56HMRVo/z3eWmF/Ogb8uPTTCUM6Lw1KNr0ghakaBUor1+NnCeQdA331vVv29CZXWWDjpieWixSci24oBfoCt+l5AoGAOE5Q4TjS3u0AxmgPXVDf18CXFweWntSGqNoNNWjOv7GFiu6GqvfLIxZn0sUhVQfNb+xXlQFOdbFf8ix5WvX0dC0uLEhG8tnk1kRT5BTrkedfqF0TdTzxEDd0a6V4yb6oiC4wGkDYcfyFtZ5DE8W+8cRvsxGiAgZaU3g55/CKqMk="
 	}],
 	"endpoints": {
-		"login": "http://localhost:8080/samlsso",
-		"logout": "http://localhost:8080/samlsso"
+		"login": "http://localhost:8080/demo/samlsso",
+		"logout": "http://localhost:8080/demo/samlsso"
 	},
 	"nameIDFormats": ["urn:oasis:names:tc:SAML:2.0:nameid-format:transient"],
 	"signAllRequests": false,
