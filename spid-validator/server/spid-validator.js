@@ -26,12 +26,15 @@ const Database = require("./lib/database");
 const Authenticator = require("./lib/authenticator");
 
 const useHttps = config_idp.useHttps;
+let https;
+let httpsPrivateKey;
+let httpsCertificate;
+let httpsCredentials;
 if (useHttps) {
-  const https = require('https');
-
-  const httpsPrivateKey  = fs.readFileSync(config_idp.httpsPrivateKey, 'utf8');
-  const httpsCertificate = fs.readFileSync(config_idp.httpsCertificate, 'utf8');
-  const httpsCredentials = {key: httpsPrivateKey, cert: httpsCertificate};
+    https = require('https');
+    httpsPrivateKey  = fs.readFileSync(config_idp.httpsPrivateKey, 'utf8');
+    httpsCertificate = fs.readFileSync(config_idp.httpsCertificate, 'utf8');
+    httpsCredentials = {key: httpsPrivateKey, cert: httpsCertificate};
 }
 
 var app = express();
@@ -73,27 +76,27 @@ var checkAuth = function(req) {
 
 var checkSessionAuth = function(req) {
     let authorised = false;
-	let apikey = req.query.apikey;
+    let apikey = req.query.apikey;
     if(apikey!=null && apikey == req.session.apikey) {
-		authorised = true;
-	} else {
+        authorised = true;
+    } else {
         Utility.log("Authorisation", "ERROR check authorisation : " + apikey);
         authorised = false;
-	}
-	return authorised;
+    }
+    return authorised;
 }
 
 var checkBasicAuth = function(req) {
     let authorised = false;
     if(req.headers.authorization
         && req.headers.authorization.substr(0,5)=="Basic") {
-            let authorization = req.headers.authorization.substr(6);
-            let authorization_buffer = new Buffer(authorization, 'base64');
-            let authorization_plain = authorization_buffer.toString('ascii');
-            let user = authorization_plain.split(":")[0];
-            let pass = authorization_plain.split(":")[1];
-            if(config_api[user]==pass) authorised = 'API';
-            Utility.log("Authorisation API", authorization_plain);
+        let authorization = req.headers.authorization.substr(6);
+        let authorization_buffer = new Buffer(authorization, 'base64');
+        let authorization_plain = authorization_buffer.toString('ascii');
+        let user = authorization_plain.split(":")[0];
+        let pass = authorization_plain.split(":")[1];
+        if(config_api[user]==pass) authorised = 'API';
+        Utility.log("Authorisation API", authorization_plain);
     }
     return authorised;
 }
