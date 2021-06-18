@@ -85,6 +85,7 @@ module.exports = function(app, checkAuthorisation) {
             defaults = Utility.defaultParam(defaults, "IssueInstantMillis", Utility.getInstantMillis());
             defaults = Utility.defaultParam(defaults, "AssertionID", Utility.getUUID());
             defaults = Utility.defaultParam(defaults, "NameID", Utility.getUUID());
+            defaults = Utility.defaultParam(defaults, "NameIDNameQualifier", config_idp.entityID);
             defaults = Utility.defaultParam(defaults, "AuthnIstant", Utility.getInstant());
             defaults = Utility.defaultParam(defaults, "NotBefore", Utility.getNotBefore(issueInstant));
             defaults = Utility.defaultParam(defaults, "NotOnOrAfter", Utility.getNotOnOrAfter(issueInstant));
