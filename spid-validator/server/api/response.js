@@ -36,6 +36,15 @@ module.exports = function(app, checkAuthorisation) {
             let assertionConsumerURL = (req.session.request!=null)? req.session.request.assertionConsumerServiceURL : null;
             let assertionConsumerIndex = (req.session.request!=null)? req.session.request.assertionConsumerServiceIndex : null;
             
+            // set right caseid if SPID Level > 1 to select template base-nosession 
+            // https://github.com/italia/spid-saml-check/issues/32
+            if(caseid==1) {
+                switch(authnContextClassRef) {
+                    case 'https://www.spid.gov.it/SpidL2': caseid='1-nosession'; break;
+                    case 'https://www.spid.gov.it/SpidL3': caseid='1-nosession'; break;
+                }
+            }
+
             // if no AssertionConsumerURL from request try to get it from metadata
             if((assertionConsumerURL==null || assertionConsumerURL=="") &&
                 (assertionConsumerIndex!=null && assertionConsumerIndex!="")) {

@@ -51,6 +51,42 @@
                 "sign_response": true,
                 "sign_assertion": true
             },
+            "1-nosession": {
+                "name": "01. Response corretta (AuthnContextClassRef > SpidL1)",
+                "description": "Response corretta. Risultato atteso: Ok",
+                "path": "test/base-nosession.xml",
+                "response": {
+                    "NameIDNameQualifier": "https://validator.spid.gov.it",
+                    "AuthnContextClassRef": "",
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
             "2": {
                 "name": "02. Response non firmata",
                 "description": "Response non firmata. Risultato atteso: KO",
@@ -3274,7 +3310,7 @@
             "95": {
                 "name": "95. Assertion - Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL2",
                 "description": "Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL2. Risultato atteso: fare attenzione al livello richiesto sulla request.",
-                "path": "test/base.xml",
+                "path": "test/base-nosession.xml",
                 "response": {
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "https://www.spid.gov.it/SpidL2",
@@ -3310,7 +3346,7 @@
             "96": {
                 "name": "96. Assertion - Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL3",
                 "description": "Elemento AuthContextClassRef impostato su https://www.spid.gov.it/SpidL3. Risultato atteso: fare attenzione al livello richiesto sulla request.",
-                "path": "test/base.xml",
+                "path": "test/base-nosession.xml",
                 "response": {
                     "NameIDNameQualifier": "https://validator.spid.gov.it",
                     "AuthnContextClassRef": "https://www.spid.gov.it/SpidL3",
