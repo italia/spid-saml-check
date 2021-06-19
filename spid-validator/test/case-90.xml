@@ -39,8 +39,6 @@
                 
             </saml:AuthnContext>
         </saml:AuthnStatement>
-        <saml:AttributeStatement>
-            {{Attributes}}
-        </saml:AttributeStatement>
+        {{Attributes}}
     </saml:Assertion>
 </samlp:Response>

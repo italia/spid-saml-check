@@ -103,7 +103,12 @@ class TestSuite {
                     }
                 }         
                 
-                compiled = compiled.replace("{{Attributes}}", attributesCompiled);  
+                if(attributesCompiled!='') {
+                    let attributeStatementCompiled = "<saml:AttributeStatement>" + attributesCompiled + "</saml:AttributeStatement>";
+                    compiled = compiled.replace("{{Attributes}}", attributeStatementCompiled);  
+                } else {
+                    compiled = compiled.replace("{{Attributes}}", "");
+                }
 
             } else {
                 compiled = compiled.replaceAll(e, eVal);
