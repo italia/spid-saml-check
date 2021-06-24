@@ -10,38 +10,61 @@ const MetadataParser = require("../lib/saml-utils").MetadataParser;
 const TestSuite = require("../lib/saml-utils").TestSuite;
 const Signer = require("../lib/signer").Signer;
 const SIGN_MODE = require("../lib/signer").SIGN_MODE;
+const config_server = require("../../config/server.json");
 const config_demo = require("../../config/idp_demo.json");
 const config_idp = require("../../config/idp.json");
 const config_dir = require("../../config/dir.json");
 const config_test = require("../../config/test.json");
 const spid_users = require("../../config/spid_users.json");
 
+const demo_basepath = config_demo.basepath=='/'? '':config_demo.basepath;
+const validator_basepath = config_idp.basepath=='/'? '':config_idp.basepath;
+
 module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutResponse, database) {
 
     // get validator demo metadata
-    app.get("/demo/metadata.xml", function (req, res) {
+    app.get(demo_basepath + "/metadata.xml", function (req, res) {
+        let config = config_demo;
+
+        let endpoint = config_server.host
+            + (config_server.useProxy? '' : ":" + config_server.port)
+            + demo_basepath + "/samlsso";
+
+        config.endpoints = {
+            "login": endpoint,
+            "logout": endpoint,
+        }
+
         let idp = new IdP(config_demo);
         res.set('Content-Type', 'text/xml');
         res.status(200).send("<?xml version=\"1.0\"?>" + idp.getMetadata());
     });
 
     // demo Front Page
-    app.get("/demo", function (req, res) {
+    app.get(demo_basepath + "/", function (req, res) {
         return res.render("demo_index.handlebars", {
+            demo_basepath: demo_basepath,
+            validator_basepath: validator_basepath
         });
     });
 
     // demo Front Page
-    app.get("/demo/users", function (req, res) {
+    app.get(demo_basepath + "/users", function (req, res) {
         return res.render("demo_users.handlebars", {
+            demo_basepath: demo_basepath,
+            validator_basepath: validator_basepath,
             users: spid_users
         });
     });
 
     // process sso post request
-    app.post("/demo/samlsso", function(req, res) {	
+    app.post(demo_basepath + "/samlsso", function(req, res) {	
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', 
-            { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." }
+            {             
+                demo_basepath: demo_basepath,
+                validator_basepath: validator_basepath,
+                message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." 
+            }
         );
         
         let samlRequest = req.body.SAMLRequest;
@@ -50,6 +73,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         let signature = '';
     
         return res.render("demo_loading.handlebars", {
+            demo_basepath: demo_basepath,
+            validator_basepath: validator_basepath,
             message: "Validazione Request in corso",
             samlRequest: samlRequest,
             relayState: relayState,
@@ -59,9 +84,13 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
     });
 
     // process sso get request
-    app.get("/demo/samlsso", function(req, res) {
+    app.get(demo_basepath + "/samlsso", function(req, res) {
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', 
-            { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." }
+            { 
+                demo_basepath: demo_basepath,
+                validator_basepath: validator_basepath,
+                message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." 
+            }
         );
     
         let samlRequest = req.query.SAMLRequest;
@@ -70,6 +99,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         let signature = req.query.Signature;
     
         return res.render("demo_loading.handlebars", {
+            demo_basepath: demo_basepath,
+            validator_basepath: validator_basepath,
             message: "Validazione Request in corso",
             samlRequest: samlRequest,
             relayState: relayState,
@@ -79,7 +110,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
     });
 
     // process sso get request
-    app.post("/demo/start", function(req, res) {
+    app.post(demo_basepath + "/start", function(req, res) {
         let samlRequest = req.body.samlRequest;
         let relayState = (req.body.relayState!=null)? req.body.relayState : "";
         let sigAlg = req.body.sigAlg;
@@ -89,7 +120,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
     });
 
     // check user login and send response
-    app.post("/demo/login", function(req, res) {
+    app.post(demo_basepath + "/login", function(req, res) {
         let username = req.body.username;
         let password = req.body.password;
         let params = req.body.params;
@@ -111,6 +142,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
             } else {
                 retry = retry-1;
                 return res.render("demo_login.handlebars", {
+                    demo_basepath: demo_basepath,
+                    validator_basepath: validator_basepath,
                     error: userLogin.data + "Ti restano ancora " + retry + " tentativi",
                     params: req.body.params,
                     retry: retry,
@@ -127,37 +160,37 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
     });
 
     // cancel authentication and send error response back to SP
-    app.post("/demo/cancel", function(req, res) {
+    app.post(demo_basepath + "/cancel", function(req, res) {
         req.session.destroy((err) => {
             try {
                 sendErrorResponse(res, req.body.params, 25);
             } catch(err) {
                 console.log(err);
-                res.redirect("/demo");
+                res.redirect(demo_basepath);
             }
         });
     });
 
     // deny consent to send data
-    app.post("/demo/deny", function(req, res) {
+    app.post(demo_basepath + "/deny", function(req, res) {
         req.session.destroy((err) => {
             try {
                 sendErrorResponse(res, req.body.params, 22);
             } catch(err) {
                 console.log(err);
-                res.redirect("/demo");
+                res.redirect(demo_basepath);
             }
         });
     });
 
     // timeout
-    app.post("/demo/timeout", function(req, res) {
+    app.post(demo_basepath + "/timeout", function(req, res) {
         req.session.destroy((err) => {
             try {
                 sendErrorResponse(res, req.body.params, 21);
             } catch(err) {
                 console.log(err);
-                res.redirect("/demo");
+                res.redirect(demo_basepath);
             }
         });
     });
@@ -169,6 +202,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         try {
             if(samlRequest==null || relayState==null || sigAlg==null || signature==null) {
                 return res.render("error.handlebars", {
+                    demo_basepath: demo_basepath,
+                    validator_basepath: validator_basepath,
                     message: "Formato richiesta non corretto."
                 });
             }
@@ -194,6 +229,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                 
                 if(!metadata) {
                     return res.render("error.handlebars", {
+                        demo_basepath: demo_basepath,
+                        validator_basepath: validator_basepath,
                         message: "Formato richiesta non corretto. Verificare che il metadata sia stato registrato."
                     });
                 }
@@ -218,6 +255,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                     // Check Request Strict
                     if(config_demo.checkStrict && !await checkRequestSync('strict', requestIssuer)) {
                         return res.render("error.handlebars", {
+                            demo_basepath: demo_basepath,
+                            validator_basepath: validator_basepath,
                             message: "Formato richiesta non corretto. La AuthnRequest non supera i controlli strict.<br/> \
                             Verificare la AuthnRequest tramite uno strumento di validazione."
                         });
@@ -226,6 +265,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                     // Check Request Certs
                     if(config_demo.checkCerts && !await checkRequestSync('certs', requestIssuer)) {
                         return res.render("error.handlebars", {
+                            demo_basepath: demo_basepath,
+                            validator_basepath: validator_basepath,
                             message: "Formato richiesta non corretto. La AuthnRequest non supera i controlli certs."
                         });
                     }
@@ -233,6 +274,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                     // Check Request Extra
                     if(config_demo.checkExtra && !await checkRequestSync('extra', requestIssuer)) {
                         return res.render("error.handlebars", {
+                            demo_basepath: demo_basepath,
+                            validator_basepath: validator_basepath,
                             message: "Formato richiesta non corretto. La AuthnRequest non supera i controlli extra."
                         });
                     }
@@ -247,6 +290,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
 
                     if(!spidLevel) {
                         res.render("error.handlebars", {
+                            demo_basepath: demo_basepath,
+                            validator_basepath: validator_basepath,
                             message: "Formato richiesta non corretto. AuthnContextClassRef non corretto."
                         });
                     }
@@ -259,6 +304,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                     let maxAge = requestParser.MaxAge();
 
                     res.render("demo_login.handlebars", {
+                        demo_basepath: demo_basepath,
+                        validator_basepath: validator_basepath,
                         params: {
                             spidLevel: spidLevel,
                             organizationDisplayName: organizationDisplayName,
@@ -277,6 +324,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                 } catch(err) {
                     console.log(err);                 
                     res.render("error.handlebars", {
+                        demo_basepath: demo_basepath,
+                        validator_basepath: validator_basepath,
                         message: "Formato richiesta non corretto. " + err
                     });
                 }
@@ -289,6 +338,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         } catch(err) {
             console.log(err);    
             return res.render("error.handlebars", {
+                demo_basepath: demo_basepath,
+                validator_basepath: validator_basepath,
                 message: "Formato richiesta non corretto."
             });
         }
@@ -497,6 +548,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         let defaults = [];
         defaults = Utility.defaultParam(defaults, "Issuer", config_demo.entityID);
         defaults = Utility.defaultParam(defaults, "AuthnRequestID", requestParser.ID());
+        defaults = Utility.defaultParam(defaults, "NameIDNameQualifier", config_demo.entityID);
         defaults = Utility.defaultParam(defaults, "ResponseID", Utility.getUUID());
         defaults = Utility.defaultParam(defaults, "IssueInstant", Utility.getInstant());
         defaults = Utility.defaultParam(defaults, "IssueInstantMillis", Utility.getInstantMillis());
@@ -528,6 +580,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         }   
         
         res.render("demo_confirm.handlebars", {
+            demo_basepath: demo_basepath,
+            validator_basepath: validator_basepath,
             params: params,
             attributes: confirmAttributes,
             destination: assertionConsumerURL,
@@ -580,6 +634,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         let defaults = [];
         defaults = Utility.defaultParam(defaults, "Issuer", config_demo.entityID);
         defaults = Utility.defaultParam(defaults, "AuthnRequestID", requestParser.ID());
+        defaults = Utility.defaultParam(defaults, "NameIDNameQualifier", config_demo.entityID);
         defaults = Utility.defaultParam(defaults, "ResponseID", Utility.getUUID());
         defaults = Utility.defaultParam(defaults, "IssueInstant", Utility.getInstant());
         defaults = Utility.defaultParam(defaults, "IssueInstantMillis", Utility.getInstantMillis());
@@ -611,6 +666,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         }   
         
         res.render("demo_response_error.handlebars", {
+            demo_basepath: demo_basepath,
+            validator_basepath: validator_basepath,
             message: "Ritorno al Service Provider",
             destination: assertionConsumerURL,
             relayState: params.relayState,
@@ -655,7 +712,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         defaults = Utility.defaultParam(defaults, "IssueInstant", Utility.getInstant());
         defaults = Utility.defaultParam(defaults, "Destination", singleLogoutServiceURL[0]);
         defaults = Utility.defaultParam(defaults, "AuthnRequestID", authnRequestID);
-        defaults = Utility.defaultParam(defaults, "NameQualifier", "https://validator-test.spid.gov.it/demo");
+        defaults = Utility.defaultParam(defaults, "NameQualifier", config_demo.entityID);
         defaults = Utility.defaultParam(defaults, "Issuer", config_demo.entityID);
 
         let testSuite = new TestSuite(config_demo, config_test);

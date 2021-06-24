@@ -4,42 +4,16 @@ const Utility = require("../lib/utils");
 const IdP = require("../lib/saml-utils").IdP;
 const PayloadDecoder = require("../lib/saml-utils").PayloadDecoder;
 const RequestParser = require("../lib/saml-utils").RequestParser;
+const config_server = require("../../config/server.json");
 const config_idp = require("../../config/idp.json");
 const config_dir = require("../../config/dir.json");
 
+const validator_basepath = config_idp.basepath=='/'? '':config_idp.basepath;
+
 module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutResponse) {
 
-    app.get("/", function (req, res) {
-        
-        if(req.query.entity_id || req.query.code) {
-            req.session.regenerate((err)=> {
-                if(!err) {
-                    req.session.external_code = req.query.code;
-                    req.session.entity_id = req.query.entity_id;     
-                }
-            });
-
-        } else {
-            if(req.session.request==null) {
-                // clean temp dir and reset previous metadata info
-                fs.removeSync(config_dir.DATA + "/" + config_dir.TEMP);
-                req.session.metadata = null;
-            }
-        }
-    
-        res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
-    
-        /*
-        if(req.session.request==null) {
-            res.sendFile(path.resolve(__dirname, "../..", "client/view", "front.html"));        
-        } else {
-            res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
-        }
-        */
-    });
-
     // only check session
-    app.get("/ping", function(req, res) {
+    app.get(validator_basepath + "/ping", function(req, res) {
         
         // check if apikey is correct
         if(!checkAuthorisation(req)) {
@@ -53,14 +27,25 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
     });
 
     // get validator idp metadata
-    app.get("/metadata.xml", function (req, res) {
-        let idp = new IdP(config_idp);
+    app.get(validator_basepath + "/metadata.xml", function (req, res) {
+        let config = config_idp;
+
+        let endpoint = config_server.host
+            + (config_server.useProxy? '' : ":" + config_server.port)
+            + validator_basepath + "/samlsso";
+
+        config.endpoints = {
+            "login": endpoint,
+            "logout": endpoint,
+        }
+
+        let idp = new IdP(config);
         res.set('Content-Type', 'text/xml');
         res.status(200).send("<?xml version=\"1.0\"?>" + idp.getMetadata());
     });
 
     // process sso post request
-    app.post("/samlsso", function (req, res) {	
+    app.post(validator_basepath + "/samlsso", function (req, res) {	
     
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
     
@@ -97,7 +82,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
             } 
     
             //res.send("Servizio in corso di verifica.<br/><br/><a href='/start'>Accedi allo strumento di validazione</a>");
-            res.redirect("/start");
+            res.redirect(validator_basepath + "/start");
     
         } else {
             res.sendFile(path.resolve(__dirname, "../..", "client/view", "error.html"));
@@ -105,7 +90,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
     });
 
     // process sso get request
-    app.get("/samlsso", function (req, res) {
+    app.get(validator_basepath + "/samlsso", function (req, res) {
     
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
     
@@ -150,14 +135,14 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
             }  
     
             //res.send("Servizio in corso di verifica.<br/><br/><a href='/start'>Accedi allo strumento di validazione</a>");
-            res.redirect("/start");
+            res.redirect(validator_basepath + "/start");
             
         } else {
             res.sendFile(path.resolve(__dirname, "../..", "client/view", "error.html"));
         }  
     });
 
-    app.get("/start", function (req, res) {
+    app.get(validator_basepath + "/start", function (req, res) {
 
         if(req.session==undefined
             || req.session.request==undefined
@@ -174,7 +159,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                     let fileContent = "SAMLRequest=" + encodeURIComponent(req.session.request.samlRequest) + 
                                         "&RelayState=" + encodeURIComponent(req.session.request.relayState);
                     fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
-                    res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
+                    //res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
+                    res.redirect(validator_basepath);
 
                 } else if(req.session.request.type=='LOGOUT') {
                     if(req.session.request.issuer!=null) {
@@ -202,7 +188,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                                         "&SigAlg=" + encodeURIComponent(req.session.request.sigAlg) + 
                                         "&Signature=" + encodeURIComponent(req.session.request.signature);
                     fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
-                    res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
+                    //res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
+                    res.redirect(validator_basepath);
 
                 } else if(req.session.request.type=='LOGOUT') {
                     
