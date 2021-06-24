@@ -17,8 +17,11 @@ const config_dir = require("../../config/dir.json");
 const config_test = require("../../config/test.json");
 const spid_users = require("../../config/spid_users.json");
 
-const demo_basepath = config_demo.basepath=='/'? '':config_demo.basepath;
-const validator_basepath = config_idp.basepath=='/'? '':config_idp.basepath;
+//const demo_basepath = config_demo.basepath=='/'? '':config_demo.basepath;
+//const validator_basepath = config_idp.basepath=='/'? '':config_idp.basepath;
+
+const demo_basepath = config_demo.basepath;
+const validator_basepath = config_idp.basepath;
 
 module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutResponse, database) {
 
