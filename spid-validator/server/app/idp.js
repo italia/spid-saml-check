@@ -160,7 +160,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                                         "&RelayState=" + encodeURIComponent(req.session.request.relayState);
                     fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
                     //res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
-                    res.redirect(validator_basepath);
+                    res.redirect(config_idp.basepath);
 
                 } else if(req.session.request.type=='LOGOUT') {
                     if(req.session.request.issuer!=null) {
@@ -189,7 +189,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                                         "&Signature=" + encodeURIComponent(req.session.request.signature);
                     fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
                     //res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
-                    res.redirect(validator_basepath);
+                    res.redirect(config_idp.basepath);
 
                 } else if(req.session.request.type=='LOGOUT') {
                     
