@@ -8,8 +8,10 @@ const path = require('path');
 const fs = require("fs-extra");
 const moment = require("moment");
 
+const config_server = require("../config/server.json");
 const config_test = require("../config/test.json");
 const config_idp = require("../config/idp.json");
+const config_demo = require("../config/idp_demo.json");
 const config_dir = require("../config/dir.json");
 const config_api = require("../config/api.json");
 
@@ -25,15 +27,15 @@ const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 const Database = require("./lib/database");
 const Authenticator = require("./lib/authenticator");
 
-const useHttps = config_idp.useHttps;
+const useHttps = config_server.useHttps;
 let https;
 let httpsPrivateKey;
 let httpsCertificate;
 let httpsCredentials;
 if (useHttps) {
     https = require('https');
-    httpsPrivateKey  = fs.readFileSync(config_idp.httpsPrivateKey, 'utf8');
-    httpsCertificate = fs.readFileSync(config_idp.httpsCertificate, 'utf8');
+    httpsPrivateKey  = fs.readFileSync(config_server.httpsPrivateKey, 'utf8');
+    httpsCertificate = fs.readFileSync(config_server.httpsCertificate, 'utf8');
     httpsCredentials = {key: httpsPrivateKey, cert: httpsCertificate};
 }
 
@@ -149,7 +151,7 @@ var sendLogoutResponse = function(req, res) {
         defaults = Utility.defaultParam(defaults, "IssueInstant", Utility.getInstant());
         defaults = Utility.defaultParam(defaults, "Destination", singleLogoutServiceURL[0]);
         defaults = Utility.defaultParam(defaults, "AuthnRequestID", authnRequestID);
-        defaults = Utility.defaultParam(defaults, "NameQualifier", "https://validator.spid.gov.it");
+        defaults = Utility.defaultParam(defaults, "NameQualifier", config_idp.entityID);
         defaults = Utility.defaultParam(defaults, "Issuer", config_idp.entityID);
 
         let testSuite = new TestSuite(config_idp, config_test);
@@ -193,10 +195,49 @@ app.use((req, res, next)=> {
 });
 
 
+if(config_idp.enabled || config_demo.enabled) {
+    const validator_basepath = config_idp.basepath=='/'? '':config_idp.basepath;
+
+    app.get(validator_basepath, function (req, res) {
+        
+        if(req.query.entity_id || req.query.code) {
+            req.session.regenerate((err)=> {
+                if(!err) {
+                    req.session.external_code = req.query.code;
+                    req.session.entity_id = req.query.entity_id;     
+                }
+            });
+
+        } else {
+            if(req.session.request==null) {
+                // clean temp dir and reset previous metadata info
+                fs.removeSync(config_dir.DATA + "/" + config_dir.TEMP);
+                req.session.metadata = null;
+            }
+        }
+
+        res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
+
+        /*
+        if(req.session.request==null) {
+            res.sendFile(path.resolve(__dirname, "../..", "client/view", "front.html"));        
+        } else {
+            res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
+        }
+        */
+    });
+}
+
 
 /* IDP */
-require('./app/idp')		    (app, checkAuth, getEntityDir, sendLogoutResponse);
-require('./app/idp_demo')       (app, checkAuth, getEntityDir, sendLogoutResponse, database);
+if(config_idp.enabled) {
+    require('./app/idp')		    (app, checkAuth, getEntityDir, sendLogoutResponse);
+}
+
+if(config_demo.enabled) {
+    require('./app/idp_demo')       (app, checkAuth, getEntityDir, sendLogoutResponse, database);
+}
+
 require('./app/auth')		    (app, checkAuth, authenticator);
 
 /* API */
@@ -211,7 +252,7 @@ require('./api/response')    	(app, checkAuth);
 
 // start
 if (useHttps) app = https.createServer(httpsCredentials, app);
-app.listen(8080, () => {
+app.listen(config_server.port, () => {
     // eslint-disable-next-line no-console
-    console.log("\n" + p.name + "\nversion: " + p.version + "\n\nlistening on port 8080");
+    console.log("\n" + p.name + "\nversion: " + p.version + "\n\nlistening on port " + config_server.port);
 });

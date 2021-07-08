@@ -26,9 +26,9 @@
           <div class="col-md-12">
             <div class="article-like">
             
-            <a href="/demo/metadata.xml" target="_blank" class="btn btn-primary mb-2">Scarica Metadata IdP dell'ambiente Demo SPID</a>
-            <a href="/" target="_blank" class="btn btn-primary mb-2">Registra Metadata Service Provider</a>
-            <a href="/demo/users" class="btn btn-primary mb-2">Visualizza Utenti di test</a>
+            <a href="{{demo_basepath}}/metadata.xml" target="_blank" class="btn btn-primary mb-2">Scarica Metadata IdP dell'ambiente Demo SPID</a>
+            <a href="{{validator_basepath}}" target="_blank" class="btn btn-primary mb-2">Registra Metadata Service Provider</a>
+            <a href="{{demo_basepath}}/users" class="btn btn-primary mb-2">Visualizza Utenti di test</a>
             </div>
           </div>
         </div>
@@ -39,15 +39,13 @@
                   <div class="article-like">
       
                     <h2>Cos'è l'ambiente Demo SPID</h2>
-                    <p>L'ambiente Demo SPID è un Identity Provider di test basato su SPID Validator che consente di simulare il corretto funzionamento del protocollo di autenticazione SPID e verificare l'implementazione del proprio Service Provider effettuando l'autenticazione con <a href="/demo/users">utenti fittizi</a>.</p>
+                    <p>L'ambiente Demo SPID è un Identity Provider di test basato su SPID Validator che consente di simulare il corretto funzionamento del protocollo di autenticazione SPID e verificare l'implementazione del proprio Service Provider effettuando l'autenticazione con <a href="{{demo_basepath}}/users">utenti fittizi</a>.</p>
                 
                     <h2 class="mt-5">Come utilizzare l'ambiente Demo SPID</h2>
                     <p>Per utilizzare l'ambiente Demo SPID occorre:
                         <ul>
-                            <li><a target="_blank" href="/demo/metadata.xml">Scaricare il metadata IdP dell'ambiente Demo SPID</a> e configurarlo sul proprio Service Provider</li>
-                            <li><a target="_blank" href="/">Registrare il metadata del proprio Service Provider</a> sull'ambiente Demo SPID tramite l'interfaccia di SPID Validator<br/>
-                              <i>per accedere all'interfaccia di SPID Validator puoi utilizzare come username e password <b>validator</b>: <b>validator</b></i>
-                            </li>
+                            <li><a target="_blank" href="{{demo_basepath}}/metadata.xml">Scaricare il metadata IdP dell'ambiente Demo SPID</a> e configurarlo sul proprio Service Provider</li>
+                            <li><a target="_blank" href="{{validator_basepath}}">Registrare il metadata del proprio Service Provider</a> sull'ambiente Demo SPID tramite l'interfaccia di SPID Validator</li>
                             <li>Inviare una AuthnRequest dal proprio Service Provider all'IdP dell'ambiente Demo SPID</li>
                         </ul>
                     </p>

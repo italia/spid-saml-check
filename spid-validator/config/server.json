@@ -1,0 +1,8 @@
+{
+  "host": "https://localhost",
+  "port": 8080,
+  "useProxy": false,
+  "useHttps": true,
+	"httpsPrivateKey": "./config/spid-saml-check.key",
+	"httpsCertificate": "./config/spid-saml-check.crt"
+}
