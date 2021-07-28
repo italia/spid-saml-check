@@ -50,11 +50,12 @@ export default {
         },
         {
           name: 'Check Certificates',  
-          url: '/request-check-certs',      
+          url: '/request-check-certs',    
+          disabled: true  
         },
         {
           name: 'Check Extra',  
-          url: '/request-check-extra'     
+          url: '/request-check-extra'
         }
       ]
       /*

@@ -16,7 +16,6 @@ class RequestCheck extends Component {
         test: props.test,
         report: null,
         report_datetime: null,
-        report_profile: null,
         detailview: false
     };  
   }	
@@ -34,14 +33,13 @@ class RequestCheck extends Component {
         Utility.blockUI(false); 
         let report = null;
         switch(this.state.test) {
-            case "strict": report = lastcheck.report.test.sp.authnrequest_strict.SpidSpAuthnReqCheck; break;
-            case "certs": report = lastcheck.report.test.sp.authnrequest_certs.SpidSpAuthnReqCheckCerts; break;
-            case "extra": report = lastcheck.report.test.sp.authnrequest_extra.SpidSpAuthnReqCheckExtra; break;
+            case "strict": report = lastcheck.report.test.sp.authn_request_strict.TestAuthnRequest; break;
+            case "certs": report = lastcheck.report.test.sp.authn_request_certs.TestAuthnRequestCertificates; break;
+            case "extra": report = lastcheck.report.test.sp.authn_request_extra.TestAuthnRequestExtra; break;
         } 
         this.setState({
           report: report,
-          report_datetime: moment(lastcheck.datetime).format('DD/MM/YYYY HH:mm:ss'),
-          report_profile: lastcheck.profile
+          report_datetime: moment(lastcheck.datetime).format('DD/MM/YYYY HH:mm:ss')
         });
       }, 
       (error)   => { 
@@ -72,14 +70,13 @@ class RequestCheck extends Component {
         Utility.blockUI(false); 
         let report = null;
         switch(this.state.test) {
-            case "strict": report = check.report.test.sp.authnrequest_strict.SpidSpAuthnReqCheck; break;
-            case "certs": report = check.report.test.sp.authnrequest_certs.SpidSpAuthnReqCheckCerts; break;
-            case "extra": report = check.report.test.sp.authnrequest_extra.SpidSpAuthnReqCheckExtra; break;
+            case "strict": report = check.report.test.sp.authn_request_strict.TestAuthnRequest; break;
+            case "certs": report = check.report.test.sp.authn_request_certs.TestAuthnRequestCertificates; break;
+            case "extra": report = check.report.test.sp.authn_request_extra.TestAuthnRequestExtra; break;
         } 
         this.setState({
           report: report,
-          report_datetime: moment(check.datetime).format('DD/MM/YYYY HH:mm:ss'),
-          report_profile: check.profile
+          report_datetime: moment(check.datetime).format('DD/MM/YYYY HH:mm:ss')
         });
       }, 
       (error)   => { 

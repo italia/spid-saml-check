@@ -80,10 +80,13 @@ class Utils {
             */
 
             let dirpath = "../specs-compliance-tests/data/" + dir;
-            cmd = "spid_sp_test --metadata-url file://" + dirpath + "/sp-metadata.xml --profile " + profile;
+            cmd = "spid_sp_test ";
+            cmd += " --metadata-url file://" + dirpath + "/sp-metadata.xml ";
+            cmd += " --profile " + profile;
+
             switch(test) {
-                case "strict":      cmd += " -o " + dirpath + "/sp-metadata-strict.json"; break;
-                case "extra":       cmd += " -o " + dirpath + "/sp-metadata-extra.json --extra"; break;
+                case "strict":      cmd += " -rf json -o " + dirpath + "/sp-metadata-strict.json"; break;
+                case "extra":       cmd += " -rf json -o " + dirpath + "/sp-metadata-extra.json --extra"; break;
             }
 
 
@@ -110,11 +113,25 @@ class Utils {
 
     static requestCheck(test, dir) {
         return new Promise((resolve, reject) => {
-            let cmd = "cd ../specs-compliance-tests && DATA_DIR=./data/" + dir + " SSLLABS_SKIP=1 SP_METADATA=./data/" + dir + "/sp-metadata.xml AUTHN_REQUEST=./data/" + dir + "/authn-request.xml \ tox -e cleanup";
+            let cmd;
+
+            /* v 1.7 - DEPRECATED
+            cmd = "cd ../specs-compliance-tests && DATA_DIR=./data/" + dir + " SSLLABS_SKIP=1 SP_METADATA=./data/" + dir + "/sp-metadata.xml AUTHN_REQUEST=./data/" + dir + "/authn-request.xml \ tox -e cleanup";
             switch(test) {
                 case "strict": cmd += ",sp-metadata-strict,sp-metadata-certs,sp-authn-request-strict"; break;
                 case "certs": cmd += ",sp-metadata-strict,sp-metadata-certs,sp-authn-request-strict,sp-authn-request-certs"; break;
                 case "extra": cmd += ",sp-metadata-strict,sp-metadata-certs,sp-authn-request-extra"; break;
+            }
+            */
+
+            let dirpath = "../specs-compliance-tests/data/" + dir;
+            cmd = "spid_sp_test ";
+            cmd += " --metadata-url file://" + dirpath + "/sp-metadata.xml ";
+            cmd += " --authn-url file://" + dirpath + "/authn-request.url ";
+
+            switch(test) {
+                case "strict":      cmd += " -rf json -o " + dirpath + "/sp-authn-request-strict.json"; break;
+                case "extra":       cmd += " -rf json -o " + dirpath + "/sp-authn-request-extra.json --extra"; break;
             }
 
             //cmd+=",generate-global-json-report";

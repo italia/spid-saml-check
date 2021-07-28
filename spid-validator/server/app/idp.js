@@ -156,15 +156,15 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                     
                     req.session.metadata = null;
 
-                    let fileContent = "SAMLRequest=" + encodeURIComponent(req.session.request.samlRequest) + 
+                    let fileContent = config_server.host + "?SAMLRequest=" + encodeURIComponent(req.session.request.samlRequest) + 
                                         "&RelayState=" + encodeURIComponent(req.session.request.relayState);
-                    fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
+                    fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.url", fileContent);
                     //res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
                     res.redirect(config_idp.basepath);
 
                 } else if(req.session.request.type=='LOGOUT') {
                     if(req.session.request.issuer!=null) {
-                        let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
+                        let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.url";
                         if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
                     }
 
@@ -183,18 +183,18 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                 
                     req.session.metadata = null;          
 
-                    let fileContent = "SAMLRequest=" + encodeURIComponent(req.session.request.samlRequest) + 
+                    let fileContent = config_server.host + "?SAMLRequest=" + encodeURIComponent(req.session.request.samlRequest) + 
                                         "&RelayState=" + encodeURIComponent(req.session.request.relayState) + 
                                         "&SigAlg=" + encodeURIComponent(req.session.request.sigAlg) + 
                                         "&Signature=" + encodeURIComponent(req.session.request.signature);
-                    fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
+                    fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.url", fileContent);
                     //res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
                     res.redirect(config_idp.basepath);
 
                 } else if(req.session.request.type=='LOGOUT') {
                     
                     if(req.session.request.issuer!=null) {
-                        let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
+                        let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.url";
                         if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
                     }
 

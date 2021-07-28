@@ -15,6 +15,16 @@ RUN apt-get update \
         xmlsec1 \ 
         apache2
 
+# Install spid-sp-test
+RUN apt-get install -y \
+        libxml2-dev \
+        libxmlsec1-dev \
+        libxmlsec1-openssl \
+        xmlsec1 \
+        python3-pip
+
+RUN pip3 install spid-sp-test --upgrade --no-cache
+
 # Node.js
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y \

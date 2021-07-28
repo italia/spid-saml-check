@@ -18,7 +18,7 @@ function view(me) {
                             <div className="row testset"> 
                                 <div className="col-sm-12">
                                     <p>Check <b><span class="first-upper">{me.state.test}</span></b></p>
-                                    <p>Profilo <b>{me.state.report_profile}</b></p>
+                                    {me.state.report_profile!=null && <p>Profilo <b>{me.state.report_profile}</b></p> }
                                     
                                     {me.state.report.map((t, i)=> {
                                         return(
@@ -41,7 +41,7 @@ function view(me) {
                             <div className="row testset"> 
                                 <div className="col-sm-12">
                                     <p>Check <b><span class="first-upper">{me.state.test}</span></b></p>
-                                    <p>Profilo <b>{me.state.report_profile}</b></p>
+                                    {me.state.report_profile!=null && <p>Profilo <b>{me.state.report_profile}</b></p> }
                                     
                                     <table className="detail-table">
                                         <tr className="detail-header">

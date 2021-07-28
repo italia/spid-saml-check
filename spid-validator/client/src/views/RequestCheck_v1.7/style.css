@@ -32,21 +32,6 @@
     cursor: pointer;
 } 
 
-#RequestCheck .test-warning {
-    display: block;
-    float: left;
-    width: 30px;
-    line-height: 23px;
-    margin: 1px;
-    border: 1px solid #000;
-    background-color: orange;
-    color: #fff!important;
-    font-size: 13px;
-    text-align: center;
-    padding: 3px;
-    cursor: pointer;
-} 
-
 #RequestCheck .test-fail {
     display: block;
     float: left;
@@ -97,12 +82,6 @@
     font-weight: bold;
 }
 
-#RequestCheck .test-warning-dm {
-    background: orange!important;
-    color: #FFFFFF;
-    font-weight: bold;
-}
-
 #RequestCheck .test-fail-dm {
     background: red!important;
     color: #FFFFFF;
@@ -113,10 +92,6 @@
     padding: 30px 5px;
     background: #FFFFFF;
     margin-left: 15px;
-}
-
-#RequestCheck .first-upper {
-    text-transform:capitalize;
 }
 
 @media print {

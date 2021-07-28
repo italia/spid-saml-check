@@ -106,6 +106,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                     if(request) {
                         // save result validation on store
                         let testGroup = [];
+                        
+                        /* v 1.7 - DEPRECATED
                         switch(test) {
                             case "strict": testGroup = report.test.sp.authn_request_strict.TestAuthnRequest; break;
                             case "certs": testGroup = report.test.sp.authn_request_certs.TestAuthnRequestCertificates; break;
@@ -123,6 +125,24 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                                 } else {
                                     validation = validation && (result=='success');
                                 }
+                            }
+                        }
+                        */
+
+                        switch(test) {
+                            case "strict": testGroup = report.test.sp.authnrequest_strict.SpidSpAuthnReqCheck; break;
+                            case "certs": testGroup = report.test.sp.authnrequest_certs.SpidSpAuthnReqCheckCerts; break;
+                            case "extra": testGroup = report.test.sp.authnrequest_extra.SpidSpAuthnReqCheckExtra; break;
+                        }
+
+                        let validation = true;
+                        for(t in testGroup) {
+                            let result = t.result;
+                            if(result===undefined) {
+                                // fix request extra if not defined
+                                validation = true;
+                            } else {
+                                validation = validation && (result=='success');
                             }
                         }
 
