@@ -16,7 +16,6 @@ class MetadataSpCheck extends Component {
         test: props.test,
         report: null,
         report_datetime: null,
-        report_profile: null,
         detailview: false,
         deprecable: false,
         deprecated: false
@@ -39,16 +38,20 @@ class MetadataSpCheck extends Component {
         let deprecable = false;
         let deprecated = false;
         switch(this.state.test) {
-          case "strict": report = lastcheck.report.test.sp.metadata_strict.SpidSpMetadataCheck; break;
-          case "extra": report = lastcheck.report.test.sp.metadata_extra.SpidSpMetadataCheckExtra; break;
+            case "xsd": 
+              report = lastcheck.report.test.sp.metadata_xsd.TestSPMetadataXSD; 
+              deprecable = report.test_xsd.type=='sp' || report.test_xsd.type=='sp-av29';
+              deprecated = report.test_xsd.type=='sp';
+            break;
+            case "strict": report = lastcheck.report.test.sp.metadata_strict.TestSPMetadata; break;
+            case "certs": report = lastcheck.report.test.sp.metadata_certs.TestSPMetadataCertificates; break;
+            case "extra": report = lastcheck.report.test.sp.metadata_extra.TestSPMetadataExtra; break;
         } 
-
         this.setState({
           report: report,
           deprecated: deprecated,
           deprecable: deprecable,
-          report_datetime: moment(lastcheck.datetime).format('DD/MM/YYYY HH:mm:ss'),
-          report_profile: lastcheck.profile
+          report_datetime: moment(lastcheck.datetime).format('DD/MM/YYYY HH:mm:ss')
         });
       }, 
       (error)   => { 
@@ -82,16 +85,20 @@ class MetadataSpCheck extends Component {
         let deprecable = false;
         let deprecated = false;
         switch(this.state.test) {
-          case "strict": report = check.report.test.sp.metadata_strict.SpidSpMetadataCheck; break;
-          case "extra": report = check.report.test.sp.metadata_extra.SpidSpMetadataCheckExtra; break;
-        }
-
+            case "xsd": 
+              report = check.report.test.sp.metadata_xsd.TestSPMetadataXSD; 
+              deprecable = report.test_xsd.type=='sp' || report.test_xsd.type=='sp-av29';
+              deprecated = report.test_xsd.type=='sp';
+            break;
+            case "strict": report = check.report.test.sp.metadata_strict.TestSPMetadata; break;
+            case "certs": report = check.report.test.sp.metadata_certs.TestSPMetadataCertificates; break;
+            case "extra": report = check.report.test.sp.metadata_extra.TestSPMetadataExtra; break;
+        } 
         this.setState({
           report: report,
           deprecated: deprecated,
           deprecable: deprecable,
-          report_datetime: moment(check.datetime).format('DD/MM/YYYY HH:mm:ss'),
-          report_profile: check.profile
+          report_datetime: moment(check.datetime).format('DD/MM/YYYY HH:mm:ss')
         });
       }, 
       (error)   => { 

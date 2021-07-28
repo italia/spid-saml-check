@@ -15,22 +15,25 @@ function view(me) {
                 {!me.state.detailview &&
                     <div className="col-md-7 main">
                         {me.state.report!=null && 
-                            <div className="row testset"> 
-                                <div className="col-sm-12">
-                                    <p>Check <b><span class="first-upper">{me.state.test}</span></b></p>
-                                    <p>Profilo <b>{me.state.report_profile}</b></p>
-                                    
-                                    {me.state.report.map((t, i)=> {
-                                        return(
-                                            <a key={i} 
-                                                className={(t.result=="success")? "test-success" : (t.result=="warning")? "test-warning" : "test-fail" }
-                                                title={t.test + (t.value? ": " + t.value : "")}> {i} 
-                                            </a> 
-                                        );
-                                    })}
 
-                                </div>                                      
-                            </div> 
+                            Object.keys(me.state.report).map((t)=> {
+                                return(
+                                <div key={t} className="row testset"> 
+                                    <div className="col-sm-12">
+                                        <p><b>{me.state.test}</b> : {me.state.report[t].description}</p>
+                                        
+                                        {Object.keys(me.state.report[t].assertions).map((a)=> {
+                                            return(
+                                                <a key={a} className={(me.state.report[t].assertions[a].result=="success")? "test-success" : "test-fail" }
+                                                    title={me.state.report[t].assertions[a].test +
+                                                             ": " + me.state.report[t].assertions[a].value}> {a} </a> 
+                                            );
+                                        })}
+
+                                    </div>                                      
+                                </div> 
+                                );
+                            })
                         }
                     </div>
                 }
@@ -38,31 +41,31 @@ function view(me) {
                 {me.state.detailview &&
                     <div className="col-md-7 main">
                         {me.state.report!=null && 
-                            <div className="row testset"> 
-                                <div className="col-sm-12">
-                                    <p>Check <b><span class="first-upper">{me.state.test}</span></b></p>
-                                    <p>Profilo <b>{me.state.report_profile}</b></p>
-                                    
-                                    <table className="detail-table">
-                                        <tr className="detail-header">
-                                            <th className="detail-num">#</th>
-                                            <th className="detail-description">Test</th>
-                                            <th className="detail-result">Test Result</th>
-                                        </tr>
-                                        {me.state.report.map((t, i)=> {
-                                            return(
-                                                <tr key={i} className="detail-row">
-                                                    <td className={(t.result=="success")? "detail-num test-success-dm" : (t.result=="warning")? "detail-num test-warning-dm" : "detail-num test-fail-dm"}>{i}</td>
-                                                    <td className="detail-description">{t.test}</td>
-                                                    <td className={(t.result=="success")? "detail-result test-success-dm" : (t.result=="warning")? "detail-result test-warning-dm" : "detail-result test-fail-dm"}>
-                                                        {t.result + (t.value? " - value: " + t.value : "")}
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </table>
-                                </div>                                      
-                            </div> 
+
+                            Object.keys(me.state.report).map((t)=> {
+                                return(
+                                <div className="row testset"> 
+                                    <div className="col-sm-12">
+                                        <p><b>{me.state.test}</b> : {me.state.report[t].description}</p>
+                                        
+                                        <table className="detail-table">
+                                            <tr className="detail-header"><th className="detail-num">#</th><th className="detail-description">Test</th><th className="detail-result">Test Result</th></tr>
+                                            {Object.keys(me.state.report[t].assertions).map((a)=> {
+                                                return(
+                                                     <tr className="detail-row">
+                                                        <td className={(me.state.report[t].assertions[a].result=="success")? "detail-num test-success-dm" : "detail-num test-fail-dm"}>{a}</td>
+                                                        <td className="detail-description">{me.state.report[t].assertions[a].test}</td>
+                                                        <td className={(me.state.report[t].assertions[a].result=="success")? "detail-result test-success-dm" : "detail-result test-fail-dm"}>
+                                                            {me.state.report[t].assertions[a].result}
+                                                        </td>
+                                                     </tr>
+                                                );
+                                            })}
+                                        </table>
+                                    </div>                                      
+                                </div> 
+                                );
+                            })
                         }
                     </div>
                 }

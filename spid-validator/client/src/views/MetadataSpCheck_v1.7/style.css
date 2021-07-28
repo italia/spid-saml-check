@@ -40,21 +40,6 @@
     cursor: pointer;
 }
 
-#MetadataSpCheck .test-warning {
-    display: block;
-    float: left;
-    width: 30px;
-    line-height: 23px;
-    margin: 1px;
-    border: 1px solid #000;
-    background-color: orange;
-    color: #000!important;
-    font-size: 13px;
-    text-align: center;
-    padding: 3px;
-    cursor: pointer;
-}
-
 #MetadataSpCheck .test-fail {
     display: block;
     float: left;
@@ -105,12 +90,6 @@
     font-weight: bold;
 }
 
-#MetadataSpCheck .test-warning-dm {
-    background: orange!important;
-    color: #000000;
-    font-weight: bold;
-}
-
 #MetadataSpCheck .test-fail-dm {
     background: red!important;
     color: #FFFFFF;
@@ -121,10 +100,6 @@
     padding: 30px 5px;
     background: #FFFFFF;
     margin-left: 15px;
-}
-
-#MetadataSpCheck .first-upper {
-    text-transform:capitalize;
 }
 
 @media print {

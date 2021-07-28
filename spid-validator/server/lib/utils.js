@@ -63,28 +63,47 @@ class Utils {
         });
     }
 
-    static metadataCheck(test, dir) {
+    static metadataCheck(test, dir, profile) {
         return new Promise((resolve, reject) => {
-            let cmd = "cd ../specs-compliance-tests && DATA_DIR=./data/" + dir + " SSLLABS_SKIP=1 SP_METADATA=./data/" + dir + "/sp-metadata.xml \ tox -e cleanup";
+            let cmd;
+
+            /* v 1.7 - DEPRECATED
+                cmd = "cd ../specs-compliance-tests && DATA_DIR=./data/" + dir + " SSLLABS_SKIP=1 SP_METADATA=./data/" + dir + "/sp-metadata.xml \ tox -e cleanup";
+                switch(test) {
+                    case "xsd-sp":      cmd += ",sp-metadata-xsd-sp"; break;
+                    case "xsd-sp-av29": cmd += ",sp-metadata-xsd-sp-av29"; break;
+                    case "xsd-ag":      cmd += ",sp-metadata-xsd-ag"; break;
+                    case "strict":      cmd += ",sp-metadata-strict"; break;
+                    case "certs":       cmd += ",sp-metadata-strict,sp-metadata-certs"; break;
+                    case "extra":       cmd += ",sp-metadata-extra"; break;
+                }
+            */
+
+            let dirpath = "../specs-compliance-tests/data/" + dir;
+            cmd = "spid_sp_test --metadata-url file://" + dirpath + "/sp-metadata.xml --profile " + profile;
             switch(test) {
-                case "xsd-sp":      cmd += ",sp-metadata-xsd-sp"; break;
-                case "xsd-sp-av29": cmd += ",sp-metadata-xsd-sp-av29"; break;
-                case "xsd-ag":      cmd += ",sp-metadata-xsd-ag"; break;
-                case "strict":      cmd += ",sp-metadata-strict"; break;
-                case "certs":       cmd += ",sp-metadata-strict,sp-metadata-certs"; break;
-                case "extra":       cmd += ",sp-metadata-extra"; break;
+                case "strict":      cmd += " -o " + dirpath + "/sp-metadata-strict.json"; break;
+                case "extra":       cmd += " -o " + dirpath + "/sp-metadata-extra.json --extra"; break;
             }
+
+
+
 
             //cmd+=",generate-global-json-report";
              
             child_process.exec(cmd, function (err, stdout, stderr) {
                 console.log("\n\n>>> " + cmd);
                 console.log(stdout);
-                if(err!=null && stderr!=null && stderr!="") {
-                    return reject(stderr);
-                } else {
-                    return resolve(stdout);
-                }
+
+                /* v 1.7 - DEPRECATED
+                    if(err!=null && stderr!=null && stderr!="") {
+                        return reject(stderr);
+                    } else {
+                        return resolve(stdout);
+                    }
+                */
+
+                return resolve(stdout);
             });
         });
     }
