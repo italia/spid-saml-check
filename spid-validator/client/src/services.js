@@ -199,9 +199,11 @@ class MainService {
 		});
 	}
 
-	checkRequest(test, callback_response, callback_error) {
+	checkRequest(test, production, callback_response, callback_error) {
 		Utility.log("GET /api/request/check/" + test);
-		axios.get('/api/request/check/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})
+		axios.get('/api/request/check/' + test + 
+			'?production=' + (production? 'Y':'N') +
+			'&apikey=' + Utility.getApikey(), {timeout: 900000})
 		.then(function(response) {
 			Utility.log("checkRequest Success", response.data);
 			callback_response(response.data);

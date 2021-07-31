@@ -272,7 +272,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                         let lastcheck = { 
                             datetime: moment().format('YYYY-MM-DD HH:mm:ss'), 
                             profile: profile,
-                            report: report
+                            report: report,
+                            production: production
                         } 
 
                         if(user && entity_id) {

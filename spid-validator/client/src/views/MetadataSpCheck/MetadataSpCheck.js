@@ -49,7 +49,8 @@ class MetadataSpCheck extends Component {
           deprecated: deprecated,
           deprecable: deprecable,
           report_datetime: moment(lastcheck.datetime).format('DD/MM/YYYY HH:mm:ss'),
-          report_profile: lastcheck.profile
+          report_profile: lastcheck.profile,
+          production: lastcheck.production
         });
       }, 
       (error)   => { 
@@ -83,7 +84,6 @@ class MetadataSpCheck extends Component {
         let report = null;
         let deprecable = false;
         let deprecated = false;
-        let production = false;
         switch(this.state.test) {
           case "strict": report = check.report.test.sp.metadata_strict.SpidSpMetadataCheck; break;
           case "extra": report = check.report.test.sp.metadata_extra.SpidSpMetadataCheckExtra; break;
@@ -93,7 +93,6 @@ class MetadataSpCheck extends Component {
           report: report,
           deprecated: deprecated,
           deprecable: deprecable,
-          production: production,
           report_datetime: moment(check.datetime).format('DD/MM/YYYY HH:mm:ss'),
           report_profile: check.profile
         });
@@ -102,7 +101,8 @@ class MetadataSpCheck extends Component {
         Utility.blockUI(false);
         this.setState({
           report: null,
-          report_datetime: null
+          report_datetime: null,
+          report_profile: null
         });
         Utility.showModal({
             title: "Errore",

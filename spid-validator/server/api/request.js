@@ -86,6 +86,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
     
         let test = req.params.test;
+        let production = (req.query.production=='Y')? true : false;
         let file = null;
 
         switch(test) {
@@ -95,14 +96,15 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }
                 
         if(file!=null) {
-            Utility.requestCheck(test, issuer.normalize(), config_idp, true).then(
+            Utility.requestCheck(test, issuer.normalize(), config_idp, production).then(
                 (out) => {
                     let report = fs.readFileSync(file, "utf8");
                     report = JSON.parse(report);
                     
                     let lastcheck = { 
                         datetime: moment().format('YYYY-MM-DD HH:mm:ss'), 
-                        report: report
+                        report: report,
+                        production: production
                     } 
 
                     if(request) {

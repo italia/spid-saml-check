@@ -70,15 +70,31 @@ function view(me) {
                 <div className="col-md-4">   
                     <div className="tools">
                         <div className="col-sm-12">
-                            <label className="switch switch-success">
-                                <input type="checkbox" className="switch-input" 
-                                    checked={me.state.detailview}
-                                    onChange={(e)=>{me.setDetailView(e.target.checked)}}>
-                                </input>
-                                <span className="switch-slider"></span>
-                            </label>
-                            <span>Visualizzazione dettaglio</span>
-                            <hr/>
+
+                            <div>
+                                <label className="switch switch-success">
+                                    <input type="checkbox" className="switch-input" 
+                                        checked={me.state.detailview}
+                                        onChange={(e)=>{me.setDetailView(e.target.checked)}}>
+                                    </input>
+                                    <span className="switch-slider"></span>
+                                </label>
+                                <span>Visualizzazione dettaglio</span>
+                                <hr/>
+                            </div>
+
+                            <div>
+                                <label className="switch switch-success">
+                                    <input type="checkbox" className="switch-input" 
+                                        checked={me.state.production}
+                                        onChange={(e)=>{me.setProduction(e.target.checked)}}>
+                                    </input>
+                                    <span className="switch-slider"></span>
+                                </label>
+                                <span>Check per Produzione</span>
+                                <hr/>
+                            </div>
+
                             <button type="button" className="btn btn-success"
                                 onClick={()=>{me.print()}}>
                                 <span className="cui-print"></span> Stampa

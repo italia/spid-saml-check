@@ -17,7 +17,8 @@ class RequestCheck extends Component {
         report: null,
         report_datetime: null,
         report_profile: null,
-        detailview: false
+        detailview: false,
+        production: false
     };  
   }	
 
@@ -41,7 +42,8 @@ class RequestCheck extends Component {
         this.setState({
           report: report,
           report_datetime: moment(lastcheck.datetime).format('DD/MM/YYYY HH:mm:ss'),
-          report_profile: lastcheck.profile
+          report_profile: lastcheck.profile,
+          production: lastcheck.production
         });
       }, 
       (error)   => { 
@@ -68,6 +70,7 @@ class RequestCheck extends Component {
     Utility.blockUI(true);
     service.checkRequest(
       this.state.test,
+      this.state.production,
       (check) => { 
         Utility.blockUI(false); 
         let report = null;
@@ -101,6 +104,14 @@ class RequestCheck extends Component {
         this.setState({
             detailview: detailed
         });
+    }
+
+    setProduction(production) {
+      this.setState({
+        production: production
+      }, ()=> {
+        this.checkRequest();
+      });
     }
 
     print() {
