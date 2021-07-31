@@ -13,7 +13,7 @@ function view(me) {
             <div className="row">
 
                 {!me.state.detailview &&
-                    <div className="col-md-7 main">
+                    <div className="col-md-8 main">
                         {me.state.report!=null && 
                             <div className="row testset"> 
                                 <div className="col-sm-12">
@@ -36,7 +36,7 @@ function view(me) {
                 }
 
                 {me.state.detailview &&
-                    <div className="col-md-7 main">
+                    <div className="col-md-8 main">
                         {me.state.report!=null && 
                             <div className="row testset"> 
                                 <div className="col-sm-12">
@@ -68,7 +68,7 @@ function view(me) {
                 }
 
 
-                <div className="col-md-5">   
+                <div className="col-md-4">   
                     <div className="tools">
                         <div className="col-sm-12">
                             <label className="switch switch-success">

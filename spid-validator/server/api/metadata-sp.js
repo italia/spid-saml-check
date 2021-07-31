@@ -247,25 +247,6 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let cmd = test;
         let file = null;
 
-        /* v 1.7 - DEPRECATED
-        let xsd_type = "metadata_xsd_sp";
-    
-        if(test=='xsd') {
-            if(metadataParser.isMetadataForAggregated()) {
-                xsd_type = "metadata_xsd_ag";
-                cmd = "xsd-ag";
-            } else {
-                if(deprecated) {
-                    xsd_type = "metadata_xsd_sp";
-                    cmd = "xsd-sp";
-                } else {
-                    xsd_type = "metadata_xsd_sp-av29";
-                    cmd = "xsd-sp-av29";
-                }
-            }
-        }
-        */
-
         let profile = "spid-sp-public";
         if(metadataParser.isMetadataForPrivate()) profile = "spid-sp-private";
         if(metadataParser.isMetadataForAgPublicFull()) profile = "spid-sp-ag-public-full";
@@ -274,11 +255,6 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(metadataParser.isMetadataForOpPublicLite()) profile = "spid-sp-op-public-lite";
 
         switch(cmd) {
-            /* v 1.7 - DEPRECATED
-            case "xsd-sp": file = getEntityDir(entity_id) + "/sp-metadata-xsd-sp.json"; break;
-            case "xsd-sp-av29": file = getEntityDir(entity_id) + "/sp-metadata-xsd-sp-av29.json"; break;
-            case "xsd-ag": file = getEntityDir(entity_id) + "/sp-metadata-xsd-ag.json"; break;
-            */
             case "strict": file = getEntityDir(entity_id) + "/sp-metadata-strict.json"; break;
             case "certs": file = getEntityDir(entity_id) + "/sp-metadata-certs.json"; break;
             case "extra": file = getEntityDir(entity_id) + "/sp-metadata-extra.json"; break;
@@ -291,10 +267,6 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                         let report = fs.readFileSync(file, "utf8");
                         report = JSON.parse(report);
 
-                        // v 1.7 - DEPRECATED
-                        // polymorph xsd report
-                        // if(test=='xsd') report = { test: {sp: { metadata_xsd: report.test.sp[xsd_type] }}}
-
                         let lastcheck = { 
                             datetime: moment().format('YYYY-MM-DD HH:mm:ss'), 
                             profile: profile,
@@ -304,24 +276,6 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                         if(user && entity_id) {
                             // save result validation on store
                             let testGroup = [];
-
-                            /* v 1.7 - DEPRECATED
-                            switch(test) {
-                                case "xsd": testGroup = report.test.sp.metadata_xsd.TestSPMetadataXSD; break;
-                                case "strict": testGroup = report.test.sp.metadata_strict.TestSPMetadata; break;
-                                case "certs": testGroup = report.test.sp.metadata_certs.TestSPMetadataCertificates; break;
-                                case "extra": testGroup = report.test.sp.metadata_extra.TestSPMetadataExtra; break;
-                            }
-
-                            let validation = true;
-                            for(testGroupName in testGroup) {
-                                let groupAssertions = testGroup[testGroupName].assertions;
-                                for(assertion in groupAssertions) {
-                                    let result = groupAssertions[assertion].result;
-                                    validation = validation && (result=='success');
-                                }
-                            }
-                            */
 
                             switch(test) {
                                 case "strict": testGroup = report.test.sp.metadata_strict.SpidSpMetadataCheck; break;

@@ -1,4 +1,4 @@
 {
-    "DATA": "../specs-compliance-tests/data",
+    "DATA": "../data",
     "TEMP": "temp"
 }

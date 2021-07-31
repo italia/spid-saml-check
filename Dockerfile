@@ -41,13 +41,9 @@ WORKDIR /spid-saml-check
 ADD . /spid-saml-check
 
 # Create directory for tests data
-RUN mkdir /spid-saml-check/specs-compliance-tests/data
+RUN mkdir /spid-saml-check/data
 
-ENV \
-    TZ=Europe/Rome \
-    DATA_DIR=/spid-saml-check/specs-compliance-tests/data \
-    SP_METADATA=/spid-saml-check/specs-compliance-tests/data/sp-metadata.xml \
-    AUTHN_REQUEST=/spid-saml-check/specs-compliance-tests/data/authn-request.xml
+ENV TZ=Europe/Rome
 
 # Build validator
 RUN cd /spid-saml-check/spid-validator && \

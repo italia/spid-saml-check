@@ -66,7 +66,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
             {             
                 demo_basepath: demo_basepath,
                 validator_basepath: validator_basepath,
-                message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." 
+                message: "Directory " + config_dir["DATA"] + " is not found. Please create it and reload." 
             }
         );
         
@@ -82,7 +82,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
             samlRequest: samlRequest,
             relayState: relayState,
             sigAlg: sigAlg,
-            signature: signature
+            signature: signature,
+            binding: "HTTP-POST"
         });
     });
 
@@ -92,7 +93,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
             { 
                 demo_basepath: demo_basepath,
                 validator_basepath: validator_basepath,
-                message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." 
+                message: "Directory " + config_dir["DATA"] + " is not found. Please create it and reload." 
             }
         );
     
@@ -108,18 +109,20 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
             samlRequest: samlRequest,
             relayState: relayState,
             sigAlg: sigAlg,
-            signature: signature
+            signature: signature,
+            binding: "HTTP-Redirect"
         });
     });
 
-    // process sso get request
+    // process request
     app.post(demo_basepath + "/start", function(req, res) {
         let samlRequest = req.body.samlRequest;
         let relayState = (req.body.relayState!=null)? req.body.relayState : "";
         let sigAlg = req.body.sigAlg;
         let signature = req.body.signature;
+        let binding = req.body.binding;
 
-        startAuthnProcess(res, samlRequest, relayState, sigAlg, signature);
+        startAuthnProcess(res, samlRequest, relayState, sigAlg, signature, binding);
     });
 
     // check user login and send response
@@ -200,7 +203,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
 
 
 
-    async function startAuthnProcess(res, samlRequest, relayState, sigAlg, signature) {
+    async function startAuthnProcess(res, samlRequest, relayState, sigAlg, signature, binding) {
 
         try {
             if(samlRequest==null || relayState==null || sigAlg==null || signature==null) {
@@ -242,12 +245,27 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                 let metadataParser = new MetadataParser(metadata.xml);
                 let organizationDisplayName = metadataParser.getOrganization().displayName;
 
-                let fileContent = "SAMLRequest=" + encodeURIComponent(samlRequest) + 
-                                    "&RelayState=" + encodeURIComponent(relayState) + 
-                                    "&SigAlg=" + encodeURIComponent(sigAlg) + 
-                                    "&Signature=" + encodeURIComponent(signature);
+                let fileContent;
+                if(binding=="HTTP-Redirect") {
+                    fileContent = config_server.host + "?SAMLRequest=" + encodeURIComponent(samlRequest) + 
+                        "&RelayState=" + encodeURIComponent(relayState) + 
+                        "&SigAlg=" + encodeURIComponent(sigAlg) + 
+                        "&Signature=" + encodeURIComponent(signature);
 
-                fs.writeFileSync(getEntityDir(requestIssuer) + "/authn-request.xml", fileContent);
+                } else {
+                    fileContent = " \
+                        <!DOCTYPE html><html><head><meta charset=\"utf-8\" /></head> \
+                        <body onload=\"document.forms[0].submit()\"> \
+                            <form action=\"" + validator_basepath + "/samlsso" + "\" method=\"post\"> \
+                            <input type=\"hidden\" name=\"SAMLRequest\" value=\"" + samlRequest + "\"/> \
+                            <input type=\"hidden\" name=\"RelayState\" value=\"" + relayState  + "\"/> \
+                            </form> \
+                        </body> \
+                        </html> \
+                    ";
+                }
+
+                fs.writeFileSync(getEntityDir(requestIssuer) + "/authn-request.dump", fileContent);
                 fs.writeFileSync(getEntityDir(requestIssuer) + "/sp-metadata.xml", metadata.xml, "utf8");
 
                 try {
@@ -266,6 +284,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                     }
 
                     // Check Request Certs
+                    /*
                     if(config_demo.checkCerts && !await checkRequestSync('certs', requestIssuer)) {
                         return res.render("error.handlebars", {
                             demo_basepath: demo_basepath,
@@ -273,6 +292,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                             message: "Formato richiesta non corretto. La AuthnRequest non supera i controlli certs."
                         });
                     }
+                    */
 
                     // Check Request Extra
                     if(config_demo.checkExtra && !await checkRequestSync('extra', requestIssuer)) {
@@ -358,7 +378,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
             case "extra": file = getEntityDir(issuer) + "/sp-authn-request-extra.json"; break;
         }
                 
-        Utility.requestCheck(test, issuer.normalize()).then(
+        Utility.requestCheck(test, issuer.normalize(), config_demo, false).then(
             (out) => {
 
                 try {
@@ -367,23 +387,16 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
 
                     let testGroup = [];
                     switch(test) {
-                        case "strict": testGroup = report.test.sp.authn_request_strict.TestAuthnRequest; break;
-                        case "certs": testGroup = report.test.sp.authn_request_certs.TestAuthnRequestCertificates; break;
-                        case "extra": testGroup = report.test.sp.authn_request_extra.TestAuthnRequestExtra; break;
+                        case "strict": testGroup = report.test.sp.authnrequest_strict.SpidSpAuthnReqCheck; break;
+                        case "certs": testGroup = report.test.sp.authnrequest_certs.SpidSpAuthnReqCheckCerts; break;
+                        case "extra": testGroup = report.test.sp.authnrequest_extra.SpidSpAuthnReqCheckExtra; break;
                     }
 
                     let validation = true;
-                    for(testGroupName in testGroup) {
-                        let groupAssertions = testGroup[testGroupName].assertions;
-                        for(assertion in groupAssertions) {
-                            let result = groupAssertions[assertion].result;
-                            if(result===undefined) {
-                                // fix request extra if not defined
-                                validation = true;
-                            } else {
-                                validation = validation && (result=='success');
-                            }
-                        }
+                    for(t in testGroup) {
+                        let result = testGroup[t].result;
+                        if(result!='success') console.log(testGroup[t]);
+                        validation = validation && (result=='success' || result=='warning');
                     }
 
                     callback(null, validation);

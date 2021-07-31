@@ -2,11 +2,15 @@ import React from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import BlockUi from 'react-block-ui';
 import AceEditor from '../../components/AceEditor/';
+import "./style.css";
 
 function view(me) { 
     return (
-        <div className="animated fadeIn">
+        <div id="Request" className="animated fadeIn">
             <p className="title h3">Request</p>
+            {me.state.binding && (
+                <p className="subtitle h4">Binding: <b>{me.state.binding}</b> </p>
+            )}
             <AceEditor code={me.state.xml} />
         </div>
     );

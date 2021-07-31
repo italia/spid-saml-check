@@ -1,7 +1,9 @@
 const fs = require("fs-extra");
 const Utility = require("../lib/utils");
-const config_dir = require("../../config/dir.json");
 const moment = require('moment');
+const config_dir = require("../../config/dir.json");
+const config_idp = require("../../config/idp.json");
+
 
 module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
@@ -93,7 +95,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }
                 
         if(file!=null) {
-            Utility.requestCheck(test, issuer.normalize()).then(
+            Utility.requestCheck(test, issuer.normalize(), config_idp, true).then(
                 (out) => {
                     let report = fs.readFileSync(file, "utf8");
                     report = JSON.parse(report);
@@ -106,28 +108,6 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                     if(request) {
                         // save result validation on store
                         let testGroup = [];
-                        
-                        /* v 1.7 - DEPRECATED
-                        switch(test) {
-                            case "strict": testGroup = report.test.sp.authn_request_strict.TestAuthnRequest; break;
-                            case "certs": testGroup = report.test.sp.authn_request_certs.TestAuthnRequestCertificates; break;
-                            case "extra": testGroup = report.test.sp.authn_request_extra.TestAuthnRequestExtra; break;
-                        }
-
-                        let validation = true;
-                        for(testGroupName in testGroup) {
-                            let groupAssertions = testGroup[testGroupName].assertions;
-                            for(assertion in groupAssertions) {
-                                let result = groupAssertions[assertion].result;
-                                if(result===undefined) {
-                                    // fix request extra if not defined
-                                    validation = true;
-                                } else {
-                                    validation = validation && (result=='success');
-                                }
-                            }
-                        }
-                        */
 
                         switch(test) {
                             case "strict": testGroup = report.test.sp.authnrequest_strict.SpidSpAuthnReqCheck; break;
@@ -137,13 +117,9 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
                         let validation = true;
                         for(t in testGroup) {
-                            let result = t.result;
-                            if(result===undefined) {
-                                // fix request extra if not defined
-                                validation = true;
-                            } else {
-                                validation = validation && (result=='success');
-                            }
+                            let result = testGroup[t].result;
+                            if(result!='success') console.log(testGroup[t]);
+                            validation = validation && (result=='success' || result=='warning');
                         }
 
                         database.setRequestValidation(user, issuer, external_code, store_type, test, validation);

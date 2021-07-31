@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:spid="https://spid.gov.it/saml-extensions" entityID="https://comune.campobasso.it" ID="spid-php_26b2254d1bf54023dc8e56a56314ccec3d5f017c61b9f70c1a57ec94b0957066"><ds:Signature>
+  <ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+    <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+  <ds:Reference URI="#spid-php_26b2254d1bf54023dc8e56a56314ccec3d5f017c61b9f70c1a57ec94b0957066"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>6ZrEDe+6B7rS4gak/T/EAgdwXRQSJTF7tqzUgFwOBqM=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>gzN9FhGshJ2Mu+DC16mh2sgBXiEiBXRHzFJ/MVf5VTqGoGGf6YRuWTqNKJanOnrCXZ9oj6NWTcJ2rNNWfNRCGUI9xsJ65MpSRhOLL8S0ChD/PAH+u19ywJUgv7ZKLOdM8f0VqVTgrDaMErx6pObFZdj+yQlxfGsRwmwokSVwtaPnXK9jexf3h6RsYoJVo1eY67YloP9uOlh7fUhBYkTEbVeoPYK2VVAK/mY40wC/M8p4hsVmrURmgQN7bD+4CxlmYMt2472Nzz342I8PIUVCnxOAvYMSOgp/tn1Pr/SKrJuyU/xiJ+XR/yGPM7c8Vck0lmJe0FMcHpkGVIWiSmp8Ezjz7Kj2ySRP6MaY+309vU8slNHGfLxtu7+XuALN75ThPoRXGmmQXL1u6N3dN0zw7VeBp6DZtv/aq/eMvnBmZ5QXBLDCSUC9wVOMjrjT6NqsXbGAQUmbGfxvBt4MofRX17vHAfHb11R/gKQHHMYqNQrs2a4Z5UH+axvCTPUrtLKr</ds:SignatureValue>
+<ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIE4jCCA0qgAwIBAgIJAPZPACI7XGqkMA0GCSqGSIb3DQEBCwUAMIGjMR0wGwYDVQQKDBRDb211bmUgZGkgQ2FtcG9iYXNzbzEdMBsGA1UEAwwUQ29tdW5lIGRpIENhbXBvYmFzc28xKjAoBgNVBFMMIWh0dHBzOi8vdGVzdC5jb211bmUuY2FtcG9iYXNzby5pdDEVMBMGA1UEYQwMUEE6SVQtY19iNTE5MQswCQYDVQQGEwJJVDETMBEGA1UEBwwKQ2FtcG9iYXNzbzAeFw0yMDEyMTcxMDU5NTJaFw0yMjEyMTcxMDU5NTJaMIGjMR0wGwYDVQQKDBRDb211bmUgZGkgQ2FtcG9iYXNzbzEdMBsGA1UEAwwUQ29tdW5lIGRpIENhbXBvYmFzc28xKjAoBgNVBFMMIWh0dHBzOi8vdGVzdC5jb211bmUuY2FtcG9iYXNzby5pdDEVMBMGA1UEYQwMUEE6SVQtY19iNTE5MQswCQYDVQQGEwJJVDETMBEGA1UEBwwKQ2FtcG9iYXNzbzCCAaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBANywIHk98BNCZsMJp5gtLLYr1uPrHNup6rFkfmohPwlZqEhY7JjDCyicL07xS0mmj/uYvbLJJDvzDbWBSsEqG5rpNo4RM2pY1r1si/eupE3FV9Ua28OIa5Mk+EdPwHwIixLmiKnMRmz0Un9NLUiiamqIpaC2Y5j7lx+Y1G9Gnp5M/nWlBukOqEC7yHPoqlOgMfRnYhnxjeBQYIUjWOZ52Rma7aPSGj0W0rmPxkp0s5SH8uOBEC02Vko80nrJjUuaSBnHvqI0jrWzwmf/DNxfv5QdMyyN8/0A+uPhPbeUUUy0l2gg4DT09f7Dzkkh/tWG+XLUrkRjam0qivjw9jESiBPLVvwGjF6RrQUj5wrfMpFvl0D2fmM5i1mguiKyD7XAenfA8yZn1nkKvB7XhjrwRGYzttFY8ETsCWalCKwUMSUVqhFrPfdb2TaCZRDBtH5MjIcHqCSCqyfkar/pVNzCpR/z/3APLJ7ec2MaThkG5VHPNgytWlNrltI0ysoXvAitGwIDAQABoxcwFTATBgNVHSAEDDAKMAgGBitMEAQCATANBgkqhkiG9w0BAQsFAAOCAYEAr+gNcre0Re4XyR7oM8vZ47c9D2/3dZHbnX7HrrlIyPZInrhYlszrHqaAscueAXCxOm7aybIZD14nI8/45tVYAKqHuYqtFuuCz8xNPq5YyxFekvEN3uQocRjQw9YoDei16mwvUfULO1LXT3r93LeV3A7GGodWDn95tzOTFx5bubvUrGIQYxqAd617FkYGb8vU4AAMLXEBXA2uTw18pr2Pw4HZaVzdhxYBvOj9E6R22RQ3vxs2yxZfRsFszsaP31nGRlj0quD3aqrvLlhnk7fkZ63IeQ3I2udGlSDJbS9DkVgzJjHeY6lgEoJLLOeDDBCY/kDTctmW5kUgg145XfwPgwav2saowSzmuScHy3uN/xsT11dOO/ifeIwMHVQi0lIr3kOAFl9eIPqihurMpeaqfaVK5VlWUitCdW4bF3ugtXzlg3CHXf2y+4nknQZnP2fAyOc/yfvHBSyeXC3NzrSHqOkW3s3R1qaD378MgXBiNncl2I/E2uZ73hNwuEySyv7p</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature>
+  <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol" AuthnRequestsSigned="true" WantAssertionsSigned="true">
+    <md:KeyDescriptor use="signing">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>MIIE4jCCA0qgAwIBAgIJAPZPACI7XGqkMA0GCSqGSIb3DQEBCwUAMIGjMR0wGwYDVQQKDBRDb211bmUgZGkgQ2FtcG9iYXNzbzEdMBsGA1UEAwwUQ29tdW5lIGRpIENhbXBvYmFzc28xKjAoBgNVBFMMIWh0dHBzOi8vdGVzdC5jb211bmUuY2FtcG9iYXNzby5pdDEVMBMGA1UEYQwMUEE6SVQtY19iNTE5MQswCQYDVQQGEwJJVDETMBEGA1UEBwwKQ2FtcG9iYXNzbzAeFw0yMDEyMTcxMDU5NTJaFw0yMjEyMTcxMDU5NTJaMIGjMR0wGwYDVQQKDBRDb211bmUgZGkgQ2FtcG9iYXNzbzEdMBsGA1UEAwwUQ29tdW5lIGRpIENhbXBvYmFzc28xKjAoBgNVBFMMIWh0dHBzOi8vdGVzdC5jb211bmUuY2FtcG9iYXNzby5pdDEVMBMGA1UEYQwMUEE6SVQtY19iNTE5MQswCQYDVQQGEwJJVDETMBEGA1UEBwwKQ2FtcG9iYXNzbzCCAaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBANywIHk98BNCZsMJp5gtLLYr1uPrHNup6rFkfmohPwlZqEhY7JjDCyicL07xS0mmj/uYvbLJJDvzDbWBSsEqG5rpNo4RM2pY1r1si/eupE3FV9Ua28OIa5Mk+EdPwHwIixLmiKnMRmz0Un9NLUiiamqIpaC2Y5j7lx+Y1G9Gnp5M/nWlBukOqEC7yHPoqlOgMfRnYhnxjeBQYIUjWOZ52Rma7aPSGj0W0rmPxkp0s5SH8uOBEC02Vko80nrJjUuaSBnHvqI0jrWzwmf/DNxfv5QdMyyN8/0A+uPhPbeUUUy0l2gg4DT09f7Dzkkh/tWG+XLUrkRjam0qivjw9jESiBPLVvwGjF6RrQUj5wrfMpFvl0D2fmM5i1mguiKyD7XAenfA8yZn1nkKvB7XhjrwRGYzttFY8ETsCWalCKwUMSUVqhFrPfdb2TaCZRDBtH5MjIcHqCSCqyfkar/pVNzCpR/z/3APLJ7ec2MaThkG5VHPNgytWlNrltI0ysoXvAitGwIDAQABoxcwFTATBgNVHSAEDDAKMAgGBitMEAQCATANBgkqhkiG9w0BAQsFAAOCAYEAr+gNcre0Re4XyR7oM8vZ47c9D2/3dZHbnX7HrrlIyPZInrhYlszrHqaAscueAXCxOm7aybIZD14nI8/45tVYAKqHuYqtFuuCz8xNPq5YyxFekvEN3uQocRjQw9YoDei16mwvUfULO1LXT3r93LeV3A7GGodWDn95tzOTFx5bubvUrGIQYxqAd617FkYGb8vU4AAMLXEBXA2uTw18pr2Pw4HZaVzdhxYBvOj9E6R22RQ3vxs2yxZfRsFszsaP31nGRlj0quD3aqrvLlhnk7fkZ63IeQ3I2udGlSDJbS9DkVgzJjHeY6lgEoJLLOeDDBCY/kDTctmW5kUgg145XfwPgwav2saowSzmuScHy3uN/xsT11dOO/ifeIwMHVQi0lIr3kOAFl9eIPqihurMpeaqfaVK5VlWUitCdW4bF3ugtXzlg3CHXf2y+4nknQZnP2fAyOc/yfvHBSyeXC3NzrSHqOkW3s3R1qaD378MgXBiNncl2I/E2uZ73hNwuEySyv7p</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:KeyDescriptor use="encryption">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>MIIE4jCCA0qgAwIBAgIJAPZPACI7XGqkMA0GCSqGSIb3DQEBCwUAMIGjMR0wGwYDVQQKDBRDb211bmUgZGkgQ2FtcG9iYXNzbzEdMBsGA1UEAwwUQ29tdW5lIGRpIENhbXBvYmFzc28xKjAoBgNVBFMMIWh0dHBzOi8vdGVzdC5jb211bmUuY2FtcG9iYXNzby5pdDEVMBMGA1UEYQwMUEE6SVQtY19iNTE5MQswCQYDVQQGEwJJVDETMBEGA1UEBwwKQ2FtcG9iYXNzbzAeFw0yMDEyMTcxMDU5NTJaFw0yMjEyMTcxMDU5NTJaMIGjMR0wGwYDVQQKDBRDb211bmUgZGkgQ2FtcG9iYXNzbzEdMBsGA1UEAwwUQ29tdW5lIGRpIENhbXBvYmFzc28xKjAoBgNVBFMMIWh0dHBzOi8vdGVzdC5jb211bmUuY2FtcG9iYXNzby5pdDEVMBMGA1UEYQwMUEE6SVQtY19iNTE5MQswCQYDVQQGEwJJVDETMBEGA1UEBwwKQ2FtcG9iYXNzbzCCAaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBANywIHk98BNCZsMJp5gtLLYr1uPrHNup6rFkfmohPwlZqEhY7JjDCyicL07xS0mmj/uYvbLJJDvzDbWBSsEqG5rpNo4RM2pY1r1si/eupE3FV9Ua28OIa5Mk+EdPwHwIixLmiKnMRmz0Un9NLUiiamqIpaC2Y5j7lx+Y1G9Gnp5M/nWlBukOqEC7yHPoqlOgMfRnYhnxjeBQYIUjWOZ52Rma7aPSGj0W0rmPxkp0s5SH8uOBEC02Vko80nrJjUuaSBnHvqI0jrWzwmf/DNxfv5QdMyyN8/0A+uPhPbeUUUy0l2gg4DT09f7Dzkkh/tWG+XLUrkRjam0qivjw9jESiBPLVvwGjF6RrQUj5wrfMpFvl0D2fmM5i1mguiKyD7XAenfA8yZn1nkKvB7XhjrwRGYzttFY8ETsCWalCKwUMSUVqhFrPfdb2TaCZRDBtH5MjIcHqCSCqyfkar/pVNzCpR/z/3APLJ7ec2MaThkG5VHPNgytWlNrltI0ysoXvAitGwIDAQABoxcwFTATBgNVHSAEDDAKMAgGBitMEAQCATANBgkqhkiG9w0BAQsFAAOCAYEAr+gNcre0Re4XyR7oM8vZ47c9D2/3dZHbnX7HrrlIyPZInrhYlszrHqaAscueAXCxOm7aybIZD14nI8/45tVYAKqHuYqtFuuCz8xNPq5YyxFekvEN3uQocRjQw9YoDei16mwvUfULO1LXT3r93LeV3A7GGodWDn95tzOTFx5bubvUrGIQYxqAd617FkYGb8vU4AAMLXEBXA2uTw18pr2Pw4HZaVzdhxYBvOj9E6R22RQ3vxs2yxZfRsFszsaP31nGRlj0quD3aqrvLlhnk7fkZ63IeQ3I2udGlSDJbS9DkVgzJjHeY6lgEoJLLOeDDBCY/kDTctmW5kUgg145XfwPgwav2saowSzmuScHy3uN/xsT11dOO/ifeIwMHVQi0lIr3kOAFl9eIPqihurMpeaqfaVK5VlWUitCdW4bF3ugtXzlg3CHXf2y+4nknQZnP2fAyOc/yfvHBSyeXC3NzrSHqOkW3s3R1qaD378MgXBiNncl2I/E2uZ73hNwuEySyv7p</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://spid-auth.linfabox.it/spid/module.php/saml/sp/saml2-logout.php/service"/>
+    <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+    <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://spid-auth.linfabox.it/spid/module.php/saml/sp/saml2-acs.php/service" index="0" isDefault="true"/>
+    <md:AttributeConsumingService index="0">
+      <md:ServiceName xml:lang="it">Servizi Comune di Campobasso</md:ServiceName>
+      <md:ServiceDescription xml:lang="it">Servizi SPID Comune di Campobasso</md:ServiceDescription>
+      <md:RequestedAttribute Name="spidCode" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"/>
+      <md:RequestedAttribute Name="fiscalNumber" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"/>
+      <md:RequestedAttribute Name="name" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"/>
+      <md:RequestedAttribute Name="familyName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"/>
+      <md:RequestedAttribute Name="mobilePhone" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"/>
+      <md:RequestedAttribute Name="email" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"/>
+    </md:AttributeConsumingService>
+  </md:SPSSODescriptor>
+  <md:Organization>
+    <md:OrganizationName xml:lang="it">Comune di Campobasso</md:OrganizationName>
+    <md:OrganizationDisplayName xml:lang="it">Comune di Campobasso</md:OrganizationDisplayName>
+    <md:OrganizationURL xml:lang="it">https://comune.campobasso.it</md:OrganizationURL>
+  </md:Organization>
+  <md:ContactPerson contactType="other">
+    <md:Extensions>
+      <spid:IPACode xmlns:spid="https://spid.gov.it/saml-extensions">c_b519</spid:IPACode>
+      <spid:Public xmlns:spid="https://spid.gov.it/saml-extensions"/>
+    </md:Extensions>
+    <md:Company>Comune di Campobasso</md:Company>
+    <md:EmailAddress>info@comune.campobasso.it</md:EmailAddress>
+    <md:TelephoneNumber>123</md:TelephoneNumber>
+  </md:ContactPerson>
+</md:EntityDescriptor>
