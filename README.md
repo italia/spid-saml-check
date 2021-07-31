@@ -3,7 +3,7 @@
 # *SPID SAML Check*
 
 *SPID SAML Check* is an application suite that provider some tools for Service Providers, useful for inspecting requests shipped to an Identity Provider, checking metadata compliance and sending custom responses back to Service Provider. It includes:
- - a tool based on Tox (_`specs-compliance-tests`_) to check the SPID specifications compliance
+ - [spid-sp-test](https://github.com/italia/spid-sp-test) to check the SPID specifications compliance
  - a web application (_`spid-validator`_) that provides an easy to use interface
  - a web application (_`spid-demo`_) that acts as a test IdP for demo purpose
  - an extension for Google Chrome that intercepts the request (deprecated)
@@ -15,13 +15,13 @@
 ```
 git clone https://github.com/italia/spid-saml-check.git
 cd spid-saml-check
-$ docker build -t spid-saml-check .
+docker build -t spid-saml-check .
 ```
 
 ## How to run with Docker
 
 ```
-$ docker run -t -i -p 8080:8080 spid-saml-check
+docker run -t -i -p 8080:8080 spid-saml-check
 ```
 
 ## How to use it as a *SPID Validator*
