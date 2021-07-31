@@ -19,7 +19,8 @@ class MetadataSpCheck extends Component {
         report_profile: null,
         detailview: false,
         deprecable: false,
-        deprecated: false
+        deprecated: false,
+        production: false
     };  
   }	
 
@@ -76,11 +77,13 @@ class MetadataSpCheck extends Component {
     service.checkMetadataSp(
       this.state.test,
       this.state.deprecated,
+      this.state.production,
       (check) => { 
         Utility.blockUI(false); 
         let report = null;
         let deprecable = false;
         let deprecated = false;
+        let production = false;
         switch(this.state.test) {
           case "strict": report = check.report.test.sp.metadata_strict.SpidSpMetadataCheck; break;
           case "extra": report = check.report.test.sp.metadata_extra.SpidSpMetadataCheckExtra; break;
@@ -90,6 +93,7 @@ class MetadataSpCheck extends Component {
           report: report,
           deprecated: deprecated,
           deprecable: deprecable,
+          production: production,
           report_datetime: moment(check.datetime).format('DD/MM/YYYY HH:mm:ss'),
           report_profile: check.profile
         });
@@ -118,6 +122,14 @@ class MetadataSpCheck extends Component {
     setDeprecated(deprecated) {
       this.setState({
           deprecated: deprecated
+      }, ()=> {
+        this.checkMetadata();
+      });
+    }
+
+    setProduction(production) {
+      this.setState({
+        production: production
       }, ()=> {
         this.checkMetadata();
       });

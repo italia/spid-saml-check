@@ -2,6 +2,7 @@ const fs = require('fs-extra');
 const Utility = require('../lib/utils');
 const MetadataParser = require('../lib/saml-utils').MetadataParser;
 const config_dir = require('../../config/dir.json');
+const config_idp = require("../../config/idp.json");
 const config_test = require("../../config/test.json");
 const moment = require('moment');
  
@@ -240,8 +241,9 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let external_code = (authorisation=='API')? req.query.external_code : req.session.external_code;
 
         let deprecated = (req.query.deprecated=='Y')? true : false;
+        let production = (req.query.production=='Y')? true : false;
     
-        if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+        if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory " + config_dir.DATA + " is not found. Please create it and reload." });
     
         let test = req.params.test;
         let cmd = test;
@@ -261,7 +263,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }
 
         if(file!=null) {
-            Utility.metadataCheck(cmd, entity_id.normalize(), profile).then(
+            Utility.metadataCheck(cmd, entity_id.normalize(), profile, config_idp, production).then(
                 (out) => {
                     try {
                         let report = fs.readFileSync(file, "utf8");
