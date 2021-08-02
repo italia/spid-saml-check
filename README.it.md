@@ -1,7 +1,7 @@
 # *SPID SAML Check*
 
 *SPID SAML Check* è una suita applicativa che fornisce diversi strumenti ai Service Provider SPID, utili per ispezionare le request di autenticazione SAML inviate all'Identity Provider, verificare la correttezza del metadata e inviare response personalizzate al Service Provider. SPID SAML Check è costituito da:
- - uno strumento a riga di comando basato su Tox (_`specs-compliance-tests`_), per eseguire i test di conformità alle specifiche SPID
+ - [spid-sp-test](https://github.com/italia/spid-sp-test), per eseguire i test di conformità alle specifiche SPID
  - una web application (_`spid-validator`_) che fornisce una interfaccia grafica per l'esecuzione dei test e l'invio delle response
  - una web application (_`spid-demo`_) che implementa un IdP di test per eseguire demo di autenticazione
  - un'estensione per Google *Chrome* che permette di intercettare le richieste SAML (deprecata)
@@ -13,13 +13,13 @@
 ```
 git clone https://github.com/italia/spid-saml-check.git
 cd spid-saml-check
-$ docker build -t spid-saml-check .
+docker build -t spid-saml-check .
 ```
 
 ## Come eseguire il contenitore Docker
 
 ```
-$ docker run -t -i -p 8080:8080 spid-saml-check
+docker run -t -i -p 8080:8080 spid-saml-check
 ```
 
 ## Come usare *SPID Validator*

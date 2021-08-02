@@ -5,6 +5,8 @@ const child_process = require('child_process');
 const UUID = require("uuidjs");
 const moment = require("moment");
 const CryptoJS = require("crypto-js");
+const config_dir = require("../../config/dir.json");
+const config_idp = require("../../config/idp.json");
 
 
 String.prototype.replaceAll = function(search, replacement) {
@@ -63,42 +65,43 @@ class Utils {
         });
     }
 
-    static metadataCheck(test, dir) {
+    static metadataCheck(test, dir, profile, config, prod) {
         return new Promise((resolve, reject) => {
-            let cmd = "cd ../specs-compliance-tests && DATA_DIR=./data/" + dir + " SSLLABS_SKIP=1 SP_METADATA=./data/" + dir + "/sp-metadata.xml \ tox -e cleanup";
-            switch(test) {
-                case "xsd-sp":      cmd += ",sp-metadata-xsd-sp"; break;
-                case "xsd-sp-av29": cmd += ",sp-metadata-xsd-sp-av29"; break;
-                case "xsd-ag":      cmd += ",sp-metadata-xsd-ag"; break;
-                case "strict":      cmd += ",sp-metadata-strict"; break;
-                case "certs":       cmd += ",sp-metadata-strict,sp-metadata-certs"; break;
-                case "extra":       cmd += ",sp-metadata-extra"; break;
-            }
+            let cmd;
+            let dirpath = config_dir["DATA"] + "/" + dir;
+            cmd = "env IDP_ENTITYID=\"" + config.entityID + "\" ";
+            cmd += " spid_sp_test ";
+            cmd += " --metadata-url file://" + dirpath + "/sp-metadata.xml ";
+            cmd += " --profile " + profile;
+            if(prod) cmd += " --production";
 
-            //cmd+=",generate-global-json-report";
+            switch(test) {
+                case "strict":      cmd += " -rf json -o " + dirpath + "/sp-metadata-strict.json"; break;
+                case "extra":       cmd += " -rf json -o " + dirpath + "/sp-metadata-extra.json --extra"; break;
+            }
              
             child_process.exec(cmd, function (err, stdout, stderr) {
                 console.log("\n\n>>> " + cmd);
                 console.log(stdout);
-                if(err!=null && stderr!=null && stderr!="") {
-                    return reject(stderr);
-                } else {
-                    return resolve(stdout);
-                }
+                return resolve(stdout);
             });
         });
     }
 
-    static requestCheck(test, dir) {
+    static requestCheck(test, dir, config, prod) {
         return new Promise((resolve, reject) => {
-            let cmd = "cd ../specs-compliance-tests && DATA_DIR=./data/" + dir + " SSLLABS_SKIP=1 SP_METADATA=./data/" + dir + "/sp-metadata.xml AUTHN_REQUEST=./data/" + dir + "/authn-request.xml \ tox -e cleanup";
-            switch(test) {
-                case "strict": cmd += ",sp-metadata-strict,sp-metadata-certs,sp-authn-request-strict"; break;
-                case "certs": cmd += ",sp-metadata-strict,sp-metadata-certs,sp-authn-request-strict,sp-authn-request-certs"; break;
-                case "extra": cmd += ",sp-metadata-strict,sp-metadata-certs,sp-authn-request-extra"; break;
-            }
+            let cmd;
+            let dirpath = config_dir["DATA"] + "/" + dir;
+            cmd = "env IDP_ENTITYID=\"" + config.entityID + "\" ";
+            cmd += " spid_sp_test ";
+            cmd += " --metadata-url file://" + dirpath + "/sp-metadata.xml ";
+            cmd += " --authn-url file://" + dirpath + "/authn-request.dump ";
+            if(prod) cmd += " --production";
 
-            //cmd+=",generate-global-json-report";
+            switch(test) {
+                case "strict":      cmd += " -rf json -o " + dirpath + "/sp-authn-request-strict.json"; break;
+                case "extra":       cmd += " -rf json -o " + dirpath + "/sp-authn-request-extra.json --extra"; break;
+            }
              
             child_process.exec(cmd, function (err, stdout, stderr) {
                 console.log("\n\n>>> " + cmd);

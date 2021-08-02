@@ -11,7 +11,7 @@ function view(me) {
         <div className="animated fadeIn">
             <p className="title h3">Response</p>
             <div className="row">
-                <div className="col-md-9 main">
+                <div className="col-md-8 main">
 
                     <b>Seleziona la Response di test da inviare al Service Provider...</b>
 
@@ -25,7 +25,7 @@ function view(me) {
 
                     <AceEditor code={me.state.xml_signed} />
                 </div>
-                <div className="col-md-3">
+                <div className="col-md-4">
                     <div className="row alert alert-warning">
                         <b>Descrizione e risultato atteso</b><br/>
                         <p className="test-description">{me.state.description}</p>

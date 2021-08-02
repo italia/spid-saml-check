@@ -12,7 +12,7 @@ class Request extends Component {
     super(props);
     
     this.state = {
- 
+      
     };  
   }	
 
@@ -22,7 +22,7 @@ class Request extends Component {
 
     let request = service.getRequest(
       (request) => { 
-        this.setState({xml: request.xml});
+        this.setState({xml: request.xml, binding: request.binding});
         store.dispatch(Actions.setRequestXML(request.xml)); 
       }, 
       (nosession)=> {

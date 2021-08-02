@@ -16,7 +16,9 @@ class RequestCheck extends Component {
         test: props.test,
         report: null,
         report_datetime: null,
-        detailview: false
+        report_profile: null,
+        detailview: false,
+        production: false
     };  
   }	
 
@@ -33,13 +35,15 @@ class RequestCheck extends Component {
         Utility.blockUI(false); 
         let report = null;
         switch(this.state.test) {
-            case "strict": report = lastcheck.report.test.sp.authn_request_strict.TestAuthnRequest; break;
-            case "certs": report = lastcheck.report.test.sp.authn_request_certs.TestAuthnRequestCertificates; break;
-            case "extra": report = lastcheck.report.test.sp.authn_request_extra.TestAuthnRequestExtra; break;
+            case "strict": report = lastcheck.report.test.sp.authnrequest_strict.SpidSpAuthnReqCheck; break;
+            case "certs": report = lastcheck.report.test.sp.authnrequest_certs.SpidSpAuthnReqCheckCerts; break;
+            case "extra": report = lastcheck.report.test.sp.authnrequest_extra.SpidSpAuthnReqCheckExtra; break;
         } 
         this.setState({
           report: report,
-          report_datetime: moment(lastcheck.datetime).format('DD/MM/YYYY HH:mm:ss')
+          report_datetime: moment(lastcheck.datetime).format('DD/MM/YYYY HH:mm:ss'),
+          report_profile: lastcheck.profile,
+          production: lastcheck.production
         });
       }, 
       (error)   => { 
@@ -66,17 +70,19 @@ class RequestCheck extends Component {
     Utility.blockUI(true);
     service.checkRequest(
       this.state.test,
+      this.state.production,
       (check) => { 
         Utility.blockUI(false); 
         let report = null;
         switch(this.state.test) {
-            case "strict": report = check.report.test.sp.authn_request_strict.TestAuthnRequest; break;
-            case "certs": report = check.report.test.sp.authn_request_certs.TestAuthnRequestCertificates; break;
-            case "extra": report = check.report.test.sp.authn_request_extra.TestAuthnRequestExtra; break;
+            case "strict": report = check.report.test.sp.authnrequest_strict.SpidSpAuthnReqCheck; break;
+            case "certs": report = check.report.test.sp.authnrequest_certs.SpidSpAuthnReqCheckCerts; break;
+            case "extra": report = check.report.test.sp.authnrequest_extra.SpidSpAuthnReqCheckExtra; break;
         } 
         this.setState({
           report: report,
-          report_datetime: moment(check.datetime).format('DD/MM/YYYY HH:mm:ss')
+          report_datetime: moment(check.datetime).format('DD/MM/YYYY HH:mm:ss'),
+          report_profile: check.profile
         });
       }, 
       (error)   => { 
@@ -98,6 +104,14 @@ class RequestCheck extends Component {
         this.setState({
             detailview: detailed
         });
+    }
+
+    setProduction(production) {
+      this.setState({
+        production: production
+      }, ()=> {
+        this.checkRequest();
+      });
     }
 
     print() {

@@ -1,6 +1,6 @@
 {
   "name": "RequestCheck",
-  "version": "0.0.0",
+  "version": "1.8.0",
   "private": true,
   "main": "./RequestCheck.js"
 }

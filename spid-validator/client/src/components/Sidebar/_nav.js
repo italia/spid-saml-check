@@ -9,22 +9,24 @@ export default {
         {
           name: 'Download',  
           url: '/metadata-sp-download',   
-          sessionRequired: false   
+          sessionRequired: false, 
         },
         {
           name: 'Check XSD',  
           url: '/metadata-sp-check-xsd',  
-          sessionRequired: false     
+          sessionRequired: false,
+          disabled: true
         },
         {
           name: 'Check Strict',  
           url: '/metadata-sp-check-strict',  
-          sessionRequired: false     
+          sessionRequired: false
         },
         {
           name: 'Check Certificates',  
           url: '/metadata-sp-check-certs',     
-          sessionRequired: false  
+          sessionRequired: false,
+          disabled: true
         },
         {
           name: 'Check Extra',  
@@ -48,11 +50,12 @@ export default {
         },
         {
           name: 'Check Certificates',  
-          url: '/request-check-certs',      
+          url: '/request-check-certs',    
+          disabled: true  
         },
         {
           name: 'Check Extra',  
-          url: '/request-check-extra'     
+          url: '/request-check-extra'
         }
       ]
       /*

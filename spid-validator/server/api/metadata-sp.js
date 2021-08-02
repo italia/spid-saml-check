@@ -2,6 +2,7 @@ const fs = require('fs-extra');
 const Utility = require('../lib/utils');
 const MetadataParser = require('../lib/saml-utils').MetadataParser;
 const config_dir = require('../../config/dir.json');
+const config_idp = require("../../config/idp.json");
 const config_test = require("../../config/test.json");
 const moment = require('moment');
  
@@ -199,7 +200,9 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let report = database.getLastCheck(user, entity_id, store_type);
 
         switch(test) {
+            /* v 1.7 - DEPRECATED
             case "xsd": testGroup = report.metadata_xsd; break;
+            */
             case "strict": testGroup = report.metadata_strict; break;
             case "certs": testGroup = report.metadata_certs; break;
             case "extra": testGroup = report.metadata_extra; break;
@@ -238,71 +241,55 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let external_code = (authorisation=='API')? req.query.external_code : req.session.external_code;
 
         let deprecated = (req.query.deprecated=='Y')? true : false;
+        let production = (req.query.production=='Y')? true : false;
     
-        if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+        if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory " + config_dir.DATA + " is not found. Please create it and reload." });
     
         let test = req.params.test;
         let cmd = test;
         let file = null;
 
-        let xsd_type = "metadata_xsd_sp";
-    
-        if(test=='xsd') {
-            if(metadataParser.isMetadataForAggregated()) {
-                xsd_type = "metadata_xsd_ag";
-                cmd = "xsd-ag";
-            } else {
-                if(deprecated) {
-                    xsd_type = "metadata_xsd_sp";
-                    cmd = "xsd-sp";
-                } else {
-                    xsd_type = "metadata_xsd_sp-av29";
-                    cmd = "xsd-sp-av29";
-                }
-            }
-        }
+        let profile = "spid-sp-public";
+        if(metadataParser.isMetadataForPrivate()) profile = "spid-sp-private";
+        if(metadataParser.isMetadataForAgPublicFull()) profile = "spid-sp-ag-public-full";
+        if(metadataParser.isMetadataForAgPublicLite()) profile = "spid-sp-ag-public-lite";
+        if(metadataParser.isMetadataForOpPublicFull()) profile = "spid-sp-op-public-full";
+        if(metadataParser.isMetadataForOpPublicLite()) profile = "spid-sp-op-public-lite";
 
         switch(cmd) {
-            case "xsd-sp": file = getEntityDir(entity_id) + "/sp-metadata-xsd-sp.json"; break;
-            case "xsd-sp-av29": file = getEntityDir(entity_id) + "/sp-metadata-xsd-sp-av29.json"; break;
-            case "xsd-ag": file = getEntityDir(entity_id) + "/sp-metadata-xsd-ag.json"; break;
             case "strict": file = getEntityDir(entity_id) + "/sp-metadata-strict.json"; break;
             case "certs": file = getEntityDir(entity_id) + "/sp-metadata-certs.json"; break;
             case "extra": file = getEntityDir(entity_id) + "/sp-metadata-extra.json"; break;
         }
 
         if(file!=null) {
-            Utility.metadataCheck(cmd, entity_id.normalize()).then(
+            Utility.metadataCheck(cmd, entity_id.normalize(), profile, config_idp, production).then(
                 (out) => {
                     try {
                         let report = fs.readFileSync(file, "utf8");
                         report = JSON.parse(report);
 
-                        // polymorph xsd report
-                        if(test=='xsd') report = { test: {sp: { metadata_xsd: report.test.sp[xsd_type] }}}
-
                         let lastcheck = { 
                             datetime: moment().format('YYYY-MM-DD HH:mm:ss'), 
-                            report: report
+                            profile: profile,
+                            report: report,
+                            production: production
                         } 
 
                         if(user && entity_id) {
                             // save result validation on store
                             let testGroup = [];
+
                             switch(test) {
-                                case "xsd": testGroup = report.test.sp.metadata_xsd.TestSPMetadataXSD; break;
-                                case "strict": testGroup = report.test.sp.metadata_strict.TestSPMetadata; break;
-                                case "certs": testGroup = report.test.sp.metadata_certs.TestSPMetadataCertificates; break;
-                                case "extra": testGroup = report.test.sp.metadata_extra.TestSPMetadataExtra; break;
+                                case "strict": testGroup = report.test.sp.metadata_strict.SpidSpMetadataCheck; break;
+                                case "certs": testGroup = report.test.sp.metadata_certs.SpidSpMetadataCheckCerts; break;
+                                case "extra": testGroup = report.test.sp.metadata_extra.SpidSpMetadataCheckExtra; break;
                             }
 
                             let validation = true;
-                            for(testGroupName in testGroup) {
-                                let groupAssertions = testGroup[testGroupName].assertions;
-                                for(assertion in groupAssertions) {
-                                    let result = groupAssertions[assertion].result;
-                                    validation = validation && (result=='success');
-                                }
+                            for(let t in testGroup) {
+                                let result = t.result;
+                                validation = validation && (result=='success');
                             }
 
                             database.setMetadataValidation(user, entity_id, external_code, store_type, test, validation);

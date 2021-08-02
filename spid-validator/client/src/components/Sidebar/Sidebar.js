@@ -155,7 +155,9 @@ class Sidebar extends Component {
       return items.map((item, index)=> {
         // if is not requested session or it's requested and session is active
         if(!(!this.state.sessionActive && item.sessionRequired)) {
-          return navType(item, index);
+          if(item.disabled==undefined || item.disabled===false) {
+            return navType(item, index);
+          }
         } 
       });
     };

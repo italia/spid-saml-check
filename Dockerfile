@@ -12,17 +12,23 @@ RUN apt-get update \
         openssl \
         python3 \
         python3-pip \
-        xmlsec1 \ 
-        apache2
+        xmlsec1
+
+# Install spid-sp-test
+RUN apt-get install -y \
+        libxml2-dev \
+        libxmlsec1-dev \
+        libxmlsec1-openssl \
+        xmlsec1 \
+        python3-pip
+
+RUN pip3 install spid-sp-test --upgrade --no-cache
 
 # Node.js
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y \
         nodejs \
         build-essential
-
-# Tox
-RUN pip3 install tox
 
 # Set the working directory
 WORKDIR /spid-saml-check
@@ -31,13 +37,9 @@ WORKDIR /spid-saml-check
 ADD . /spid-saml-check
 
 # Create directory for tests data
-RUN mkdir /spid-saml-check/specs-compliance-tests/data
+RUN mkdir /spid-saml-check/data
 
-ENV \
-    TZ=Europe/Rome \
-    DATA_DIR=/spid-saml-check/specs-compliance-tests/data \
-    SP_METADATA=/spid-saml-check/specs-compliance-tests/data/sp-metadata.xml \
-    AUTHN_REQUEST=/spid-saml-check/specs-compliance-tests/data/authn-request.xml
+ENV TZ=Europe/Rome
 
 # Build validator
 RUN cd /spid-saml-check/spid-validator && \

@@ -268,6 +268,10 @@ class MetadataParser {
         return organization;
     }
 
+    /*
+     * Functions for ContactPerson
+     */
+
     getSPIDContactPerson() {
         let contact_person = [];
 
@@ -279,21 +283,120 @@ class MetadataParser {
             let cpe_contact_type = cpe.getAttribute("contactType");
             let cpe_entity_type = cpe.getAttribute("spid:entityType");
 
-            if(cpe_contact_type=="other") {
-                if(cpe_entity_type=="spid:aggregator" || cpe_entity_type=="spid:aggregated") {
+            contact_person.push({
+                contactType: cpe_contact_type,
+                entityType: cpe_entity_type,
+                IPACode: select("string(md:Extensions/spid:IPACode)", cpe),
+                VATNumber: select("string(md:Extensions/spid:VATNumber)", cpe),
+                FiscalCode: select("string(md:Extensions/spid:FiscalCode)", cpe),
 
-                    contact_person.push({
-                        type: cpe_entity_type,
-                        Company: select("string(md:Company)", cpe),
-                        VATNumber: select("string(md:Extensions/spid:VATNumber)", cpe),
-                        IPACode: select("string(md:Extensions/spid:IPACode)", cpe),
-                        FiscalCode: select("string(md:Extensions/spid:FiscalCode)", cpe)
-                    });
-                }
+                PublicServicesFullAggregator: select("boolean(md:Extensions/spid:PublicServicesFullAggregator)", cpe),
+                PublicServicesLightAggregator: select("boolean(md:Extensions/spid:PublicServicesLightAggregator)", cpe),
+                PrivateServicesFullAggregator: select("boolean(md:Extensions/spid:PrivateServicesFullAggregator)", cpe),
+                PrivateServicesLightAggregator: select("boolean(md:Extensions/spid:PrivateServicesLightAggregator)", cpe),
+                PublicServicesFullOperator: select("boolean(md:Extensions/spid:PublicServicesFullOperator)", cpe),
+                PublicServicesLightOperator: select("boolean(md:Extensions/spid:PublicServicesLightOperator)", cpe),
+
+                Public: select("boolean(md:Extensions/spid:Public)", cpe),
+                PublicOperator: select("boolean(md:Extensions/spid:PublicOperator)", cpe),
+                Private: select("boolean(md:Extensions/spid:Private)", cpe),  
+
+                Company: select("string(md:Company)", cpe),
+                EmailAddress: select("string(md:EmailAddress)", cpe),
+                TelephoneNumber: select("string(md:TelephoneNumber)", cpe),
+            });
+        }
+
+        return contact_person;
+    }
+
+    getSPIDSPContactPerson() {
+        let sp_contact_person = null;
+        if(!this.isMetadataForAggregated()) {
+            let contactPerson = this.getSPIDContactPerson();
+            for(let n in contactPerson) {
+                if(contactPerson[n].contactType=="other")
+                    sp_contact_person = contactPerson[n];
+            }
+        }
+        
+        return sp_contact_person;
+    }
+
+    getSPIDAggregatedContactPerson() {
+        let aggregated = null;
+        if(this.isMetadataForAggregated()) {
+            let contactPerson = this.getSPIDContactPerson();
+            for(let n in contactPerson) {
+                if(contactPerson[n].entityType=="spid:aggregated")
+                    aggregated = contactPerson[n];
+            }
+        }
+
+        return aggregated;
+    }
+
+    getSPIDAggregatorContactPerson() {
+        let aggregator = null;
+        if(this.isMetadataForAggregated()) {
+            let contactPerson = this.getSPIDContactPerson();
+            for(let n in contactPerson) {
+                if(contactPerson[n].entityType=="spid:aggregator")
+                    aggregator = contactPerson[n];
+            }
+        }
+
+        return aggregator;
+    }
+
+    getSPIDFullOperatorContactPerson() {
+        let aggregator = null;
+        if(this.isMetadataForFullOperator()) {
+            let contactPerson = this.getSPIDContactPerson();
+            for(let n in contactPerson) {
+                if(contactPerson[n].entityType=="spid:aggregator")
+                    aggregator = contactPerson[n];
+            }
+        }
+
+        return aggregator;
+    }
+
+    getSPIDBillingContactPerson() {
+        let contact_person = [];
+
+        let doc = new DOMParser().parseFromString(this.metadata.xml);
+
+        let contact_person_doc = select("//md:EntityDescriptor/md:ContactPerson", doc);
+        for(let n in contact_person_doc) {
+            let cpe = contact_person_doc[n];
+            let cpe_contact_type = cpe.getAttribute("contactType");
+
+            if(cpe_contact_type=="billing") {
+                contact_person.push({
+                    contactType: cpe_contact_type,
+                    Company: select("string(md:Company)", cpe),
+                });
             }
         }
 
         return contact_person;
+    }
+
+
+    /*
+     * Functions for check metadata type
+     */
+    isMetadataForPrivate() {
+        let contactPerson = this.getSPIDBillingContactPerson();
+
+        for(let n in contactPerson) {
+            if(contactPerson[n].contactType=="billing") {
+                return true;
+            };
+        };
+
+        return false;
     }
 
     isMetadataForAggregated() {
@@ -304,38 +407,59 @@ class MetadataParser {
         let assertAggregated = false;
 
         for(let n in contactPerson) {
-            assertAggregator = assertAggregator || (contactPerson[n].type=="spid:aggregator");
-            assertAggregated = assertAggregated || (contactPerson[n].type=="spid:aggregated");
+            assertAggregator = assertAggregator || (contactPerson[n].entityType=="spid:aggregator");
+            assertAggregated = assertAggregated || (contactPerson[n].entityType=="spid:aggregated");
         }
         
         return assertLength && assertAggregator && assertAggregated;
     }
 
-    getSPIDAggregatorContactPerson() {
-        let aggregator = null;
-        if(this.isMetadataForAggregated()) {
-            let contactPerson = this.getSPIDContactPerson();
-            for(let n in contactPerson) {
-                if(contactPerson[n].type=="spid:aggregator")
-                    aggregator = contactPerson[n];
-            }
-        }
+    isMetadataForOperator() {
+        let contactPerson = this.getSPIDContactPerson();
 
-        return aggregator;
+        let assertLength = (contactPerson.length==1);
+        let assertOperator = (contactPerson[0].entityType=="spid:aggregator");
+        
+        return assertLength && assertOperator;
     }
 
-    getSPIDAggregatedContactPerson() {
-        let aggregated = null;
-        if(this.isMetadataForAggregated()) {
-            let contactPerson = this.getSPIDContactPerson();
-            for(let n in contactPerson) {
-                if(contactPerson[n].type=="spid:aggregated")
-                    aggregated = contactPerson[n];
-            }
+    isMetadataForFullOperator() {
+        let contactPerson = this.getSPIDContactPerson();
+
+        let assertLength = (contactPerson.length==1);
+        let assertAggregator = false;
+
+        for(let n in contactPerson) {
+            assertAggregator = assertAggregator || (contactPerson[n].entityType=="spid:aggregator");
         }
         
-        return aggregated;
+        return assertLength && assertAggregator;
     }
+
+    isMetadataForAgPublicFull() {
+        let entityId = this.getServiceProviderEntityId();
+        let checkActivityCode = entityId.indexOf('pub-ag-full') > -1;
+        return this.isMetadataForAggregated() && checkActivityCode;
+    }
+
+    isMetadataForAgPublicLite() {
+        let entityId = this.getServiceProviderEntityId();
+        let checkActivityCode = entityId.indexOf('pub-ag-lite') > -1;
+        return this.isMetadataForAggregated() && checkActivityCode;
+    }
+
+    isMetadataForOpPublicFull() {
+        let entityId = this.getServiceProviderEntityId();
+        let checkActivityCode = entityId.indexOf('pub-op-full') > -1;
+        return this.isMetadataForOperator() && checkActivityCode;
+    }
+
+    isMetadataForOpPublicLite() {
+        let entityId = this.getServiceProviderEntityId();
+        let checkActivityCode = entityId.indexOf('pub-op-lite') > -1;
+        return this.isMetadataForOperator() && checkActivityCode;
+    }
+
 }
 
 

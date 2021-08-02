@@ -47,7 +47,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
     // process sso post request
     app.post(validator_basepath + "/samlsso", function (req, res) {	
     
-        if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+        if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory " + config_dir["DATA"] + " is not found. Please create it and reload." });
     
         let samlRequest = req.body.SAMLRequest;
         let relayState = (req.body.RelayState!=null)? req.body.RelayState : "";
@@ -69,7 +69,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
     
             req.session.request = {
                 id: requestID,
-                binding: 'POST',
+                binding: 'HTTP-POST',
                 type: requestType,
                 issueInstant: requestIssueInstant,
                 issuer: requestIssuer,
@@ -92,7 +92,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
     // process sso get request
     app.get(validator_basepath + "/samlsso", function (req, res) {
     
-        if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+        if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory " + config_dir["DATA"] + " is not found. Please create it and reload." });
     
         let samlRequest = req.query.SAMLRequest;
         let relayState = (req.query.RelayState!=null)? req.query.RelayState : "";
@@ -120,7 +120,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
     
             req.session.request = {
                 id: requestID,
-                binding: 'GET',
+                binding: 'HTTP-Redirect',
                 type: requestType,
                 issueInstant: requestIssueInstant,
                 authnContextClassRef: requestAuthnContextClassRef,
@@ -151,20 +151,28 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
             || req.session.request.samlRequest==undefined) {
                 res.sendFile(path.resolve(__dirname, "../..", "client/view", "error.html"));
         } else {
-            if(req.session && req.session.request.binding=='POST') {
+            if(req.session && req.session.request.binding=='HTTP-POST') {
                 if(req.session.request.type=='AUTHN') {     
                     
                     req.session.metadata = null;
 
-                    let fileContent = "SAMLRequest=" + encodeURIComponent(req.session.request.samlRequest) + 
-                                        "&RelayState=" + encodeURIComponent(req.session.request.relayState);
-                    fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
+                    let fileContent = " \
+                        <!DOCTYPE html><html><head><meta charset=\"utf-8\" /></head> \
+                        <body onload=\"document.forms[0].submit()\"> \
+                            <form action=\"" + validator_basepath + "/samlsso" + "\" method=\"post\"> \
+                            <input type=\"hidden\" name=\"SAMLRequest\" value=\"" + req.session.request.samlRequest + "\"/> \
+                            <input type=\"hidden\" name=\"RelayState\" value=\"" + req.session.request.relayState  + "\"/> \
+                            </form> \
+                        </body> \
+                        </html> \
+                    ";
+                    fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.dump", fileContent);
                     //res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
                     res.redirect(config_idp.basepath);
 
                 } else if(req.session.request.type=='LOGOUT') {
                     if(req.session.request.issuer!=null) {
-                        let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
+                        let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.dump";
                         if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
                     }
 
@@ -178,23 +186,23 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
                 }
             }
 
-            if(req.session && req.session.request.binding=='GET') {
+            if(req.session && req.session.request.binding=='HTTP-Redirect') {
                 if(req.session.request.type=='AUTHN') { 
                 
                     req.session.metadata = null;          
 
-                    let fileContent = "SAMLRequest=" + encodeURIComponent(req.session.request.samlRequest) + 
+                    let fileContent = config_server.host + "?SAMLRequest=" + encodeURIComponent(req.session.request.samlRequest) + 
                                         "&RelayState=" + encodeURIComponent(req.session.request.relayState) + 
                                         "&SigAlg=" + encodeURIComponent(req.session.request.sigAlg) + 
                                         "&Signature=" + encodeURIComponent(req.session.request.signature);
-                    fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.xml", fileContent);
+                    fs.writeFileSync(getEntityDir(req.session.request.issuer) + "/authn-request.dump", fileContent);
                     //res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
                     res.redirect(config_idp.basepath);
 
                 } else if(req.session.request.type=='LOGOUT') {
                     
                     if(req.session.request.issuer!=null) {
-                        let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.xml";
+                        let reqFile = getEntityDir(req.session.request.issuer) + "/authn-request.dump";
                         if(fs.existsSync(reqFile)) fs.unlinkSync(reqFile);
                     }
 
