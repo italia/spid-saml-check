@@ -12,7 +12,7 @@ RUN apt-get update \
         openssl \
         python3 \
         python3-pip \
-        xmlsec1 \ 
+        xmlsec1 \
         apache2
 
 # Install spid-sp-test
@@ -30,9 +30,6 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y \
         nodejs \
         build-essential
-
-# Tox
-RUN pip3 install tox
 
 # Set the working directory
 WORKDIR /spid-saml-check
