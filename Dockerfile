@@ -12,8 +12,7 @@ RUN apt-get update \
         openssl \
         python3 \
         python3-pip \
-        xmlsec1 \
-        apache2
+        xmlsec1
 
 # Install spid-sp-test
 RUN apt-get install -y \
