@@ -253,6 +253,22 @@ require('./api/response')    	(app, checkAuth);
 // start
 if (useHttps) app = https.createServer(httpsCredentials, app);
 app.listen(config_server.port, () => {
+  // import
+  if (fs.existsSync("../" + config_dir.DATA + "/" + config_dir.BOOTSTRAP)) {
+    Utility.readFiles("../" + config_dir.DATA + "/" + config_dir.BOOTSTRAP, function (filename, xml) {
+      let metadataParser = new MetadataParser(xml);
+
+      let entityID = metadataParser.getServiceProviderEntityId();
+      if (entityID === null || entityID === '')
+        throw new Error("EntityID non specificato");
+
+      fs.copyFileSync("../" + config_dir.DATA + "/" + config_dir.BOOTSTRAP + "/" + filename, getEntityDir(entityID) + "/sp-metadata.xml");
+      database.setMetadata("validator", "000", entityID, "000", "main", entityID, xml);
+    }, function (err) {
+      console.error("Could not bootstrap initial SP metadata: ", err);
+    });
+  }
+
     // eslint-disable-next-line no-console
     console.log("\n" + p.name + "\nversion: " + p.version + "\n\nlistening on port " + config_server.port);
 });

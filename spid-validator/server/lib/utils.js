@@ -7,6 +7,7 @@ const moment = require("moment");
 const CryptoJS = require("crypto-js");
 const config_dir = require("../../config/dir.json");
 const config_idp = require("../../config/idp.json");
+const fs = require("fs-extra");
 
 
 String.prototype.replaceAll = function(search, replacement) {
@@ -126,6 +127,21 @@ class Utils {
     static atob(buffer) {
         return Buffer.from(buffer, 'base64').toString('ascii');
     }
-}
     
+  static readFiles(dirname, onFileContent, onError) {
+    fs.readdir(dirname, function (err, filenames) {
+      if (err) {
+        onError(err);
+        return;
+      }
+      filenames.forEach(function (filename) {
+        if (filename.indexOf('.xml') > 0) {
+          let content = fs.readFileSync(dirname + "/" + filename, "utf8");
+          onFileContent(filename, content);
+        }
+      });
+    });
+  }
+}
+
 module.exports = Utils;
