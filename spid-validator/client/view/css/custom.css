@@ -1,12 +1,12 @@
 /* Custom CSS */
 
-html, body {height: 100%; }
+html, body {height: 100%; font-family:  "Titillium Web"}
 body {display: flex; flex-direction: column;}
 .container { flex: 1 0 auto;}
 .footer {flex-shrink: 0;}
-h1 {font-size: 1.6em; margin-top: 0.6em; font-weight: 600 !important}
-h2 {font-size: 1.5em;}
-h3 {text-transform: uppercase; font-size: 1em}
+h1 {font-family: "Titillium Web"; margin-top: 0.6em;}
+h2 {font-family: "Titillium Web"; }
+h3 {font-family: "Titillium Web"; text-transform: uppercase; font-size: 1em}
 
 .navbar-brand{margin-top: 1.2em; margin-right: 1em}
 .form-text {color: #575757; }
@@ -25,7 +25,7 @@ span.logo-spid {background: url("../img/spid.png") no-repeat; background-size: 2
 footer{margin-top: 3em; padding:3em 0;}
 .icon-action {height: 30px; margin: 0 1em 0 0}
 .disabled {opacity: 0.4; filter: alpha(opacity=40)}
-.card .card-body p {font-size: 1em; font-family:  "Titillium Web"}
+.card .card-body p {font-size: 1em; font-family: "Titillium Web"}
 
 .registration-header {height: 150px; background: url("../svg/registration.svg") no-repeat; background-size: 100px; background-position: left center; padding-left: 140px; border-bottom: solid 1px #ccc }
 .test-header {height: 150px; background: url("../svg/test.svg") no-repeat; background-size: 100px; background-position: left center; padding-left: 140px; border-bottom: solid 1px #ccc }
@@ -111,7 +111,7 @@ ul[role="listbox"] li[role="option"] {
 /* MEDIA QUERY */
 
 @media (min-width: 576px) {
-  h1 {fmargin-top: 0.2em}
+  h1 {margin-top: 0.2em}
 	.custom-card{ margin: 1em; padding: 1em}
 	.custom-card-light{ margin: 1em; padding: 1em}
 }
