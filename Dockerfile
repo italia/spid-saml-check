@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:buster-slim
 LABEL mantainer="Michele D'Amico, michele.damico@agid.gov.it"
 
 # Update and install utilities
@@ -7,20 +7,16 @@ RUN apt-get update \
         wget \
         curl \
         unzip \
-        gcc \
+        build-essential \
         libxml2-utils \
         openssl \
-        python3 \
+        python3-minimal \
         python3-pip \
-        xmlsec1
-
-# Install spid-sp-test
-RUN apt-get install -y \
+        xmlsec1 \
         libxml2-dev \
         libxmlsec1-dev \
         libxmlsec1-openssl \
-        xmlsec1 \
-        python3-pip
+    && apt-get clean
 
 RUN pip3 install spid-sp-test --upgrade --no-cache
 
@@ -28,7 +24,7 @@ RUN pip3 install spid-sp-test --upgrade --no-cache
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y \
         nodejs \
-        build-essential
+    && apt-get clean
 
 # Set the working directory
 WORKDIR /spid-saml-check
@@ -45,7 +41,8 @@ ENV TZ=Europe/Rome
 RUN cd /spid-saml-check/spid-validator && \
     cd client && npm install --silent && cd .. && \
     cd server && npm install --silent && cd .. && \
-    npm run build
+    npm run build && \
+    npm cache clean --force
 
 # Ports exposed
 EXPOSE 8080
