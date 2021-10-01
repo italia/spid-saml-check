@@ -83,8 +83,11 @@ class Utils {
              
             child_process.exec(cmd, function (err, stdout, stderr) {
                 console.log("\n\n>>> " + cmd);
-                console.log(stdout);
-                return resolve(stdout);
+                console.log("[ERR] " + err);
+                console.log("[STDOUT] " + stdout);
+                console.log("[STDERR] " + stderr);
+                if(err) return reject(stderr);
+                else return resolve(stdout);
             });
         });
     }
@@ -106,8 +109,11 @@ class Utils {
              
             child_process.exec(cmd, function (err, stdout, stderr) {
                 console.log("\n\n>>> " + cmd);
-                console.log(stdout);
-                return resolve(stdout);
+                console.log("[ERR] " + err);
+                console.log("[STDOUT] " + stdout);
+                console.log("[STDERR] " + stderr);
+                if(err) return reject(stderr);
+                else return resolve(stdout);
             });
         });
     }

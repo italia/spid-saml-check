@@ -132,7 +132,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                 },
                 (err) => {
                     Utility.log("ERR /api/request/check/:test", err.toString());
-                    res.status(500).send("Error while loading report");
+                    res.status(500).send("Error while loading report: " + err);
             }
             );
 
