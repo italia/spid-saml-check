@@ -26,12 +26,16 @@ const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 
 const Database = require("./lib/database");
 const Authenticator = require("./lib/authenticator");
+const { config } = require("process");
 
 const useHttps = config_server.useHttps;
+const httpPort = (process.env.NODE_HTTPS_PORT) ? process.env.NODE_HTTPS_PORT : config_server.port;
+
 let https;
 let httpsPrivateKey;
 let httpsCertificate;
 let httpsCredentials;
+
 if (useHttps) {
     https = require('https');
     httpsPrivateKey  = fs.readFileSync(config_server.httpsPrivateKey, 'utf8');
@@ -252,7 +256,8 @@ require('./api/response')    	(app, checkAuth);
 
 // start
 if (useHttps) app = https.createServer(httpsCredentials, app);
-app.listen(config_server.port, () => {
+
+app.listen(httpPort, () => {
   // import
   if (fs.existsSync("../" + config_dir.DATA + "/" + config_dir.BOOTSTRAP)) {
     Utility.readFiles("../" + config_dir.DATA + "/" + config_dir.BOOTSTRAP, function (filename, xml) {
@@ -270,5 +275,5 @@ app.listen(config_server.port, () => {
   }
 
     // eslint-disable-next-line no-console
-    console.log("\n" + p.name + "\nversion: " + p.version + "\n\nlistening on port " + config_server.port);
+    console.log("\n" + p.name + "\nversion: " + p.version + "\n\nlistening on port " + httpPort);
 });
