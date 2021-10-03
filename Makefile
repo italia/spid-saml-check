@@ -35,7 +35,7 @@ CODE_VERSION = $(strip $(shell git describe --tags --always --abbrev=0 | cut -c3
 # Find out if the working directory is clean
 GIT_NOT_CLEAN_CHECK = $(shell git status --porcelain)
 ifneq (x$(GIT_NOT_CLEAN_CHECK), x)
-DOCKER_TAG_SUFFIX = "-dirty"
+DOCKER_TAG_SUFFIX = -dirty
 endif
 
 # If we're releasing to Docker Hub, and we're going to mark it with the latest
@@ -65,6 +65,9 @@ DOCKER_TAG = $(CODE_VERSION)-$(GIT_COMMIT)$(DOCKER_TAG_SUFFIX)
 endif
 
 docker_build:
+	# Update version of the spid-validator server component
+	sed -i -r -E 's/("version"\:\s)("[0-9]+\.[0-9]+.[0-9]+")/\1"$(DOCKER_TAG)"/g' spid-validator/server/package.json
+
 	# Build Docker image
 	docker build \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
