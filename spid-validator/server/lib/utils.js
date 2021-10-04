@@ -118,6 +118,18 @@ class Utils {
         });
     }
 
+    static getSpidSPTestVersion() {
+        return new Promise((resolve, reject) => {
+            let cmd;
+            cmd = "spid_sp_test --version";
+
+            child_process.exec(cmd, function (err, stdout, stderr) {
+                if(err) return reject(stderr);
+                else return resolve(stdout);
+            });
+        });
+    }
+
     static encrypt(toencrypt, key) {
         return CryptoJS.AES.encrypt(toencrypt, key);
     }

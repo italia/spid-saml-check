@@ -8,22 +8,25 @@ class Footer extends Component {
     super(props);
 
     this.state = {
-      version: "Not found"
+      version: "...",
+      spid_sp_test_version: "..."
     }
 
     let service = Services.getMainService();
 
     let info = service.getServerInfo(
       (info) => { 
-        this.setState({ version: info.version })
+        this.setState(
+          { 
+            version: info.version,
+            spid_sp_test_version: info.tools.spid_test_sp.version
+          })
         Utility.log("Server info", this.state.version);
       }, 
       ()=> {
-        this.setState({version: "Not found"})
         Utility.log("Session not found");
       },
       (error)   => { 
-        this.setState({version: "Error occurred"})
         Utility.error("Error on call Server Info API");
       }
     );
@@ -32,7 +35,9 @@ class Footer extends Component {
   render() {
     return (
       <footer className="app-footer">
-        <span>SPID Validator (versione: {this.state.version})</span>
+        <span>
+          SPID Validator - {this.state.version}, SPID SP Test - {this.state.spid_sp_test_version}
+        </span>
         <span className="ml-auto">AgID - Agenzia per l'Italia Digitale</span>
       </footer>
     )

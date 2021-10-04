@@ -276,5 +276,12 @@ app.listen(httpPort, () => {
   }
 
     // eslint-disable-next-line no-console
-    console.log("\n" + p.name + "\nversion: " + p.version + "\n\nlistening on port " + httpPort);
+    console.log("\n" + p.name + "\nversion: " + p.version);
+    
+    Utility.getSpidSPTestVersion().then(
+        (version) => { 
+            console.log("\n\nSPID SP Test Tool (spid-sp-test), version: " + version); 
+        });
+    
+    console.log("\n\nlistening on port " + httpPort);
 });
