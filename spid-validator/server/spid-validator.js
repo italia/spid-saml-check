@@ -27,6 +27,7 @@ const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 const Database = require("./lib/database");
 const Authenticator = require("./lib/authenticator");
 const { config } = require("process");
+const os = require('os');
 
 const useHttps = config_server.useHttps;
 const httpPort = (process.env.NODE_HTTPS_PORT) ? process.env.NODE_HTTPS_PORT : config_server.port;
@@ -276,6 +277,7 @@ app.listen(httpPort, () => {
   }
 
     // eslint-disable-next-line no-console
+    console.log("\nAttach to container by this command: docker exec -it " + os.hostname() + " /bin/bash");
     console.log("\n" + p.name + "\nversion: " + p.version);
     
     Utility.getSpidSPTestVersion().then(
