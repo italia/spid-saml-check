@@ -26,10 +26,12 @@ docker run -t -i -p 8443:8443 italia/spid-saml-check:v.1.8.1
 Così facendo l'applicazione spid-validator è immediatamente disponibile
 all'indirizzo https://localhost:8443
 
-L'output di entrambe i comandi, mostrano in console delle informazioni utili
-quali: la versione della suite, la versione del tool spid-sp-test e il comando
-per ottenere la shell bash. A seguire un esempio di output che dovreste ottenere
-dall'esecuzione di uno dei comandi mostrati in precedenza.
+In console vengono mostrate informazioni utili quali: 
+ - la versione della suite spid-saml-check
+ - la versione del tool spid-sp-test
+ - il comando per ottenere la shell bash
+ 
+A seguire un esempio di output che dovreste ottenere dall'esecuzione di uno dei comandi mostrati in precedenza.
 
 ```
 > spid-validator@1.0.0 start-prod /spid-saml-check/spid-validator

@@ -8,20 +8,88 @@
  - a web application (_`spid-demo`_) that acts as a test IdP for demo purpose
  - an extension for Google Chrome that intercepts the request (deprecated)
 
-*SPID SAML Check* has been developed and is maintained by AgID - Agenzia per l'Italia Digitale
+*SPID SAML Check* has been developed and is maintained by [AgID - Agenzia per l'Italia Digitale](https://www.agid.gov.it).
 
-## How to build with Docker
+## Quick Start with Docker
+The application suite is available as Docker image on DockerHub [italia/spid-saml-check](https://hub.docker.com/r/italia/spid-saml-check).
+
+To start the Docker container use the following command
 
 ```
+# Executes the last version
+docker run -t -i -p 8443:8443 italia/spid-saml-check
+
+# Executes a specific version
+docker run -t -i -p 8443:8443 italia/spid-saml-check:v.1.8.2
+```
+
+The application spid-validator is immediately available at https://localhost:8443
+
+On the console are printed useful information as:
+ - the version of spid-saml-check suite
+ - the version of the tool spid-sp-test
+ - the command to obtain the shell
+
+Following is an output example you should see from the execution of one of the previous commands
+
+```
+> spid-validator@1.0.0 start-prod /spid-saml-check/spid-validator
+> node server/spid-validator.js
+
+>>> DATABASE : QUERY
+...
+
+Attach to container by this command: docker exec -it 41c81fba9a26 /bin/bash
+
+spid-validator
+version: 1.8.1-627d2e7-dirty
+
+
+listening on port 8443
+
+
+SPID SP Test Tool (spid-sp-test), version: 0.9.22
+```
+
+The images published on DockerHub contains metadata that provides informations about the software versions. To verify these metadata it's possible to execute the command `docker image inspect italia/spid-saml-check:1.8.1` to obtain an output as follows.
+
+
+```
+"Labels": {
+  "org.opencontainers.image.authors": "Michele D'Amico, michele.damico@agid.gov.it",
+  "org.opencontainers.image.base.name": "italia/spid-saml-check",
+  "org.opencontainers.image.created": "2021-10-02T21:03:16Z",
+  "org.opencontainers.image.description": "SPID SAML Check è una suita applicativa che fornisce diversi strumenti ai Service Provider SPID, utili per ispezionare le request di autenticazione SAML inviate all'Identity Provider, verificare la correttezza del metadata e inviare response personalizzate al Service Provider.",
+  "org.opencontainers.image.licenses": "EUPL-1.2",
+  "org.opencontainers.image.revision": "7117b67",
+  "org.opencontainers.image.source": "https://github.com/amusarra/spid-saml-check.git",
+  "org.opencontainers.image.title": "SPID SAML Check",
+  "org.opencontainers.image.url": "https://github.com/italia/spid-saml-check",
+  "org.opencontainers.image.vendor": "Developers Italia",
+  "org.opencontainers.image.version": "1.8.1"
+}
+
+```
+
+
+## How to build and run with Docker
+If you have modified the source code and you want to build your own image, you can do as follows.
+
+
+```
+# 1. Clone del repository
 git clone https://github.com/italia/spid-saml-check.git
+
+# 2. Esecuzione della build
 cd spid-saml-check
 docker build -t spid-saml-check .
 ```
 
-## How to run with Docker
+Once the image build process end (it can take time for more minutes), to run the container it's possibile to execute the following command.
+
 
 ```
-docker run -t -i -p 8080:8080 spid-saml-check
+docker run -t -i -p 8443:8443 spid-saml-check
 ```
 
 ## How to use it as a *SPID Validator*
