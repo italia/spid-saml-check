@@ -54,7 +54,8 @@ ENV NODE_HTTPS_PORT=${EXPOSE_HTTPS_PORT}
 RUN cd /spid-saml-check/spid-validator && \
     cd client && npm install --silent && cd .. && \
     cd server && npm install --silent && cd .. && \
-    npm run build
+    npm run build && \
+    npm cache clean --force
 
 # Ports exposed
 EXPOSE ${EXPOSE_HTTPS_PORT}
