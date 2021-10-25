@@ -1,4 +1,4 @@
-FROM node:12-buster-slim
+FROM node:8-buster-slim 
 
 # Metadata params
 ARG BUILD_DATE
