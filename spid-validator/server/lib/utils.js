@@ -74,16 +74,31 @@ class Utils {
             cmd += " spid_sp_test ";
             cmd += " --metadata-url file://" + dirpath + "/sp-metadata.xml ";
             cmd += " --profile " + profile;
+            cmd += " --debug ERROR";
             if(prod) cmd += " --production";
 
+            let reportfile = "";
             switch(test) {
-                case "strict":      cmd += " -rf json -o " + dirpath + "/sp-metadata-strict.json"; break;
-                case "extra":       cmd += " -rf json -o " + dirpath + "/sp-metadata-extra.json --extra"; break;
+                case "strict": 
+                    reportfile = dirpath + "/sp-metadata-strict.json"; 
+                    cmd += " -rf json -o " + reportfile;
+                    break;
+                case "extra": 
+                    reportfile = dirpath + "/sp-metadata-extra.json"; 
+                    cmd += " -rf json -o " + reportfile + " --extra";
+                    break;
             }
              
             child_process.exec(cmd, function (err, stdout, stderr) {
                 console.log("\n\n>>> " + cmd);
-                console.log(stdout);
+                console.log("[ERR] " + err);
+                console.log("[STDOUT] " + stdout);
+                console.log("[STDERR] " + stderr);
+
+                if(!fs.existsSync(reportfile)) {
+                    return reject(err? stderr:stdout);
+                }
+
                 return resolve(stdout);
             });
         });
@@ -97,17 +112,44 @@ class Utils {
             cmd += " spid_sp_test ";
             cmd += " --metadata-url file://" + dirpath + "/sp-metadata.xml ";
             cmd += " --authn-url file://" + dirpath + "/authn-request.dump ";
+            cmd += " --debug ERROR";
             if(prod) cmd += " --production";
 
+            let reportfile = "";
             switch(test) {
-                case "strict":      cmd += " -rf json -o " + dirpath + "/sp-authn-request-strict.json"; break;
-                case "extra":       cmd += " -rf json -o " + dirpath + "/sp-authn-request-extra.json --extra"; break;
+                case "strict": 
+                    reportfile = dirpath + "/sp-authn-request-strict.json"; 
+                    cmd += " -rf json -o " + reportfile;
+                    break;
+                case "extra": 
+                    reportfile = dirpath + "/sp-authn-request-extra.json"; 
+                    cmd += " -rf json -o " + reportfile + " --extra";
+                    break;
             }
              
             child_process.exec(cmd, function (err, stdout, stderr) {
                 console.log("\n\n>>> " + cmd);
-                console.log(stdout);
+                console.log("[ERR] " + err);
+                console.log("[STDOUT] " + stdout);
+                console.log("[STDERR] " + stderr);
+
+                if(!fs.existsSync(reportfile)) {
+                    return reject(err? stderr:stdout);
+                }
+
                 return resolve(stdout);
+            });
+        });
+    }
+
+    static getSpidSPTestVersion() {
+        return new Promise((resolve, reject) => {
+            let cmd;
+            cmd = "spid_sp_test --version";
+
+            child_process.exec(cmd, function (err, stdout, stderr) {
+                if(err) return reject(stderr);
+                else return resolve(stdout);
             });
         });
     }
