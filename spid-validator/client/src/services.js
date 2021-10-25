@@ -245,8 +245,20 @@ class MainService {
 			Utility.log("getSignedXml Error", error.response.data);
 			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
-	}		
-
+	}
+	
+	getServerInfo(callback_response, callback_error) {
+		Utility.log("GET /api/server-info");
+		axios.get('/api/server-info', {timeout: 900000})
+		.then(function(response) {
+			Utility.log("getServerInfo Success", response.data);
+			callback_response(response.data);
+		})
+		.catch(function(error) {
+			Utility.log("getServerInfo Error", error);
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+	}
 }
 
 export default MainService;
