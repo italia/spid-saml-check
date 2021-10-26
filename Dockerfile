@@ -1,4 +1,4 @@
-FROM node:8-buster-slim 
+FROM node:12-buster-slim 
 
 # Metadata params
 ARG BUILD_DATE
@@ -54,8 +54,7 @@ ENV NODE_HTTPS_PORT=${EXPOSE_HTTPS_PORT}
 RUN cd /spid-saml-check/spid-validator && \
     cd client && npm install --silent && cd .. && \
     cd server && npm install --silent && cd .. && \
-    npm run build && \
-    npm cache clean --force
+    npm run build
 
 # Ports exposed
 EXPOSE ${EXPOSE_HTTPS_PORT}
