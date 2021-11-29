@@ -33,7 +33,14 @@ RUN apt-get update && apt-get install -y \
         xmlsec1 \
         openssl \
         python3 \
-        python3-pip
+        python3-pip \
+        libffi-dev \
+        python3-virtualenv \
+        build-essential  \
+        python3-dev cargo
+
+RUN pip3 install setuptools_rust cryptography
+
 
 # Install spid-sp-test
 RUN pip3 install spid-sp-test --upgrade --no-cache
