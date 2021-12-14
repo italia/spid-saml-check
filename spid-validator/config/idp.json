@@ -1,7 +1,7 @@
 {
 	"enabled": true,
 	"basepath": "/",
-	"entityID": "https://localhost:8080",
+	"entityID": "https://localhost:8443",
 	"signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
 	"credentials": [{
 		"signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
