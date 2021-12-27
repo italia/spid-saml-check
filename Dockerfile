@@ -30,10 +30,14 @@ RUN apt-get update && apt-get install -y \
         libxml2-dev \
         libxmlsec1-dev \
         libxmlsec1-openssl \
+        libffi-dev \
         xmlsec1 \
         openssl \
         python3 \
         python3-pip
+
+# Upgrade pip
+RUN pip3 install --upgrade pip
 
 # Install spid-sp-test
 RUN pip3 install spid-sp-test --upgrade --no-cache
