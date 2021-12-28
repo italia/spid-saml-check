@@ -1,4 +1,4 @@
-FROM node:12-buster-slim 
+FROM node:12-bullseye-slim 
 
 # Metadata params
 ARG BUILD_DATE
@@ -43,7 +43,7 @@ RUN pip3 install setuptools_rust cryptography
 
 
 # Install spid-sp-test
-RUN pip3 install spid-sp-test --upgrade --no-cache
+RUN pip3 install spid-sp-test --no-cache
 
 # Set the working directory
 WORKDIR /spid-saml-check
