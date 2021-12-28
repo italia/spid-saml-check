@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y \
         libxml2-dev \
         libxmlsec1-dev \
         libxmlsec1-openssl \
+        libffi-dev \
         xmlsec1 \
         openssl \
         python3 \
@@ -41,6 +42,9 @@ RUN apt-get update && apt-get install -y \
 
 RUN pip3 install setuptools_rust cryptography
 
+
+# Upgrade pip
+RUN pip3 install --upgrade pip
 
 # Install spid-sp-test
 RUN pip3 install spid-sp-test --no-cache
