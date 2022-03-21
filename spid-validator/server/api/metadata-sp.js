@@ -203,8 +203,10 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             /* v 1.7 - DEPRECATED
             case "xsd": testGroup = report.metadata_xsd; break;
             */
+            /* v 1.9 - DEPRECATED
             case "strict": testGroup = report.metadata_strict; break;
             case "certs": testGroup = report.metadata_certs; break;
+            */
             case "extra": testGroup = report.metadata_extra; break;
         }
 
@@ -278,18 +280,21 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
                         if(user && entity_id) {
                             // save result validation on store
-                            let testGroup = [];
+                            let testGroups = [];
 
                             switch(test) {
-                                case "strict": testGroup = report.test.sp.metadata_strict.SpidSpMetadataCheck; break;
-                                case "certs": testGroup = report.test.sp.metadata_certs.SpidSpMetadataCheckCerts; break;
-                                case "extra": testGroup = report.test.sp.metadata_extra.SpidSpMetadataCheckExtra; break;
+                                case "strict": testGroups = report.test.sp.metadata_strict.SpidSpMetadataCheck; break;
+                                case "certs": testGroups = report.test.sp.metadata_certs.SpidSpMetadataCheckCerts; break;
+                                case "extra": testGroups = report.test.sp.metadata_extra.SpidSpMetadataCheckExtra; break;
                             }
 
-                            let validation = true;
-                            for(let t in testGroup) {
-                                let result = t.result;
-                                validation = validation && (result=='success');
+                            let validation = null;
+                            for(let t in testGroups) {
+                                let testGroup = testGroups[t];
+                                if(testGroup.result!=null) {
+                                    if(validation==null) validation = (testGroup.result=='success');
+                                    else validation = validation && (testGroup.result=='success');
+                                }
                             }
 
                             database.setMetadataValidation(user, entity_id, external_code, store_type, test, validation);
@@ -423,11 +428,11 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                 ) validation = true;
         
                 result = { 
-                    metadata_strict: store.metadata_validation_strict,
-                    metadata_certs: store.metadata_validation_certs,
+                    //metadata_strict: store.metadata_validation_strict,
+                    //metadata_certs: store.metadata_validation_certs,
                     metadata_extra: store.metadata_validation_extra,
-                    request_strict: store.request_validation_strict,
-                    request_certs: store.request_validation_certs,
+                    //request_strict: store.request_validation_strict,
+                    //request_certs: store.request_validation_certs,
                     request_extra: store.request_validation_extra,
                     response_num: (tests.length-1),                     // IMPORTANT! TO FIX : (tests.length - 1) because of tests 1 and 1-nosession that are mutually exclusive
                     response_done: test_done.length,
