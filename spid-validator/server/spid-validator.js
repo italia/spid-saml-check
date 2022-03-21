@@ -209,7 +209,8 @@ if(config_idp.enabled || config_demo.enabled) {
             req.session.regenerate((err)=> {
                 if(!err) {
                     req.session.external_code = req.query.code;
-                    req.session.entity_id = req.query.entity_id;     
+                    req.session.entity_id = req.query.entity_id;  
+                    req.session.store_type = req.query.store_type;
                 }
             });
 

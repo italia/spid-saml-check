@@ -387,7 +387,9 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                 let test_success = store.response_test_success? store.response_test_success : [];
                 
                 let tests = Object.keys(config_test['test-suite-1']['cases']);
-                let test_done_ok = (test_done.length==tests.length);
+
+                // IMPORTANT! TO FIX : (tests.length - 1) because of tests 1 and 1-nosession that are mutually exclusive
+                let test_done_ok = (test_done.length==(tests.length-1));
                 let test_success_ok = true;
         
                 let test_success_num = 0;
@@ -401,11 +403,20 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                 if(skip_response) response_validation = true;
                     
                 let validation = false;
+                /*
                 if(store.metadata_validation_strict && 
                     store.metadata_validation_certs &&
                     store.metadata_validation_extra &&
                     store.request_validation_strict &&
                     store.request_validation_certs &&
+                    store.request_validation_extra &&
+                    response_validation &&
+                    true
+                ) validation = true;
+                */
+
+                if(
+                    store.metadata_validation_extra &&
                     store.request_validation_extra &&
                     response_validation &&
                     true
@@ -418,11 +429,13 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                     request_strict: store.request_validation_strict,
                     request_certs: store.request_validation_certs,
                     request_extra: store.request_validation_extra,
-                    response_num: tests.length,
+                    response_num: (tests.length-1),                     // IMPORTANT! TO FIX : (tests.length - 1) because of tests 1 and 1-nosession that are mutually exclusive
                     response_done: test_done.length,
                     response_success: test_success_num,
                     response_validation: response_validation,
-                    validation: validation 
+                    validation: validation,
+                    test_success: test_success,
+                    test_done: test_done
                 };      
             }
         

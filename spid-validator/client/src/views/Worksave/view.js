@@ -6,9 +6,14 @@ import './style.css';
 function view(me) { 
     return (
 		<div id="Worksave" className="container container-login animated fadeIn">
-			{ me.state.available_stores && me.state.available_stores.length>1 && (
+			{ me.state.available_stores && me.state.available_stores.length>0 && (
 				<div className="justify-content-center row mb-5 section-selector">
+					{ me.state.available_stores && me.state.available_stores.length==1 && (
+					<div className="title">È stato selezionato il...</div>
+					) }
+					{ me.state.available_stores && me.state.available_stores.length>1 && (
 					<div className="title">Seleziona il metadata da utilizzare...</div>
+					) }
 					{ me.isTypeAvailable('test') && (
 						<div className="col col-12 col-md-12 col-lg-4">
 							<div className={`btn ${me.state.selected_type=='test'? "btn-selector btn-selector-active" : "btn-selector"}`}
