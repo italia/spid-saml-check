@@ -1,4 +1,4 @@
-FROM node:12-buster-slim 
+FROM node:12-bullseye-slim 
 
 # Metadata params
 ARG BUILD_DATE
@@ -30,13 +30,24 @@ RUN apt-get update && apt-get install -y \
         libxml2-dev \
         libxmlsec1-dev \
         libxmlsec1-openssl \
+        libffi-dev \
         xmlsec1 \
         openssl \
         python3 \
-        python3-pip
+        python3-pip \
+        libffi-dev \
+        python3-virtualenv \
+        build-essential  \
+        python3-dev cargo
+
+RUN pip3 install setuptools_rust cryptography
+
+
+# Upgrade pip
+RUN pip3 install --upgrade pip
 
 # Install spid-sp-test
-RUN pip3 install spid-sp-test --upgrade --no-cache
+RUN pip3 install spid-sp-test --no-cache
 
 # Set the working directory
 WORKDIR /spid-saml-check
