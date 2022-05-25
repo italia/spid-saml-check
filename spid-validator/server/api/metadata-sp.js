@@ -257,6 +257,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         if(metadataParser.isMetadataForAgPublicLite()) profile = "spid-sp-ag-public-lite";
         if(metadataParser.isMetadataForOpPublicFull()) profile = "spid-sp-op-public-full";
         if(metadataParser.isMetadataForOpPublicLite()) profile = "spid-sp-op-public-lite";
+        if(metadataParser.isMetadataForAgPrivateFull()) profile = "spid-sp-ag-private-full";
+        if(metadataParser.isMetadataForAgPrivateLite()) profile = "spid-sp-ag-private-lite";
 
         switch(cmd) {
             case "strict": file = getEntityDir(entity_id) + "/sp-metadata-strict.json"; break;

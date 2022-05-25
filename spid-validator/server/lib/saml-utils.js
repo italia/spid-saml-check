@@ -402,7 +402,7 @@ class MetadataParser {
     isMetadataForAggregated() {
         let contactPerson = this.getSPIDContactPerson();
 
-        let assertLength = (contactPerson.length==2);
+ //       let assertLength = (contactPerson.length==2);  !!!non valido per gli aggregatori privati
         let assertAggregator = false;
         let assertAggregated = false;
 
@@ -411,7 +411,8 @@ class MetadataParser {
             assertAggregated = assertAggregated || (contactPerson[n].entityType=="spid:aggregated");
         }
         
-        return assertLength && assertAggregator && assertAggregated;
+//        return assertLength && assertAggregator && assertAggregated;
+        return assertAggregator && assertAggregated;
     }
 
     isMetadataForOperator() {
@@ -459,6 +460,19 @@ class MetadataParser {
         let checkActivityCode = entityId.indexOf('pub-op-lite') > -1;
         return this.isMetadataForOperator() && checkActivityCode;
     }
+
+    isMetadataForAgPrivateFull() {
+        let entityId = this.getServiceProviderEntityId();
+        let checkActivityCode = entityId.indexOf('pri-ag-full') > -1;
+        return this.isMetadataForAggregated() && checkActivityCode;
+    }
+
+    isMetadataForAgPrivateLite() {
+        let entityId = this.getServiceProviderEntityId();
+        let checkActivityCode = entityId.indexOf('pri-ag-lite') > -1;
+        return this.isMetadataForAggregated() && checkActivityCode;
+    }
+
 
 }
 
