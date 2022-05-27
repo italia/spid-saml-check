@@ -1,4 +1,4 @@
-var host = "https://validator.spid.gov.it/samlsso";
+var host = "https://demo.spid.gov.it/validator/samlsso";
 var SAMLRequest = "";
 var RelayState = "";
 var action = host;
@@ -21,7 +21,9 @@ chrome.webRequest.onBeforeRequest.addListener(
           details.url.startsWith("https://spid.register.it/login/sso") ||
           details.url.startsWith("https://identity.sieltecloud.it/simplesaml/saml2/idp/SSO.php") ||
           details.url.startsWith("https://identity.sieltecloud.it/simplesaml/saml2/idp/SSOService.php") ||
-          details.url.startsWith("https://login.id.tim.it/affwebservices/public/saml2sso")
+          details.url.startsWith("https://login.id.tim.it/affwebservices/public/saml2sso") ||
+          details.url.startsWith("https://id.lepida.it/idp/profile/SAML2/POST/SSO") ||
+          details.url.startsWith("https://id.lepida.it/idp/profile/SAML2/Redirect/SSO")
         ) {
 
         if(details.method=="POST") {  
