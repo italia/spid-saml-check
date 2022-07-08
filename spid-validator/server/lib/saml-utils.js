@@ -614,7 +614,7 @@ class IdP {
         let slo = new URL(url);
         let existingParams = new URLSearchParams(slo.search);
         existingParams.forEach(function(value, key) {
-            searchParams.set(value, key);
+            searchParams.set(key, value);
         });
 
         slo.search = searchParams.toString();
