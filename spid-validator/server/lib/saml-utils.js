@@ -609,7 +609,16 @@ class IdP {
             qs += this.getLogoutResponsePayload(SAMLResponse, relayState, null);
         }
 
-        return url + "?" + qs;
+        const searchParams = new URLSearchParams(qs);
+
+        let slo = new URL(url);
+        let existingParams = new URLSearchParams(slo.search);
+        existingParams.forEach(function(value, key) {
+            searchParams.set(value, key);
+        });
+
+        slo.search = searchParams.toString();
+        return  slo.toString();
     }
 
     getLogoutResponsePayload(SAMLResponse, relayState, sigAlg) {
