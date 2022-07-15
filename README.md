@@ -96,7 +96,7 @@ docker run -t -i -p 8443:8443 spid-saml-check
 
 The application spid-validator, if invoked as a web application *as is*, provides "basic", formal validation of a Service Provider's SAML metadata.
 
-In order to unleash the **full** set of SPID compliance tests (the proper *SPID Validator*), retrieve the metadata of *SPID Validator* at https://localhost:8080/metadata.xml and configure it on as a new Identity Provider (IdP) under your Service Provider (SP) implementation.
+In order to unleash the **full** set of SPID compliance tests (the proper *SPID Validator*), retrieve the metadata of *SPID Validator* at https://localhost:8443/metadata.xml and configure it on as a new Identity Provider (IdP) under your Service Provider (SP) implementation.
 
 When used in this fashion, the *SPID Validator* can be invoked as an IdP from your SP, listing 300+ individual controls, divided into 7 families:
  * 4 families for the formal validation of the SP **metadata** (already described);
@@ -109,9 +109,9 @@ To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin 
 ### Usage steps
 
 - Copy spid-validator metadata to the SP you want to test with.
-  spid-validator can be downloaded at: [https://localhost:8080/metadata.xml](https://localhost:8080/metadata.xml)
+  spid-validator can be downloaded at: [https://localhost:8443/metadata.xml](https://localhost:8443/metadata.xml)
   ````
-  wget https://localhost:8080/metadata.xml -O /path/to/your/sp/metadata/folder/spid-saml-check-metadata.xml
+  wget https://localhost:8443/metadata.xml -O /path/to/your/sp/metadata/folder/spid-saml-check-metadata.xml
   ````
 
 - Start authentication request connecting to your SP, the AuthnRequest would be created and sent to spid-saml-check.
@@ -139,12 +139,12 @@ To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin 
 
 ## How to use it as a *SPID Demo*
 
-The application spid-demo runs at: [https://localhost:8080/demo](https://localhost:8080/demo)
+The application spid-demo runs at: [https://localhost:8443/demo](https://localhost:8443/demo)
 
 <img src="doc/img/demo_idp_index.png" width="500" alt="demo index page" />
    
    
-Test users of spid-demo that can be used are listed at: [https://localhost:8080/demo/users](https://localhost:8080/demo/users)
+Test users of spid-demo that can be used are listed at: [https://localhost:8443/demo/users](https://localhost:8443/demo/users)
 
 <img src="doc/img/demo_idp_users.png" width="500" alt="demo users page" />
 
@@ -152,12 +152,12 @@ Test users of spid-demo that can be used are listed at: [https://localhost:8080/
 <h3>Usage steps</h3>
 
 - Copy spid-demo metadata to the SP you want to test with.
-  spid-demo metadata can be downloaded at: [https://localhost:8080/demo/metadata.xml](https://localhost:8080/demo/metadata.xml)
+  spid-demo metadata can be downloaded at: [https://localhost:8443/demo/metadata.xml](https://localhost:8443/demo/metadata.xml)
   ````
-  wget https://localhost:8080/demo/metadata.xml -O /path/to/your/sp/metadata/folder/spid-demo.xml
+  wget https://localhost:8443/demo/metadata.xml -O /path/to/your/sp/metadata/folder/spid-demo.xml
   ````
 
-- Go to https://localhost:8080 to register metadata of your SP on spid-validator.
+- Go to https://localhost:8443 to register metadata of your SP on spid-validator.
   You should access to a page like shown in the following picture
   
   <img src="doc/img/login.png" width="500" alt="login page" />
