@@ -60,9 +60,13 @@ class Utils {
             const file_extention = path.extname(file_name);
             const cmd = 'wget -O "' + dest + '" "' + src + '" --no-check-certificate --no-cache --no-cookies  --user-agent="Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0"';   
 
-            child_process.exec(cmd, function (err, stdout, stderr) {
-                return err ? reject(stderr) : resolve(file_name);
-            });
+            try {
+                child_process.exec(cmd, function (err, stdout, stderr) {
+                    return err ? reject(stderr) : resolve(file_name);
+                });
+            } catch(e) {
+                return reject("Si è verificato un errore durante l'esecuzione di spid-sp-test: " + e.message);
+            }
         });
     }
 
@@ -89,18 +93,22 @@ class Utils {
                     break;
             }
              
-            child_process.exec(cmd, function (err, stdout, stderr) {
-                console.log("\n\n>>> " + cmd);
-                console.log("[ERR] " + err);
-                console.log("[STDOUT] " + stdout);
-                console.log("[STDERR] " + stderr);
+            try {
+                child_process.exec(cmd, function (err, stdout, stderr) {
+                    console.log("\n\n>>> " + cmd);
+                    console.log("[ERR] " + err);
+                    console.log("[STDOUT] " + stdout);
+                    console.log("[STDERR] " + stderr);
 
-                if(!fs.existsSync(reportfile)) {
-                    return reject(err? stderr:stdout);
-                }
+                    if(!fs.existsSync(reportfile)) {
+                        return reject(err? stderr:stdout);
+                    }
 
-                return resolve(stdout);
-            });
+                    return resolve(stdout);
+                });
+            } catch(e) {
+                return reject("Si è verificato un errore durante l'esecuzione di spid-sp-test: " + e.message);
+            }
         });
     }
 
@@ -127,18 +135,22 @@ class Utils {
                     break;
             }
              
-            child_process.exec(cmd, function (err, stdout, stderr) {
-                console.log("\n\n>>> " + cmd);
-                console.log("[ERR] " + err);
-                console.log("[STDOUT] " + stdout);
-                console.log("[STDERR] " + stderr);
+            try {
+                child_process.exec(cmd, function (err, stdout, stderr) {
+                    console.log("\n\n>>> " + cmd);
+                    console.log("[ERR] " + err);
+                    console.log("[STDOUT] " + stdout);
+                    console.log("[STDERR] " + stderr);
 
-                if(!fs.existsSync(reportfile)) {
-                    return reject(err? stderr:stdout);
-                }
+                    if(!fs.existsSync(reportfile)) {
+                        return reject(err? stderr:stdout);
+                    }
 
-                return resolve(stdout);
-            });
+                    return resolve(stdout);
+                });
+            } catch(e) {
+                return reject("Si è verificato un errore durante l'esecuzione di spid-sp-test: " + e.message);
+            }
         });
     }
 
@@ -147,10 +159,14 @@ class Utils {
             let cmd;
             cmd = "spid_sp_test --version";
 
-            child_process.exec(cmd, function (err, stdout, stderr) {
-                if(err) return reject(stderr);
-                else return resolve(stdout);
-            });
+            try {
+                child_process.exec(cmd, function (err, stdout, stderr) {
+                    if(err) return reject(stderr);
+                    else return resolve(stdout);
+                });
+            } catch(e) {
+                return reject("Si è verificato un errore durante l'esecuzione di spid-sp-test: " + e.message);
+            }
         });
     }
 
