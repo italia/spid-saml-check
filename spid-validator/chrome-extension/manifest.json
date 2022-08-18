@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "SPID Assertion Consumer Validator",
     "description": "Tool for validating Service Provider compliance to SPID response from Identity Provider",
-    "version": "1",
+    "version": "1.2.0",
     "author": "Michele D'Amico (@damikael) - AgID - Agenzia per l'Italia Digitale",
     "icons": {
         "96":"icon_on.png"
