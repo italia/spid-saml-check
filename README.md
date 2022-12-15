@@ -2,7 +2,7 @@
 
 # *SPID SAML Check*
 
-*SPID SAML Check* is an application suite that provider some tools for Service Providers, useful for inspecting requests shipped to an Identity Provider, checking metadata compliance and sending custom responses back to Service Provider. It includes:
+*SPID SAML Check* is an application suite that provides some tools for Service Providers, useful for inspecting requests shipped to an Identity Provider, checking metadata compliance and sending custom responses back to Service Provider. It includes:
  - [spid-sp-test](https://github.com/italia/spid-sp-test) to check the SPID specifications compliance
  - a web application (_`spid-validator`_) that provides an easy to use interface
  - a web application (_`spid-demo`_) that acts as a test IdP for demo purpose
