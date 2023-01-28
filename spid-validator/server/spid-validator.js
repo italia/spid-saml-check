@@ -204,14 +204,14 @@ if(config_idp.enabled || config_demo.enabled) {
     const validator_basepath = config_idp.basepath=='/'? '':config_idp.basepath;
 
     app.get(validator_basepath, function (req, res) {
-        
+
         if(req.query.entity_id || req.query.code) {
             req.session.regenerate((err)=> {
-                if(!err) {
-                    req.session.external_code = req.query.code;
-                    req.session.entity_id = req.query.entity_id;  
-                    req.session.store_type = req.query.store_type;
-                }
+                req.session.external_code = req.query.code;
+                req.session.entity_id = req.query.entity_id;  
+                req.session.store_type = req.query.store_type;
+
+                res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
             });
 
         } else {
@@ -219,18 +219,10 @@ if(config_idp.enabled || config_demo.enabled) {
                 // clean temp dir and reset previous metadata info
                 fs.removeSync(config_dir.DATA + "/" + config_dir.TEMP);
                 req.session.metadata = null;
+
+                res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
             }
         }
-
-        res.sendFile(path.resolve(__dirname, "..", "client/build", "index.html"));
-
-        /*
-        if(req.session.request==null) {
-            res.sendFile(path.resolve(__dirname, "../..", "client/view", "front.html"));        
-        } else {
-            res.sendFile(path.resolve(__dirname, "../..", "client/build", "index.html"));
-        }
-        */
     });
 }
 

@@ -178,6 +178,7 @@ class Database {
                 if(result.length==1) {
                     data = JSON.parse(result[0].store);
                     data.metadata_SP_XML = utility.atob(data.metadata_SP_XML);
+                    data.store_type = result[0].type;
                 }
             }
 
