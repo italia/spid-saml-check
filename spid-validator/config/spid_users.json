@@ -535,7 +535,7 @@
 		"purposeIDType": "3",
 		"spidLevel": 2,
 
-		"spidCode": "SPID-018",
+		"spidCode": "SPID-019",
 		"familyName": "Buonarroti",
 		"name": "Michelangelo",
 		"gender": "M",
@@ -558,5 +558,35 @@
 		"domicileMunicipality": "Firenze",
 		"domicileProvince": "FI",
 		"domicileNation": "IT"
+	},
+	{
+		"username": "jonassmith",
+		"password": "password123",
+		"purposeIDType": "1",
+		"spidLevel": 2,
+
+		"spidCode": "DE/DE/123456787",
+		"familyName": "Smith",
+		"name": "Jonas",
+		"gender": "M",
+		"dateOfBirth": "1999-03-01",
+		"countyOfBirth": "EE",
+		"placeOfBirth": "Duesseldorf",
+		"idCard": "cartaIdentita XXXXXXXX XXX 2015-03-06 2025-03-06",
+		"expirationDate": "2032-03-06",
+		"fiscalNumber": "TINIT-SMTJNS99C01XXXXK",
+		"mobilePhone": "0123456789",
+		"email": "jonas.smith@email.de",
+		"digitalAddress": "jonas.smith@email.de",
+		"ivaCode": "",
+		"companyName": "",
+		"registeredOffice": "",
+		"companyFiscalNumber": "",
+		"address": "Lansstrasse 81, 50825 Koeln, Germany",
+		"domicileStreetAddress": "Lansstrasse 81",
+		"domicilePostalCode": "50825",
+		"domicileMunicipality": "Koeln",
+		"domicileProvince": "Germany",
+		"domicileNation": "DE"
 	}
 ]	
