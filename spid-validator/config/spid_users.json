@@ -414,6 +414,7 @@
 		"password": "password123",
 		"purposeIDType": "1",
 		"spidLevel": 2,
+		"disabled": true,
 
 		"spidCode": "SPID-015",
 		"familyName": "Little",
