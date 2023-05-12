@@ -35,7 +35,7 @@ class AgIDLoginAuthenticator {
 
     }
 
-    setIssuer(show='agid,google') {
+    setIssuer(show='agid,spid,cie,microsoft,google') {
 
         let issuer = new Issuer({ 
             issuer: this.issuer,
