@@ -244,6 +244,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
         let deprecated = (req.query.deprecated=='Y')? true : false;
         let production = (req.query.production=='Y')? true : false;
+        let isEidas = (req.query.eidas==true)? true : false;
     
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory " + config_dir.DATA + " is not found. Please create it and reload." });
     
@@ -267,7 +268,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }
 
         if(file!=null) {
-            Utility.metadataCheck(cmd, entity_id.normalize(), profile, config_idp, production).then(
+            Utility.metadataCheck(cmd, entity_id.normalize(), profile, config_idp, production, isEidas).then(
                 (out) => {
                     try {
                         let report = fs.readFileSync(file, "utf8");

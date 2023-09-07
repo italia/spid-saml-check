@@ -2,7 +2,7 @@
   "host": "https://localhost",
   "port": 8443,
   "useProxy": false,
-  "useHttps": true,
+  "useHttps": false,
 	"httpsPrivateKey": "./config/spid-saml-check.key",
   "httpsCertificate": "./config/spid-saml-check.crt"
 }

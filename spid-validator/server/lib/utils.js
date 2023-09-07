@@ -70,7 +70,7 @@ class Utils {
         });
     }
 
-    static metadataCheck(test, dir, profile, config, prod) {
+    static metadataCheck(test, dir, profile, config, prod, isEidas) {
         return new Promise((resolve, reject) => {
             let cmd;
             let dirpath = config_dir["DATA"] + "/" + dir;
@@ -80,6 +80,8 @@ class Utils {
             cmd += " --profile " + profile;
             cmd += " --debug ERROR";
             if(prod) cmd += " --production";
+            if(isEidas) cmd += " --profile ficep-eidas-sp ";
+
 
             let reportfile = "";
             switch(test) {
