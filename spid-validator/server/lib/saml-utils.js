@@ -565,7 +565,7 @@ class RequestParser {
     AttributeConsumingServiceIndex() { // only for type 1
         let doc = new DOMParser().parseFromString(this.request.xml);
         let requestAttributeConsumingServiceIndex = select("//samlp:AuthnRequest", doc)[0];
-        if(requestAttributeConsumingServiceIndex!=null) requestAttributeConsumingServiceIndex = requestAttributeConsumingServiceIndex.getAttribute("AttributeConsumingServiceIndex") 
+        if(requestAssertionConsumerServiceIndex!=null && (requestAssertionConsumerServiceIndex == 99 || requestAssertionConsumerServiceIndex == 100)) requestAssertionConsumerServiceIndex = requestAssertionConsumerServiceIndex.getAttribute("AssertionConsumerServiceIndex") 
         else requestAttributeConsumingServiceIndex = undefined;
         return requestAttributeConsumingServiceIndex;
     }
