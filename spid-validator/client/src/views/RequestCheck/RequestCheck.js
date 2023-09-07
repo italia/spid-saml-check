@@ -72,6 +72,7 @@ class RequestCheck extends Component {
     service.checkRequest(
       this.state.test,
       this.state.production,
+      this.state.eidas,
       (check) => { 
         Utility.blockUI(false); 
         let report = null;
