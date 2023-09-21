@@ -7,8 +7,13 @@ export default {
       sessionRequired: false,
       children: [
         {
-          name: 'Download',  
+          name: 'Download from URL',  
           url: '/metadata-sp-download',   
+          sessionRequired: false, 
+        },
+        {
+          name: 'Upload ZIP',  
+          url: '/metadata-sp-upload-zip',   
           sessionRequired: false, 
         },
         {

@@ -140,6 +140,22 @@ class MainService {
 		});
 	}
 
+	uploadFile(file, callback_progress, callback_response, callback_error) {
+		Utility.log("POST: /api/metadata-sp/upload/zip");
+		const formData = new FormData();
+		formData.append('file', file);
+		axios.post(' /api/metadata-sp/upload/zip?apikey=' + Utility.getApikey(), formData, {
+		  	headers: { 'Content-Type': 'multipart/form-data' },
+			onUploadProgress: (progressEvent)=>callback_progress(progressEvent)
+		})
+		.then(function(response) {
+			callback_response(response.data);
+	  	})
+	  	.catch(function(error) {
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+	  	});
+	}
+
 	getLastCheckMetadataSp(test, callback_response, callback_error) {
 		Utility.log("GET /api/metadata-sp/lastcheck/" + test);
 		axios.get('/api/metadata-sp/lastcheck/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})

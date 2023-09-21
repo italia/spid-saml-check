@@ -1,0 +1,6 @@
+{
+  "name": "MetadataSpUploadZip",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./MetadataSpUploadZip.js"
+}
