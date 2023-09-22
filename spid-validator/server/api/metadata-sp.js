@@ -207,6 +207,13 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             return;
         }
 
+        let check = req.body.check? req.body.check : "extra";
+        let profile = req.body.profile? req.body.profile : "spid-sp-ag-public-full";
+        let production = (req.body.production && req.body.production=='N')? false : true;
+
+        Utility.log("PROFILE", profile);
+        Utility.log("PRODUCTION", production);
+
         fs.createReadStream(req.file.path)
             .pipe(unzip.Extract({path: getEntityDir(config_dir.TEMP)}))
             .on('error', (err) => Utility.log('ERRORE FILE: ', err))
@@ -223,13 +230,14 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                         getEntityDir(config_dir.TEMP) + "/" + file,
                         organization,
                     );                    
-                    //Utility.log('METADATA from ZIP: ', metadata);
+                    
+                    // reset url to avoid to view path on client
+                    metadata.url = metadata.name;
+
                     database.setMetadata(user, organization, metadata.entity_id, external_code, store_type, metadata.url, metadata.xml);
 
                     let dir_metadata = getEntityDir(metadata.entity_id.normalize());
-                    let test = "extra";
-                    let profile = "spid-sp-ag-public-full";
-                    let production = true; 
+                    let test = check;
                     let reportfile = null;
                                 
                     switch(test) {
@@ -238,7 +246,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                         case "extra": reportfile = dir_metadata + "/sp-metadata-extra.json"; break;
                     }
 
-                    await Utility.metadataCheck(test, dir_metadata, profile, config_idp, production).then(
+                    await Utility.metadataCheck(test, metadata.entity_id.normalize(), profile, config_idp, production).then(
                         (out) => {
                             try {
                                 let report = fs.readFileSync(reportfile, "utf8"); 
@@ -246,9 +254,10 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         
                                 let lastcheck = { 
                                     datetime: moment().format('YYYY-MM-DD HH:mm:ss'), 
+                                    check: check,
                                     profile: profile,
-                                    report: report,
-                                    production: production
+                                    production: production,
+                                    report: report
                                 } 
 
                                 let validation = null;
@@ -300,6 +309,9 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                         }, true);
 
                         res.status(201).send({
+                            check: check,
+                            profile: profile,
+                            production: production,
                             validation: validation,
                             metadata: metadata_list
                         });
@@ -313,6 +325,23 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             });
         }
     );
+
+    // imposta il metadata in sessione
+    app.put('/api/metadata-sp/', function(req, res) {
+        // check if apikey is correct
+        let authorisation = checkAuthorisation(req);
+        if(!authorisation) {
+            error = {code: 401, msg: "Unauthorized"};
+            res.status(error.code).send(error.msg);
+            return null;
+        }	
+    
+        if(!req.body.metadata) { return res.status(400).send("Please give me a valid metadata object"); }
+
+        req.session.metadata = req.body.metadata;
+
+        res.status(200).send();
+    });
     
     // return last validation from store
     app.get("/api/metadata-sp/lastcheck/:test", function(req, res) {
