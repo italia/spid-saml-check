@@ -140,7 +140,7 @@ class MainService {
 		});
 	}
 
-	uploadFile(file, check, profile, production, callback_progress, callback_response, callback_error) {
+	uploadFile(file, check, profile, production, callback_progress_upload, callback_progress_download, callback_response, callback_error) {
 		Utility.log("POST: /api/metadata-sp/upload/zip");
 		const formData = new FormData();
 		formData.append('file', file);
@@ -149,7 +149,8 @@ class MainService {
 		formData.append('production', production);
 		axios.post(' /api/metadata-sp/upload/zip?apikey=' + Utility.getApikey(), formData, {
 		  	headers: { 'Content-Type': 'multipart/form-data' },
-			onUploadProgress: (progressEvent)=>callback_progress(progressEvent)
+			onUploadProgress: (progressEvent)=>callback_progress_upload(progressEvent),
+			onDownloadProgress: (progressEvent)=>callback_progress_download(progressEvent)
 		})
 		.then(function(response) {
 			callback_response(response.data);

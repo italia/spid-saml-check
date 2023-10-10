@@ -22,7 +22,7 @@ class MetadataSpUploadZip extends Component {
 			check: "extra",
 			profile: "spid-sp-ag-public-full",
 			production: true,
-      report: null
+      		report: null
     };  
   }	
 
@@ -58,7 +58,13 @@ class MetadataSpUploadZip extends Component {
 		this.setState({
 			production: production
 		});
+		this.setState({
+			production: production
+		}, ()=> {
+			this.uploadMetadataZip(this.state.file);
+		});
 	}
+	
 
 	uploadMetadataZip(metadata_zip) {
 		
@@ -74,15 +80,33 @@ class MetadataSpUploadZip extends Component {
 			report: null
 		});
 
-    Utility.blockUI(true);
+		Utility.blockUI(true);
 		service.uploadFile(
-				metadata_zip, 
-				this.state.check,
-				this.state.profile, 
-				this.state.production? 'Y':'N',
+			metadata_zip, 
+			this.state.check,
+			this.state.profile, 
+			this.state.production? 'Y':'N',
 
 			(progress)=> {
-        this.setState({progress: (progress.loaded*100)/progress.total});
+				let progress_percent = Math.round((parseInt(progress.loaded)*100)/parseInt(progress.total));
+				if(progress_percent<100) {
+					this.setState({
+						progress_message: "Uploading ZIP file...",
+						progress: progress_percent + "%"
+					});
+				} else {
+					this.setState({
+						progress_message: "Validating all metadata. Please wait...",
+						progress: ""
+					});
+				}
+			},
+			(progress)=> {
+				let progress_percent = Math.round((parseInt(progress.loaded)*100)/parseInt(progress.total));
+				this.setState({
+					progress_message: "Downloading report...",
+					progress: progress_percent + '%'
+				});
 			},
 			(report)=> {
 				this.setState({
@@ -93,10 +117,10 @@ class MetadataSpUploadZip extends Component {
 					check: report.check,
 					profile: report.profile,
 					production: report.production,
-          report: report
+          			report: report
 				});
         
-        Utility.blockUI(false);
+        		Utility.blockUI(false);
 			},
 			(error)=> {
 				Utility.showModal({
@@ -115,9 +139,9 @@ class MetadataSpUploadZip extends Component {
 					profile: "spid-sp-ag-public-full",
 					production: true,
 					report: null
-        });
+        		});
 
-        Utility.blockUI(false);
+        		Utility.blockUI(false);
 			}
 		);
 	}

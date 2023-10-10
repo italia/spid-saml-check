@@ -27,7 +27,7 @@ function view(me) {
                     }
                     {me.state.loading &&
                         <div>
-                            Uploading file... {me.state.progress}%
+                            {me.state.progress_message} {me.state.progress}
                         </div>
                     }
                 </div>
