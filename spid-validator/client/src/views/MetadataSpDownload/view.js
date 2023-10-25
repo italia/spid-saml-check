@@ -12,7 +12,7 @@ function view(me) {
                 <div className="col-sm-12">
                     <b>Metadata URL</b>
                 </div>                                      
-                <div className="col-sm-12">  
+                <div className="col-sm-12 mt-3">  
                     <input type="text"
                         ref="inputMetadata"
                         className="metadata"

@@ -1,0 +1,137 @@
+#MetadataSpUploadZip .title {
+    margin-bottom: 30px!important;
+}
+
+#MetadataSpUploadZip .profile-selector {
+    width: 100%;
+}
+
+#MetadataSpUploadZip .code {
+    margin-top: 20px;
+}
+
+#MetadataSpUploadZip button {
+    margin: 0 5px!important;
+}
+
+#MetadataSpUploadZip .testset {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#MetadataSpUploadZip .test-success {
+    display: block;
+    float: left;
+    width: 30px;
+    line-height: 23px;
+    margin: 1px;
+    border: 1px solid #000;
+    background-color: green;
+    color: #fff!important;
+    font-size: 13px;
+    text-align: center;
+    padding: 3px;
+    cursor: pointer;
+}
+
+#MetadataSpUploadZip .test-warning {
+    display: block;
+    float: left;
+    width: 30px;
+    line-height: 23px;
+    margin: 1px;
+    border: 1px solid #000;
+    background-color: orange;
+    color: #000!important;
+    font-size: 13px;
+    text-align: center;
+    padding: 3px;
+    cursor: pointer;
+}
+
+#MetadataSpUploadZip .test-fail {
+    display: block;
+    float: left;
+    width: 30px;
+    line-height: 23px;
+    margin: 1px;
+    border: 1px solid #000;
+    background-color: red;
+    color: #fff!important;
+    font-size: 13px;
+    text-align: center;
+    padding: 3px;
+    cursor: pointer;
+}
+
+#MetadataSpUploadZip .detail-table {
+    border:1px solid #999;
+    width: 100%;
+}
+
+#MetadataSpUploadZip .detail-table th, 
+#MetadataSpUploadZip .detail-table td {
+    padding: 5px;
+}
+
+#MetadataSpUploadZip .detail-table td a {
+    color: #000;
+}
+
+#MetadataSpUploadZip .detail-header {
+    background: #DDDDDD;
+}
+
+#MetadataSpUploadZip .detail-row {
+    border:1px solid #000;
+}
+
+#MetadataSpUploadZip .detail-row:hover {
+    background: #EEEEEE;
+}
+
+#MetadataSpUploadZip .detail-num {
+    width: 50px;
+}
+
+#MetadataSpUploadZip .detail-result {
+    width: 100px;
+}
+
+#MetadataSpUploadZip .test-success-dm {
+    background: green!important;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+#MetadataSpUploadZip .test-warning-dm {
+    background: orange!important;
+    color: #000000;
+    font-weight: bold;
+}
+
+#MetadataSpUploadZip .test-fail-dm {
+    background: red!important;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+#MetadataSpUploadZip .tools {
+    padding: 30px 5px;
+    background: #FFFFFF;
+    margin-left: 15px;
+}
+
+#MetadataSpUploadZip .first-upper {
+    text-transform:capitalize;
+}
+
+@media print {
+    #MetadataSpUploadZip .upload-section {
+        display: none;
+    }
+    #MetadataSpUploadZip .tools {
+        display: none;
+    }
+}

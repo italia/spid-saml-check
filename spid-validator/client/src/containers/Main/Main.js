@@ -9,6 +9,7 @@ import Breadcrumb from '../../components/Breadcrumb/';
 import Aside from '../../components/Aside/';
 import Footer from '../../components/Footer/';
 import MetadataSpDownload from '../../views/MetadataSpDownload/';
+import MetadataSpUploadZip from '../../views/MetadataSpUploadZip/';
 import MetadataSpCheck from '../../views/MetadataSpCheck/';
 import Request from '../../views/Request/';
 import RequestCheck from '../../views/RequestCheck/';
@@ -158,7 +159,8 @@ class Main extends Component {
 								<Breadcrumb />
 								<Container fluid>
 									<Switch>
-									<Route path="/metadata-sp-download" name="Metadata Service Provider / Download" component={MetadataSpDownload}/>
+									<Route path="/metadata-sp-download" name="Metadata Service Provider / Download from URL" component={MetadataSpDownload}/>
+									<Route path="/metadata-sp-upload-zip" name="Metadata Service Provider / Upload from ZIP" component={MetadataSpUploadZip}/>
 									<Route path="/metadata-sp-check-xsd" key="metadata-sp-check-xsd" render={()=><MetadataSpCheck test="xsd" />} />
 									<Route path="/metadata-sp-check-strict" key="metadata-sp-check-strict" render={()=><MetadataSpCheck test="strict" />} />
 									<Route path="/metadata-sp-check-certs" key="metadata-sp-check-certs" render={()=><MetadataSpCheck test="certs" />} />
