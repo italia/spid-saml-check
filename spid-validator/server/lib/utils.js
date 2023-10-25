@@ -200,6 +200,17 @@ class Utils {
       });
     });
   }
+
+  static readDir(filePath) {
+      const files = fs.readdirSync(filePath);
+      const fileArray = [];
+      files.forEach((file) => {
+        if (file.split('.')[1] === 'xml') {
+          fileArray.push(file);
+        }
+      });
+      return fileArray;
+  }
 }
 
 module.exports = Utils;

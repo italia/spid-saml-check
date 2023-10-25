@@ -140,6 +140,39 @@ class MainService {
 		});
 	}
 
+	uploadFile(file, check, profile, production, callback_progress_upload, callback_progress_download, callback_response, callback_error) {
+		Utility.log("POST: /api/metadata-sp/upload/zip");
+		const formData = new FormData();
+		formData.append('file', file);
+		formData.append('check', check);
+		formData.append('profile', profile);
+		formData.append('production', production);
+		axios.post(' /api/metadata-sp/upload/zip?apikey=' + Utility.getApikey(), formData, {
+		  	headers: { 'Content-Type': 'multipart/form-data' },
+			onUploadProgress: (progressEvent)=>callback_progress_upload(progressEvent),
+			onDownloadProgress: (progressEvent)=>callback_progress_download(progressEvent)
+		})
+		.then(function(response) {
+			callback_response(response.data);
+	  	})
+	  	.catch(function(error) {
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+	  	});
+	}
+
+	setSessionMetadata(metadata, callback_response, callback_error) {
+		Utility.log("PUT /api/metadata-sp");
+		axios.put('/api/metadata-sp?apikey=' + Utility.getApikey(), {metadata: metadata})
+		.then(function(response) {
+			Utility.log("setSessionMetadata Success", response.data);
+			callback_response(response.data);
+		})
+		.catch(function(error) {
+			Utility.log("setSessionMetadata Error", error.response.data);
+			callback_error((error.response!=null) ? error.response.data : "Service not available");
+		});
+	}
+
 	getLastCheckMetadataSp(test, callback_response, callback_error) {
 		Utility.log("GET /api/metadata-sp/lastcheck/" + test);
 		axios.get('/api/metadata-sp/lastcheck/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})

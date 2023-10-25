@@ -7,7 +7,7 @@ export default {
       sessionRequired: false,
       children: [
         {
-          name: 'Download',  
+          name: 'Download from URL',  
           url: '/metadata-sp-download',   
           sessionRequired: false, 
         },
@@ -32,6 +32,19 @@ export default {
           name: 'Check Extra',  
           url: '/metadata-sp-check-extra',
           sessionRequired: false 
+        }
+      ]
+    },
+    {
+      name: 'Pacchetto ZIP',
+      icon: 'icon-folder',
+      open: true,
+      sessionRequired: false,
+      children: [
+        {
+          name: 'Upload ZIP',  
+          url: '/metadata-sp-upload-zip',   
+          sessionRequired: false, 
         }
       ]
     },

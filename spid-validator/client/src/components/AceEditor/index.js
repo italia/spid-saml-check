@@ -7,13 +7,32 @@ class AceEditor extends Component {
     
   constructor(props) {
     super(props);
-    this.state = {code: format((props.code!=null)? props.code:"")};
+    this.state = {
+      mode: 'xml',
+      code: ""
+    };
   }  
 
   static getDerivedStateFromProps(props, state) {
-    Utility.log("State", props.code)
+
+    let mode = props.mode;
+    let code = props.code;
+
+    switch(props.mode) {
+      case 'json':
+        code = JSON.stringify(props.code, null, 4);
+      break;
+
+      case 'xml':
+      default:
+        mode = 'xml';
+        code = format((props.code!=null)? props.code : "");
+      break;
+    }
+
     return {
-      code: format((props.code!=null)? props.code:"")
+      code: code,
+      mode: mode
     }
   }  
 

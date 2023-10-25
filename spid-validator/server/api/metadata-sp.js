@@ -1,10 +1,15 @@
 const fs = require('fs-extra');
+const multer = require('multer');
+const upload = multer({dest: 'temp/'});
+const unzip = require('unzip');
 const Utility = require('../lib/utils');
 const MetadataParser = require('../lib/saml-utils').MetadataParser;
 const config_dir = require('../../config/dir.json');
 const config_idp = require("../../config/idp.json");
 const config_test = require("../../config/test.json");
 const moment = require('moment');
+
+const ZIP_MAX_NUM_FILES = 100;
  
 module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
@@ -76,6 +81,40 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         res.status(200).send(result);
     })
     
+    function setMetadataFromFile(name, tempfile, url, organization) {
+        let xml = fs.readFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfile, "utf8");
+        let metadataParser = new MetadataParser(xml);
+
+        let entityID = metadataParser.getServiceProviderEntityId();
+        if(entityID==null || entityID=='') throw new Error("EntityID non specificato");
+
+        let organization_description = metadataParser.getOrganization().displayName;
+        if(organization_description==null || organization_description=='') throw new Error("Organization non definito");
+
+        let metadata_type = metadataParser.isMetadataForAggregated()? 'AG':'SP'; 
+        
+        let organization_aggregated = undefined;
+        if(metadataParser.isMetadataForAggregated()) {
+            organization_aggregated = metadataParser.getSPIDAggregatedContactPerson();
+        }
+
+        metadata = {
+            name: name,
+            type: metadata_type,
+            entity_id: entityID,
+            organization_code: organization,
+            organization_description: organization_description,
+            organization_aggregated: organization_aggregated,
+            url: url,
+            xml: xml
+        }
+
+        fs.copyFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfile, getEntityDir(entityID) + "/sp-metadata.xml");
+        fs.unlinkSync(getEntityDir(config_dir.TEMP) + "/" + tempfile);
+
+        return metadata;
+    }
+
     // download metadata 
     app.post("/api/metadata-sp/download", function(req, res) {
     
@@ -104,45 +143,21 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         let metadata = {
             url: req.body.url,
             xml: null
-        }
+        } 
 
         Utility.metadataDownload(req.body.url, getEntityDir(config_dir.TEMP) + "/" + tempfilename)
             .then((file_name) => {
 
                 try {
-                    let xml = fs.readFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, "utf8");
-                    let metadataParser = new MetadataParser(xml);
-
-                    let entityID = metadataParser.getServiceProviderEntityId();
-                    if(entityID==null || entityID=='') throw new Error("EntityID non specificato");
-
-                    let organization_description = metadataParser.getOrganization().displayName;
-                    if(organization_description==null || organization_description=='') throw new Error("Organization non definito");
-
-                    let metadata_type = metadataParser.isMetadataForAggregated()? 'AG':'SP'; 
-                    
-                    let organization_aggregated = undefined;
-                    if(metadataParser.isMetadataForAggregated()) {
-                        organization_aggregated = metadataParser.getSPIDAggregatedContactPerson();
-                    }
-    
-                    
-                    metadata = {
-                        type: metadata_type,
-                        entity_id: entityID,
-                        organization_code: organization,
-                        organization_description: organization_description,
-                        organization_aggregated: organization_aggregated,
-                        url: req.body.url,
-                        xml: xml
-                    }
-    
+                    let metadata = setMetadataFromFile(
+                        req.body.url, 
+                        tempfilename,
+                        req.body.url, 
+                        organization
+                    );
                     req.session.metadata = metadata;
-                    fs.copyFileSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename, getEntityDir(entityID) + "/sp-metadata.xml");
-                    database.setMetadata(user, organization, entityID, external_code, store_type, req.body.url, xml);
-                    fs.unlinkSync(getEntityDir(config_dir.TEMP) + "/" + tempfilename);
-    
-                    let result = (authorisation=='API')? metadata : xml;
+                    database.setMetadata(user, organization, metadata.entity_id, external_code, store_type, metadata.url, metadata.xml);
+                    let result = (authorisation=='API')? metadata : metadata.xml;
                     res.status(200).send(result);
 
                 } catch(exception) {
@@ -161,6 +176,179 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             res.status(500).send(err);
         });
 
+    });
+
+    // carica il file zip
+    app.post('/api/metadata-sp/upload/zip', upload.single('file'), function (req, res, next) {
+
+        // check if apikey is correct
+        let authorisation = checkAuthorisation(req);
+        if(!authorisation) {
+            error = {code: 401, msg: "Unauthorized"};
+            res.status(error.code).send(error.msg);
+            return null;
+        }	
+    
+        if(!req.file) { return res.status(500).send("Please upload a valid zip file"); }
+        if(authorisation=='API' && !req.body.user) { return res.status(400).send("Parameter user is missing"); }
+        if(authorisation=='API' && !req.body.organization) { return res.status(400).send("Parameter organization is missing"); }
+        if(authorisation=='API' && !req.query.store_type) { return res.status(400).send("Parameter store_type is missing"); }
+        //if(authorisation=='API' && !req.body.external_code) { return res.status(400).send("Parameter external_code is missing"); }
+
+        let user = (authorisation=='API')? req.body.user : req.session.user;
+        let organization = (authorisation=='API')? req.body.organization : (req.session.entity)? req.session.entity.id : null;
+        let external_code = (authorisation=='API')? req.body.external_code : req.session.external_code;
+        let store_type = (authorisation=='API')? req.query.store_type : 
+            (req.session.metadata && req.session.metadata.store_type)? req.session.metadata.store_type : 'main';
+
+        
+        Utility.log("POST ZIP", req.file);
+        if (req.file.mimetype !== "application/zip" && req.file.mimetype !== "application/x-zip-compressed") {
+            res.status(500).send(`Si è verificato un errore durante il caricamento del metadato, il formato del file fornito non è supportato (${req.file.mimetype})`);
+            fs.rmSync(req.file.path);
+            return;
+        }
+
+        let check = req.body.check? req.body.check : "extra";
+        let profile = req.body.profile? req.body.profile : "spid-sp-ag-public-full";
+        let production = (req.body.production && req.body.production=='N')? false : true;
+
+        Utility.log("PROFILE", profile);
+        Utility.log("PRODUCTION", production);
+
+        fs.createReadStream(req.file.path)
+            .pipe(unzip.Extract({path: getEntityDir(config_dir.TEMP)}))
+            .on('error', (err) => Utility.log('ERRORE FILE: ', err))
+            .on('close', async () => {
+
+                let metadata_list = [];
+                const files = Utility.readDir(getEntityDir(config_dir.TEMP));
+
+                if(files.length>ZIP_MAX_NUM_FILES) {
+                    res.status(400).send(`Il pacchetto zip può contenere massimo ${ZIP_MAX_NUM_FILES} file`);
+                    return;
+                }
+
+                const saveFilePromises = files.map(async (file) => {
+                    
+                    Utility.log("CHECK METADATA FILE from ZIP: ", file);
+                    let metadata = setMetadataFromFile( 
+                        file, 
+                        file,
+                        getEntityDir(config_dir.TEMP) + "/" + file,
+                        organization,
+                    );                    
+                    
+                    // reset url to avoid to view path on client
+                    metadata.url = metadata.name;
+
+                    database.setMetadata(user, organization, metadata.entity_id, external_code, store_type, metadata.url, metadata.xml);
+
+                    let dir_metadata = getEntityDir(metadata.entity_id.normalize());
+                    let test = check;
+                    let reportfile = null;
+                                
+                    switch(test) {
+                        case "strict": reportfile = dir_metadata + "/sp-metadata-strict.json"; break;
+                        case "certs": reportfile = dir_metadata + "/sp-metadata-certs.json"; break;
+                        case "extra": reportfile = dir_metadata + "/sp-metadata-extra.json"; break;
+                    }
+
+                    await Utility.metadataCheck(test, metadata.entity_id.normalize(), profile, config_idp, production).then(
+                        (out) => {
+                            try {
+                                let report = fs.readFileSync(reportfile, "utf8"); 
+                                report = JSON.parse(report);
+        
+                                let lastcheck = { 
+                                    datetime: moment().format('YYYY-MM-DD HH:mm:ss'), 
+                                    check: check,
+                                    profile: profile,
+                                    production: production,
+                                    report: report
+                                } 
+
+                                let validation = null;
+        
+                                if(user && metadata.entity_id) {
+                                    // save result validation on store
+                                    let testGroups = [];
+        
+                                    switch(test) {
+                                        case "strict": testGroups = report.test.sp.metadata_strict.SpidSpMetadataCheck; break;
+                                        case "certs": testGroups = report.test.sp.metadata_certs.SpidSpMetadataCheckCerts; break;
+                                        case "extra": testGroups = report.test.sp.metadata_extra.SpidSpMetadataCheckExtra; break;
+                                    }
+        
+                                    for(let t in testGroups) {
+                                        let testGroup = testGroups[t];
+                                        if(testGroup.result!=null) {
+                                            if(validation==null) validation = (testGroup.result=='success');
+                                            else validation = validation && (testGroup.result=='success');
+                                        }
+                                    }
+        
+                                    database.setMetadataValidation(user, metadata.entity_id, external_code, store_type, test, validation);
+                                    database.setMetadataLastCheck(user, metadata.entity_id, external_code, store_type, test, lastcheck); 
+                                }
+        
+                                metadata.lastcheck = lastcheck;
+                                metadata.validation = validation;
+        
+                            } catch(err) {
+                                Utility.log("ERR /api/metadata-sp/upload/zip", err.toString());
+                                res.status(500).send("Error while loading report");
+                            }
+                        },
+                        (err) => {
+                            Utility.log("ERR /api/metadata-sp/upload/zip", err);
+                            res.status(500).send(err);
+                        }
+                    );
+        
+                    metadata_list.push(metadata); 
+                });
+
+                if (saveFilePromises.length > 0) {
+                    Promise.all(saveFilePromises)
+                    .then(() => {
+                        let validation = metadata_list.reduce((a, m)=> {
+                            return a && m.validation;
+                        }, true);
+
+                        res.status(201).send({
+                            check: check,
+                            profile: profile,
+                            production: production,
+                            validation: validation,
+                            metadata: metadata_list
+                        });
+                    })
+                    .catch((error) => res.status(500).send('Si è verificato un errore durante il caricamento del metadato'))
+                    .finally(() => fs.rmSync(req.file.path, {recursive: true, force: true}));
+                } else {
+                    fs.rmSync(req.file.path, {recursive: true, force: true});
+                    res.status(500).send('Non sono presenti file all\'interno dello zip caricato');
+                }
+            });
+        }
+    );
+
+    // imposta il metadata in sessione
+    app.put('/api/metadata-sp/', function(req, res) {
+        // check if apikey is correct
+        let authorisation = checkAuthorisation(req);
+        if(!authorisation) {
+            error = {code: 401, msg: "Unauthorized"};
+            res.status(error.code).send(error.msg);
+            return null;
+        }	
+    
+        if(!req.body.metadata) { return res.status(400).send("Please give me a valid metadata object"); }
+
+        req.session.metadata = req.body.metadata;
+
+        res.status(200).send();
     });
     
     // return last validation from store
