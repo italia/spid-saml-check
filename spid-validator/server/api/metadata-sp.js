@@ -8,6 +8,8 @@ const config_dir = require('../../config/dir.json');
 const config_idp = require("../../config/idp.json");
 const config_test = require("../../config/test.json");
 const moment = require('moment');
+
+const ZIP_MAX_NUM_FILES = 100;
  
 module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
@@ -221,6 +223,12 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
                 let metadata_list = [];
                 const files = Utility.readDir(getEntityDir(config_dir.TEMP));
+
+                if(files.length>ZIP_MAX_NUM_FILES) {
+                    res.status(400).send(`Il pacchetto zip può contenere massimo ${ZIP_MAX_NUM_FILES} file`);
+                    return;
+                }
+
                 const saveFilePromises = files.map(async (file) => {
                     
                     Utility.log("CHECK METADATA FILE from ZIP: ", file);
