@@ -169,6 +169,20 @@ class MetadataParser {
         return serviceProviderEntityId;
     }
 
+    existsAssertionConsumerServiceURL(url) {
+        let exists = false;
+        let doc = new DOMParser().parseFromString(this.metadata.xml);
+        let acs = select("//md:EntityDescriptor/md:SPSSODescriptor/md:AssertionConsumerService", doc);
+        for(let i in acs) {
+            let acsLocation = acs[i].getAttribute("Location");
+            if(acsLocation==url) {
+                exists = true;
+                break;
+            }
+        }
+        return exists;
+    }
+
     getAssertionConsumerServiceURL(index) {
         let assertionConsumerServiceURL = null;
         let doc = new DOMParser().parseFromString(this.metadata.xml);
