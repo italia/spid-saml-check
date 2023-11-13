@@ -649,6 +649,12 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
             assertionConsumerURL = metadataParser.getAssertionConsumerServiceURL(assertionConsumerIndex);
         }
 
+        // if no valid AssertionConsumerURL return error
+        let existsAssertionConsumerServiceURL = metadataParser.existsAssertionConsumerServiceURL(assertionConsumerURL); 
+        if(!existsAssertionConsumerServiceURL) {
+            return res.status(400).send("AssertionConsumerServiceURL not valid");
+        }
+
         // defaults 
         let defaults = [];
         defaults = Utility.defaultParam(defaults, "Issuer", config_demo.entityID);
