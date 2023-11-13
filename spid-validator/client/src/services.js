@@ -232,11 +232,10 @@ class MainService {
 		});
 	}
 
-	checkRequest(test, production, eidas, callback_response, callback_error) {
+	checkRequest(test, production, callback_response, callback_error) {
 		Utility.log("GET /api/request/check/" + test);
 		axios.get('/api/request/check/' + test + 
-			'?production=' + (production? 'Y':'N') + 
-			'?eidas=' + (eidas? true : false) +
+			'?production=' + (production? 'Y':'N') +
 			'&apikey=' + Utility.getApikey(), {timeout: 900000})
 		.then(function(response) {
 			Utility.log("checkRequest Success", response.data);

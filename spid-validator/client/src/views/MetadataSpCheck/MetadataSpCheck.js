@@ -20,8 +20,7 @@ class MetadataSpCheck extends Component {
         detailview: false,
         deprecable: false,
         deprecated: false,
-        production: false,
-        eidas: true
+        production: false
     };  
   }	
 
@@ -134,10 +133,6 @@ class MetadataSpCheck extends Component {
       }, ()=> {
         this.checkMetadata();
       });
-    }
-
-    setEidas() {
-      this.setState({ eidas: !this.state.eidas });
     }
 
     print() {
