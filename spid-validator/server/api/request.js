@@ -63,6 +63,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
     app.get("/api/request/check/:test", function(req, res) {
     
         // check if apikey is correct
+        let eidas = req.query.eidas;
         let authorisation = checkAuthorisation(req);
         if(!authorisation) {
             error = {code: 401, msg: "Unauthorized"};
@@ -70,6 +71,9 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             return null;
         }		
 
+        if(authorisation=='API' && !req.body.assertion_consumer_service_index && 
+           eidas && (assertion_consumer_service_index == 99 || assertion_consumer_service_index == 100)) 
+        { return res.status(400).send("Parameter assertion_consumer_service_index must be 99 or 100"); }
         if(authorisation=='API' && !req.body.user) { return res.status(400).send("Parameter user is missing"); }
         if(authorisation=='API' && !req.body.request) { return res.status(400).send("Parameter request is missing"); }
         if(authorisation=='API' && !req.body.issuer) { return res.status(400).send("Parameter issuer is missing"); }
