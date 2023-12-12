@@ -10,9 +10,10 @@ const MetadataParser = require("../lib/saml-utils").MetadataParser;
 const TestSuite = require("../lib/saml-utils").TestSuite;
 const Signer = require("../lib/signer").Signer;
 const SIGN_MODE = require("../lib/signer").SIGN_MODE;
-const config_server = require("../../config/server.json");
-const config_demo = require("../../config/idp_demo.json");
-const config_idp = require("../../config/idp.json");
+const config_loader = require('../utils/config_loader');
+const config_server = config_loader.server();
+const config_demo = config_loader.idpDemo();
+const config_idp = config_loader.idp();
 const config_dir = require("../../config/dir.json");
 const config_test = require("../../config/test.json");
 const spid_users = require("../../config/spid_users.json");
@@ -30,7 +31,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         let config = config_demo;
 
         let endpoint = config_server.host
-            + (config_server.useProxy? '' : ":" + config_server.port)
+            + ((config_server.useProxy === true || config_server.useProxy === "true") ? '' : ":" + config_server.port)
             + demo_basepath + "/samlsso";
 
         config.endpoints = {

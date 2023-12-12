@@ -4,8 +4,9 @@ const upload = multer({dest: 'temp/'});
 const unzip = require('unzip');
 const Utility = require('../lib/utils');
 const MetadataParser = require('../lib/saml-utils').MetadataParser;
+const config_loader = require('../utils/config_loader');
 const config_dir = require('../../config/dir.json');
-const config_idp = require("../../config/idp.json");
+const config_idp = config_loader.idp();
 const config_test = require("../../config/test.json");
 const moment = require('moment');
 
