@@ -102,21 +102,11 @@ class Utils {
                     console.log("[STDOUT] " + stdout);
                     console.log("[STDERR] " + stderr);
 
-                    
                     if(!fs.existsSync(reportfile)) {
                         return reject(err? stderr:stdout);
                     }
 
                     return resolve(stdout);
-                    
-                    /*
-                    if(err!=null && err!='' && stderr!=null && stderr!='') {
-                        return resolve(stdout);
-                    } else {
-                        return reject(stderr? stderr:stdout);
-                    }
-                    */
-
                 });
             } catch(e) {
                 return reject("Si è verificato un errore durante l'esecuzione di spid-sp-test: " + e.message);
