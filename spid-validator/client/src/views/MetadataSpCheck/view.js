@@ -148,32 +148,20 @@ function view(me) {
                 </div>
               )}
 
-              <div class='col-md-12'>
-                <div class='form-group'>
-                  <label htmlFor='input_eidas' class='mr-2'>
-                    EIDAS
-                  </label>
-                  <div class='input-group'>
-                    <label class='switch switch-lg switch-text switch-danger mt-1'>
-                      <input
-                        type='checkbox'
-                        id='input_eidas'
-                        class='switch-input'
-                        name='input_eidas'
-                        checked={me.state.eidas}
-                        onChange={(e) => {
-                          me.setEidas(e.target.value);
-                        }}
-                      />
-                      <span
-                        class='switch-label'
-                        data-on='True'
-                        data-off='False'
-                      ></span>
-                      <span class='switch-handle'></span>
-                    </label>
-                  </div>
-                </div>
+              <div>
+                <label className='switch switch-success'>
+                  <input
+                    type='checkbox'
+                    className='switch-input'
+                    checked={me.state.eidas}
+                    onChange={(e) => {
+                      me.setEidas(e.target.checked);
+                    }}
+                  ></input>
+                  <span className='switch-slider'></span>
+                </label>
+                <span>EIDAS</span>
+                <hr />
               </div>
 
               <div>
