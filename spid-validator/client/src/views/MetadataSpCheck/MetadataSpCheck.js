@@ -11,7 +11,7 @@ class MetadataSpCheck extends Component {
 
   constructor(props) {
     super(props);
-    
+
     this.state = {
         test: props.test,
         report: null,
@@ -21,29 +21,29 @@ class MetadataSpCheck extends Component {
         deprecable: false,
         deprecated: false,
         production: false,
-        eidas: true
-    };  
-  }	
+        eidas: false
+    };
+  }
 
-  componentDidMount() { 
+  componentDidMount() {
     this.getLastCheck();
   }
-  
+
 
   getLastCheck() {
-    let service = Services.getMainService(); 
+    let service = Services.getMainService();
     Utility.blockUI(true);
     service.getLastCheckMetadataSp(
       this.state.test,
-      (lastcheck) => { 
-        Utility.blockUI(false); 
+      (lastcheck) => {
+        Utility.blockUI(false);
         let report = null;
         let deprecable = false;
         let deprecated = false;
         switch(this.state.test) {
           case "strict": report = lastcheck.report.test.sp.metadata_strict.SpidSpMetadataCheck; break;
           case "extra": report = lastcheck.report.test.sp.metadata_extra.SpidSpMetadataCheckExtra; break;
-        } 
+        }
 
         this.setState({
           report: report,
@@ -53,8 +53,8 @@ class MetadataSpCheck extends Component {
           report_profile: lastcheck.profile,
           production: lastcheck.production
         });
-      }, 
-      (error)   => { 
+      },
+      (error)   => {
         Utility.blockUI(false);
         this.checkMetadata();
         /*
@@ -80,8 +80,9 @@ class MetadataSpCheck extends Component {
       this.state.test,
       this.state.deprecated,
       this.state.production,
-      (check) => { 
-        Utility.blockUI(false); 
+      this.state.eidas,
+      (check) => {
+        Utility.blockUI(false);
         let report = null;
         let deprecable = false;
         let deprecated = false;
@@ -97,8 +98,8 @@ class MetadataSpCheck extends Component {
           report_datetime: moment(check.datetime).format('DD/MM/YYYY HH:mm:ss'),
           report_profile: check.profile
         });
-      }, 
-      (error)   => { 
+      },
+      (error)   => {
         Utility.blockUI(false);
         this.setState({
           report: null,
@@ -136,15 +137,17 @@ class MetadataSpCheck extends Component {
       });
     }
 
-    setEidas() {
-      this.setState({ eidas: !this.state.eidas });
+    setEidas(eidas) {
+      this.setState({ eidas }, ()=> {
+        this.checkMetadata();
+      });
     }
 
     print() {
         Utility.print("metadata-" + this.state.test);
     }
 
-  render() {    
+  render() {
 	return view(this);
   }
 }
