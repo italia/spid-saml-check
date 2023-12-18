@@ -353,7 +353,6 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
     
     // return last validation from store
     app.get("/api/metadata-sp/lastcheck/:test", function(req, res) {
-
         // check if apikey is correct
         let authorisation = checkAuthorisation(req);
         if(!authorisation) {
@@ -432,7 +431,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
         let deprecated = (req.query.deprecated=='Y')? true : false;
         let production = (req.query.production=='Y')? true : false;
-        let isEidas = (req.query.eidas==true)? true : false;
+        let isEidas = (req.query.eidas=='Y')? true : false;
     
         if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory " + config_dir.DATA + " is not found. Please create it and reload." });
     
