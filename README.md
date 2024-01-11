@@ -116,21 +116,21 @@ To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin 
 
 - Start authentication request connecting to your SP, the AuthnRequest would be created and sent to spid-saml-check.
   You should access to a page like shown in the following picture
-  
+
   <img src="doc/img/login.png" width="500" alt="login page" />
-  
+
 
 - Submit __validator__ / __validator__ as credential
 - You would see the SAML2 Authn Request made from your SP
 
   <img src="doc/img/2.png" width="500" alt="authn request page" />
-  
+
 
 - Click on Metadata -> Download and submit your SP metadata url.<br/>
   **Warning**: If your SP is on your localhost, please use your host Docker IP and not "localhost"!
 
   <img src="doc/img/3.png" width="500" alt="metadata download page" />
-  
+
 - Now you'll be able to execute all the tests, in order of appareance: Metadata, Request and Response.
 - To check a Response, from Response section, select in the scroll menu the test you want to execute, then mark it as done and if successful
 
@@ -142,8 +142,8 @@ To use the *SPID Validator* the AuthnRequest are thus sent from your SP, loggin 
 The application spid-demo runs at: [https://localhost:8443/demo](https://localhost:8443/demo)
 
 <img src="doc/img/demo_idp_index.png" width="500" alt="demo index page" />
-   
-   
+
+
 Test users of spid-demo that can be used are listed at: [https://localhost:8443/demo/users](https://localhost:8443/demo/users)
 
 <img src="doc/img/demo_idp_users.png" width="500" alt="demo users page" />
@@ -159,18 +159,60 @@ Test users of spid-demo that can be used are listed at: [https://localhost:8443/
 
 - Go to https://localhost:8443 to register metadata of your SP on spid-validator.
   You should access to a page like shown in the following picture
-  
+
   <img src="doc/img/login.png" width="500" alt="login page" />
-  
-  
+
+
 - Submit __validator__/ __validator__ as credential
 
 - Click on Metadata -> Download and submit your SP metadata url.<br/>
   **Warning**: If your SP is on your localhost, please use your host Docker IP and not "localhost"!
-  
+
   <img src="doc/img/demo_download_metadata_sp.png" width="500" alt="download metadata page" />
-  
+
 
 - Send an authn request to spid-demo in order to use Demo environment
 
   <img src="doc/img/demo_idp.png" width="500" alt="demo idp" />
+
+
+## Override default config with env variables
+
+The application runs at: [https://localhost:8443/](https://localhost:8443/)
+
+All the endpoints are mapped to match this URL. ie:
+```
+<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://localhost:8443/samlsso" ResponseLocation="https://localhost:8443/samlsso"/>
+<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://localhost:8443/samlsso" ResponseLocation="https://localhost:8443/samlsso"/>
+
+.....
+
+<md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://localhost:8443/samlsso"/>
+<md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://localhost:8443/samlsso"/>
+```
+
+You can override this value by setting an environment variable. You can also hide the port if you have a proxy configured to listen on port 443.
+
+```
+docker run -t -i -d -p 8443:8443  \
+        -e SERVER_HOST='https://proxy.spid.local' \
+        -e SERVER_PROXY_ACTIVE=true \
+        spid-saml-check
+```
+It is possible to change the *SPID Validator* entityId and the *SPID Demo* entityId:
+
+```
+docker run -t -i -d -p 8443:8443  \
+        -e IDP_ENTITY_ID='https://proxy.spid.local' \
+        -e DEMO_ENTITY_ID='https://demo-proxy.spid.local' \
+        spid-saml-check
+```
+
+### Env variables list
+
+| name   | default value |  info |
+|----------|-------------|------|
+| SERVER_HOST | https://localhost:8443 | *SPID Validator* url |
+| SERVER_PROXY_ACTIVE | false | hide port in the `Location` metadata entries |
+| IDP_ENTITY_ID | https://localhost:8443 | `entityID` of the *SPID Validator* metadata |
+| DEMO_ENTITY_ID | https://localhost:8443/demo | `entityID` of the *SPID Demo* metadata |

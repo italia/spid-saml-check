@@ -3,7 +3,8 @@ const path = require('path');
 const sha256 = require("sha256");
 const moment = require("moment"); 
 const Utility = require("../lib/utils");
-const config_idp = require("../../config/idp.json");
+const config_loader = require('../utils/config_loader');
+const config_idp = config_loader.idp();
 
 
 module.exports = function(app, checkAuthorisation, authenticator) {
