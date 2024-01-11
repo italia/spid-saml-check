@@ -1,5 +1,6 @@
 const url = require("url");
 const path = require("path");
+const https = require("https");
 const CircularJSON = require("circular-json");
 const child_process = require('child_process');
 const UUID = require("uuidjs");
@@ -56,6 +57,19 @@ class Utils {
 
     static metadataDownload(src, dest) {
         return new Promise((resolve, reject) => {
+
+            // check if URL is valid
+            if(!this.isValidUrl(src)) {
+                return reject("Inserire una URL valida");
+            }
+
+            // check if URL exists
+            https.get(src, (res) => {
+                if(res.statusCode!='200') {
+                    return reject("Metadata non trovato alla URL indicata");
+                }
+            })
+
             const file_name = url.parse(src).pathname.split('/').pop();
             const file_extention = path.extname(file_name);
             const cmd = 'wget -O "' + dest + '" "' + src + '" --no-check-certificate --no-cache --no-cookies  --user-agent="Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0"';   
@@ -211,6 +225,20 @@ class Utils {
       });
       return fileArray;
   }
+
+  static isValidUrl(str) {
+    const pattern = new RegExp(
+      '^([a-zA-Z]+:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR IP (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', // fragment locator
+      'i'
+    );
+    return pattern.test(str);
+  }
+
 }
 
 module.exports = Utils;
