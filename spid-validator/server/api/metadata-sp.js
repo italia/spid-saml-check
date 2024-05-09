@@ -1,7 +1,8 @@
 const fs = require('fs-extra');
+const path = require('node:path');
+const yauzl = require('yauzl');
 const multer = require('multer');
 const upload = multer({dest: 'temp/'});
-const unzip = require('unzip');
 const Utility = require('../lib/utils');
 const MetadataParser = require('../lib/saml-utils').MetadataParser;
 const config_dir = require('../../config/dir.json');
@@ -147,7 +148,6 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
         Utility.metadataDownload(req.body.url, getEntityDir(config_dir.TEMP) + "/" + tempfilename)
             .then((file_name) => {
-
                 try {
                     let metadata = setMetadataFromFile(
                         req.body.url, 
@@ -180,7 +180,6 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
     // carica il file zip
     app.post('/api/metadata-sp/upload/zip', upload.single('file'), function (req, res, next) {
-
         // check if apikey is correct
         let authorisation = checkAuthorisation(req);
         if(!authorisation) {
@@ -216,11 +215,27 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         Utility.log("PROFILE", profile);
         Utility.log("PRODUCTION", production);
 
-        fs.createReadStream(req.file.path)
-            .pipe(unzip.Extract({path: getEntityDir(config_dir.TEMP)}))
-            .on('error', (err) => Utility.log('ERRORE FILE: ', err))
-            .on('close', async () => {
-
+        yauzl.open(req.file.path, { lazyEntries: true }, (err, file) => {
+            if (err) {
+                Utility.log('ERRORE FILE: ', err);
+                res.status(500).send('Errore durante la lettura del file zip');
+                return;
+            }
+            file.readEntry();
+            file.on('entry', (entry) => {
+                if (/\/$/.test(entry.fileName)) {
+                    file.readEntry();
+                } else {
+                    file.openReadStream(entry, (err, readStream) => {
+                    if (err) throw err;
+                        readStream.on("end", function() {
+                            file.readEntry();
+                        });
+                        readStream.pipe(fs.createWriteStream(getEntityDir(config_dir.TEMP)));
+                    });
+                }
+            });
+            file.on('close', async () => {
                 let metadata_list = [];
                 const files = Utility.readDir(getEntityDir(config_dir.TEMP));
 
@@ -230,7 +245,6 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                 }
 
                 const saveFilePromises = files.map(async (file) => {
-                    
                     Utility.log("CHECK METADATA FILE from ZIP: ", file);
                     let metadata = setMetadataFromFile( 
                         file, 
@@ -331,8 +345,8 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
                     res.status(500).send('Non sono presenti file all\'interno dello zip caricato');
                 }
             });
-        }
-    );
+        });
+    });
 
     // imposta il metadata in sessione
     app.put('/api/metadata-sp/', function(req, res) {
@@ -642,5 +656,4 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }
 
     });
-
 }

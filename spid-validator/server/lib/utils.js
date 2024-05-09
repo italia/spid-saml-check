@@ -3,7 +3,6 @@ const path = require("path");
 const https = require("https");
 const CircularJSON = require("circular-json");
 const child_process = require('child_process');
-const UUID = require("uuidjs");
 const moment = require("moment");
 const CryptoJS = require("crypto-js");
 const config_dir = require("../../config/dir.json");
@@ -35,8 +34,7 @@ class Utils {
     }
 
     static getUUID() {
-        // NCName type (https://github.com/italia/spid-saml-check/issues/14)
-        return "_" + UUID.generate();
+        return "_" + crypto.randomUUID();
     }
 
     static getInstant() {
@@ -72,13 +70,20 @@ class Utils {
 
             const file_name = url.parse(src).pathname.split('/').pop();
             const file_extention = path.extname(file_name);
-            const cmd = 'wget -O "' + dest + '" "' + src + '" --no-check-certificate --no-cache --no-cookies  --user-agent="Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0"';   
+            const cmd = 'wget -O "' + dest + '" "' + src + '" --no-check-certificate --no-cache --no-cookies --user-agent="Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0"';   
 
             try {
+                console.debug(`executing command ${cmd}`);
                 child_process.exec(cmd, function (err, stdout, stderr) {
+                    if (err) {
+                        console.debug(`command exited with errors: ${err}`);
+                    } else {
+                        console.debug(`command exited succesfully`);
+                    }
                     return err ? reject(stderr) : resolve(file_name);
                 });
             } catch(e) {
+                console.debug(`unhandled exception on command: ${e.message}`);
                 return reject("Si è verificato un errore durante l'esecuzione di spid-sp-test: " + e.message);
             }
         });

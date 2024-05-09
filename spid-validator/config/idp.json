@@ -16,8 +16,8 @@
 	"requireSignedResponses": false,
 
 	"agidloginAuthentication": false,
-	"agidloginClientID": "",
-	"agidloginClientSecret": "",
+	"agidloginClientID": "test",
+	"agidloginClientSecret": "test",
 	"agidloginRedirectURI": "",
 	"agidloginPostLogoutRedirectURI": "",
 

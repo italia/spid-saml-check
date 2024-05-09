@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:20
 
 # Metadata params
 ARG BUILD_DATE
@@ -23,9 +23,10 @@ LABEL   org.opencontainers.image.authors="Michele D'Amico, michele.damico@agid.g
 
 # Update and install utilities
 RUN apt-get update && apt-get install -y \
+        gcc \
+        make \
         wget \
         curl \
-        unzip \
         libxml2-utils \
         libxml2-dev \
         libxmlsec1-dev \
@@ -40,20 +41,16 @@ RUN apt-get update && apt-get install -y \
         build-essential  \
         python3-dev cargo
 
-RUN pip3 install setuptools_rust cryptography
-
-
-# Upgrade pip
-RUN pip3 install --upgrade pip
+# tells node-gyp where to search for python
+ENV PYTHON=/usr/bin/python3
 
 # Install spid-sp-test
-RUN pip3 install spid-sp-test --no-cache
-
-# Set the working directory
-WORKDIR /spid-saml-check
+# TODO: create a venv and remove --break-system-packages
+RUN pip3 install spid-sp-test --no-cache --break-system-packages
 
 # Copy the current directory to /spid-validator
 ADD . /spid-saml-check
+WORKDIR /spid-saml-check
 
 # Create directory for tests data
 RUN mkdir /spid-saml-check/data
@@ -61,14 +58,13 @@ RUN mkdir /spid-saml-check/data
 ENV TZ=Europe/Rome
 ENV NODE_HTTPS_PORT=${EXPOSE_HTTPS_PORT}
 
-# Build validator
-RUN cd /spid-saml-check/spid-validator && \
-    cd client && npm install --silent && cd .. && \
-    cd server && npm install --silent && cd .. && \
+# Install server then install client and build it
+WORKDIR /spid-saml-check/spid-validator
+RUN cd server && npm install --silent && cd ..
+RUN cd client && npm install --silent && cd .. && \
     npm run build
 
 # Ports exposed
 EXPOSE ${EXPOSE_HTTPS_PORT}
 
-
-ENTRYPOINT cd spid-validator && npm run start-prod
+ENTRYPOINT npm run start-prod
