@@ -4,8 +4,9 @@ const Utility = require("../lib/utils");
 const IdP = require("../lib/saml-utils").IdP;
 const PayloadDecoder = require("../lib/saml-utils").PayloadDecoder;
 const RequestParser = require("../lib/saml-utils").RequestParser;
-const config_server = require("../../config/server.json");
-const config_idp = require("../../config/idp.json");
+const config_loader = require('../utils/config_loader');
+const config_server = config_loader.server();
+const config_idp = config_loader.idp();
 const config_dir = require("../../config/dir.json");
 
 const validator_basepath = config_idp.basepath=='/'? '':config_idp.basepath;
@@ -31,7 +32,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         let config = config_idp;
 
         let endpoint = config_server.host
-            + (config_server.useProxy? '' : ":" + config_server.port)
+            + ((config_server.useProxy === true || config_server.useProxy === "true")? '' : ":" + config_server.port)
             + validator_basepath + "/samlsso";
 
         config.endpoints = {
