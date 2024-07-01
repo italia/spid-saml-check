@@ -29,7 +29,7 @@ const Authenticator = require("./lib/authenticator");
 const { config } = require("process");
 const os = require('os');
 
-const useHttps = config_server.useHttps;
+const useHttps = (process.env.NODE_USE_HTTPS) ? /^true$/i.test(process.env.NODE_USE_HTTPS) : config_server.useHttps;
 const httpPort = (process.env.NODE_HTTPS_PORT) ? process.env.NODE_HTTPS_PORT : config_server.port;
 
 let https;
@@ -278,5 +278,5 @@ app.listen(httpPort, () => {
             console.log("\n\nSPID SP Test Tool (spid-sp-test), version: " + version); 
         });
     
-    console.log("\n\nlistening on port " + httpPort);
+    console.log("\n\nlistening on port " + httpPort + " support for TLS is: " + useHttps);
 });
