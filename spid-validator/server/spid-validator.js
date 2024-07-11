@@ -30,7 +30,12 @@ const { config } = require("process");
 const os = require('os');
 
 const useHttps = (process.env.NODE_USE_HTTPS) ? /^true$/i.test(process.env.NODE_USE_HTTPS) : config_server.useHttps;
-const httpPort = (process.env.NODE_HTTPS_PORT) ? process.env.NODE_HTTPS_PORT : config_server.port;
+const httpPort = process.env.NODE_HTTPS_PORT
+  ? process.env.NODE_HTTPS_PORT
+  : useHttps
+  ? config_server.s_port
+  : config_server.port;
+
 
 let https;
 let httpsPrivateKey;
