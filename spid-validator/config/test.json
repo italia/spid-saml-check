@@ -3646,7 +3646,87 @@
                 },
                 "sign_response": true,
                 "sign_assertion": false
-            }
+            },
+            "112": {
+                "name": "112. SAML Response Signature Verification Bypass - Assertion non firmata",
+                "description": "SAML Response firmata contenente primo elemento firmato correttamente e Assertion non firmata",
+                "path": "test/case-112.xml",
+                "response": {
+                    "NameIDNameQualifier": "",
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": false,
+                "sign_credentials": {
+                    "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+                    "certificate": "MIIDljCCAn6gAwIBAgIJAMSLv+GOwGWAMA0GCSqGSIb3DQEBCwUAMGAxCzAJBgNVBAYTAklUMQ4wDAYDVQQIDAVJdGFseTENMAsGA1UEBwwEUm9tZTENMAsGA1UECgwEQWdJRDENMAsGA1UECwwEQWdJRDEUMBIGA1UEAwwLYWdpZC5nb3YuaXQwHhcNMTkwNDA4MTc1MTMwWhcNMjAwNDA3MTc1MTMwWjBgMQswCQYDVQQGEwJJVDEOMAwGA1UECAwFSXRhbHkxDTALBgNVBAcMBFJvbWUxDTALBgNVBAoMBEFnSUQxDTALBgNVBAsMBEFnSUQxFDASBgNVBAMMC2FnaWQuZ292Lml0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsswE3L6ZbMWALv5fw73NmdZB5es3QaLNd3hq8sVVndDZUnM7yMHkYwPmlh1rFj82jPr2L9nasi32v6i283dsGCUxRH3VQo2Fi4awqvzx9g3mnd2p+CJKqN/xQuFyXkmDy7wKIopkv9EKJSFyyn9Y2h5FiKYucQoqQ2KJItt2y6tcTbhBRa7fMx99UPt1y5np31+oR4/BYWqLBtApMfGaXXDRNw/DBzmeew/uwC7tARMMG51MRBCZ83Mr5fIGeQZaYmDNCi+mIultLCVAZLqlv5h8p9bTAHNkNRpCh/V/I+q/L7Ajxfe/HEbydhJRyUjA0pmC4pAfvMlyDtQXMhh3FQIDAQABo1MwUTAdBgNVHQ4EFgQUodPRXj6pRrDfV011IiDnEOqnoMEwHwYDVR0jBBgwFoAUodPRXj6pRrDfV011IiDnEOqnoMEwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEABkraIDMLDmpATNjR0uIu01gUOfIJMLWi75Ec03JGE/ljj2Kap7FO/RgqT5pmIUorb65rPlwsiP6Bv5Q7crDQMzVJdZwPzbboGlZR/dcqmQThgY4aOp7xcrmUCm3tWgwP52nw3QpLdVoiufy+5+MSuig6dklRqvx0tLGWgG2daUbdRtpEl8KtERMbVjoZGUqQE+WpIoKqxz2R84YY024XlMhRvxRAabFpYCNg5fAw0kRRXj3Zxmg7AdLzMStXHA/bked4ZoX6uJ19qLTOCLhlufQu8m3FL5Go5VL+qDdrNg7XYLxT1I5h1wtfebCA/e1IzHZmcUcAGVex4HgaAQwTNA==",
+                    "privateKey": "MIIEpAIBAAKCAQEAsswE3L6ZbMWALv5fw73NmdZB5es3QaLNd3hq8sVVndDZUnM7yMHkYwPmlh1rFj82jPr2L9nasi32v6i283dsGCUxRH3VQo2Fi4awqvzx9g3mnd2p+CJKqN/xQuFyXkmDy7wKIopkv9EKJSFyyn9Y2h5FiKYucQoqQ2KJItt2y6tcTbhBRa7fMx99UPt1y5np31+oR4/BYWqLBtApMfGaXXDRNw/DBzmeew/uwC7tARMMG51MRBCZ83Mr5fIGeQZaYmDNCi+mIultLCVAZLqlv5h8p9bTAHNkNRpCh/V/I+q/L7Ajxfe/HEbydhJRyUjA0pmC4pAfvMlyDtQXMhh3FQIDAQABAoIBACi5PVZF904GAfcyKv+7aGvkmCfVFkXV3fSbMcjP13tViVo1MuW7+9ftmISSeMSda0BbHN2zQhOZUn0+4US865roRbty6bL55vPrnqujZz0C14cXaNJChTzHnPz9un3tQp6R2sEZQm9KHoRshOfIb6VmhbHlH+jRRuUIOXH+CKXEpTPDU4Th+fdoYEOQY7NFHoobPrQ8IegYgODrWX2pTYf9AA5RitBP0Ju4lePgJX000T7WRpkSkAgi6arWzHzf5YUyAIATIVvm0RkuLIn9Q6YDQJa3lEmhEub4LZA6EpnqJYEjmfcOp5rPEKtq8tPWyuKvlT6bzHdtXz5zSG5Bo9UCgYEA6T8UAgcgRRJDYhKhsuhzwk3qahi0XqBJJp+XO8fdQXEh783P6pv5uYR1QUdDtgFOP05NEGz0Mzkyx5qxqlOr0yXlj0Tajb64S+5jyo8dqB2zxj0M8NLCxbQMvFN88tAHCJMPZeKOyq83XgWff2GzXqbQ9yh+5jauejW7z7zDEjsCgYEAxD0pLEFuBPeS1Fzz0P2UmsvKDbViqd9BlVwNwOR3YtSzT5hihUt1qVK22EVqlSWzF+QmAK76FQMoXiiQ22fNxTcaviNj2qZ9xhadS6RuF2MbxXVVQzXY4Oie/+mZg37fP0JZCQdlwOYp4UN4ZDf7NWJC5WJph4kx9Hj1liJGNu8CgYEAiOhhkh8kreZebv6Isz8GU5LweX4uwSxMQ8OBPbG/CV6ikOO5mvgayO4a9UojUH3LtBT93xpU7IwyZj9C8btTLAkeic3ciz7bZpZzNL50pe1pTH8hTWoosWtR3mkS+mNo/Xt0mlU1g3r9gM7EJDzw0CoSlkDK285U857+sp0V02kCgYBpCnPnhH5nmj21/qtjytioozzcaaMOWrq4QDX8ck6VUFVK3b6equ2oXOYSjdWnUC61MyJEa2ThqncJL52aU84JKp3d+QOSHlxkk+ZOfw2O5zYOU+f3ufMFMH8rbNcHU/ob2l/ePV9yCcGRGpRu0KhewuIb9rmWGxHqUnTikCYVcQKBgQDUWuS6hNq5qUSCIGL5e8CMmc/wSAvQFgxZV4VgJdPexykaJc4LKoFYqbRSyOSJ2vpxxWa6qIPU0+kgNZT7lBf8JOd4MIg5sg6Q8hIQk/I6cTM3F3ehpsKoq9K7IcJQQWqHgkONEFeghIZH0nzhnwrtVuFZiCzc7c671MmJMhnPZQ=="
+                }
+            },
+            "113": {
+                "name": "113. SAML Response Signature Verification Bypass - Assertion corrotta",
+                "description": "SAML Response firmata contenente primo elemento firmato correttamente e Assertion con firma non valida",
+                "path": "test/case-112.xml",
+                "response": {
+                    "NameIDNameQualifier": "",
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true,
+                "sign_credentials": {
+                    "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+                    "certificate": "MIIDljCCAn6gAwIBAgIJAMSLv+GOwGWAMA0GCSqGSIb3DQEBCwUAMGAxCzAJBgNVBAYTAklUMQ4wDAYDVQQIDAVJdGFseTENMAsGA1UEBwwEUm9tZTENMAsGA1UECgwEQWdJRDENMAsGA1UECwwEQWdJRDEUMBIGA1UEAwwLYWdpZC5nb3YuaXQwHhcNMTkwNDA4MTc1MTMwWhcNMjAwNDA3MTc1MTMwWjBgMQswCQYDVQQGEwJJVDEOMAwGA1UECAwFSXRhbHkxDTALBgNVBAcMBFJvbWUxDTALBgNVBAoMBEFnSUQxDTALBgNVBAsMBEFnSUQxFDASBgNVBAMMC2FnaWQuZ292Lml0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsswE3L6ZbMWALv5fw73NmdZB5es3QaLNd3hq8sVVndDZUnM7yMHkYwPmlh1rFj82jPr2L9nasi32v6i283dsGCUxRH3VQo2Fi4awqvzx9g3mnd2p+CJKqN/xQuFyXkmDy7wKIopkv9EKJSFyyn9Y2h5FiKYucQoqQ2KJItt2y6tcTbhBRa7fMx99UPt1y5np31+oR4/BYWqLBtApMfGaXXDRNw/DBzmeew/uwC7tARMMG51MRBCZ83Mr5fIGeQZaYmDNCi+mIultLCVAZLqlv5h8p9bTAHNkNRpCh/V/I+q/L7Ajxfe/HEbydhJRyUjA0pmC4pAfvMlyDtQXMhh3FQIDAQABo1MwUTAdBgNVHQ4EFgQUodPRXj6pRrDfV011IiDnEOqnoMEwHwYDVR0jBBgwFoAUodPRXj6pRrDfV011IiDnEOqnoMEwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEABkraIDMLDmpATNjR0uIu01gUOfIJMLWi75Ec03JGE/ljj2Kap7FO/RgqT5pmIUorb65rPlwsiP6Bv5Q7crDQMzVJdZwPzbboGlZR/dcqmQThgY4aOp7xcrmUCm3tWgwP52nw3QpLdVoiufy+5+MSuig6dklRqvx0tLGWgG2daUbdRtpEl8KtERMbVjoZGUqQE+WpIoKqxz2R84YY024XlMhRvxRAabFpYCNg5fAw0kRRXj3Zxmg7AdLzMStXHA/bked4ZoX6uJ19qLTOCLhlufQu8m3FL5Go5VL+qDdrNg7XYLxT1I5h1wtfebCA/e1IzHZmcUcAGVex4HgaAQwTNA==",
+                    "privateKey": "MIIEpAIBAAKCAQEAsswE3L6ZbMWALv5fw73NmdZB5es3QaLNd3hq8sVVndDZUnM7yMHkYwPmlh1rFj82jPr2L9nasi32v6i283dsGCUxRH3VQo2Fi4awqvzx9g3mnd2p+CJKqN/xQuFyXkmDy7wKIopkv9EKJSFyyn9Y2h5FiKYucQoqQ2KJItt2y6tcTbhBRa7fMx99UPt1y5np31+oR4/BYWqLBtApMfGaXXDRNw/DBzmeew/uwC7tARMMG51MRBCZ83Mr5fIGeQZaYmDNCi+mIultLCVAZLqlv5h8p9bTAHNkNRpCh/V/I+q/L7Ajxfe/HEbydhJRyUjA0pmC4pAfvMlyDtQXMhh3FQIDAQABAoIBACi5PVZF904GAfcyKv+7aGvkmCfVFkXV3fSbMcjP13tViVo1MuW7+9ftmISSeMSda0BbHN2zQhOZUn0+4US865roRbty6bL55vPrnqujZz0C14cXaNJChTzHnPz9un3tQp6R2sEZQm9KHoRshOfIb6VmhbHlH+jRRuUIOXH+CKXEpTPDU4Th+fdoYEOQY7NFHoobPrQ8IegYgODrWX2pTYf9AA5RitBP0Ju4lePgJX000T7WRpkSkAgi6arWzHzf5YUyAIATIVvm0RkuLIn9Q6YDQJa3lEmhEub4LZA6EpnqJYEjmfcOp5rPEKtq8tPWyuKvlT6bzHdtXz5zSG5Bo9UCgYEA6T8UAgcgRRJDYhKhsuhzwk3qahi0XqBJJp+XO8fdQXEh783P6pv5uYR1QUdDtgFOP05NEGz0Mzkyx5qxqlOr0yXlj0Tajb64S+5jyo8dqB2zxj0M8NLCxbQMvFN88tAHCJMPZeKOyq83XgWff2GzXqbQ9yh+5jauejW7z7zDEjsCgYEAxD0pLEFuBPeS1Fzz0P2UmsvKDbViqd9BlVwNwOR3YtSzT5hihUt1qVK22EVqlSWzF+QmAK76FQMoXiiQ22fNxTcaviNj2qZ9xhadS6RuF2MbxXVVQzXY4Oie/+mZg37fP0JZCQdlwOYp4UN4ZDf7NWJC5WJph4kx9Hj1liJGNu8CgYEAiOhhkh8kreZebv6Isz8GU5LweX4uwSxMQ8OBPbG/CV6ikOO5mvgayO4a9UojUH3LtBT93xpU7IwyZj9C8btTLAkeic3ciz7bZpZzNL50pe1pTH8hTWoosWtR3mkS+mNo/Xt0mlU1g3r9gM7EJDzw0CoSlkDK285U857+sp0V02kCgYBpCnPnhH5nmj21/qtjytioozzcaaMOWrq4QDX8ck6VUFVK3b6equ2oXOYSjdWnUC61MyJEa2ThqncJL52aU84JKp3d+QOSHlxkk+ZOfw2O5zYOU+f3ufMFMH8rbNcHU/ob2l/ePV9yCcGRGpRu0KhewuIb9rmWGxHqUnTikCYVcQKBgQDUWuS6hNq5qUSCIGL5e8CMmc/wSAvQFgxZV4VgJdPexykaJc4LKoFYqbRSyOSJ2vpxxWa6qIPU0+kgNZT7lBf8JOd4MIg5sg6Q8hIQk/I6cTM3F3ehpsKoq9K7IcJQQWqHgkONEFeghIZH0nzhnwrtVuFZiCzc7c671MmJMhnPZQ=="
+                }
+            }             
         }
     },
     "test-logout": {
