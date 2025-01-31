@@ -64,9 +64,7 @@ class Utils {
             }
 
             // check if URL exists
-            var q = url.parse(src, true);
-            var protocol = (q.protocol == "http:") ? require('http') : require('https');
-            protocol.get(src, (res) => {
+            https.get(src, (res) => {
                 if(res.statusCode!='200') {
                     return reject("Metadata non trovato alla URL indicata");
                 }
