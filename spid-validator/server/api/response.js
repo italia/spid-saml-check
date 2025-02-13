@@ -5,8 +5,9 @@ const RequestParser = require("../lib/saml-utils").RequestParser;
 const TestSuite = require("../lib/saml-utils").TestSuite;
 const Signer = require("../lib/signer").Signer;
 const SIGN_MODE = require("../lib/signer").SIGN_MODE;
+const config_loader = require('../utils/config_loader');
 const config_test = require("../../config/test.json");
-const config_idp = require("../../config/idp.json");
+const config_idp = config_loader.idp();
 const config_dir = require("../../config/dir.json");
 
 
