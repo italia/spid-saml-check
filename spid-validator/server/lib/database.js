@@ -11,7 +11,7 @@ class Database {
     }
 
     connect() {
-        this.db = new sqlite3(dbfile, { verbose: (text)=> {
+        this.db = sqlite3(dbfile, { verbose: (text)=> {
             utility.log("DATABASE : QUERY", text);
         }});
         return this;
