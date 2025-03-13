@@ -77,10 +77,20 @@ If you have modified the source code and you want to build your own image, you c
 
 
 ```
-# 1. Clone del repository
+# 1. Clone repository
 git clone https://github.com/italia/spid-saml-check.git
 
-# 2. Esecuzione della build
+# 2. Edit configurations and certificates
+
+create a private key and a certificate to use for https
+ - spid-validator/config/spid-saml-check.key
+ - spid-validator/config/spid-saml-check.crt
+
+configure private key and certificate to use for response signing into:
+ - spid-validator/config/idp.json
+ - spid-validator/config/idp_demo.json
+
+# 3. Build
 cd spid-saml-check
 docker build -t spid-saml-check .
 ```
