@@ -85,7 +85,17 @@ volete costruire la vostra immagine, è possibile procedere nel seguende modo.
 # 1. Clone del repository
 git clone https://github.com/italia/spid-saml-check.git
 
-# 2. Esecuzione della build
+# 2. Aggiornamento certificati
+
+crea chiave privata e certificato per il protocollo https
+ - spid-validator/config/spid-saml-check.key
+ - spid-validator/config/spid-saml-check.crt
+
+configura chiave privata e certificato per la firma delle response nei seguenti file
+ - spid-validator/config/idp.json
+ - spid-validator/config/idp_demo.json
+
+# 3. Esecuzione della build
 cd spid-saml-check
 docker build -t spid-saml-check .
 ```
