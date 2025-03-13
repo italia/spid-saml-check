@@ -1,6 +1,6 @@
 {
   "name": "spid-validator",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "description": "Tool for validating Service Provider compliance to SPID response from Identity Provider",
   "main": "spid-validator",
   "author": "Michele D'Amico (damikael) - AgID",
