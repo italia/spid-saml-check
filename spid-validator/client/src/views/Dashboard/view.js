@@ -1,6 +1,4 @@
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-import BlockUi from 'react-block-ui';
 
 function view(me) { 
     return (

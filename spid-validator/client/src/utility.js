@@ -2,7 +2,6 @@ import CircularJSON from "circular-json";
 import ReduxStore from "./redux/store";
 import ModalActions from "./redux/modal/actions";
 import UtilActions from "./redux/util/actions";
-import sha256 from 'crypto-js/sha256';
 
 
 class Utility {

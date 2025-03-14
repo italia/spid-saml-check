@@ -1,7 +1,6 @@
-import { Component } from 'react';
+import {Component} from 'react';
 import view from "./view.js";
 import format from 'xml-formatter';
-import Utility from '../../utility';
 
 class AceEditor extends Component {
     

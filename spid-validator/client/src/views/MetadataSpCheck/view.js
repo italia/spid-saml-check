@@ -1,7 +1,4 @@
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-import BlockUi from 'react-block-ui';
-import AceEditor from '../../components/AceEditor/';
 import './switches.css';
 import "./style.css";
 

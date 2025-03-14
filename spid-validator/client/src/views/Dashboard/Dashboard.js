@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import {Component} from 'react';
 import view from "./view.js";
-import Utility from '../../utility';
 import Services from '../../services';
 
 

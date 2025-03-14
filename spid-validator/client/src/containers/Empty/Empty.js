@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Link, Switch, Route, Redirect} from 'react-router-dom';
-import {Container, Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import {Redirect, Route, Switch} from 'react-router-dom';
+import {Button, Container, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 import BlockUi from 'react-block-ui';
 import ReduxStore from "../../redux/store";
 import Login from '../../views/Login/';

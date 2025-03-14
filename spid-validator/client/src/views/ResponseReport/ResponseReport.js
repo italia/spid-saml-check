@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import {Component} from 'react';
 import view from "./view.js";
 import Utility from '../../utility';
-import Services from '../../services';
 import ReduxStore from "../../redux/store";
-import Actions from "../../redux/main/actions";
 import config_test from '../../../../config/test.json';
 
 
