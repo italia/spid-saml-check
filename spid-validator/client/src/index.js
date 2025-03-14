@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {HashRouter, Route, Switch} from 'react-router-dom';
-
-import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
 
 // Styles

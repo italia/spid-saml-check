@@ -1,4 +1,4 @@
-import React, {Component, version} from 'react';
+import React, {Component} from 'react';
 import Services from '../../services';
 import Utility from '../../utility';
 

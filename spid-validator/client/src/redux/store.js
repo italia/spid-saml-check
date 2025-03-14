@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from "redux"
+import {applyMiddleware, createStore} from "redux"
 import initialState_Util from "./util/initialState";
 import transitions_Util from "./util/transitions"
 import initialState_Modal from "./modal/initialState";

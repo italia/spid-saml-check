@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Link, Switch, Route, Redirect} from 'react-router-dom';
-import {Container} from 'reactstrap';
+import {Redirect, Route, Switch} from 'react-router-dom';
+import {Button, Container, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 import BlockUi from 'react-block-ui';
 
 import Header from '../../components/Header/';
@@ -15,18 +15,15 @@ import Request from '../../views/Request/';
 import RequestCheck from '../../views/RequestCheck/';
 import Response from '../../views/Response/';
 import ResponseReport from '../../views/ResponseReport/';
-
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import ScrollToTop from 'react-scroll-up';
 
 import ReduxStore from "../../redux/store";
 import Utility from '../../utility';
 import Services from '../../services';
+import "./style.css";
 
 var moment = require('moment');
 moment.locale('it');
-
-import "./style.css";
 
 
 class Main extends Component {

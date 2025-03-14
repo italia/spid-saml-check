@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Link} from 'react-router-dom';
+import {Link, Route} from 'react-router-dom';
 import {Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import routes from '../../routes';
 import "./style.css";
