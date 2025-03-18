@@ -1,6 +1,6 @@
 const p = require("./package.json");
 const express = require("express");
-const exphbs  = require('express-handlebars');
+const { engine: expressHandlebarsEngine} = require('express-handlebars');
 const helmet = require("helmet");
 const session = require("express-session");
 const bodyParser = require("body-parser");
@@ -26,7 +26,6 @@ const SIGN_MODE = require("./lib/signer").SIGN_MODE;
 
 const Database = require("./lib/database");
 const Authenticator = require("./lib/authenticator");
-const { config } = require("process");
 const os = require('os');
 
 const useHttps = config_server.useHttps;
@@ -69,7 +68,7 @@ var authenticator = new Authenticator("validator");
 
 // use template handlebars
 app.set('views', './client/view');
-app.engine('handlebars', exphbs({defaultLayout: false}));
+app.engine('handlebars', expressHandlebarsEngine({defaultLayout: false}));
 app.set('view engine', 'handlebars');
 
 
