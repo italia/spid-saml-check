@@ -1,8 +1,10 @@
 const fs = require("fs-extra");
 const Utility = require("../lib/utils");
 const moment = require('moment');
+const config_loader = require('../utils/config_loader');
 const config_dir = require("../../config/dir.json");
-const config_idp = require("../../config/idp.json");
+const config_idp = config_loader.idp();
+
 
 
 module.exports = function(app, checkAuthorisation, getEntityDir, database) {
