@@ -5,6 +5,7 @@ ARG BUILD_DATE
 ARG VCS_REF
 ARG VCS_URL
 ARG VERSION
+ARG USE_HTTPS
 ARG EXPOSE_HTTPS_PORT
 
 # Define the Metadata Container image
@@ -59,6 +60,7 @@ ADD . /spid-saml-check
 RUN mkdir /spid-saml-check/data
 
 ENV TZ=Europe/Rome
+ENV NODE_USE_HTTPS=${USE_HTTPS}
 ENV NODE_HTTPS_PORT=${EXPOSE_HTTPS_PORT}
 
 # Build validator

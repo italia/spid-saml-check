@@ -21,6 +21,12 @@ docker run -t -i -p 8443:8443 italia/spid-saml-check
 
 # Esecuzione di una specifica versione
 docker run -t -i -p 8443:8443 italia/spid-saml-check:v.1.8.1
+
+# Esecuzione dell'ultima versione specificando la porta TLS
+docker run -t -i -p 10443:10443 -e NODE_HTTPS_PORT=10443 italia/spid-saml-check
+
+# Esecuzione dell'ultima versione disabilitando il TLS e porta 8080
+docker run -t -i -p 8080:8080 -e NODE_USE_HTTPS=false -e NODE_HTTPS_PORT=8080 italia/spid-saml-check
 ```
 
 Così facendo l'applicazione spid-validator è immediatamente disponibile
