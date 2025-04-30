@@ -6,8 +6,9 @@ const child_process = require('child_process');
 const UUID = require("uuidjs");
 const moment = require("moment");
 const CryptoJS = require("crypto-js");
+const config_loader = require('../utils/config_loader');
 const config_dir = require("../../config/dir.json");
-const config_idp = require("../../config/idp.json");
+const config_idp = config_loader.idp();
 const fs = require("fs-extra");
 
 

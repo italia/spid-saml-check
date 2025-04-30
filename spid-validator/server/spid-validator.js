@@ -8,10 +8,11 @@ const path = require('path');
 const fs = require("fs-extra");
 const moment = require("moment");
 
-const config_server = require("../config/server.json");
+const config_loader = require('./utils/config_loader');
+const config_server = config_loader.server();
 const config_test = require("../config/test.json");
-const config_idp = require("../config/idp.json");
-const config_demo = require("../config/idp_demo.json");
+const config_idp = config_loader.idp();
+const config_demo = config_loader.idpDemo();
 const config_dir = require("../config/dir.json");
 const config_api = require("../config/api.json");
 
