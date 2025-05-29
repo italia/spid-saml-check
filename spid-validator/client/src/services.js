@@ -1,6 +1,7 @@
 import axios from "axios";
 import Utility from "./utility";
 
+axios.defaults.headers.common['User-Agent'] = 'spid-saml-check-client/1.0';
 
 class MainService {
 
