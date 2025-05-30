@@ -62,9 +62,21 @@ class Utils {
             if(!this.isValidUrl(src)) {
                 return reject("Inserire una URL valida");
             }
+            
+            const urlObj = new URL(src);
+
+            const options = {
+                hostname: urlObj.hostname,
+                port: urlObj.port || 8443,
+                path: urlObj.pathname + urlObj.search,
+                method: 'GET',
+                headers: {
+                    'User-Agent': 'spid-saml-check-client/1.0'
+                }
+            };
 
             // check if URL exists
-            https.get(src, (res) => {
+            https.get(options, (res) => {
                 if(res.statusCode!='200') {
                     return reject("Metadata non trovato alla URL indicata");
                 }
