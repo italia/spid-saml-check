@@ -1,117 +1,110 @@
-const webpack = require('webpack');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const HtmlPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+const ProgressPlugin = require('progress-webpack-plugin');
+const config_server = require('../config/server.json');
 
-const extractCSS = new ExtractTextPlugin('[name].fonts.css');
-const extractSCSS = new ExtractTextPlugin('[name].styles.css');
 
-const BUILD_DIR = path.resolve(__dirname, 'build/assets');
-const SRC_DIR = path.resolve(__dirname, 'src');
-
-console.log('BUILD_DIR', BUILD_DIR);
-console.log('SRC_DIR', SRC_DIR);
-
-module.exports = (env = {}) => {
-  return {
-    entry: {
-      index: [SRC_DIR + '/index.js']
+module.exports = {
+    watchOptions: {
+        aggregateTimeout: 200,
+        poll: 1000,
     },
+    entry: "./src/index.js",
     output: {
-      path: BUILD_DIR,
-      filename: '[name].bundle.js'
+        publicPath: (config_server.basepath? config_server.basepath : '/') + 'assets/',  
+        filename: "[name].bundle.js",
+        path: path.resolve(__dirname, 'build/assets'),
+        clean: true
     },
-    // watch: true,
-    devtool: env.prod ? 'source-map' : 'cheap-module-eval-source-map',
-    devServer: {
-      contentBase: BUILD_DIR,
-      //   port: 9001,
-      compress: true,
-      hot: true,
-      open: true
+    plugins: [
+        new HtmlPlugin({
+            title: 'Production',
+            inject: true,
+            template: "./view/index.html", 
+            filename: "../index.html"
+        }),
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+            chunkFilename: "[id].css",
+        }),
+        new CopyPlugin({
+            patterns: [
+                { from: "./view/img", to: "../../img" }
+            ],
+        }),
+        new ProgressPlugin(true)
+    ],
+    optimization: {
+        minimizer: [
+            `...`,
+            new CssMinimizerPlugin(),
+        ],
+        splitChunks: {
+            chunks: "initial",
+            minSize: 0,
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                    minSize: 30000,
+                    maxSize: 200000,
+                },
+                asyncVendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "asyncVendors",
+                    chunks: "async",
+                    minSize: 30000,
+                    maxSize: 200000,
+                },
+                asyncCommon: {
+                    name: "asyncCommon",
+                    chunks: "async",
+                    maxSize: 900,
+                },
+            }
+        }
+    },
+    performance: {
+        hints: false
     },
     module: {
-      rules: [
-        {
-          test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              cacheDirectory: true,
-              presets: ['react', 'env']
-            }
-          }
-        },
-        {
-          test: /\.html$/,
-          loader: 'html-loader'
-        },
-        {
-          test: /\.(scss)$/,
-          use: ['css-hot-loader'].concat(extractSCSS.extract({
-            fallback: 'style-loader',
-            use: [
-              {
-                loader: 'css-loader',
-                options: {alias: {'../img': '../view/img'}}
-              },
-              {
-                loader: 'sass-loader'
-              }
-            ]
-          }))
-        },
-        {
-          test: /\.css$/,
-          use: extractCSS.extract({
-            fallback: 'style-loader',
-            use: 'css-loader'
-          })
-        },
-        {
-          test: /\.(png|jpg|jpeg|gif|ico)$/,
-          use: [
+        rules: [
             {
-              // loader: 'url-loader'
-              loader: 'file-loader',
-              options: {
-                name: './img/[name].[hash].[ext]'
-              }
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: { 
+                        presets: ['@babel/env','@babel/preset-react'] 
+                    }
+                }
+            },
+            {
+                test: /\.html$/,
+                loader: 'html-loader'
+            },
+            {
+                test: /\.(scss)$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader'
+                ]
+            },
+            {
+                test: /\.css$/,
+                use: [ 
+                    MiniCssExtractPlugin.loader,
+                    'css-loader'
+                ]
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf|png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
             }
-          ]
-        },
-        {
-          test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-          loader: 'file-loader',
-          options: {
-            name: './fonts/[name].[hash].[ext]'
-          }
-        }]
-      },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.optimize.UglifyJsPlugin({sourceMap: true}),
-      new webpack.NamedModulesPlugin(),
-      extractCSS,
-      extractSCSS,
-      new HtmlWebpackPlugin(
-        {
-          inject: true,
-          template: './view/index.html',
-          filename: '../index.html'
-        }
-      ),
-      new CopyWebpackPlugin([
-          {from: './view/img', to: 'img'},
-          {from: './view/svg', to: 'svg'},
-          {from: './view/css', to: 'css'},
-          {from: './view/js', to: 'js'},
-          {from: './view/favicon.ico', to: 'favicon.ico'}         
-        ],
-        {copyUnmodified: false}
-      )
-    ]
-  }
+        ]
+    }
 };

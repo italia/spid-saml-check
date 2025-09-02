@@ -1,45 +1,60 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {HashRouter, Route, Switch} from 'react-router-dom';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import BlockUi from 'react-block-ui';
-import 'react-block-ui/style.css';
-
-// Styles
-// Import Flag Icons Set
-import 'flag-icon-css/css/flag-icon.min.css';
-// Import Font Awesome Icons Set
 import 'font-awesome/css/font-awesome.min.css';
-// Import Simple Line Icons Set
-import 'simple-line-icons/css/simple-line-icons.css';
-// Import Main styles for this application
+
 import '../scss/style.scss'
-// Temp fix for reactstrap
 import '../scss/core/_dropdown-menu-right.scss'
 
 // Containers
-import Main from './containers/Main'
+import Base from './containers/Base'
 import Empty from './containers/Empty'
+import Main from './containers/Main'
 
-ReactDOM.render((
-  <HashRouter>
-    <Switch>
-      <Route path="/metadata-sp-download" component={Main}/>
-      <Route path="/metadata-sp-upload-zip" component={Main}/>
-      <Route path="/metadata-sp-check-xsd" component={Main}/>
-      <Route path="/metadata-sp-check-strict" component={Main}/>
-      <Route path="/metadata-sp-check-certs" component={Main}/>
-      <Route path="/metadata-sp-check-extra" component={Main}/>
-      <Route path="/request" component={Main}/>
-      <Route path="/request-check-strict" component={Main}/>
-      <Route path="/request-check-certs" component={Main}/>
-      <Route path="/request-check-extra" component={Main}/>
-      <Route path="/response/:suiteid/:caseid" component={Main}/>
-      <Route path="/response" component={Main}/>
-      <Route path="/response-report" component={Main}/>
-      <Route path="/worksave" component={Empty}/>
-      <Route path="/login" component={Empty}/>
-	    <Route path="/" name="Home" component={Empty}/>
-    </Switch>
-  </HashRouter>
-), document.getElementById('root'));
+import Login from './views/Login/';
+import MetadataSpCheck from './views/MetadataSpCheck/';
+import MetadataSpDownload from './views/MetadataSpDownload/';
+import MetadataSpUploadZip from './views/MetadataSpUploadZip/';
+import Request from './views/Request/';
+import RequestCheck from './views/RequestCheck/';
+import Response from './views/Response/';
+import ResponseReport from './views/ResponseReport/';
+import Worksave from './views/Worksave/';
+import Redirect from './views/Redirect/';
+import config from "./config.json";
+
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+  <BrowserRouter basename={config.basepath}> 
+    <Routes>
+      <Route path="/" element={<Base/>}>
+        <Route path="/" element={<Login/>}/>
+      </Route>
+      <Route path="/worksave" element={<Empty/>}>
+        <Route path="/worksave" element={<Worksave/>}/>
+      </Route>
+      <Route path="/metadata" element={<Main/>}>
+        <Route path="/metadata/download" element={<MetadataSpDownload/>}/>
+        <Route path="/metadata/upload-zip" element={<MetadataSpUploadZip/>}/>
+        <Route path="/metadata/check-xsd" element={<MetadataSpCheck test="xsd"/>}/>
+        <Route path="/metadata/check-strict" element={<MetadataSpCheck test="strict"/>}/>
+        <Route path="/metadata/check-certs" element={<MetadataSpCheck test="certs"/>}/>
+        <Route path="/metadata/check-extra" element={<MetadataSpCheck test="extra"/>}/>
+      </Route>
+      <Route path="/request" element={<Main/>}>
+        <Route path="/request" element={<Request/>}/>
+        <Route path="/request/check-strict" element={<RequestCheck test="strict"/>}/>
+        <Route path="/request/check-certs" element={<RequestCheck test="certs"/>}/>
+        <Route path="/request/check-extra" element={<RequestCheck test="extra"/>}/>
+      </Route>
+      <Route path="/response" element={<Main/>}>
+        <Route path="/response/:suiteid/:caseid" element={<Response/>}/>
+        <Route path="/response" element={<Response/>}/>
+        <Route path="/response/report" element={<ResponseReport/>}/>
+      </Route>      
+      <Route path='/logout' element={<Redirect redirect={config.basepath + '/logout'}/>} />
+    </Routes>
+  </BrowserRouter>
+); 

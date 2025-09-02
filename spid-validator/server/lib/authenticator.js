@@ -72,7 +72,7 @@ class AgIDLoginAuthenticator {
     }
 
     getUserInfo(authorizationPostData, state, result, error) {
-        this.client.authorizationCallback(
+        this.client.callback(
             this.redirect_uri, 
             {
                 state: state,

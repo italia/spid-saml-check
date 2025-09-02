@@ -2,7 +2,7 @@
 
 const SignedXml = require("../../xml-crypto").SignedXml;
 const xmlbuilder = require("xmlbuilder");
-const DOMParser = require('xmldom').DOMParser;
+const DOMParser = require('@xmldom/xmldom').DOMParser;
 
 const pemFormatting = require("./pem-formatting");
 

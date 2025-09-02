@@ -84,27 +84,33 @@
 .navbar-brand {
   color: $navbar-active-color;
 
+  /*
   @include hover-focus {
     color: $navbar-active-color;
   }
+  */
 }
 
 .navbar-nav {
   .nav-link {
     color: $navbar-color;
 
+    /*
     @include hover-focus {
       color: $navbar-hover-color;
     }
+    */
   }
 
   .open > .nav-link,
   .active > .nav-link,
   .nav-link.open,
   .nav-link.active {
+    /*
     @include plain-hover-focus {
       color: $navbar-active-color;
     }
+    */
   }
 }
 

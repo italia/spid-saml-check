@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const multer = require('multer');
 const upload = multer({dest: 'temp/'});
-const unzip = require('unzip');
+const decompress = require('decompress');
 const Utility = require('../lib/utils');
 const MetadataParser = require('../lib/saml-utils').MetadataParser;
 const config_dir = require('../../config/dir.json');
@@ -216,123 +216,119 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         Utility.log("PROFILE", profile);
         Utility.log("PRODUCTION", production);
 
-        fs.createReadStream(req.file.path)
-            .pipe(unzip.Extract({path: getEntityDir(config_dir.TEMP)}))
-            .on('error', (err) => Utility.log('ERRORE FILE: ', err))
-            .on('close', async () => {
+        decompress(req.file.path, getEntityDir(config_dir.TEMP)).then(result => {
+            let metadata_list = [];
+            // reload files
+            const files = Utility.readDir(getEntityDir(config_dir.TEMP));
 
-                let metadata_list = [];
-                const files = Utility.readDir(getEntityDir(config_dir.TEMP));
+            if(files.length>ZIP_MAX_NUM_FILES) {
+                res.status(400).send(`Il pacchetto zip può contenere massimo ${ZIP_MAX_NUM_FILES} file`);
+                return;
+            }
 
-                if(files.length>ZIP_MAX_NUM_FILES) {
-                    res.status(400).send(`Il pacchetto zip può contenere massimo ${ZIP_MAX_NUM_FILES} file`);
-                    return;
+            const saveFilePromises = files.map(async (file) => {
+                
+                Utility.log("CHECK METADATA FILE from ZIP: ", file);
+                let metadata = setMetadataFromFile( 
+                    file, 
+                    file,
+                    getEntityDir(config_dir.TEMP) + "/" + file,
+                    organization,
+                );                    
+                
+                // reset url to avoid to view path on client
+                metadata.url = metadata.name;
+
+                database.setMetadata(user, organization, metadata.entity_id, external_code, store_type, metadata.url, metadata.xml);
+
+                let dir_metadata = getEntityDir(metadata.entity_id.normalize());
+                let test = check;
+                let reportfile = null;
+                            
+                switch(test) {
+                    case "strict": reportfile = dir_metadata + "/sp-metadata-strict.json"; break;
+                    case "certs": reportfile = dir_metadata + "/sp-metadata-certs.json"; break;
+                    case "extra": reportfile = dir_metadata + "/sp-metadata-extra.json"; break;
                 }
 
-                const saveFilePromises = files.map(async (file) => {
-                    
-                    Utility.log("CHECK METADATA FILE from ZIP: ", file);
-                    let metadata = setMetadataFromFile( 
-                        file, 
-                        file,
-                        getEntityDir(config_dir.TEMP) + "/" + file,
-                        organization,
-                    );                    
-                    
-                    // reset url to avoid to view path on client
-                    metadata.url = metadata.name;
+                await Utility.metadataCheck(test, metadata.entity_id.normalize(), profile, config_idp, production).then(
+                    (out) => {
+                        try {
+                            let report = fs.readFileSync(reportfile, "utf8"); 
+                            report = JSON.parse(report);
+    
+                            let lastcheck = { 
+                                datetime: moment().format('YYYY-MM-DD HH:mm:ss'), 
+                                check: check,
+                                profile: profile,
+                                production: production,
+                                report: report
+                            } 
 
-                    database.setMetadata(user, organization, metadata.entity_id, external_code, store_type, metadata.url, metadata.xml);
-
-                    let dir_metadata = getEntityDir(metadata.entity_id.normalize());
-                    let test = check;
-                    let reportfile = null;
-                                
-                    switch(test) {
-                        case "strict": reportfile = dir_metadata + "/sp-metadata-strict.json"; break;
-                        case "certs": reportfile = dir_metadata + "/sp-metadata-certs.json"; break;
-                        case "extra": reportfile = dir_metadata + "/sp-metadata-extra.json"; break;
-                    }
-
-                    await Utility.metadataCheck(test, metadata.entity_id.normalize(), profile, config_idp, production).then(
-                        (out) => {
-                            try {
-                                let report = fs.readFileSync(reportfile, "utf8"); 
-                                report = JSON.parse(report);
-        
-                                let lastcheck = { 
-                                    datetime: moment().format('YYYY-MM-DD HH:mm:ss'), 
-                                    check: check,
-                                    profile: profile,
-                                    production: production,
-                                    report: report
-                                } 
-
-                                let validation = null;
-        
-                                if(user && metadata.entity_id) {
-                                    // save result validation on store
-                                    let testGroups = [];
-        
-                                    switch(test) {
-                                        case "strict": testGroups = report.test.sp.metadata_strict.SpidSpMetadataCheck; break;
-                                        case "certs": testGroups = report.test.sp.metadata_certs.SpidSpMetadataCheckCerts; break;
-                                        case "extra": testGroups = report.test.sp.metadata_extra.SpidSpMetadataCheckExtra; break;
-                                    }
-        
-                                    for(let t in testGroups) {
-                                        let testGroup = testGroups[t];
-                                        if(testGroup.result!=null) {
-                                            if(validation==null) validation = (testGroup.result=='success');
-                                            else validation = validation && (testGroup.result=='success');
-                                        }
-                                    }
-        
-                                    database.setMetadataValidation(user, metadata.entity_id, external_code, store_type, test, validation);
-                                    database.setMetadataLastCheck(user, metadata.entity_id, external_code, store_type, test, lastcheck); 
+                            let validation = null;
+    
+                            if(user && metadata.entity_id) {
+                                // save result validation on store
+                                let testGroups = [];
+    
+                                switch(test) {
+                                    case "strict": testGroups = report.test.sp.metadata_strict.SpidSpMetadataCheck; break;
+                                    case "certs": testGroups = report.test.sp.metadata_certs.SpidSpMetadataCheckCerts; break;
+                                    case "extra": testGroups = report.test.sp.metadata_extra.SpidSpMetadataCheckExtra; break;
                                 }
-        
-                                metadata.lastcheck = lastcheck;
-                                metadata.validation = validation;
-        
-                            } catch(err) {
-                                Utility.log("ERR /api/metadata-sp/upload/zip", err.toString());
-                                res.status(500).send("Error while loading report");
+    
+                                for(let t in testGroups) {
+                                    let testGroup = testGroups[t];
+                                    if(testGroup.result!=null) {
+                                        if(validation==null) validation = (testGroup.result=='success');
+                                        else validation = validation && (testGroup.result=='success');
+                                    }
+                                }
+    
+                                database.setMetadataValidation(user, metadata.entity_id, external_code, store_type, test, validation);
+                                database.setMetadataLastCheck(user, metadata.entity_id, external_code, store_type, test, lastcheck); 
                             }
-                        },
-                        (err) => {
-                            Utility.log("ERR /api/metadata-sp/upload/zip", err);
-                            res.status(500).send(err);
+    
+                            metadata.lastcheck = lastcheck;
+                            metadata.validation = validation;
+    
+                        } catch(err) {
+                            Utility.log("ERR /api/metadata-sp/upload/zip", err.toString());
+                            res.status(500).send("Error while loading report");
                         }
-                    );
-        
-                    metadata_list.push(metadata); 
-                });
-
-                if (saveFilePromises.length > 0) {
-                    Promise.all(saveFilePromises)
-                    .then(() => {
-                        let validation = metadata_list.reduce((a, m)=> {
-                            return a && m.validation;
-                        }, true);
-
-                        res.status(201).send({
-                            check: check,
-                            profile: profile,
-                            production: production,
-                            validation: validation,
-                            metadata: metadata_list
-                        });
-                    })
-                    .catch((error) => res.status(500).send('Si è verificato un errore durante il caricamento del metadato'))
-                    .finally(() => fs.rmSync(req.file.path, {recursive: true, force: true}));
-                } else {
-                    fs.rmSync(req.file.path, {recursive: true, force: true});
-                    res.status(500).send('Non sono presenti file all\'interno dello zip caricato');
-                }
+                    },
+                    (err) => {
+                        Utility.log("ERR /api/metadata-sp/upload/zip", err);
+                        res.status(500).send(err);
+                    }
+                );
+    
+                metadata_list.push(metadata); 
             });
-        }
-    );
+
+            if (saveFilePromises.length > 0) {
+                Promise.all(saveFilePromises)
+                .then(() => {
+                    let validation = metadata_list.reduce((a, m)=> {
+                        return a && m.validation;
+                    }, true);
+
+                    res.status(201).send({
+                        check: check,
+                        profile: profile,
+                        production: production,
+                        validation: validation,
+                        metadata: metadata_list
+                    });
+                })
+                .catch((error) => res.status(500).send('Si è verificato un errore durante il caricamento del metadato'))
+                .finally(() => fs.rmSync(req.file.path, {recursive: true, force: true}));
+            } else {
+                fs.rmSync(req.file.path, {recursive: true, force: true});
+                res.status(500).send('Non sono presenti file all\'interno dello zip caricato');
+            }
+        });
+    });
 
     // imposta il metadata in sessione
     app.put('/api/metadata-sp/', function(req, res) {

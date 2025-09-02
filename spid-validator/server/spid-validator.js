@@ -1,6 +1,6 @@
 const p = require("./package.json");
 const express = require("express");
-const exphbs  = require('express-handlebars');
+const { engine } = require('express-handlebars');
 const helmet = require("helmet");
 const session = require("express-session");
 const bodyParser = require("body-parser");
@@ -29,6 +29,7 @@ const Authenticator = require("./lib/authenticator");
 const { config } = require("process");
 const os = require('os');
 
+const useProxy = config_server.useProxy;
 const useHttps = config_server.useHttps;
 const httpPort = (process.env.NODE_HTTPS_PORT) ? process.env.NODE_HTTPS_PORT : config_server.port;
 
@@ -47,17 +48,39 @@ if (useHttps) {
 var app = express();
 app.use(helmet());
 
+app.use((req, res, next)=> {
+    console.log(".\n.\n.");
+    Utility.log(moment().format("YYYY-MM-DD HH:mm:ss") + " - " + req.method + " [" + req.ips.join(' - ') + "] " + req.path);
+    next();
+});
+
+
+app.get("/", function (req, res, next) { 
+    if(useProxy || !config_server.basepath) {
+        console.log('root base path');
+        return next();
+    }
+    
+    let url = config_server.host;
+    url += (!useProxy && httpPort)? ':' + httpPort : '';
+    url += '/';
+    res.redirect(url);
+});
+
 app.use(bodyParser.json({limit: '3mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '3mb', extended: true}));
-app.use(express.static(path.resolve(__dirname, "..", "client/build/assets")));
-app.use("/assets", express.static(path.resolve(__dirname, "..", "client/build/assets")));
+app.use(express.static(path.resolve(__dirname, "..", "client/build")));
 
 app.set('trust proxy', 1);
 app.use(session({
+    name: 'connect-spid-saml-check.sid',
     secret: "SAML IDP",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60*60000 }  //30*60000: 30min
+    cookie: { 
+        secure: config_server.useHttps? true : false,
+        maxAge: 60*60000 
+    }  //30*60000: 30min
 }));
 
 
@@ -65,12 +88,13 @@ app.use(session({
 var database = new Database().connect().setup();
 
 // create authenticator
-var authenticator = new Authenticator("validator");
+var authenticator = config_idp.agidloginAuthentication? new Authenticator("validator") : null;
+
 
 // use template handlebars
-app.set('views', './client/view');
-app.engine('handlebars', exphbs({defaultLayout: false}));
+app.engine('handlebars', engine({defaultLayout: false}));
 app.set('view engine', 'handlebars');
+app.set('views', './client/view');
 
 
 // Private Funcs
@@ -192,14 +216,6 @@ var sendLogoutResponse = function(req, res) {
 }
 
 
-
-app.use((req, res, next)=> {
-    console.log(".\n.\n.");
-    Utility.log(moment().format("YYYY-MM-DD HH:mm:ss") + " - " + req.method + " [" + req.ips.join(' - ') + "] " + req.path);
-    next();
-});
-
-
 if(config_idp.enabled || config_demo.enabled) {
     const validator_basepath = config_idp.basepath=='/'? '':config_idp.basepath;
 
@@ -232,10 +248,12 @@ if(config_idp.enabled) {
     require('./app/idp')		    (app, checkAuth, getEntityDir, sendLogoutResponse);
 }
 
+/* IDP Demo */
 if(config_demo.enabled) {
     require('./app/idp_demo')       (app, checkAuth, getEntityDir, sendLogoutResponse, database);
 }
 
+/* Authentication */
 require('./app/auth')		    (app, checkAuth, authenticator);
 
 /* API */
@@ -247,27 +265,39 @@ require('./api/response')    	(app, checkAuth);
 require('./api/server-info')	(app);
 
 
+// routes all to React Router
+app.get('*', (req, res)=> {
+    console.log("Route to front-end");
+    res.sendFile(path.resolve(__dirname + '/../client/build/index.html'));    
+});
+
+
+// Error handler
+app.use((err, req, res, next) => {
+    console.error(err)
+    res.status(500).send('Error: ' + err.message);
+});
 
 
 // start
 if (useHttps) app = https.createServer(httpsCredentials, app);
 
 app.listen(httpPort, () => {
-  // import
-  if (fs.existsSync("../" + config_dir.DATA + "/" + config_dir.BOOTSTRAP)) {
-    Utility.readFiles("../" + config_dir.DATA + "/" + config_dir.BOOTSTRAP, function (filename, xml) {
-      let metadataParser = new MetadataParser(xml);
+    // import
+    if (fs.existsSync("../" + config_dir.DATA + "/" + config_dir.BOOTSTRAP)) {
+        Utility.readFiles("../" + config_dir.DATA + "/" + config_dir.BOOTSTRAP, function (filename, xml) {
+        let metadataParser = new MetadataParser(xml);
 
-      let entityID = metadataParser.getServiceProviderEntityId();
-      if (entityID === null || entityID === '')
-        throw new Error("EntityID non specificato");
+        let entityID = metadataParser.getServiceProviderEntityId();
+        if (entityID === null || entityID === '')
+            throw new Error("EntityID non specificato");
 
-      fs.copyFileSync("../" + config_dir.DATA + "/" + config_dir.BOOTSTRAP + "/" + filename, getEntityDir(entityID) + "/sp-metadata.xml");
-      database.setMetadata("validator", "000", entityID, "000", "main", entityID, xml);
-    }, function (err) {
-      console.error("Could not bootstrap initial SP metadata: ", err);
-    });
-  }
+        fs.copyFileSync("../" + config_dir.DATA + "/" + config_dir.BOOTSTRAP + "/" + filename, getEntityDir(entityID) + "/sp-metadata.xml");
+        database.setMetadata("validator", "000", entityID, "000", "main", entityID, xml);
+        }, function (err) {
+        console.error("Could not bootstrap initial SP metadata: ", err);
+        });
+    }
 
     // eslint-disable-next-line no-console
     console.log("\nAttach to container by this command: docker exec -it " + os.hostname() + " /bin/bash");

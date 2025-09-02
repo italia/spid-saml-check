@@ -2,7 +2,7 @@
 
 const xpath = require("xpath");
 const xmlbuilder = require("xmlbuilder");
-const xmldom = require("xmldom");
+const xmldom = require("@xmldom/xmldom");
 
 const credentials = require("./util/credentials");
 const encryption = require("./util/encryption");

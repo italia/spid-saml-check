@@ -1,7 +1,7 @@
 "use strict";
 
 const xmlbuilder = require("xmlbuilder");
-const xmldom = require("xmldom");
+const xmldom = require("@xmldom/xmldom");
 
 const errors = require("./errors");
 const namespaces = require("./namespaces");

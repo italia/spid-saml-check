@@ -1,7 +1,7 @@
 "use strict";
 
 const xpath = require("xpath");
-const xmldom = require("xmldom");
+const xmldom = require("@xmldom/xmldom");
 const xmlenc = require("xml-encryption");
 
 const credentials = require("./credentials");

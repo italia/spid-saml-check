@@ -1,7 +1,7 @@
 const url = require("url");
 const path = require("path");
 const https = require("https");
-const CircularJSON = require("circular-json");
+const flatted = require("flatted");
 const child_process = require('child_process');
 const UUID = require("uuidjs");
 const moment = require("moment");
@@ -25,7 +25,7 @@ class Utils {
 
     static log(tag, text) {
         console.log("\n\n>>> " + tag);
-        if(text!=null) console.log(CircularJSON.stringify(text, null, 4));
+        if(text!=null) console.log(flatted.stringify(text));
     }
 
     static defaultParam(params, key, defaultVal) {

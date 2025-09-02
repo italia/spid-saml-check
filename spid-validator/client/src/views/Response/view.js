@@ -1,8 +1,7 @@
 import React from 'react';
-import BlockUi from 'react-block-ui';
+import { BlockUI } from 'primereact/blockui';
 import AceEditor from '../../components/AceEditor/';
-import Select from 'react-select-plus';
-import 'react-select-plus/dist/react-select-plus.css';
+import Select from 'react-select';
 import './switches.css';
 import './style.css';
 

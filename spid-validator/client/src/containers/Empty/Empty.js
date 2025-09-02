@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import {Link, Switch, Route, Redirect} from 'react-router-dom';
 import {Container, Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
-import BlockUi from 'react-block-ui';
+import { BlockUI } from 'primereact/blockui';
 import ReduxStore from "../../redux/store";
-import Login from '../../views/Login/';
-import Worksave from '../../views/Worksave/';
 import Utility from '../../utility';
 
 
@@ -42,9 +40,9 @@ class Empty extends Component {
 
 	onModalStoreUpdate() {
 		let modalState = this.modalStore.getState(); 
-		Utility.log("State", this.state);
+		//Utility.log("State", this.state);
 
-		Utility.log("New state", modalState);
+		//Utility.log("New state", modalState);
 		this.setState({
 			modal_open: modalState.isOpen,
 			modal_title: (modalState.title!=null && modalState.title!="")? modalState.title : this.state.modal_title,
@@ -55,24 +53,20 @@ class Empty extends Component {
 			modal_btn_secondary_func: (modalState.btnSecondaryFunc!=null)? modalState.btnSecondaryFunc : this.state.modal_btn_secondary_func,
 			modal_btn_secondary_text: (modalState.btnSecondaryFunc!=null && modalState.btnSecondaryText!=null && modalState.btnSecondaryText!="")? modalState.btnSecondaryText : this.state.modal_btn_secondary_text,
 		}, ()=>{
-			Utility.log("Updated state", this.state);
+			//Utility.log("Updated state", this.state);
 		});
 	}	
 
 	render() {    
     	return (
-			<section id="main">
-				<BlockUi tag="div" blocking={this.state.blocking}> 
+			<section id="main" className="container-empty">
+				<BlockUI tag="div" blocked={this.state.blocking}> 
 					<div className="app">
 						<Container fluid>
-							<Switch>
-							<Route path="/login" name="Login" component={Login}/>
-                            <Route path="/worksave" name="Worksave" component={Worksave}/>
-                            <Redirect from="/" to="/login"/>
-							</Switch>
+							<Outlet />
 						</Container>
 					</div>
-				</BlockUi>
+				</BlockUI>
 				<Modal isOpen={this.state.modal_open}>
 					<ModalHeader>{this.state.modal_title}
 						<span className="modal-subtitle" dangerouslySetInnerHTML={{__html:this.state.modal_subtitle}}></span>

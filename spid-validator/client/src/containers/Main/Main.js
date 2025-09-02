@@ -1,27 +1,19 @@
 import React, {Component} from 'react';
 import {Link, Switch, Route, Redirect} from 'react-router-dom';
 import {Container} from 'reactstrap';
-import BlockUi from 'react-block-ui';
+import ScrollToTop from "react-scroll-to-top";
+import { BlockUI } from 'primereact/blockui';
 
 import Header from '../../components/Header/';
 import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
 import Aside from '../../components/Aside/';
 import Footer from '../../components/Footer/';
-import MetadataSpDownload from '../../views/MetadataSpDownload/';
-import MetadataSpUploadZip from '../../views/MetadataSpUploadZip/';
-import MetadataSpCheck from '../../views/MetadataSpCheck/';
-import Request from '../../views/Request/';
-import RequestCheck from '../../views/RequestCheck/';
-import Response from '../../views/Response/';
-import ResponseReport from '../../views/ResponseReport/';
-
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import ScrollToTop from 'react-scroll-up';
 
 import ReduxStore from "../../redux/store";
 import Utility from '../../utility';
 import Services from '../../services';
+import config from '../../config.json';
 
 var moment = require('moment');
 moment.locale('it');
@@ -144,46 +136,36 @@ class Main extends Component {
 
 			return (
 				<div id="main">
-					<BlockUi tag="div" blocking={this.state.blocking}> 
+					<BlockUI tag="div" blocked={this.state.blocking}> 
 						<div className="app">
 							<Header />
 							<div className="app-body">
 								<Sidebar {...this.props}/>
+
 								<main className="main">
-                                <img className="agid-logo-print" src="img/spid-agid-logo-lb.png" />
-                                <div className="info-print">
-                                    Issuer: {this.state.infoprint_issuer} <br/>
-                                    Metadata: {this.state.infoprint_metadata} <br/>
-                                    Report generato il: {this.state.infoprint_datetime}
-                                </div>
-								<Breadcrumb />
-								<Container fluid>
-									<Switch>
-									<Route path="/metadata-sp-download" name="Metadata Service Provider / Download from URL" component={MetadataSpDownload}/>
-									<Route path="/metadata-sp-upload-zip" name="Metadata Service Provider / Upload from ZIP" component={MetadataSpUploadZip}/>
-									<Route path="/metadata-sp-check-xsd" key="metadata-sp-check-xsd" render={()=><MetadataSpCheck test="xsd" />} />
-									<Route path="/metadata-sp-check-strict" key="metadata-sp-check-strict" render={()=><MetadataSpCheck test="strict" />} />
-									<Route path="/metadata-sp-check-certs" key="metadata-sp-check-certs" render={()=><MetadataSpCheck test="certs" />} />
-									<Route path="/metadata-sp-check-extra" key="metadata-sp-check-extra" render={()=><MetadataSpCheck test="extra" />} />
-									<Route path="/request" component={Request}/>
-									<Route path="/request-check-strict" key="request-check-strict" render={()=><RequestCheck test="strict" />} />
-									<Route path="/request-check-certs" key="request-check-certs" render={()=><RequestCheck test="certs" />} />
-									<Route path="/request-check-extra" key="request-check-extra" render={()=><RequestCheck test="extra" />} />
-									<Route path="/response/:suiteid/:caseid" component={Response}/>
-                                    <Route path="/response" component={Response}/>
-									<Route path="/response-report" component={ResponseReport}/>
-									<Redirect from="/" to="/request"/>
-									</Switch>
-								</Container>
-								<ScrollToTop showUnder={160}>
-									<button className="btn btn-lg btn-primary"><span className="icon-arrow-up"></span></button>
-								</ScrollToTop>							
+                                	<img className="agid-logo-print" src="img/spid-agid-logo-lb.png" />
+
+									<Breadcrumb {...this.props} user={this.state.user}/>	
+
+									<Container fluid>
+										<Outlet />
+									</Container>
+
+									<div className="info-print">
+										Issuer: {this.state.infoprint_issuer} <br/>
+										Metadata: {this.state.infoprint_metadata} <br/>
+										Report generato il: {this.state.infoprint_datetime}
+									</div>
+
+									<ScrollToTop smooth className="btn-scroll" component={
+										<button className="btn btn-lg btn-primary"><span className="fa fa-chevron-up"></span></button>	
+									} />						
 								</main>
 								<Aside />
 							</div>
 							<Footer />
 						</div>
-					</BlockUi>
+					</BlockUI>
 					<Modal isOpen={this.state.modal_open}>
 						<ModalHeader>{this.state.modal_title}
 							<span className="modal-subtitle" dangerouslySetInnerHTML={{__html:this.state.modal_subtitle}}></span>
