@@ -32,4 +32,4 @@ yarn-error.log*
 compilation-stats.json
 
 # database
-spid-validator/config/database.sqlite
+src/config/database.sqlite

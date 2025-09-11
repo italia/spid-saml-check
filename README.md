@@ -33,7 +33,7 @@ On the console are printed useful information as:
 Following is an output example you should see from the execution of one of the previous commands
 
 ```
-> spid-validator@1.0.0 start-prod /spid-saml-check/spid-validator
+> spid-validator@1.0.0 start-prod /spid-saml-check/src
 > node server/spid-validator.js
 
 >>> DATABASE : QUERY
@@ -83,12 +83,12 @@ git clone https://github.com/italia/spid-saml-check.git
 # 2. Edit configurations and certificates
 
 create a private key and a certificate to use for https
- - spid-validator/config/spid-saml-check.key
- - spid-validator/config/spid-saml-check.crt
+ - src/config/spid-saml-check.key
+ - src/config/spid-saml-check.crt
 
 configure private key and certificate to use for response signing into:
- - spid-validator/config/idp.json
- - spid-validator/config/idp_demo.json
+ - src/config/idp.json
+ - src/config/idp_demo.json
 
 # 3. Build
 cd spid-saml-check

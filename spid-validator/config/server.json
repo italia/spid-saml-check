@@ -1,9 +1,0 @@
-{
-  "host": "https://validator.linfaware.linfaservice.it",
-  "port": 8084,
-  "basepath": "",  
-  "useProxy": false,
-  "useHttps": false,
-	"httpsPrivateKey": "./config/spid-saml-check.key",
-  "httpsCertificate": "./config/spid-saml-check.crt"
-}
