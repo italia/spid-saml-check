@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import{ withRouter } from '../../withRouter';
 import view from "./view.js";
 import Utility from '../../utility';
 import Services from '../../services';
@@ -123,4 +124,4 @@ class RequestCheck extends Component {
   }
 }
 
-export default RequestCheck;
+export default withRouter(RequestCheck);

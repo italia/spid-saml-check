@@ -1,8 +1,19 @@
+.container-empty {
+    background-color: #002255;
+}
+
+#Worksave .img-logo {
+    max-width: 200px;
+    display: block;
+    margin: -80px auto 50px;
+}
+
 #Worksave .title {
     width: 100%;
+    color: #FFFFFF;
     text-align: center;
     font-size: 1.3em;
-    font-weight: 500;
+    font-weight: 300;
 }
 
 #Worksave .section-selector {

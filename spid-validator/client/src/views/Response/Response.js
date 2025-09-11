@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import{ withRouter } from '../../withRouter';
 import view from "./view.js";
 import Utility from '../../utility';
 import Services from '../../services';
@@ -325,4 +326,4 @@ class Response extends Component {
   
 }
 
-export default Response;
+export default withRouter(Response);

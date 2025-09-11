@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import{ withRouter } from '../../withRouter';
 import view from "./view.js";
 import Utility from '../../utility';
 import Services from '../../services';
@@ -21,28 +22,40 @@ class Worksave extends Component {
         let service = Services.getMainService();
         let store = ReduxStore.getMain();
 
-        service.loadAllWorkspace(
-            (data)=> {
-                if(data.length==0) {
-                    this.startWorkspace('main');
-                } else {
-                    this.setState({ 
-                        available_stores: data,
-                        selected_type: data[0].store_type,
-                        workspace: data[0]
-                    });
-                }
-            },
-            ()=> {
-                // case no workspace, go to download metadata
-                this.props.history.push('/metadata-sp-download');
-            },
-            (error)=> {
-                Utility.showModal({
-                    title: "Attenzione, si è verificato un errore",
-                    body: error,
-                    isOpen: true
-                });
+        service.assert( 
+            (data)=>{
+                Utility.setApikey(data.apikey);
+                //Utility.blockUI(true);
+                service.loadAllWorkspace(
+                    (data)=> {
+                        Utility.blockUI(false);
+                        if(data.length==0) {
+                            this.startWorkspace('main');
+                        } else {
+                            this.setState({ 
+                                available_stores: data,
+                                selected_type: data[0].store_type,
+                                workspace: data[0]
+                            });
+                        }
+                    },
+                    (error)=> {
+                        Utility.blockUI(false);
+                        // case no workspace, go to download metadata
+                        this.props.navigate('/metadata/download');
+                    },
+                    (error)=> {
+                        Utility.blockUI(false);
+                        Utility.showModal({
+                            title: "Attenzione, si è verificato un errore",
+                            body: error,
+                            isOpen: true
+                        });
+                    }
+                );
+            }, 
+            (tologin)=> {
+                if(tologin.remote) window.location=config.basepath; 
             }
         );
     }
@@ -79,7 +92,7 @@ class Worksave extends Component {
         let store = ReduxStore.getMain();
         store.dispatch(Actions.setStore(this.state.workspace)); 
         this.startWorkspace(this.state.selected_type);
-        this.props.history.push('/request');
+        this.props.navigate('/request');
     }
 
     startNew() {
@@ -100,15 +113,15 @@ class Worksave extends Component {
     }
 
     startWorkspace(store_type) {
-        Utility.blockUI(true);
+        //Utility.blockUI(true);
         let service = Services.getMainService();
         service.loadWorkspace(store_type,
             (data)=> {
-                this.props.history.push('/request');
+                this.props.navigate('/request');
                 Utility.blockUI(false);
             },
             ()=> {
-                this.props.history.push('/metadata-sp-download');
+                this.props.navigate('/metadata/download');
             },
             (error)=> {
                 Utility.blockUI(false);
@@ -125,10 +138,10 @@ class Worksave extends Component {
 		if(this.state.workspace!=false) {
             return view(this);
         } else return (
-            <div>Loading...</div>
+            <div></div>
         );
 	}
   
 }
 
-export default Worksave;
+export default withRouter(Worksave);

@@ -1,7 +1,15 @@
+.bg-white {
+    background: #fff;
+}
+
 .warn {
 	border-color: red!important;
 }
 
 .bg-logo {
     background: #333333!important;
+}
+
+.input-group-text {
+    height: 100%;
 }

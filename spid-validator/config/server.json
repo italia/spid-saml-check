@@ -1,5 +1,5 @@
 {
-  "host": "https://localhost",
+  "host": "https://validator.linfaware.linfaservice.it",
   "port": 8084,
   "basepath": "",  
   "useProxy": false,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
-import { BlockUI } from 'primereact/blockui';
+import { BlockUI } from "ns-react-block-ui";
 import AceEditor from '../../components/AceEditor/';
 import "./style.css";
 

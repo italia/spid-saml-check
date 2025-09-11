@@ -3,7 +3,7 @@ import view from "./view.js";
 import Services from '../../services';
 import Utility from '../../utility';
 import sha256 from 'crypto-js/sha256';
-
+import config from '../../config.json';
 
 class Login extends Component {
 
@@ -25,11 +25,11 @@ class Login extends Component {
 			Utility.setApikey(data.apikey);
 			Utility.log("Login result", Utility.isAuthenticated());	
 			if(Utility.isAuthenticated()) {
-				this.props.history.push('/worksave');
+				window.location=config.basepath + "/worksave";
 			}
 		}, 
 		(tologin)=> {
-			if(tologin.remote) window.location="/login";
+			if(tologin.remote) window.location=config.basepath + "/login"; 
 			else {
 				this.setState({local_auth: true});
 			}
@@ -63,8 +63,7 @@ class Login extends Component {
 				Utility.setApikey(apikey);
 				Utility.log("Login result", Utility.isAuthenticated());	
 				if(Utility.isAuthenticated()) {
-					//window.location="/#/worksave";
-                    this.props.history.push('/worksave');
+					window.location="worksave";
 				}			
 			}, 
 			(error)=> {
@@ -75,10 +74,9 @@ class Login extends Component {
 					body: error,
 					isOpen: true
 				}); 
-				Utility.log("login", error);	
+				Utility.log("Login Error", error);	
 				this.setState({warn_user: 'warn', warn_password: 'warn'});			
 			});
-
 		}
 	}
   

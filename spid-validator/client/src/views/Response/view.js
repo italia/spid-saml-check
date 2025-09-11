@@ -1,5 +1,5 @@
 import React from 'react';
-import { BlockUI } from 'primereact/blockui';
+import { BlockUI } from "ns-react-block-ui";
 import AceEditor from '../../components/AceEditor/';
 import Select from 'react-select';
 import './switches.css';

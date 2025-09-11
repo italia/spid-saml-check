@@ -17,8 +17,8 @@ function view(me) {
             value={me.state.code}
             readOnly={true}
             maxLines={10000}
-            showPrintMargin={false}
             wrapEnabled={true}
+            showPrintMargin={false} 
             editorProps={{$blockScrolling: true}}
         />
     );

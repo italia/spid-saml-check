@@ -38,7 +38,7 @@ class Footer extends Component {
         <span>
           SPID Validator - {this.state.version}, SPID SP Test - {this.state.spid_sp_test_version}
         </span>
-        <span className="ml-auto">AgID - Agenzia per l'Italia Digitale</span>
+        <span className="ms-auto">AgID - Agenzia per l'Italia Digitale</span>
       </footer>
     )
   }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import{ withRouter } from '../../withRouter';
 import view from './view.js';
 import Utility from '../../utility';
 import Services from '../../services';
@@ -144,4 +145,4 @@ class MetadataSpCheck extends Component {
   }
 }
 
-export default MetadataSpCheck;
+export default withRouter(MetadataSpCheck);

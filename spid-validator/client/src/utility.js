@@ -7,6 +7,10 @@ import sha256 from 'crypto-js/sha256';
 
 class Utility {
 
+    static isObject(obj) {
+        return typeof obj == 'object' || Array.isArray(obj);
+    }
+
     static log(tag, text) {
         console.log("\n\n>>> " + tag);
         if(text!=null) console.log(CircularJSON.stringify(text, null, 4));
@@ -24,7 +28,17 @@ class Utility {
                 btnPrimaryFunc: data.btnPrimaryFunc,
                 btnPrimaryText: data.btnPrimaryText,
                 btnSecondaryFunc: data.btnSecondaryFunc,
-                btnSecondaryText: data.btnSecondaryText
+                btnSecondaryText: data.btnSecondaryText,
+                switch1: data.switch1,
+                switch1Func: data.switch1Func,
+                switch1Text: data.switch1Text,
+                switch2: data.switch2,
+                switch2Func: data.switch2Func,
+                switch2Text: data.switch2Text,
+                inputVisible: data.inputVisible,
+                inputEnabled: data.inputEnabled,
+                input: data.input, 
+                inputFunc: data.inputFunc
             })
         );        
     }

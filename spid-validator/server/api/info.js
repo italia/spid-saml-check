@@ -14,8 +14,9 @@ module.exports = function(app, checkAuthorisation) {
             return null;
         }		
     
-        if(req.session!=null) { // TODO ASSERTSESSION
-            if(!fs.existsSync(config_dir.DATA)) return res.render('warning', { message: "Directory /specs-compliance-tests/data is not found. Please create it and reload." });
+        if(req.session!=null) {
+            if(!fs.existsSync(config_dir.DATA)) 
+                res.status(500).send("Directory " + config_dir.DATA + " is not found. Please create it and reload.");
     
             let info = {
                 request: req.session.request,

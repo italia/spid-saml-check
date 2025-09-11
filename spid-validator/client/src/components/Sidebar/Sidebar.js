@@ -6,28 +6,38 @@ import nav from './_nav';
 import SidebarFooter from './../SidebarFooter';
 import SidebarForm from './../SidebarForm';
 import SidebarHeader from './../SidebarHeader';
-import SidebarMinimizer from './../SidebarMinimizer';
+//import SidebarMinimizer from './../SidebarMinimizer';
 import Utility from '../../utility';
 import Services from '../../services';
+import ReduxStore from "../../redux/store";
+import UtilActions from "../../redux/util/actions";
+import Sticky from 'react-sticky-el';
 
 
 class Sidebar extends Component {
 
   constructor(props) {
     super(props);
+    this.props = props;
 
     this.handleClick = this.handleClick.bind(this);
     this.activeRoute = this.activeRoute.bind(this);
     this.hideMobile = this.hideMobile.bind(this);
 
+    this.utilStore = ReduxStore.getUtil();
+    this.unsubscribeUtil = this.utilStore.subscribe(()=>this.onUtilStoreUpdate());
+
     this.state = {
       sessionActive: false
     }
 
-    let service = Services.getMainService();
+    this.checkSession();
+  }
 
-    let info = service.getInfo(
-      (info) => { 
+  checkSession() {
+    let service = Services.getMainService();
+    service.getInfo(
+      (info) => {
         this.setState({ sessionActive: true });
         Utility.log("Session info", info);
       }, 
@@ -35,7 +45,7 @@ class Sidebar extends Component {
         this.setState({ sessionActive: false });
         Utility.log("Session not found");
       },
-      (error)   => { 
+      (error)   => {
         this.setState({ sessionActive: false });;
         Utility.showModal({
             title: "Errore",
@@ -46,14 +56,21 @@ class Sidebar extends Component {
     );
   }
 
-
+	onUtilStoreUpdate() {
+		let utilState = this.utilStore.getState(); 
+		if(utilState.updateSidebar) {
+      this.checkSession();
+      this.utilStore.dispatch(UtilActions.updateSidebar(false));
+    }
+  }
+  
   handleClick(e) {
     e.preventDefault();
     e.target.parentElement.classList.toggle('open');
   }
 
   activeRoute(routeName, props) {
-    return props.location.pathname.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
+    return window.location.pathname.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
 
   }
 
@@ -65,7 +82,7 @@ class Sidebar extends Component {
 
   // todo Sidebar nav secondLevel
   // secondLevelActive(routeName) {
-  //   return this.props.location.pathname.indexOf(routeName) > -1 ? "nav nav-second-level collapse in" : "nav nav-second-level collapse";
+  //   return window.location.pathname.indexOf(routeName) > -1 ? "nav nav-second-level collapse in" : "nav nav-second-level collapse";
   // }
 
 
@@ -115,13 +132,13 @@ class Sidebar extends Component {
         <NavItem key={key} className={classes.item}>
           {
             url=='logout' ?
-              <a href="/logout" className={classes.link}><i className={classes.icon}></i>{item.name}{badge(item.badge)}</a>
+              <a href="logout" className={classes.link}><i className={classes.icon}></i>{item.name}{badge(item.badge)}</a>
             :isExternal(url) ?
               <RsNavLink href={url} className={classes.link} active>
                 <i className={classes.icon}></i>{item.name}{badge(item.badge)}
               </RsNavLink>
             :
-              <NavLink to={url} className={classes.link} activeClassName="active" onClick={this.hideMobile}>
+              <NavLink to={url} className={classes.link} onClick={this.hideMobile}>
                 <i className={classes.icon}></i>{item.name}{badge(item.badge)}
               </NavLink>
           }
@@ -173,12 +190,14 @@ class Sidebar extends Component {
         <SidebarHeader/>
         <SidebarForm/>
         <nav className="sidebar-nav">
+          <Sticky stickyClassName="sticky-menu" topOffset={-100}>
           <Nav>
             {navList(nav.items)}
           </Nav>
+          </Sticky>
         </nav>
         <SidebarFooter/>
-        <SidebarMinimizer/>
+        {/*<SidebarMinimizer/>*/}
       </div>
     )
   }

@@ -32,7 +32,7 @@ module.exports = {
         }),
         new CopyPlugin({
             patterns: [
-                { from: "./view/img", to: "../../img" }
+                { from: "./view/img", to: "../img" }
             ],
         }),
         new ProgressPlugin(true)
@@ -91,7 +91,13 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',
-                    'sass-loader'
+                    'sass-loader',
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            api: "legacy" // legacy | modern
+                        },
+                    },
                 ]
             },
             {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import{ withRouter } from '../../withRouter';
 import view from "./view.js";
 import Utility from '../../utility';
 import Services from '../../services';
@@ -175,4 +176,4 @@ class MetadataSpUploadZip extends Component {
 
 }
 
-export default MetadataSpUploadZip;
+export default withRouter(MetadataSpUploadZip);

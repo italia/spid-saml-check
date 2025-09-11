@@ -32,7 +32,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             res.status(200).send(stores);
     
         } else {
-            res.status(400).send("Session or entity_id not found");
+            res.status(401).send("Session or entity_id not found");
         }
     });
 
@@ -77,7 +77,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             res.status(200).send(store);
     
         } else {
-            res.status(400).send("Session or entity_id not found");
+            res.status(401).send("Session or entity_id not found");
         }
     });
 
@@ -99,7 +99,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             res.status(200).send();
     
         } else {
-            res.status(400).send("Session not found");
+            res.status(401).send("Session not found");
         }
     });
 
@@ -120,7 +120,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
             res.status(200).send();
     
         } else {
-            res.status(400).send("Session not found");
+            res.status(401).send("Session not found");
         }
     });
 }

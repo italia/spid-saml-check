@@ -1,5 +1,6 @@
 import axios from "axios";
 import Utility from "./utility";
+import config from "./config.json";
 
 
 class MainService {
@@ -18,18 +19,18 @@ class MainService {
 
 	login(options, callback_response, callback_error) {
 		Utility.log("GET /login");
-		axios.get('/login?user=' + options.user + '&password=' + options.password)
+		axios.get(config.basepath + '/login?user=' + options.user + '&password=' + options.password)
 		.then((response)=> {
 			callback_response(response.data.apikey);
 		})
-		.catch((error)=> {
+		.catch((error)=> {  
 			callback_error((error.response!=null) ? error.response.data : "Service not available");
 		});
 	}	
 
 	assert(callback_response, callback_error) {
 		Utility.log("GET /login/assert");
-		axios.get('/login/assert')
+		axios.get(config.basepath + '/login/assert')
 		.then((response)=> {
 			callback_response(response.data);
 		})
@@ -46,7 +47,7 @@ class MainService {
 
 	ping() {
 		Utility.log("GET /ping");
-		axios.get('/ping?apikey=' + Utility.getApikey())
+		axios.get(config.basepath + '/ping?apikey=' + Utility.getApikey())
 		.catch(function (error) {
 			window.location="/#/login";
 		});
@@ -55,7 +56,7 @@ class MainService {
 
 	getInfo(callback_response, callback_nosession, callback_error) {
 		Utility.log("GET /api/info");
-		axios.get('/api/info?apikey=' + Utility.getApikey())
+		axios.get(config.basepath + '/api/info?apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("getInfo Success", response.data);
 			if(response.data.request) {
@@ -72,15 +73,15 @@ class MainService {
 
 	loadAllWorkspace(callback_response, callback_nosession, callback_error) {
 		Utility.log("GET /api/stores?apikey=" + Utility.getApikey());
-		axios.get('/api/stores?apikey=' + Utility.getApikey())
+		axios.get(config.basepath + '/api/stores?apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("loadAllWorkspace Success", response.data);
             callback_response(response.data);
 		})
 		.catch(function(error) {
-			console.log(error);
-			if(error.response.status==400) {
-				callback_nosession();
+			Utility.log("loadAllWorkspace Error", error);
+			if(error.response.status==401) {
+				callback_nosession((error.response!=null) ? error.response.data : "Session not found");
 			} else {
 				callback_error((error.response!=null) ? error.response.data : "Service not available");
 			}
@@ -89,14 +90,14 @@ class MainService {
 
 	loadWorkspace(store_type, callback_response, callback_nosession, callback_error) {
 		Utility.log("GET /api/store?store_type=" + store_type + "&apikey=" + Utility.getApikey());
-		axios.get('/api/store?store_type=' + store_type + '&apikey=' + Utility.getApikey())
+		axios.get(config.basepath + '/api/store?store_type=' + store_type + '&apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("loadWorkspace Success", response.data);
             callback_response(response.data);
 		})
 		.catch(function(error) {
-			if(error.response.status==400) {
-				callback_nosession();
+			if(error.response.status==401) {
+				callback_nosession((error.response!=null) ? error.response.data : "Session not found");
 			} else {
 				callback_error((error.response!=null) ? error.response.data : "Service not available");
 			}
@@ -105,7 +106,7 @@ class MainService {
 
 	saveWorkspace(data) {
 		Utility.log("POST /api/store", data);
-		axios.post('/api/store?apikey=' + Utility.getApikey(), data)
+		axios.post(config.basepath + '/api/store?apikey=' + Utility.getApikey(), data)
 		.then(function(response) {
 			Utility.log("saveWorkspace Success", response.data);
 		})
@@ -116,7 +117,7 @@ class MainService {
 
 	resetWorkspace(store_type, callback_response, callback_error) {
 		Utility.log("DELETE /api/store?store_type=" + store_type);
-		axios.delete('/api/store?store_type='+store_type+'&apikey=' + Utility.getApikey())
+		axios.delete(config.basepath + '/api/store?store_type='+store_type+'&apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("resetWorkspace Success", response.data);
 			callback_response();
@@ -129,7 +130,7 @@ class MainService {
 
 	downloadMetadataSp(url, callback_response, callback_error) {
 		Utility.log("POST /api/metadata-sp/download");
-		axios.post('/api/metadata-sp/download?apikey=' + Utility.getApikey(), {url: url})
+		axios.post(config.basepath + '/api/metadata-sp/download?apikey=' + Utility.getApikey(), {url: url})
 		.then(function(response) {
 			Utility.log("downloadMetadataSp Success", response.data);
 			callback_response(response.data);
@@ -147,7 +148,7 @@ class MainService {
 		formData.append('check', check);
 		formData.append('profile', profile);
 		formData.append('production', production);
-		axios.post(' /api/metadata-sp/upload/zip?apikey=' + Utility.getApikey(), formData, {
+		axios.post(config.basepath + '/api/metadata-sp/upload/zip?apikey=' + Utility.getApikey(), formData, {
 		  	headers: { 'Content-Type': 'multipart/form-data' },
 			onUploadProgress: (progressEvent)=>callback_progress_upload(progressEvent),
 			onDownloadProgress: (progressEvent)=>callback_progress_download(progressEvent)
@@ -162,7 +163,7 @@ class MainService {
 
 	setSessionMetadata(metadata, callback_response, callback_error) {
 		Utility.log("PUT /api/metadata-sp");
-		axios.put('/api/metadata-sp?apikey=' + Utility.getApikey(), {metadata: metadata})
+		axios.put(config.basepath + '/api/metadata-sp?apikey=' + Utility.getApikey(), {metadata: metadata})
 		.then(function(response) {
 			Utility.log("setSessionMetadata Success", response.data);
 			callback_response(response.data);
@@ -175,7 +176,7 @@ class MainService {
 
 	getLastCheckMetadataSp(test, callback_response, callback_error) {
 		Utility.log("GET /api/metadata-sp/lastcheck/" + test);
-		axios.get('/api/metadata-sp/lastcheck/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})
+		axios.get(config.basepath + '/api/metadata-sp/lastcheck/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})
 		.then(function(response) {
 			Utility.log("getLastCheckMetadataSp Success", response.data);
 			callback_response(response.data);
@@ -188,7 +189,7 @@ class MainService {
 
 	checkMetadataSp(test, deprecated, production, callback_response, callback_error) {
 		Utility.log("GET /api/metadata-sp/check/" + test);
-		axios.get('/api/metadata-sp/check/' + test + 
+		axios.get(config.basepath + '/api/metadata-sp/check/' + test + 
 			'?deprecated=' + (deprecated? 'Y':'N') +
 			'&production=' + (production? 'Y':'N') +
 			'&apikey=' + Utility.getApikey(), {timeout: 900000})
@@ -204,7 +205,7 @@ class MainService {
 
 	getRequest(callback_response, callback_nosession, callback_error) {
 		Utility.log("GET /api/request");
-		axios.get('/api/request?apikey=' + Utility.getApikey())
+		axios.get(config.basepath + '/api/request?apikey=' + Utility.getApikey())
 		.then(function(response) {
 			Utility.log("getRequest Success", response.data);
 			callback_response(response.data);
@@ -221,7 +222,7 @@ class MainService {
 
 	getLastCheckRequest(test, callback_response, callback_error) {
 		Utility.log("GET /api/request/lastcheck/" + test);
-		axios.get('/api/request/lastcheck/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})
+		axios.get(config.basepath + '/api/request/lastcheck/' + test + '?apikey=' + Utility.getApikey(), {timeout: 900000})
 		.then(function(response) {
 			Utility.log("getLastCheckRequest Success", response.data);
 			callback_response(response.data);
@@ -234,7 +235,7 @@ class MainService {
 
 	checkRequest(test, production, callback_response, callback_error) {
 		Utility.log("GET /api/request/check/" + test);
-		axios.get('/api/request/check/' + test + 
+		axios.get(config.basepath + '/api/request/check/' + test + 
 			'?production=' + (production? 'Y':'N') +
 			'&apikey=' + Utility.getApikey(), {timeout: 900000})
 		.then(function(response) {
@@ -249,7 +250,7 @@ class MainService {
 
 	getTestResponse(options, callback_response, callback_error) {
 		Utility.log("POST /api/test-response/" + options.suiteid + "/" + options.caseid);
-		axios.post('/api/test-response/' + options.suiteid + '/' + options.caseid + '?apikey=' + Utility.getApikey(), options)
+		axios.post(config.basepath + '/api/test-response/' + options.suiteid + '/' + options.caseid + '?apikey=' + Utility.getApikey(), options)
 		.then(function(response) {
 			if(response.status==206) {
 				callback_error("I dati della Response sono parziali. Assicurarsi che il metadata sia stato caricato correttamente.");
@@ -265,7 +266,7 @@ class MainService {
 
 	getSignedXml(options, callback_response, callback_error) {
 		Utility.log("POST /api/sign");
-		axios.post('/api/sign?apikey=' + Utility.getApikey(), {
+		axios.post(config.basepath + '/api/sign?apikey=' + Utility.getApikey(), {
 			xml: options.xml,
 			sign_response: options.sign_response,
 			sign_assertion: options.sign_assertion
@@ -282,7 +283,7 @@ class MainService {
 	
 	getServerInfo(callback_response, callback_error) {
 		Utility.log("GET /api/server-info");
-		axios.get('/api/server-info', {timeout: 900000})
+		axios.get(config.basepath + '/api/server-info', {timeout: 900000})
 		.then(function(response) {
 			Utility.log("getServerInfo Success", response.data);
 			callback_response(response.data);

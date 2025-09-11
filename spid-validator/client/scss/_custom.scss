@@ -5,9 +5,9 @@
 }
 
 .app-header.navbar .navbar-brand {
-    background-color: #0066CC!important;
+    background-color: transparent!important;
     background-size: 135px auto;
-    border-bottom:0.5px solid #c2cfd6;
+    border-bottom:0.5px solid transparent;
 }
 
 .navbar-toggler-icon {
@@ -33,6 +33,28 @@
 	margin-bottom:30px;
 }
 
-.p-blockui {
-    background-color: rgba(0, 0, 0, 0.75);
+.btn-primary {
+    color: #FFFFFF!important;
+}
+
+.form-control {
+    background-color: #FFFFFF!important;
+}
+
+.btn-success {
+    color: #FFFFFF; 
+}
+
+.sticky-menu {
+    margin-top:60px;
+}
+
+.sticky-tools {
+    margin-top:50px;
+}
+
+.scroll-to-top {
+    background-color: none!important;
+    box-shadow: none!important;
+    border: none!important;
 }

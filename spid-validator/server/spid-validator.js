@@ -242,26 +242,25 @@ if(config_idp.enabled || config_demo.enabled) {
     });
 }
 
+/* Authentication */
+require('./app/auth')		    (app, checkAuth, authenticator);
 
-/* IDP */
+/* Identity Provider */
 if(config_idp.enabled) {
     require('./app/idp')		    (app, checkAuth, getEntityDir, sendLogoutResponse);
 }
 
-/* IDP Demo */
+/* Identity Provider Demo */
 if(config_demo.enabled) {
     require('./app/idp_demo')       (app, checkAuth, getEntityDir, sendLogoutResponse, database);
 }
 
-/* Authentication */
-require('./app/auth')		    (app, checkAuth, authenticator);
-
-/* API */
-require('./api/info')		    (app, checkAuth);
+/* API Validator */
 require('./api/store')		    (app, checkAuth, getEntityDir, database);
 require('./api/metadata-sp')	(app, checkAuth, getEntityDir, database);
 require('./api/request')    	(app, checkAuth, getEntityDir, database);
 require('./api/response')    	(app, checkAuth);
+require('./api/info')		    (app, checkAuth);
 require('./api/server-info')	(app);
 
 
@@ -280,7 +279,7 @@ app.use((err, req, res, next) => {
 
 
 // start
-if (useHttps) app = https.createServer(httpsCredentials, app);
+if(useHttps) app = https.createServer(httpsCredentials, app);
 
 app.listen(httpPort, () => {
     // import

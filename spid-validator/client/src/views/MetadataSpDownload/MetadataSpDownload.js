@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import{ withRouter } from '../../withRouter';
 import view from "./view.js";
 import Utility from '../../utility';
 import Services from '../../services';
@@ -69,14 +70,18 @@ class MetadataSpDownload extends Component {
   downloadMetadata(url) {
     let service = Services.getMainService();
     let store = ReduxStore.getMain();
+    let util = ReduxStore.getUtil();
 
+    Utility.blockUI(true);
     service.downloadMetadataSp(url,
       (metadata_xml) => { 
+        Utility.blockUI(false);
         this.setState({xml: metadata_xml});
         store.dispatch(Actions.setMetadataSpURL(url)); 
         store.dispatch(Actions.setMetadataSpXML(metadata_xml)); 
       }, 
       (error)   => { 
+        Utility.blockUI(false);
         //this.setState({xml: ""}); 
         store.dispatch(Actions.setMetadataSpURL(""));
         store.dispatch(Actions.setMetadataSpXML(""));
@@ -89,6 +94,10 @@ class MetadataSpDownload extends Component {
     );
   }
 
+  print() {
+    Utility.print("response");
+  }
+
 }
 
-export default MetadataSpDownload;
+export default withRouter(MetadataSpDownload);

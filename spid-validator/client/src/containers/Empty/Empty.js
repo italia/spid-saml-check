@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {Link, Switch, Route, Redirect} from 'react-router-dom';
+import {Link, Routes, Route, Navigate, Outlet} from 'react-router-dom';
 import {Container, Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
-import { BlockUI } from 'primereact/blockui';
+import { BlockUI } from "ns-react-block-ui";
 import ReduxStore from "../../redux/store";
 import Utility from '../../utility';
-
+  
 
 class Empty extends Component {
 
@@ -53,14 +53,14 @@ class Empty extends Component {
 			modal_btn_secondary_func: (modalState.btnSecondaryFunc!=null)? modalState.btnSecondaryFunc : this.state.modal_btn_secondary_func,
 			modal_btn_secondary_text: (modalState.btnSecondaryFunc!=null && modalState.btnSecondaryText!=null && modalState.btnSecondaryText!="")? modalState.btnSecondaryText : this.state.modal_btn_secondary_text,
 		}, ()=>{
-			//Utility.log("Updated state", this.state);
+			//Utility.log("Updated state", this.state);  
 		});
 	}	
 
 	render() {    
     	return (
-			<section id="main" className="container-empty">
-				<BlockUI tag="div" blocked={this.state.blocking}> 
+			<section id="main"  className="container-empty">   
+				<BlockUI tag="div" blocking={this.state.blocking} mode="full-screen" loader="default"> 
 					<div className="app">
 						<Container fluid>
 							<Outlet />

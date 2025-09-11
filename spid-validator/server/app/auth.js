@@ -122,7 +122,7 @@ module.exports = function(app, checkAuthorisation, authenticator) {
         if(config_idp.agidloginAuthentication) {
             res.redirect(authenticator.getLogoutURL());
         } else {
-            res.redirect("/");
+            res.redirect(config_idp.basepath);
         }
     });
     
