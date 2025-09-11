@@ -23,8 +23,18 @@ class RequestCheck extends Component {
     };  
   }	
 
+  static getDerivedStateFromProps(props, state) {
+    return {test: props.test };
+  }
+
   componentDidMount() { 
     this.getLastCheck();
+  }
+
+  componentDidUpdate(prevProps) { 
+    if(this.props.test != prevProps.test) {
+      this.getLastCheck();
+    }
   }
 
   getLastCheck() {

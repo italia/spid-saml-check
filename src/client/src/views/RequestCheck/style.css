@@ -7,6 +7,20 @@
     margin-bottom: 30px;
 }
 
+#RequestCheck .main {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#RequestCheck input.metadata {
+    width: 70%;
+}
+
+#RequestCheck .code {
+    margin-top: 20px;
+}
+
 #RequestCheck button {
     margin: 5px!important; 
 }
@@ -20,46 +34,49 @@
 #RequestCheck .test-success {
     display: block;
     float: left;
-    width: 30px;
+    width: 50px;
     line-height: 23px;
     margin: 1px;
     border: 1px solid #000;
     background-color: green;
     color: #fff!important;
-    font-size: 13px;
+    font-size: 11px;
     text-align: center;
     padding: 3px;
     cursor: pointer;
-} 
+    text-decoration: none;
+}
 
 #RequestCheck .test-warning {
     display: block;
     float: left;
-    width: 30px;
+    width: 50px;
     line-height: 23px;
     margin: 1px;
     border: 1px solid #000;
     background-color: orange;
-    color: #fff!important;
-    font-size: 13px;
+    color: #000!important;
+    font-size: 11px;
     text-align: center;
     padding: 3px;
     cursor: pointer;
-} 
+    text-decoration: none;
+}
 
 #RequestCheck .test-fail {
     display: block;
     float: left;
-    width: 30px;
+    width: 50px;
     line-height: 23px;
     margin: 1px;
     border: 1px solid #000;
     background-color: red;
     color: #fff!important;
-    font-size: 13px;
+    font-size: 11px;
     text-align: center;
     padding: 3px;
     cursor: pointer;
+    text-decoration: none;
 }
 
 #RequestCheck .detail-table {
@@ -99,7 +116,7 @@
 
 #RequestCheck .test-warning-dm {
     background: orange!important;
-    color: #FFFFFF;
+    color: #000000;
     font-weight: bold;
 }
 
@@ -110,13 +127,16 @@
 }
 
 #RequestCheck .tools {
-    padding: 30px 5px;
+    padding: 30px 20px;
     background: #FFFFFF;
-    margin-left: 15px;
 }
 
 #RequestCheck .first-upper {
     text-transform:capitalize;
+}
+
+#RequestCheck .align-super {
+    vertical-align: super;
 }
 
 @media print {

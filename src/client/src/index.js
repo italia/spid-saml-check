@@ -45,9 +45,9 @@ root.render(
       </Route>
       <Route path="/request" element={<Main/>}>
         <Route path="/request" element={<Request/>}/>
-        <Route path="/request/check-strict" element={<RequestCheck test="strict"/>}/>
-        <Route path="/request/check-certs" element={<RequestCheck test="certs"/>}/>
-        <Route path="/request/check-extra" element={<RequestCheck test="extra"/>}/>
+        <Route path="/request/check/strict" element={<RequestCheck test="strict"/>}/>
+        <Route path="/request/check/certs" element={<RequestCheck test="certs"/>}/>
+        <Route path="/request/check/extra" element={<RequestCheck test="extra"/>}/>
       </Route>
       <Route path="/response" element={<Main/>}>
         <Route path="/response/:suiteid/:caseid" element={<Response/>}/>

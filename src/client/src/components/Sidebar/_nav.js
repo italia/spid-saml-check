@@ -50,7 +50,7 @@ export default {
     },
     {
       name: 'Request',
-      icon: 'fa fa-cursor',
+      icon: 'fa fa-paper-plane',
       sessionRequired: true,
       children: [
         {
@@ -59,16 +59,16 @@ export default {
         },
         {
           name: 'Check Strict',  
-          url: '/request/check-strict',      
+          url: '/request/check/strict',      
         },
         {
           name: 'Check Certificates',  
-          url: '/request/check-certs',    
+          url: '/request/check/certs',    
           disabled: true  
         },
         {
           name: 'Check Extra',  
-          url: '/request/check-extra'
+          url: '/request/check/extra'
         }
       ]
       /*
