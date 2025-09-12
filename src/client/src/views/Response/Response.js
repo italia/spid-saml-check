@@ -6,6 +6,7 @@ import Services from '../../services';
 import config_test from '../../../../config/test.json';
 import ReduxStore from "../../redux/store";
 import Actions from "../../redux/main/actions";
+import { Buffer } from 'buffer';
 
 
 class Response extends Component {
@@ -13,8 +14,13 @@ class Response extends Component {
   constructor(props) {
     super(props);
 
+    let params = (props.match && props.match.params)? props.match.params : {
+      suiteid: null,
+      caseid: null
+    }
+
     // search for first test not yet executed
-    if(props.match.params.suiteid==null || props.match.params.caseid==null) {
+    if(params.suiteid==null || params.caseid==null) {
 
         let store = ReduxStore.getMain();
         let storeState = store.getState();
@@ -36,8 +42,8 @@ class Response extends Component {
         this.newResponse("test-suite-1", nextTest);
 
     } else {
-        Utility.log("LOAD RESPONSE", props.match.params.caseid);
-        this.newResponse(props.match.params.suiteid, props.match.params.caseid);  
+        Utility.log("LOAD RESPONSE", params.caseid);
+        this.newResponse(params.suiteid, params.caseid);  
     }
   }	
 
@@ -62,8 +68,13 @@ class Response extends Component {
   }
 
   static getDerivedStateFromProps(props, state) { 
-    let suiteid = (props.match.params.suiteid!=null)? props.match.params.suiteid : state.suiteid;
-    let caseid = (props.match.params.caseid!=null)? props.match.params.caseid : state.caseid;
+    let params = (props.match && props.match.params)? props.match.params : {
+      suiteid: null,
+      caseid: null
+    }
+
+    let suiteid = (params.suiteid!=null)? params.suiteid : state.suiteid;
+    let caseid = (params.caseid!=null)? params.caseid : state.caseid;
 
     return {
       suiteid: suiteid,
@@ -89,8 +100,12 @@ class Response extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    let suiteid = (prevProps.match.params.suiteid!=null)? prevProps.match.params.suiteid : this.state.suiteid;
-    let caseid = (prevProps.match.params.caseid!=null)? prevProps.match.params.caseid : this.state.caseid;
+    let params = (prevProps.match && prevProps.match.params)? prevProps.match.params : {
+      suiteid: null,
+      caseid: null
+    }
+    let suiteid = (params.suiteid!=null)? params.suiteid : this.state.suiteid;
+    let caseid = (params.caseid!=null)? params.caseid : this.state.caseid;
 
     if(this.state.suiteid!=suiteid || 
         this.state.caseid!=caseid) {

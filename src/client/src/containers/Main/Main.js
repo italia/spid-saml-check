@@ -208,8 +208,8 @@ class Main extends Component {
 										Report generato il: {this.state.infoprint_datetime}
 									</div>
 									
-									<ScrollToTop smooth className="btn-scroll" component={
-										<button className="btn btn-lg btn-primary"><span className="fa fa-chevron-up"></span></button>	
+									<ScrollToTop smooth className="btn btn-lg btn-primary" component={
+										<span className="fa fa-chevron-up"></span>
 									} />		
 												
 								</main>
