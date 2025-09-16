@@ -39,15 +39,15 @@ class Response extends Component {
         }
         if(nextTest==null) nextTest = "1";
         Utility.log("LOAD RESPONSE", nextTest);
-        this.newResponse("test-suite-1", nextTest);
+        this.setResponse("test-suite-1", nextTest);
 
     } else {
         Utility.log("LOAD RESPONSE", params.caseid);
-        this.newResponse(params.suiteid, params.caseid);  
+        this.setResponse(params.suiteid, params.caseid);  
     }
   }	
 
-  newResponse(suiteid, caseid) {
+  setResponse(suiteid, caseid) {
     this.state = {
       suiteid: suiteid,
       caseid: caseid,
@@ -64,7 +64,29 @@ class Response extends Component {
       test_done: false,
       test_success: false, 
       test_note: ""   
-    };  
+    }
+  }
+
+  newResponse(suiteid, caseid, next=null) {
+    this.setState({
+      suiteid: suiteid,
+      caseid: caseid,
+      name: "",
+      description: "",
+      sign_response: null,      // null to grab default
+      sign_assertion: null,     // null to grab default
+      xml: "",
+      xml_signed: "",
+      params: [],
+      response_destination: "",
+      response_samlResponse: "",
+      response_relayState: "",
+      test_done: false,
+      test_success: false, 
+      test_note: ""   
+    }, ()=> {
+      if(next!=null) next();
+    });  
   }
 
   static getDerivedStateFromProps(props, state) { 
@@ -109,8 +131,9 @@ class Response extends Component {
 
     if(this.state.suiteid!=suiteid || 
         this.state.caseid!=caseid) {
-        this.newResponse(this.state.suiteid, this.state.caseid); 
-        this.getTestResponse(); 
+        this.newResponse(this.state.suiteid, this.state.caseid, ()=> {
+          this.getTestResponse(); 
+        }); 
     }
   }
 
@@ -330,9 +353,10 @@ class Response extends Component {
   }
 
   setResponseTemplate(templateId) {
-    this.props.history.push("/response/" + this.state.suiteid + "/" + templateId);
-    this.newResponse(this.state.suiteid, templateId); 
-    this.getTestResponse();
+    this.props.navigate("/response/" + this.state.suiteid + "/" + templateId);
+    this.newResponse(this.state.suiteid, templateId, ()=> {
+      this.getTestResponse();
+    }); 
   }
 
   render() { 

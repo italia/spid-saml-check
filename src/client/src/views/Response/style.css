@@ -1,37 +1,58 @@
-.panel-send {
+#Response .title {
+    margin-bottom: 15px!important;
+}
+
+#Response .subtitle {
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+#Response .main {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#Response .panel-send {
     background: #FFFFFF;
     padding: 20px;
     border: 1px solid #C2CFD6;
 }
 
-.btn-send {
+#Response .input-test-note {
+    width:100%;
+}
+
+#Response .btn-send {
     margin:20px 0;
 }
 
-.param {
+#Response .param {
     width:100%;
     margin-bottom:15px;
 }
 
-.checkAttribute {
+#Response .checkAttribute {
     margin-right: 10px;
 }
 
-.switch {
+#Response .switch {
     float: left;
     margin-right: 20px;
     margin-bottom: 20px;
 }
 
-.main {
-    margin-bottom: 30px;
-}
-
-.Select {
+#Response .response-select {
     z-index:999;
     margin-bottom: 20px;
 }
 
-.test-description {
+#Response .test-description {
     width:100%;
+}
+
+@media print {
+    #Response .tools {
+        display: none;
+    }
 }
