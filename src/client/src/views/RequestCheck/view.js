@@ -88,26 +88,26 @@ function view(me) {
                             <div className="col-sm-12">
 
                                 <div>
-                                    <label className="switch switch-success">
+                                    <label className="switch switch-success me-3">
                                         <input type="checkbox" className="switch-input" 
                                             checked={me.state.detailview}
                                             onChange={(e)=>{me.setDetailView(e.target.checked)}}>
                                         </input>
                                         <span className="switch-slider"></span>
                                     </label>
-                                    <span>Visualizzazione dettaglio</span>
+                                    <span className="align-super">Visualizzazione dettaglio</span>
                                     <hr/>
                                 </div>
 
                                 <div>
-                                    <label className="switch switch-success">
+                                    <label className="switch switch-success me-3">
                                         <input type="checkbox" className="switch-input" 
                                             checked={me.state.production}
                                             onChange={(e)=>{me.setProduction(e.target.checked)}}>
                                         </input>
                                         <span className="switch-slider"></span>
                                     </label>
-                                    <span>Check per Produzione</span>
+                                    <span className="align-super">Check per Produzione</span>
                                     <hr/>
                                 </div>
 

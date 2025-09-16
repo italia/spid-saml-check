@@ -97,27 +97,27 @@ function view(me) {
 
                                 {me.state.deprecable && 
                                     <div>
-                                        <label className="switch switch-warning">
+                                        <label className="switch switch-warning me-3">
                                             <input type="checkbox" className="switch-input" 
                                                 checked={me.state.deprecated}
                                                 onChange={(e)=>{me.setDeprecated(e.target.checked)}}>
                                             </input>
                                             <span className="switch-slider"></span>
                                         </label>
-                                        <span>Metadata deprecato (pre Avviso n.29)</span>
+                                        <span className="align-super">Metadata deprecato (pre Avviso n.29)</span>
                                         <hr/>
                                     </div>
                                 }
 
                                 <div>
-                                    <label className="switch switch-success">
+                                    <label className="switch switch-success me-3">
                                         <input type="checkbox" className="switch-input" 
                                             checked={me.state.production}
                                             onChange={(e)=>{me.setProduction(e.target.checked)}}>
                                         </input>
                                         <span className="switch-slider"></span>
                                     </label>
-                                    <span  className="align-super">Check per Produzione</span>
+                                    <span className="align-super">Check per Produzione</span>
                                     <hr/>
                                 </div>
 

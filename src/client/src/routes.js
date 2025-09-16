@@ -1,5 +1,4 @@
 const routes = {
-  '/': 'Home',
   '/metadata/download':          'Metadata / Download from URL',
   '/metadata/upload-zip':        'Metadata / Upload ZIP',
   '/metadata/check/xsd':         'Metadata / Check XSD',

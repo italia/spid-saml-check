@@ -1,3 +1,22 @@
+#ResponseReport .title {
+    margin-bottom: 15px!important;
+}
+
+#ResponseReport .subtitle {
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+#ResponseReport .main {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#ResponseReport button {
+    margin: 5px!important; 
+}
+
 #ResponseReport .testset {
     background: #fff;
     padding: 15px;
@@ -7,46 +26,49 @@
 #ResponseReport .test-none {
     display: block;
     float: left;
-    width: 30px;
+    width: 50px;
     line-height: 23px;
     margin: 1px;
     border: 1px solid #000;
     background-color: grey;
     color: #fff!important;
-    font-size: 13px;
+    font-size: 11px;
     text-align: center;
     padding: 3px;
     cursor: pointer;
+    text-decoration: none;
 }
 
 #ResponseReport .test-success {
     display: block;
     float: left;
-    width: 30px;
+    width: 50px;
     line-height: 23px;
     margin: 1px;
     border: 1px solid #000;
     background-color: green;
     color: #fff!important;
-    font-size: 13px;
+    font-size: 11px;
     text-align: center;
     padding: 3px;
     cursor: pointer;
+    text-decoration: none;
 }
 
 #ResponseReport .test-fail {
     display: block;
     float: left;
-    width: 30px;
+    width: 50px;
     line-height: 23px;
     margin: 1px;
     border: 1px solid #000;
     background-color: red;
     color: #fff!important;
-    font-size: 13px;
+    font-size: 11px;
     text-align: center;
     padding: 3px;
     cursor: pointer;
+    text-decoration: none;
 }
 
 
@@ -101,9 +123,16 @@
 }
 
 #ResponseReport .tools {
-    padding: 30px 5px;
+    padding: 30px 20px;
     background: #FFFFFF;
-    margin-left: 10px;
+}
+
+#ResponseReport .first-upper {
+    text-transform:capitalize;
+}
+
+#ResponseReport .align-super {
+    vertical-align: super;
 }
 
 @media print {
