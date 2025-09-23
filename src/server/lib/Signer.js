@@ -4,7 +4,8 @@ const SIGN_MODE = {
     SIGN_RESPONSE: 0,
     SIGN_ASSERTION: 1,
     SIGN_RESPONSE_ASSERTION: 2,
-    GET_SIGNATURE: 3
+    GET_SIGNATURE: 3,
+    SIGN_METADATA: 4,
 }
 
 
@@ -18,18 +19,21 @@ class Signer {
         mode = (mode!=null)? mode : SIGN_MODE.SIGN_RESPONSE_ASSERTION;
 
         switch(mode) {
-            case 0: 
+            case SIGN_MODE.SIGN_RESPONSE: 
                 signed = this.singleSign(xml, "Response"); 
                 break;
-            case 1: 
+            case SIGN_MODE.SIGN_ASSERTION: 
                 signed = this.singleSign(xml, "Assertion"); 
                 break;
-            case 2: 
+            case SIGN_MODE.SIGN_RESPONSE_ASSERTION: 
                 signed = this.singleSign(xml, "Assertion"); 
                 signed = this.singleSign(signed, "Response"); 
                 break;
-            case 3: 
+            case SIGN_MODE.GET_SIGNATURE: 
                 signed = this.getSignature(xml); 
+                break;            
+            case SIGN_MODE.SIGN_METADATA: 
+                signed = this.singleSign(xml, "EntityDescriptor")
                 break;
         }
         return signed;
@@ -74,7 +78,7 @@ class Signer {
 
         return signed;    
     } 
-    
+
     getSignature(xml) {
         let privateKey = this.signatureOptions.privateKey;
         let sigAlg = this.signatureOptions.signatureAlgorithm;

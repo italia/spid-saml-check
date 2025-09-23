@@ -7,6 +7,7 @@
   "license": "ISC",
   "repository": "https://github.com/italia/spid-saml-check",
   "dependencies": {
+    "@peculiar/x509": "^1.9.2",    
     "@xmldom/xmldom": "^0.8.11",
     "axios": "^1.11.0",
     "better-sqlite3": "^12.2.0",

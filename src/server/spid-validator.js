@@ -21,8 +21,8 @@ const PayloadDecoder = require("./lib/saml-utils").PayloadDecoder;
 const MetadataParser = require("./lib/saml-utils").MetadataParser;
 const RequestParser = require("./lib/saml-utils").RequestParser;
 const IdP = require("./lib/saml-utils").IdP;
-const Signer = require("./lib/signer").Signer;
-const SIGN_MODE = require("./lib/signer").SIGN_MODE;
+const Signer = require("./lib/Signer").Signer;
+const SIGN_MODE = require("./lib/Signer").SIGN_MODE;
 
 const Database = require("./lib/database");
 const Authenticator = require("./lib/authenticator");

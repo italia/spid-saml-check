@@ -1,6 +1,10 @@
 const fs = require("fs-extra");
 const path = require('path');
+const x509 = require("@peculiar/x509");
 const Utility = require("../lib/utils");
+const Template = require('../lib/Template.js');
+const Signer = require('../lib/Signer.js').Signer;
+const SIGN_MODE = require('../lib/Signer.js').SIGN_MODE;
 const IdP = require("../lib/saml-utils").IdP;
 const PayloadDecoder = require("../lib/saml-utils").PayloadDecoder;
 const RequestParser = require("../lib/saml-utils").RequestParser;
@@ -26,22 +30,42 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         }
     });
 
-    // get validator idp metadata
+    // get metadata
     app.get(validator_basepath + "/metadata.xml", function (req, res) {
-        let config = config_idp;
 
-        let endpoint = config_server.host
+        const key = fs.readFileSync(path.resolve(__dirname, '../../config/spid-saml-check.key'));
+        const crt = fs.readFileSync(path.resolve(__dirname, '../../config/spid-saml-check.crt'));
+        const x5c = new x509.X509Certificate(crt);
+
+        const sign_credentials = {
+            signatureAlgorithm: "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+            certificate: crt,
+            privateKey: key
+        };
+
+        let sso_endpoint = config_server.host
             + (config_server.useProxy? '' : ":" + config_server.port)
-            + validator_basepath + "/samlsso";
+            + "/samlsso";
 
-        config.endpoints = {
-            "login": endpoint,
-            "logout": endpoint,
-        }
+        let slo_endpoint = config_server.host
+            + (config_server.useProxy? '' : ":" + config_server.port)
+            + "/samlsso";
 
-        let idp = new IdP(config);
+        let defaults = [];
+        Utility.defaultParam(defaults, "ID", Utility.getUUID());
+        Utility.defaultParam(defaults, "entityID", config_idp.entityID);
+        Utility.defaultParam(defaults, "X509Certificate", x5c.toString("base64"));
+        Utility.defaultParam(defaults, "SingleLogoutService", slo_endpoint);
+        Utility.defaultParam(defaults, "SingleSignOnService", sso_endpoint);
+        
+        let template = new Template(path.resolve(__dirname));
+        let metadata = template.getCompiled("metadata-validator", [], defaults);
+
+        let signer = new Signer(sign_credentials);
+        let signed = signer.sign(metadata, SIGN_MODE.SIGN_METADATA);
+
         res.set('Content-Type', 'text/xml');
-        res.status(200).send("<?xml version=\"1.0\"?>" + idp.getMetadata());
+        res.status(200).send(signed);
     });
 
     // process sso post request
