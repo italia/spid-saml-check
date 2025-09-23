@@ -32,7 +32,11 @@ module.exports = {
         }),
         new CopyPlugin({
             patterns: [
-                { from: "./view/img", to: "../img" }
+                { from: "./view/css", to: "../css" },
+                { from: "./view/fonts", to: "../fonts" },
+                { from: "./view/img", to: "../img" },
+                { from: "./view/js", to: "../js" },
+                { from: "./view/svg", to: "../svg" }                
             ],
         }),
         new ProgressPlugin(true)
