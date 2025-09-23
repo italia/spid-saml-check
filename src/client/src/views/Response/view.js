@@ -7,7 +7,7 @@ import './style.css';
 function view(me) { 
     return (
         <div id="Response" className="animated fadeIn">
-            <p className="title h3">Response</p>
+            <p className="title h3">{me.state.suite_description}</p>
             <div className="row">
                 <div className="col-md-8">
                     <div className="main">

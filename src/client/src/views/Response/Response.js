@@ -47,6 +47,7 @@ class Response extends Component {
     Utility.log("SET RESPONSE (" + suiteid + ", " + caseid + ")");
     this.state = {
       suiteid: suiteid,
+      suite_description: "",
       caseid: caseid,
       name: "",
       description: "",
@@ -70,6 +71,7 @@ class Response extends Component {
     Utility.log("NEW RESPONSE (" + suiteid + ", " + caseid + ")");
     this.setState({
       suiteid: suiteid,
+      suite_description: "",
       caseid: caseid,
       name: "",
       description: "",
@@ -305,6 +307,7 @@ class Response extends Component {
 
 
         this.setState({
+          suite_description: testResponse.testsuite,
           name: testResponse.name,
           description: testResponse.description,
           xml: testResponse.compiled, 
