@@ -40,8 +40,8 @@ module.exports = function(app, checkAuthorisation) {
             // https://github.com/italia/spid-saml-check/issues/32
             if(caseid==1) {
                 switch(authnContextClassRef) {
-                    case 'https://www.spid.gov.it/SpidL2': caseid='1-nosession'; break;
-                    case 'https://www.spid.gov.it/SpidL3': caseid='1-nosession'; break;
+                    case 'https://www.spid.gov.it/SpidL2': caseid='1-NS'; break;
+                    case 'https://www.spid.gov.it/SpidL3': caseid='1-NS'; break;
                 }
             }
 

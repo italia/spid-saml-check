@@ -3,10 +3,10 @@ import{ withRouter } from '../../withRouter';
 import view from "./view.js";
 import Utility from '../../utility';
 import Services from '../../services';
-import config_test from '../../../../config/test.json';
 import ReduxStore from "../../redux/store";
 import Actions from "../../redux/main/actions";
 import { Buffer } from 'buffer';
+import config_test from '../../../../config/test.json';
 
 
 class Response extends Component {
@@ -14,40 +14,37 @@ class Response extends Component {
   constructor(props) {
     super(props);
 
-    let params = (props.match && props.match.params)? props.match.params : {
-      suiteid: null,
-      caseid: null
-    }
-
-    // search for first test not yet executed
-    if(params.suiteid==null || params.caseid==null) {
-
-        let store = ReduxStore.getMain();
-        let storeState = store.getState();
-        let testDone = storeState.response_test_done;
-        let testCases = config_test["test-suite-1"].cases;     
-        let nextTest = null;
-        for(let key in testCases) {
-            let executed = false;
-            for(let key_done in testDone) {
-                if(key==key_done) executed = true;
-            }
-            if(!executed) {
-                nextTest = key;
-                break;
-            }
-        }
-        if(nextTest==null) nextTest = "1";
-        Utility.log("LOAD RESPONSE", nextTest);
-        this.setResponse("test-suite-1", nextTest);
-
-    } else {
-        Utility.log("LOAD RESPONSE", params.caseid);
-        this.setResponse(params.suiteid, params.caseid);  
-    }
+    Utility.log("PROPS", props);
+    let suiteid = props.testsuite? props.testsuite : "test-suite-1";
+    this.setResponse(suiteid);
   }	
 
-  setResponse(suiteid, caseid) {
+  // search for first test not yet executed
+  getNextTest(suiteid) {
+    let store = ReduxStore.getMain();
+    let storeState = store.getState();
+    let testDone = storeState.response_test_done;
+    let testCases = config_test[suiteid].cases;     
+    let nextTest = null;
+    for(let key in testCases) {
+        let executed = false;
+        for(let key_done in testDone) {
+            if(key==key_done) executed = true;
+        }
+        if(!executed) {
+            nextTest = key;
+            break;
+        }
+    }
+    if(nextTest==null) nextTest = "1";
+    
+    return nextTest;
+  }
+
+  setResponse(suiteid, caseid=null) {
+    caseid = caseid ?? this.getNextTest(suiteid);
+
+    Utility.log("SET RESPONSE (" + suiteid + ", " + caseid + ")");
     this.state = {
       suiteid: suiteid,
       caseid: caseid,
@@ -67,7 +64,10 @@ class Response extends Component {
     }
   }
 
-  newResponse(suiteid, caseid, next=null) {
+  newResponse(suiteid, caseid=null, next=null) {
+    caseid = caseid ?? this.getNextTest(suiteid);
+
+    Utility.log("NEW RESPONSE (" + suiteid + ", " + caseid + ")");
     this.setState({
       suiteid: suiteid,
       caseid: caseid,
@@ -90,13 +90,8 @@ class Response extends Component {
   }
 
   static getDerivedStateFromProps(props, state) { 
-    let params = (props.match && props.match.params)? props.match.params : {
-      suiteid: null,
-      caseid: null
-    }
-
-    let suiteid = (params.suiteid!=null)? params.suiteid : state.suiteid;
-    let caseid = (params.caseid!=null)? params.caseid : state.caseid;
+    let suiteid = props.testsuite? props.testsuite : "test-suite-1";
+    let caseid = state.caseid? state.caseid : 1;
 
     return {
       suiteid: suiteid,
@@ -122,18 +117,13 @@ class Response extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    let params = (prevProps.match && prevProps.match.params)? prevProps.match.params : {
-      suiteid: null,
-      caseid: null
-    }
-    let suiteid = (params.suiteid!=null)? params.suiteid : this.state.suiteid;
-    let caseid = (params.caseid!=null)? params.caseid : this.state.caseid;
+    Utility.log("componentDidUpdate PARAMS: ", prevProps);
+    let suiteid = prevProps.testsuite? prevProps.testsuite : "test-suite-1";
 
-    if(this.state.suiteid!=suiteid || 
-        this.state.caseid!=caseid) {
-        this.newResponse(this.state.suiteid, this.state.caseid, ()=> {
-          this.getTestResponse(); 
-        }); 
+    if(this.state.suiteid!=suiteid) {
+      this.newResponse(this.state.suiteid, null, ()=> {
+        this.getTestResponse(); 
+      }); 
     }
   }
 
@@ -289,6 +279,7 @@ class Response extends Component {
 
   getTestResponse() {
     let service = Services.getMainService();	
+    Utility.blockUI(true);
     service.getTestResponse({
         suiteid: this.state.suiteid,
         caseid: this.state.caseid,
@@ -297,6 +288,7 @@ class Response extends Component {
         sign_assertion: this.state.sign_assertion
       },
       (testResponse) => { 
+        Utility.blockUI(false);
 
         // retrieve test success
         let store = ReduxStore.getMain();
@@ -329,6 +321,8 @@ class Response extends Component {
         });
       }, 
       (error)   => { 
+        Utility.blockUI(false);
+        
         this.setState({
           xml: "",
           params: []
@@ -353,7 +347,7 @@ class Response extends Component {
   }
 
   setResponseTemplate(templateId) {
-    this.props.navigate("/response/" + this.state.suiteid + "/" + templateId);
+    //this.props.navigate("/response/" + this.state.suiteid + "/" + templateId);
     this.newResponse(this.state.suiteid, templateId, ()=> {
       this.getTestResponse();
     }); 

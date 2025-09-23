@@ -50,8 +50,8 @@ root.render(
         <Route path="/request/check/extra" element={<RequestCheck test="extra"/>}/>
       </Route>
       <Route path="/response" element={<Main/>}>
-        <Route path="/response/:suiteid/:caseid" element={<Response/>}/>
-        <Route path="/response" element={<Response/>}/>
+        <Route path="/response/test-suite/test-suite-1" element={<Response testsuite="test-suite-1"/>}/>
+        <Route path="/response/test-suite/test-suite-aa-1" element={<Response testsuite="test-suite-aa-1"/>}/>
         <Route path="/response/report" element={<ResponseReport/>}/>
       </Route>      
       <Route path='/logout' element={<Redirect redirect={config.basepath + '/logout'}/>} />

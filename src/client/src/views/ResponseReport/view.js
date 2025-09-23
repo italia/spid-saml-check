@@ -12,47 +12,69 @@ function view(me) {
 
                 {!me.state.detailview &&
                     <div className="col-md-8">
-                        <div className="main">
-                            {me.state.test_cases!=null && 
-                                <div className="row testset"> 
-                                    <div className="col-sm-12">
-                                        {Object.keys(me.state.test_cases).map((t)=> {
-                                            return(
-                                                <a key={t} className={me.state.test_cases[t].classColor}
-                                                    title={me.state.test_cases[t].name +
-                                                            ": " + me.state.test_cases[t].success}>{t}</a> 
-                                            );
-                                        })}
+                    {Object.keys(me.state.test_suites).map((s)=> {
+                        return(
+                            <div key={s} className="row">
+                                <div className="col-md-12">
+                                    <div className="main">
+                                        {me.state.test_suites[s].cases!=null && 
+                                            <div>
+                                                <p className="subtitle h2">{me.state.test_suites[s].description}</p>
+                                                <div className="row testset"> 
+                                                    <div className="col-sm-12">
+                                                        {Object.keys(me.state.test_suites[s].cases).map((t)=> {
+                                                            return(
+                                                                <a key={t} className={me.state.test_suites[s].cases[t].classColor}
+                                                                    title={me.state.test_suites[s].cases[t].name +
+                                                                            ": " + me.state.test_suites[s].cases[t].success}>{t}</a> 
+                                                            );
+                                                        })}
 
-                                    </div>                                      
-                                </div> 
-                            }
-                        </div>
+                                                    </div>                                      
+                                                </div> 
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
                     </div>
                 }
 
                 {me.state.detailview &&
                     <div className="col-md-8">
-                        <div className="main">
-                            {me.state.test_cases!=null && 
-                            <div className="row testset"> 
-                                <div className="col-sm-12 table-responsive">
-                                    <table className="table detail-table mt-3">
-                                        <tr className="detail-header"><th className="detail-num">#</th><th className="detail-description">Test</th><th className="detail-result">Test Result</th></tr>
-                                        {Object.keys(me.state.test_cases).map((t)=> {
-                                            return(
-                                                <tr key={t} className="detail-row">
-                                                    <td className={'detail-num ' + me.state.test_cases[t].classColor + '-dm'}>{t}</td>
-                                                    <td className="detail-description">{me.state.test_cases[t].name}</td>
-                                                    <td className={'detail-result ' + me.state.test_cases[t].classColor + '-dm'}>{me.state.test_cases[t].result}<br/>{me.state.test_cases[t].note}</td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </table>
+                    {Object.keys(me.state.test_suites).map((s)=> {
+                        return(
+                            <div key={s} className="row">
+                                <div className="col-md-12">                        
+                                    <div className="main">
+                                        {me.state.test_suites[s].cases!=null && 
+                                            <div>
+                                                <p className="subtitle h2">{me.state.test_suites[s].description}</p>
+                                                <div className="row testset"> 
+                                                    <div className="col-sm-12 table-responsive">
+                                                        <table className="table detail-table mt-3">
+                                                            <tr className="detail-header"><th className="detail-num">#</th><th className="detail-description">Test</th><th className="detail-result">Test Result</th></tr>
+                                                            {Object.keys(me.state.test_suites[s].cases).map((t)=> {
+                                                                return(
+                                                                    <tr key={t} className="detail-row">
+                                                                        <td className={'detail-num ' + me.state.test_suites[s].cases[t].classColor + '-dm'}>{t}</td>
+                                                                        <td className="detail-description">{me.state.test_suites[s].cases[t].name}</td>
+                                                                        <td className={'detail-result ' + me.state.test_suites[s].cases[t].classColor + '-dm'}>{me.state.test_suites[s].cases[t].result}<br/>{me.state.test_suites[s].cases[t].note}</td>
+                                                                    </tr>
+                                                                );
+                                                            })}
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                            }
-                        </div>
+                        );
+                    })}
                     </div>
                 }
 

@@ -83,7 +83,8 @@ export default {
       icon: 'fa fa-check', 
       sessionRequired: true,
       children: [
-        { name: 'Check Response', url: '/response' },
+        { name: 'Check Response', url: '/response/test-suite/test-suite-1' },
+        { name: 'Check AA Response', url: '/response/test-suite/test-suite-aa-1' },
         { name: 'Report', url: '/response/report' },
       ]
     },
