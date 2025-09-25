@@ -136,7 +136,7 @@ class TestSuite {
                             grantTokenVal.header, 
                             grantTokenVal.payload,
                             grantTokenDestination,
-                            sid,
+                            "saml:" + sid,
                             acr,
                             iss,
                             sub,
@@ -201,29 +201,29 @@ class TestSuite {
         let exp = iat.clone().add(1, 'years')
 
         header = {
-            typ: (header!=null && header.typ!=null && header.typ!="") ? header.typ : "aa-grant+jwt",
-            alg: (header!=null && header.alg!=null && header.alg!="") ? header.alg : undefined,
-            enc: (header!=null && header.enc!=null && header.enc!="") ? header.enc : undefined,
-            kid: (header!=null && header.kid!=null && header.kid!="") ? header.kid : kid
+            typ: (header!=null && header.typ!=null) ? header.typ : "aa-grant+jwt",
+            alg: (header!=null && header.alg!=null) ? header.alg : undefined,
+            enc: (header!=null && header.enc!=null) ? header.enc : undefined,
+            kid: (header!=null && header.kid!=null) ? header.kid : kid
         }
 
         payload = JSON.stringify({
-            iat: (payload!=null && payload.iat!=null && payload.iat!="") ? payload.iat : iat.unix(),
-            exp: (payload!=null && payload.exp!=null && payload.exp!="") ? payload.exp : exp.unix(),
-            nbf: (payload!=null && payload.nbf!=null && payload.nbf!="") ? payload.nbf : iat.unix(),
-            jti: (payload!=null && payload.jti!=null && payload.jti!="") ? payload.jti : kid,
-            aud: (payload!=null && payload.aud!=null && payload.aud!="") ? payload.aud : aud,
-            sid: (payload!=null && payload.sid!=null && payload.sid!="") ? payload.sid : sid,
-            acr: (payload!=null && payload.acr!=null && payload.acr!="") ? payload.acr : acr,
-            iss: (payload!=null && payload.iss!=null && payload.iss!="") ? payload.iss : iss,
-            sub: (payload!=null && payload.sub!=null && payload.sub!="") ? payload.sub : sub,
-            act: (payload!=null && payload.act!=null && payload.act!="") ? payload.act : {"sub": actsub},
-            userID: (payload!=null && payload.userID!=null && payload.userID!="") ? payload.userID : sub
+            iat: (payload!=null && payload.iat!=null) ? payload.iat===false? undefined : payload.iat : iat.unix(),
+            exp: (payload!=null && payload.exp!=null) ? payload.exp===false? undefined : payload.exp : exp.unix(),
+            nbf: (payload!=null && payload.nbf!=null) ? payload.nbf===false? undefined : payload.nbf : iat.unix(),
+            jti: (payload!=null && payload.jti!=null) ? payload.jti===false? undefined : payload.jti : kid,
+            aud: (payload!=null && payload.aud!=null) ? payload.aud===false? undefined : payload.aud : aud,
+            sid: (payload!=null && payload.sid!=null) ? payload.sid===false? undefined : payload.sid : sid,
+            acr: (payload!=null && payload.acr!=null) ? payload.acr===false? undefined : payload.acr : acr,
+            iss: (payload!=null && payload.iss!=null) ? payload.iss===false? undefined : payload.iss : iss,
+            sub: (payload!=null && payload.sub!=null) ? payload.sub===false? undefined : payload.sub : sub,
+            act: (payload!=null && payload.act!=null) ? payload.act===false? undefined : payload.act : {"sub": actsub},
+            userID: (payload!=null && payload.userID!=null) ? payload.userID : sub
         })
- 
+
         const signedGrantToken = await jose.JWS.createSign({
             format: 'compact',
-            alg: 'RS256',
+            alg: header.alg ?? 'RS256',
             fields: {...header}
         }, prv_key).update(payload).final();
 
