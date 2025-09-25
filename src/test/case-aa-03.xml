@@ -10,13 +10,13 @@
     <samlp:Extensions>
         <spid:GrantedAttributeAuthority xmlns:spid="https://spid.gov.it/saml-extensions">
             <GrantToken Destination="https://as.aa1.it">eyJhbGciOiJS...</GrantToken>
-            <GrantToken Destination="https://as.aa2.it">eyJhbGciOiJS...</GrantToken >
-            <GrantToken Destination="https://as.aa3.it">eyJhbGciOiJS...</GrantToken >
+            <GrantToken Destination="https://as.aa2.it">eyJhbGciOiJS...</GrantToken>
+            <GrantToken Destination="https://as.aa3.it">eyJhbGciOiJS...</GrantToken>
         </spid:GrantedAttributeAuthority>
         <spid:GrantedAttributeAuthority xmlns:spid="https://spid.gov.it/saml-extensions">
             <GrantToken Destination="https://as.aa1.it">eyJhbGciOiJS...</GrantToken>
-            <GrantToken Destination="https://as.aa2.it">eyJhbGciOiJS...</GrantToken >
-            <GrantToken Destination="https://as.aa3.it">eyJhbGciOiJS...</GrantToken >
+            <GrantToken Destination="https://as.aa2.it">eyJhbGciOiJS...</GrantToken>
+            <GrantToken Destination="https://as.aa3.it">eyJhbGciOiJS...</GrantToken> 
         </spid:GrantedAttributeAuthority>        
     </samlp:Extensions>
     <samlp:Status><samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/></samlp:Status>
