@@ -13,7 +13,7 @@ const config_dir = require("../../config/dir.json");
 module.exports = function(app, checkAuthorisation) {
 
     // get test for response
-    app.post("/api/test-response/:suiteid/:caseid", function(req, res) {
+    app.post("/api/test-response/:suiteid/:caseid", async function(req, res) {
     
         // check if apikey is correct
         if(!checkAuthorisation(req)) {
@@ -75,7 +75,7 @@ module.exports = function(app, checkAuthorisation) {
             } else {
                 requestedAttributes = true;
             }
-    
+
             // defaults 
             let defaults = params.slice(0); // clone array
             defaults = Utility.defaultParam(defaults, "Issuer", config_idp.entityID);
@@ -95,7 +95,7 @@ module.exports = function(app, checkAuthorisation) {
             defaults = Utility.defaultParam(defaults, "Audience", serviceProviderEntityId);
             
             let testSuite = new TestSuite(config_idp, config_test);
-            let testResponse = testSuite.getTestTemplate(suiteid, caseid, requestedAttributes, defaults, params);
+            let testResponse = await testSuite.getTestTemplate(suiteid, caseid, requestedAttributes, defaults, params);
             let signed = testResponse.compiled;
     
             // defaults

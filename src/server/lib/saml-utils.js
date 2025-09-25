@@ -8,6 +8,9 @@ const DOMParser = xmldom.DOMParser;
 const zlib = require("zlib");
 const path = require("path");
 const fs = require("fs");
+const crypto = require("crypto");
+const jose = require('node-jose');
+const moment = require('moment');
 
 const select = xpath.useNamespaces({
     ...namespaces, 
@@ -25,7 +28,24 @@ class TestSuite {
         } 
     }
 
-    getTestTemplate(testsuiteId, testcaseId, requestedAttributes, defaultParams, userParams) {
+    // get param from user customized input 
+    // or from testsuite config 
+    // or testcase config 
+    // or from defaults
+    getActualParam(pKey, userParams, testsuiteParams, testcaseParams, defaultParams) {
+        let defaultParam = defaultParams.filter((p)=> { return (p.key==pKey) })[0];
+        let userParam = userParams.filter((p)=> { return (p.key==pKey) })[0];
+
+        let pVal = null;
+        pVal = (defaultParam!=null)? defaultParam.val : null;
+        pVal = (testsuiteParams!=null && testsuiteParams[pKey]!=null && testsuiteParams[pKey]!="")? testsuiteParams[pKey] : pVal;
+        pVal = (testcaseParams!=null && testcaseParams[pKey]!=null && testcaseParams[pKey]!="")? testcaseParams[pKey] : pVal;
+        pVal = (userParam!=null)? userParam.val : pVal;
+
+        return pVal;
+    }
+
+    async getTestTemplate(testsuiteId, testcaseId, requestedAttributes, defaultParams, userParams) {
         
         let testsuite = this.config.test[testsuiteId];
         let testcase = testsuite.cases[testcaseId];
@@ -36,31 +56,21 @@ class TestSuite {
         let compiled = template;
 
         // Compile response template from config data
-        compiled.match(/{{\s*[\w\.]+\s*}}/g).map((e) => {
+        const compiledPromises = compiled.match(/{{\s*[\w\.]+\s*}}/g).map(async(e) => {
             let eKey = e.replace("{{", "").replace("}}", "");
-
-            let eVal = null;
-
-            let defaultParam = defaultParams.filter((p)=> { return (p.key==eKey) })[0];
-            let userParam = userParams.filter((p)=> { return (p.key==eKey) })[0];
-
-            eVal = (defaultParam!=null)? defaultParam.val : null;
-            eVal = (testsuite.response[eKey]!=null && testsuite.response[eKey]!="")? testsuite.response[eKey] : eVal;
-            eVal = (testcase.response[eKey]!=null && testcase.response[eKey]!="")? testcase.response[eKey] : eVal;
-            eVal = (userParam!=null)? userParam.val : eVal;
-
+            let eVal = this.getActualParam(eKey, userParams, testsuite.response, testcase.response, defaultParams);
             if (eVal == null) eVal = "";
             
             if(eKey=="Attributes") {
                 let attributesCompiled = "";
                 for(let attributeName in eVal) {
                     
-                    // override value from fontend
-                    userParam = userParams.filter((p)=> { return (p.key==attributeName) })[0];
+                    // override value from frontend
+                    let userParam = userParams.filter((p)=> { return (p.key==attributeName) })[0];
                     let userVal = (userParam!=null)? userParam.val : eVal[attributeName];
                     let attributeVal = userVal;
 
-                    // requestedAttributs === true for all, or array for selected
+                    // requestedAttributes === true for all, or array for selected
                     if(requestedAttributes===true ||
                         requestedAttributes.indexOf(attributeName)>-1 ||
                         userParam!=null) {
@@ -110,6 +120,40 @@ class TestSuite {
                     compiled = compiled.replace("{{Attributes}}", "");
                 }
 
+            } else if(eKey=="GrantTokens") {
+                let grantTokensCompiled = "";
+                for(let grantTokenDestination in eVal) {
+                    let grantTokenVal = eVal[grantTokenDestination];
+                    
+                    let sid = this.getActualParam('ResponseID', userParams, testsuite.response, testcase.response, defaultParams);
+                    let acr = this.getActualParam('AuthnContextClassRef', userParams, testsuite.response, testcase.response, defaultParams);
+                    let iss = this.getActualParam('Issuer', userParams, testsuite.response, testcase.response, defaultParams);
+                    let sub = this.getActualParam('fiscalNumber', userParams, testsuite.response? testsuite.response.Attributes : null, testcase.response? testcase.response.Attributes : null, defaultParams);
+                    let aud = this.getActualParam('Audience', userParams, testsuite.response, testcase.response, defaultParams);
+
+                    if(grantTokenVal!=null) {
+                        let grantToken = await this.makeGrantToken(
+                            grantTokenVal.header, 
+                            grantTokenVal.payload,
+                            grantTokenDestination,
+                            sid,
+                            acr,
+                            iss,
+                            sub,
+                            aud
+                        );
+
+                        grantTokensCompiled += "<GrantToken Destination=\"" + grantTokenDestination + "\">" + grantToken + "</GrantToken>";
+                    }
+                }
+                if(grantTokensCompiled!='') {
+                    let grantedAttributeAuthorityCompiled = "<spid:GrantedAttributeAuthority xmlns:spid=\"https://spid.gov.it/saml-extensions\">" 
+                        + grantTokensCompiled + "</spid:GrantedAttributeAuthority>";
+                    compiled = compiled.replace("{{GrantTokens}}", grantedAttributeAuthorityCompiled);  
+                } else {
+                    compiled = compiled.replace("{{GrantTokens}}", "");
+                }
+
             } else {
                 compiled = compiled.replaceAll(e, eVal);
 
@@ -121,6 +165,8 @@ class TestSuite {
                 }
             }
         });
+
+        await Promise.all(compiledPromises);
         
         return {
             testsuite: testsuite.description,
@@ -140,6 +186,56 @@ class TestSuite {
         let destination = testsuite.response.AssertionConsumerURL;
         return destination;
     };
+
+    // Grant Token, prima firmato e po crittato
+    async makeGrantToken(header, payload, aud, sid, acr, iss, sub, actsub) {
+        const config_prv_key = fs.readFileSync(path.resolve(__dirname, '../../config/spid-saml-check.key'));
+        const config_pub_key = fs.readFileSync(path.resolve(__dirname, '../../config/spid-saml-check.crt'));
+        const keystore = jose.JWK.createKeyStore();
+        
+        const prv_key = await keystore.add(config_prv_key, 'pem');
+        const pub_key = await keystore.add(config_pub_key, 'pem');
+
+        let kid = crypto.randomUUID();
+        let iat = moment();
+        let exp = iat.clone().add(1, 'years')
+
+        header = {
+            typ: (header!=null && header.typ!=null && header.typ!="") ? header.typ : "aa-grant+jwt",
+            alg: (header!=null && header.alg!=null && header.alg!="") ? header.alg : undefined,
+            enc: (header!=null && header.enc!=null && header.enc!="") ? header.enc : undefined,
+            kid: (header!=null && header.kid!=null && header.kid!="") ? header.kid : kid
+        }
+
+        payload = JSON.stringify({
+            iat: (payload!=null && payload.iat!=null && payload.iat!="") ? payload.iat : iat.unix(),
+            exp: (payload!=null && payload.exp!=null && payload.exp!="") ? payload.exp : exp.unix(),
+            nbf: (payload!=null && payload.nbf!=null && payload.nbf!="") ? payload.nbf : iat.unix(),
+            jti: (payload!=null && payload.jti!=null && payload.jti!="") ? payload.jti : kid,
+            aud: (payload!=null && payload.aud!=null && payload.aud!="") ? payload.aud : aud,
+            sid: (payload!=null && payload.sid!=null && payload.sid!="") ? payload.sid : sid,
+            acr: (payload!=null && payload.acr!=null && payload.acr!="") ? payload.acr : acr,
+            iss: (payload!=null && payload.iss!=null && payload.iss!="") ? payload.iss : iss,
+            sub: (payload!=null && payload.sub!=null && payload.sub!="") ? payload.sub : sub,
+            act: (payload!=null && payload.act!=null && payload.act!="") ? payload.act : {"sub": actsub},
+            userID: (payload!=null && payload.userID!=null && payload.userID!="") ? payload.userID : sub
+        })
+ 
+        const signedGrantToken = await jose.JWS.createSign({
+            format: 'compact',
+            alg: 'RS256',
+            fields: {...header}
+        }, prv_key).update(payload).final();
+
+        console.log("GrantToken JWS (" + aud + ") : ", signedGrantToken);
+
+        const encryptedToken = await jose.JWE.createEncrypt({ 
+            format: 'compact',
+            fields: {...header} 
+        }, pub_key).update(signedGrantToken).final();
+
+        return encryptedToken;
+    }
 }
 
 
