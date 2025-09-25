@@ -8,7 +8,7 @@
     <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{Issuer}}</saml:Issuer>
 
     <samlp:Extensions>
-        <spid:GrantedAttributeAuthority xmlns:spid="https://spid.gov.it/saml-extension">
+        <spid:GrantedAttributeAuthority xmlns:spid="https://spid.gov.it/saml-extensions">
         </spid:GrantedAttributeAuthority>
     </samlp:Extensions>
     <samlp:Status><samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/></samlp:Status>
