@@ -3729,6 +3729,1180 @@
             }             
         }
     },
+    "test-suite-aa-1": {
+        "description": "Test Response Attribute Authority",
+        "cases": {
+            "0": { 
+                "name": "00. Attribute Authority Grant Token Response",
+                "description": "Response corretta comprensiva di Grant Token valido. Risultato atteso: OK", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {}
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },            
+            "1": { 
+                "name": "01. Element Extensions not present",
+                "description": "Response corretta. Nessuna selezione AA. Risultato atteso: da valutare",
+                "path": "test/base.xml",
+                "response": {
+                    "IssueInstant": "",
+                    "Issuer": "",
+                    "AssertionID": "",
+                    "NameIDNameQualifier": "",
+                    "NameID": "",
+                    "NotOnOrAfter": "",
+                    "NotBefore": "",
+                    "AuthnIstant": "",
+                    "SessionIndex": "",
+                    "AuthnContextClassRef": "",
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "1-NS": {
+                "name": "01. Element Extensions not present (AuthnContextClassRef > SpidL1)",
+                "description": "Response corretta. Nessuna selezione AA. Risultato atteso: da valutare",
+
+                "path": "test/base-nosession.xml",
+                "response": {
+                    "NameIDNameQualifier": "",
+                    "AuthnContextClassRef": "",
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },            
+            "2": { 
+                "name": "02. Element GrantedAttributeAuthority not present",
+                "description": "Response corretta. Nessuna selezione AA. Risultato atteso: da valutare",
+                "path": "test/case-aa-02.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "3": { 
+                "name": "03. More elements GrantedAttributeAuthority are presented",
+                "description": "Response non corretta. Risultato atteso: KO", 
+                "path": "test/case-aa-03.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "4": { 
+                "name": "04. Element GrantedAttributeAuthority does not have namespace xmlns:spid=\"https://spid.gov.it/saml-extensions\"",
+                "description": "Response non corretta. Risultato atteso: KO", 
+                "path": "test/case-aa-04.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "5": { 
+                "name": "05. Element GrantedAttributeAuthority does not contains the element GrantToken",
+                "description": "Response non corretta. Risultato atteso: KO", 
+                "path": "test/case-aa-05.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "6": { 
+                "name": "06. Attribute Destination not present",
+                "description": "Response non corretta. Risultato atteso: KO", 
+                "path": "test/case-aa-06.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "7": { 
+                "name": "07. Attribute Destination does not have a value",
+                "description": "Response non corretta. Risultato atteso: KO", 
+                "path": "test/case-aa-07.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "8": { 
+                "name": "08. The GrantToken element does not have a value",
+                "description": "Response non corretta. Risultato atteso: KO", 
+                "path": "test/case-aa-08.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "9": { 
+                "name": "09. The value of the GrantToken element is not a valid JWT",
+                "description": "Response non corretta. Risultato atteso: KO", 
+                "path": "test/case-aa-09.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },            
+            "10": { 
+                "name": "10. Grant Token - claim iss is not present",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "iss": false
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "11": { 
+                "name": "11. Grant Token - the value of iss is not a valid URL and it's different from EntityID of IdP",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "iss": "notvalidurl"
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "12": { 
+                "name": "12. Grant Token - claim aud is not present",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "aud": false
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "13": { 
+                "name": "13. Grant Token - the value of aud is not equal to the issuer of AA present on SPID OIDC Registry at the listing endpoint",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "aud": "notvalidaud"
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "14": { 
+                "name": "14. Grant Token - claim sid is not present",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "sid": false
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "15": { 
+                "name": "15. Grant Token - the value of sid is not equal to 'saml:id' where id is the value of element ResponseID of the SAML Response",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "sid": "notvalidsid"
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "16": { 
+                "name": "16. Grant Token - claim acr is not present",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "acr": false
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "17": { 
+                "name": "17. Grant Token - claim acr is not one of [https://www.spid.gov.it/SpidL1, https://www.spid.gov.it/SpidL2, https://www.spid.gov.it/SpidL3] and MUST be the same of SPID level used for auth",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "acr": "https://www.spid.gov.it/notvalidacr"
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "18": { 
+                "name": "18. Grant Token - claim iat is not present",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "iat": false
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "19": { 
+                "name": "19. Grant Token - the value of iat is not a valid unix time",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "iat": "notvalidiunixtime"
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "20": { 
+                "name": "20. Grant Token - the value of iat is > current date + 3min",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "iat": 253393879888
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "21": { 
+                "name": "21. Grant Token - claim exp is not present",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "exp": false
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "22": { 
+                "name": "22. Grant Token - the value of exp is not a valid unix time",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "exp": "notvalidunixtime"
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "23": { 
+                "name": "23. Grant Token - the value of nbf is not a valid unix time",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "nbf": "notvalidunixtime"
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "24": { 
+                "name": "24. Grant Token - claim sub is not present",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "sub": false
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "25": { 
+                "name": "25. Grant Token - claim act is not present",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "act": false
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "26": { 
+                "name": "26. Grant Token - claim act is not valid JSON object",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "act": "notvalidjsonobj"
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "27": { 
+                "name": "27. Grant Token - act object does not claim sub",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "act": {}
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            },
+            "28": { 
+                "name": "28. Grant Token - claim sub of the act object is not equal to the EntityID of SP",
+                "description": "Response corretta comprensiva di Grant Token non valido. Risultato atteso: KO", 
+                "path": "test/case-aa-00.xml",
+                "response": {
+                    "Attributes": {
+                        "spidCode": "AGID-001",
+                        "name": "SpidValidator",
+                        "familyName": "AgID",
+                        "placeOfBirth": "Roma",
+                        "countyOfBirth": "RM",
+                        "dateOfBirth": "2000-01-01",
+                        "gender": "M",
+                        "companyName": "Agenzia per l'Italia Digitale",
+                        "registeredOffice": "Via Listz 21 00144 Roma",
+                        "fiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "ivaCode": "VATIT-97735020584",
+                        "idCard": "CartaIdentità AA00000000 ComuneRoma 2018-01-01 2028-01-01",
+                        "expirationDate": "2028-01-01",
+                        "mobilePhone": "+393331234567",
+                        "email": "spid.tech@agid.gov.it",
+                        "address": "Via Listz 21 00144 Roma",
+                        "digitalAddress": "pec@pecagid.gov.it",
+                        "companyFiscalNumber": "TINIT-GDASDV00A01H501J",
+                        "domicileStreetAddress": "Via Listz 21",
+                        "domicilePostalCode": "00144",
+                        "domicileMunicipality": "Roma",
+                        "domicileProvince": "RM",
+                        "domicileNation": "IT"
+                    },
+                    "GrantTokens": {
+                        "https://validator.spid.gov.it/aa": {
+                            "payload": {
+                                "act": {"sub": "notequaltoEntityID"}
+                            }
+                        }
+                    }
+                },
+                "sign_response": true,
+                "sign_assertion": true
+            }
+        }
+    },    
     "test-logout": {
         "description": "Test Logout Response",
         "response": {
