@@ -1,0 +1,36 @@
+#MetadataDownload .title {
+    margin-bottom: 30px!important;
+}
+
+#MetadataDownload .main {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#MetadataDownload input.metadata {
+    width: 100%;
+}
+
+#MetadataDownload .code {
+    margin-top: 20px;
+}
+
+#MetadataDownload button {
+    margin: 5px!important; 
+}
+
+#MetadataDownload .tools {
+    padding: 30px 20px;
+    background: #FFFFFF;
+}
+
+#MetadataDownload .align-super {
+    vertical-align: super;
+}
+
+@media print {
+    #MetadataDownload .tools {
+        display: none!important;
+    }
+}

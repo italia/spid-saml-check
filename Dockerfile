@@ -52,7 +52,7 @@ RUN pip3 install spid-sp-test --no-cache
 # Set the working directory
 WORKDIR /spid-saml-check
 
-# Copy the current directory to /spid-validator
+# Copy the current directory to /spid-saml-check
 ADD . /spid-saml-check
 
 # Create directory for tests data
@@ -62,7 +62,7 @@ ENV TZ=Europe/Rome
 ENV NODE_HTTPS_PORT=${EXPOSE_HTTPS_PORT}
 
 # Build validator
-RUN cd /spid-saml-check/spid-validator && \
+RUN cd /spid-saml-check/src && \
     cd client && npm install --silent && cd .. && \
     cd server && npm install --silent && cd .. && \
     npm run build
@@ -71,4 +71,4 @@ RUN cd /spid-saml-check/spid-validator && \
 EXPOSE ${EXPOSE_HTTPS_PORT}
 
 
-ENTRYPOINT cd spid-validator && npm run start-prod
+ENTRYPOINT cd src && npm run start-prod
