@@ -3,7 +3,7 @@
   "port": 8443,
   "basepath": "",  
   "useProxy": false,
-  "useHttps": true,
+  "useHttps": false,
 	"httpsPrivateKey": "./config/spid-saml-check.key",
   "httpsCertificate": "./config/spid-saml-check.crt"
 }

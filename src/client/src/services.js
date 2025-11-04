@@ -187,11 +187,12 @@ class MainService {
 		});
 	}
 
-	checkMetadataSp(test, deprecated, production, callback_response, callback_error) {
+	checkMetadataSp(test, deprecated, production, eidas, callback_response, callback_error) {
 		Utility.log("GET /api/metadata-sp/check/" + test);
 		axios.get(config.basepath + '/api/metadata-sp/check/' + test + 
 			'?deprecated=' + (deprecated? 'Y':'N') +
 			'&production=' + (production? 'Y':'N') +
+			'&eidas=' + (eidas? 'Y':'N') +
 			'&apikey=' + Utility.getApikey(), {timeout: 900000})
 		.then(function(response) {
 			Utility.log("checkMetadataSp Success", response.data);
@@ -233,10 +234,11 @@ class MainService {
 		});
 	}
 
-	checkRequest(test, production, callback_response, callback_error) {
+	checkRequest(test, production, eidas, callback_response, callback_error) {
 		Utility.log("GET /api/request/check/" + test);
-		axios.get(config.basepath + '/api/request/check/' + test + 
-			'?production=' + (production? 'Y':'N') +
+		axios.get('/api/request/check/' + test + 
+			'?production=' + (production? 'Y':'N') + 
+			'?eidas=' + (eidas? true : false) +
 			'&apikey=' + Utility.getApikey(), {timeout: 900000})
 		.then(function(response) {
 			Utility.log("checkRequest Success", response.data);

@@ -19,7 +19,8 @@ class RequestCheck extends Component {
         report_datetime: null,
         report_profile: null,
         detailview: false,
-        production: false
+        production: false,
+        eidas: true
     };  
   }	
 
@@ -82,6 +83,7 @@ class RequestCheck extends Component {
     service.checkRequest(
       this.state.test,
       this.state.production,
+      this.state.eidas,
       (check) => { 
         Utility.blockUI(false); 
         let report = null;
@@ -123,6 +125,10 @@ class RequestCheck extends Component {
       }, ()=> {
         this.checkRequest();
       });
+    }
+
+    setEidas() {
+      this.setState({ eidas: !this.state.eidas });
     }
 
     print() {
