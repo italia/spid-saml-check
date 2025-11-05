@@ -5,10 +5,10 @@ MAINTAINER Michele D'Amico, michele.damico@agid.gov.it
 RUN useradd --user-group --create-home --shell /bin/false validator
 
 # Set the working directory
-WORKDIR /spid-validator
+WORKDIR /src
 
-# Copy the current directory to /spid-validator
-ADD . /spid-validator
+# Copy the current directory to /spid-saml-check
+ADD . /spid-saml-check
 
 # Update and install utilities
 RUN apt-get update && \
@@ -24,7 +24,7 @@ RUN apt-get install -y nodejs && \
     apt-get install -y build-essential
 
 # Build validator
-RUN cd /spid-validator && \
+RUN cd /spid-saml-check && \
     cd client && npm install --suppress-warnings && cd .. && \
     cd server && npm install --suppress-warnings && cd .. && \
     npm run build
@@ -32,7 +32,7 @@ RUN cd /spid-validator && \
 # Ports exposed
 EXPOSE 8080
 
-RUN chown -R validator:validator /spid-validator/*
+RUN chown -R validator:validator /spid-saml-check/*
 
 USER validator
 

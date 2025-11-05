@@ -63,6 +63,7 @@ ENV NODE_HTTPS_PORT=${EXPOSE_HTTPS_PORT}
 
 # Build validator
 RUN cd /spid-saml-check/src && \
+    cp -R config-sample config && \
     cd client && npm install --silent && cd .. && \
     cd server && npm install --silent && cd .. && \
     npm run build
