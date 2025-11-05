@@ -1,4 +1,4 @@
-FROM node:22
+FROM Ubuntu:22
 
 # Metadata params
 ARG BUILD_DATE
@@ -9,7 +9,7 @@ ARG EXPOSE_HTTPS_PORT
 
 # Define the Metadata Container image
 # For more info refere to https://github.com/opencontainers/image-spec/blob/main/annotations.md
-LABEL   org.opencontainers.image.authors="Michele D'Amico, michele.damico@agid.gov.it" \
+LABEL   org.opencontainers.image.authors="Michele D'Amico, michele.damico@linfaservice.it" \
         org.opencontainers.image.created=${BUILD_DATE} \
         org.opencontainers.image.version=${VERSION} \
         org.opencontainers.image.source=${VCS_URL} \
@@ -30,7 +30,6 @@ RUN apt-get update && apt-get install -y \
         libxml2-dev \
         libxmlsec1-dev \
         libxmlsec1-openssl \
-        libffi-dev \
         xmlsec1 \
         openssl \
         python3 \
@@ -38,9 +37,16 @@ RUN apt-get update && apt-get install -y \
         python3-virtualenv \
         build-essential
 
-# Upgrade pip
-#RUN pip install setuptools_rust cryptography
-#RUN pip install --upgrade pip
+# Install NVM
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh > install.sh
+RUN chmod +x ./install.sh && \
+    ./install.sh && \
+    source ~/.bashrc && \
+    export NVM_DIR="$HOME/.nvm" && \
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" && \
+    nvm install 22 && \
+    node -v
 
 # Install spid-sp-test
 RUN pip install spid-sp-test==1.2.17 --upgrade --no-cache
