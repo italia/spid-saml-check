@@ -37,17 +37,6 @@ RUN apt-get update && apt-get install -y \
         python3-virtualenv \
         build-essential
 
-# Install NVM
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh > install.sh
-RUN chmod +x ./install.sh && \
-    ./install.sh && \
-    export NVM_DIR="$HOME/.nvm" && \
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" && \
-    nvm install 22 && \
-    node -v && \
-    npm -v
-
 # Install spid-sp-test
 RUN pip install spid-sp-test==1.2.17 --upgrade --no-cache
 
@@ -60,17 +49,26 @@ ADD . /spid-saml-check
 # Create directory for tests data
 RUN mkdir /spid-saml-check/src/data
 
-ENV TZ=Europe/Rome
-ENV NODE_HTTPS_PORT=${EXPOSE_HTTPS_PORT}
-
-# Build validator
-RUN cd /spid-saml-check/src && \
+# Install NVM
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh > install.sh
+RUN chmod +x ./install.sh && \
+    ./install.sh && \
+    export NVM_DIR="$HOME/.nvm" && \
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" && \
+    nvm install 22 && \
+    node -v && \
+    npm -v && \
+    cd /spid-saml-check/src && \
     cp -R config-sample config && \
     cd client && npm install --silent && npm run build && cd .. && \
     cd server && npm install --silent && cd ..
+
+ENV TZ=Europe/Rome
+ENV NODE_HTTPS_PORT=${EXPOSE_HTTPS_PORT}
 
 # Ports exposed
 EXPOSE ${EXPOSE_HTTPS_PORT}
 
 
-ENTRYPOINT cd src && npm run start-prod
+ENTRYPOINT cd src && node server/spid-saml-check.js
