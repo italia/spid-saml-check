@@ -20,7 +20,7 @@ class RequestCheck extends Component {
         report_profile: null,
         detailview: false,
         production: false,
-        eidas: true
+        eidas: false
     };  
   }	
 
@@ -121,14 +121,18 @@ class RequestCheck extends Component {
 
     setProduction(production) {
       this.setState({
-        production: production
+        production
       }, ()=> {
         this.checkRequest();
       });
     }
 
-    setEidas() {
-      this.setState({ eidas: !this.state.eidas });
+    setEidas(eidas) {
+      this.setState({ 
+        eidas
+      }, ()=> {
+        this.checkRequest();
+      });
     }
 
     print() {

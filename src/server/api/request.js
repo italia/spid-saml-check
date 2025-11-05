@@ -61,9 +61,9 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
 
     // execute test for authn request
     app.get("/api/request/check/:test", function(req, res) {
-    
+            
         // check if apikey is correct
-        let eidas = req.query.eidas;
+        let eidas = (req.query.eidas=='Y')? true : false;
         let authorisation = checkAuthorisation(req);
         if(!authorisation) {
             error = {code: 401, msg: "Unauthorized"};
@@ -100,7 +100,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, database) {
         }
                 
         if(file!=null) {
-            Utility.requestCheck(test, issuer.normalize(), config_idp, production).then(
+            Utility.requestCheck(test, issuer.normalize(), config_idp, production, eidas).then(
                 (out) => {
                     let report = fs.readFileSync(file, "utf8");
                     report = JSON.parse(report);

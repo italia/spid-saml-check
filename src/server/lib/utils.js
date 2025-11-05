@@ -84,7 +84,7 @@ class Utils {
         });
     }
 
-    static metadataCheck(test, dir, profile, config, prod, isEidas) {
+    static metadataCheck(test, dir, profile, config, prod, eidas) {
         return new Promise((resolve, reject) => {
             let cmd;
             let dirpath = config_dir["DATA"] + "/" + dir;
@@ -94,7 +94,7 @@ class Utils {
             cmd += " --profile " + profile;
             cmd += " --debug ERROR";
             if(prod) cmd += " --production";
-            if(isEidas) cmd += " --profile ficep-eidas-sp ";
+            if(eidas) cmd += " --profile ficep-eidas-sp ";
 
 
             let reportfile = "";
@@ -138,7 +138,7 @@ class Utils {
         });
     }
 
-    static requestCheck(test, dir, config, prod) {
+    static requestCheck(test, dir, config, prod, eidas) {
         return new Promise((resolve, reject) => {
             let cmd;
             let dirpath = config_dir["DATA"] + "/" + dir;
@@ -148,6 +148,7 @@ class Utils {
             cmd += " --authn-url file://" + dirpath + "/authn-request.dump ";
             cmd += " --debug ERROR";
             if(prod) cmd += " --production";
+            if(eidas) cmd += " --profile ficep-eidas-sp"; // NOT IMPLEMENTED ON SPID_SP_TEST?!
 
             let reportfile = "";
             switch(test) {

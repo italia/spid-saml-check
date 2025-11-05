@@ -238,7 +238,7 @@ class MainService {
 		Utility.log("GET /api/request/check/" + test);
 		axios.get('/api/request/check/' + test + 
 			'?production=' + (production? 'Y':'N') + 
-			'?eidas=' + (eidas? true : false) +
+			'&eidas=' + (eidas? 'Y':'N') +
 			'&apikey=' + Utility.getApikey(), {timeout: 900000})
 		.then(function(response) {
 			Utility.log("checkRequest Success", response.data);

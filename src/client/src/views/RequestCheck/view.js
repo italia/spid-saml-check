@@ -111,6 +111,20 @@ function view(me) {
                                     <hr/>
                                 </div>
 
+                                {/* NOT IMPLEMENTED ON SPID SP TEST?!
+                                <div>
+                                    <label className="switch switch-success me-3">
+                                        <input type="checkbox" className="switch-input" 
+                                            checked={me.state.eidas}
+                                            onChange={(e)=>{me.setEidas(e.target.checked)}}>
+                                        </input>
+                                        <span className="switch-slider"></span>
+                                    </label>
+                                    <span className="align-super">Check per eIDAS FICEP</span> 
+                                    <hr/>
+                                </div>      
+                                */}
+
                                 <button type="button" className="btn btn-success"
                                     onClick={()=>{me.print()}}>
                                     <span className="fa fa-print"></span> Stampa
