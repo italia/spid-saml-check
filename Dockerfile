@@ -41,7 +41,6 @@ RUN apt-get update && apt-get install -y \
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh > install.sh
 RUN chmod +x ./install.sh && \
     ./install.sh && \
-    source ~/.bashrc && \
     export NVM_DIR="$HOME/.nvm" && \
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" && \
