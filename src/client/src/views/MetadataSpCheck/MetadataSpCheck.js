@@ -153,6 +153,12 @@ class MetadataSpCheck extends Component {
     });
   }
 
+  getReportProfile() {
+    let report_profile = this.state.report_profile;
+    if(this.state.eidas) report_profile = "ficep-eidas-sp";
+    return report_profile;
+  }
+
   print() {
       Utility.print("metadata-" + this.state.test);
   }
