@@ -1,4 +1,4 @@
-FROM node:22
+FROM Node:22
 
 # Metadata params
 ARG BUILD_DATE
@@ -35,19 +35,15 @@ RUN apt-get update && apt-get install -y \
         openssl \
         python3 \
         python3-pip \
-        libffi-dev \
         python3-virtualenv \
-        build-essential  \
-        python3-dev cargo
-
-#RUN pip3 install setuptools_rust cryptography
-
+        build-essential
 
 # Upgrade pip
-RUN pip3 install --upgrade pip
+#RUN pip install setuptools_rust cryptography
+#RUN pip install --upgrade pip
 
 # Install spid-sp-test
-RUN pip3 install spid-sp-test --no-cache
+RUN pip install spid-sp-test==1.2.17 --upgrade --no-cache
 
 # Set the working directory
 WORKDIR /spid-saml-check
