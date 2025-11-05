@@ -45,7 +45,8 @@ RUN chmod +x ./install.sh && \
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" && \
     nvm install 22 && \
-    node -v
+    node -v && \
+    npm -v
 
 # Install spid-sp-test
 RUN pip install spid-sp-test==1.2.17 --upgrade --no-cache
