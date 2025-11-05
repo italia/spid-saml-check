@@ -40,7 +40,7 @@ RUN apt-get update && apt-get install -y \
         build-essential  \
         python3-dev cargo
 
-RUN pip3 install setuptools_rust cryptography
+#RUN pip3 install setuptools_rust cryptography
 
 
 # Upgrade pip
