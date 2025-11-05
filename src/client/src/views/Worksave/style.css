@@ -1,0 +1,70 @@
+.container-empty {
+    background-color: #002255;
+}
+
+#Worksave .img-logo {
+    max-width: 200px;
+    display: block;
+    margin: -80px auto 50px;
+}
+
+#Worksave .title {
+    width: 100%;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: 300;
+}
+
+#Worksave .section-selector {
+    margin-bottom: 1px solid #888;
+}
+
+#Worksave .worksave-img-continue, .worksave-img-new {
+    max-width: 45px!important;
+    margin-right: 20px;
+}
+
+#Worksave .worksave-text-muted {
+    margin-top:20px;
+}
+
+#Worksave .worksave-card {
+    border-radius: 10px;
+    padding: 0.5em 1em;
+}
+
+#Worksave .worksave-card:hover {
+    background: #e0f0ff;
+    cursor: pointer;
+}
+
+#Worksave .btn-selector {
+    width: 100%;
+    background: #eee;
+    border-radius: 10px!important;
+    text-align: left!important;
+    margin-bottom: 20px;
+}
+
+#Worksave .btn-selector:hover {
+    background: #f5f5f5;
+}
+
+#Worksave .btn-selector-active {
+    background: #e0f0ff;
+    border: 1px solid #c2cfd6!important;
+}
+
+#Worksave .btn-selector-active:hover {
+    background: #e0f0ff!important;
+}
+
+#Worksave .btn-selector img {
+    max-width: 100px;
+    margin-right: 20px;
+}
+
+#Worksave .btn-selector span {
+    font-size: 1.3em;
+}

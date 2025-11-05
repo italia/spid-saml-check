@@ -1,0 +1,29 @@
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+    xmlns:ds="http://www.w3.org/2000/09/xmldsig#" ID="{{ID}}" entityID="{{entityID}}">
+
+    <md:IDPSSODescriptor WantAuthnRequestsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+        <md:KeyDescriptor use="signing">
+            <ds:KeyInfo>
+                <ds:X509Data>
+                    <ds:X509Certificate>{{X509Certificate}}</ds:X509Certificate>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </md:KeyDescriptor>
+        <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="{{SingleLogoutService}}" ResponseLocation="{{SingleLogoutService}}"/>
+        <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="{{SingleLogoutService}}" ResponseLocation="{{SingleLogoutService}}"/>
+        <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+        <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="{{SingleSignOnService}}"/>
+        <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="{{SingleSignOnService}}"/>
+    </md:IDPSSODescriptor>
+    <md:Organization>
+        <md:OrganizationName xml:lang="it">
+            AgID
+        </md:OrganizationName>
+        <md:OrganizationDisplayName xml:lang="it">
+            AgID
+        </md:OrganizationDisplayName>
+        <md:OrganizationURL xml:lang="it">
+            https://www.agid.gov.it
+        </md:OrganizationURL>
+    </md:Organization>    
+</md:EntityDescriptor>

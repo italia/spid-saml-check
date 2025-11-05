@@ -65,8 +65,8 @@ DOCKER_TAG = $(CODE_VERSION)-$(GIT_COMMIT)$(DOCKER_TAG_SUFFIX)
 endif
 
 docker_build:
-	# Update version of the spid-validator server component
-	sed -i -r -E 's/("version"\:\s)("[0-9]+\.[0-9]+.[0-9]+")/\1"$(DOCKER_TAG)"/g' spid-validator/server/package.json
+	# Update version of the server component
+	sed -i -r -E 's/("version"\:\s)("[0-9]+\.[0-9]+.[0-9]+")/\1"$(DOCKER_TAG)"/g' src/server/package.json
 
 	# Build Docker image
 	docker build \

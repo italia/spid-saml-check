@@ -1,0 +1,60 @@
+.container-main {
+    background-color: #e4e5e6;
+}
+
+.btn-scroll {
+    background-color: transparent;
+    right: 40px;
+    bottom: 55px;
+    position: fixed;
+    z-index: 2;
+    cursor: pointer;
+    border-radius: 7px;
+    width: 40px;
+    height: 40px;
+    transition: opacity 1s ease-in-out;
+    box-shadow: none;
+    border: none;
+    outline: none;
+}
+
+.modal-textarea {
+    width: 100%;
+    height: 150px;
+}
+
+.align-super {
+    vertical-align: super;
+}
+
+.agid-logo-print, .info-print {
+    display: none;
+}
+
+@media print {
+    .container-main {
+        background-color: #fff;
+    }
+
+    .app-header, .sidebar, .btn-scroll {
+        display: none;
+    }
+
+    .table-responsive {
+        overflow-x: unset;
+    }
+
+    .agid-logo-print, .info-print {
+        display: block!important;
+        margin-bottom: 50px;
+        margin-left: 30px;
+    }
+
+    .agid-logo-print {
+        width: 300px;
+    }
+
+    .app-footer {
+        display: none!important;
+    }
+}

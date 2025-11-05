@@ -1,0 +1,14 @@
+.breadcrumb {
+    padding: 12px;
+}
+
+.info-user {
+    position: absolute;
+    right: 30px;
+}
+
+@media print {
+    .breadcrumbs {
+        display: none!important;
+    }
+}

@@ -1,0 +1,58 @@
+#Response .title {
+    margin-bottom: 15px!important;
+}
+
+#Response .subtitle {
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+#Response .main {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#Response .panel-send {
+    background: #FFFFFF;
+    padding: 20px;
+    border: 1px solid #C2CFD6;
+}
+
+#Response .input-test-note {
+    width:100%;
+}
+
+#Response .btn-send {
+    margin:20px 0;
+}
+
+#Response .param {
+    width:100%;
+    margin-bottom:15px;
+}
+
+#Response .checkAttribute {
+    margin-right: 10px;
+}
+
+#Response .switch {
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+#Response .response-select {
+    z-index:999;
+    margin-bottom: 20px;
+}
+
+#Response .test-description {
+    width:100%;
+}
+
+@media print {
+    #Response .tools {
+        display: none;
+    }
+}

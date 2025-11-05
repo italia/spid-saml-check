@@ -1,0 +1,141 @@
+#ResponseReport .title {
+    margin-bottom: 15px!important;
+}
+
+#ResponseReport .subtitle {
+    font-size: 1.3em;
+}
+
+#ResponseReport .main {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#ResponseReport button {
+    margin: 5px!important; 
+}
+
+#ResponseReport .testset {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#ResponseReport .test-none {
+    display: block;
+    float: left;
+    width: 50px;
+    line-height: 23px;
+    margin: 1px;
+    border: 1px solid #000;
+    background-color: grey;
+    color: #fff!important;
+    font-size: 11px;
+    text-align: center;
+    padding: 3px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#ResponseReport .test-success {
+    display: block;
+    float: left;
+    width: 50px;
+    line-height: 23px;
+    margin: 1px;
+    border: 1px solid #000;
+    background-color: green;
+    color: #fff!important;
+    font-size: 11px;
+    text-align: center;
+    padding: 3px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#ResponseReport .test-fail {
+    display: block;
+    float: left;
+    width: 50px;
+    line-height: 23px;
+    margin: 1px;
+    border: 1px solid #000;
+    background-color: red;
+    color: #fff!important;
+    font-size: 11px;
+    text-align: center;
+    padding: 3px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+#ResponseReport .detail-table {
+    border:1px solid #999;
+    background: #FFFFFF;
+    width: 100%;
+}
+
+#ResponseReport .detail-table th, .detail-table td {
+    padding: 5px;
+}
+
+
+#ResponseReport .detail-header {
+    background: #DDDDDD;
+}
+
+#ResponseReport .detail-row {
+    border:1px solid #000;
+}
+
+#ResponseReport .detail-row:hover {
+    background: #EEEEEE;
+}
+
+#ResponseReport .detail-num {
+    width: 50px;
+}
+
+#ResponseReport .detail-result {
+    width: 25%;
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+#ResponseReport .test-none-dm {
+    background: grey!important;
+    color: #000000;
+}
+
+#ResponseReport .test-success-dm {
+    background: green!important;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+#ResponseReport .test-fail-dm {
+    background: red!important;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+#ResponseReport .tools {
+    padding: 30px 20px;
+    background: #FFFFFF;
+}
+
+#ResponseReport .first-upper {
+    text-transform:capitalize;
+}
+
+#ResponseReport .align-super {
+    vertical-align: super;
+}
+
+@media print {
+    #ResponseReport .tools {
+        display: none!important;
+    }
+}
