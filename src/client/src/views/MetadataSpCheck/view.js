@@ -23,7 +23,7 @@ function view(me) {
                                     <div className="col-sm-12">
                                         <div>
                                             <div>Check: <b><span className="first-upper">{me.state.test}</span></b></div>
-                                            {me.state.report_profile!=null && <div>Profilo <b>{me.state.report_profile}</b></div> }
+                                            {me.state.report_profile!=null && <div>Profilo: <b>{me.getReportProfile()}</b></div> }
                                         </div>
 
                                         <div className="mt-3">
@@ -52,7 +52,7 @@ function view(me) {
                                     <div className="col-sm-12 table-responsive">
                                         <div>
                                             <div>Check: <b><span className="first-upper">{me.state.test}</span></b></div>
-                                            {me.state.report_profile!=null && <div>Profilo: <b>{me.state.report_profile}</b></div> }
+                                            {me.state.report_profile!=null && <div>Profilo: <b>{me.getReportProfile()}</b></div> }
                                         </div>
 
                                         <table className="table detail-table mt-3">
