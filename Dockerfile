@@ -58,7 +58,7 @@ WORKDIR /spid-saml-check
 ADD . /spid-saml-check
 
 # Create directory for tests data
-RUN mkdir /spid-saml-check/data
+RUN mkdir /spid-saml-check/src/data
 
 ENV TZ=Europe/Rome
 ENV NODE_HTTPS_PORT=${EXPOSE_HTTPS_PORT}
@@ -66,9 +66,8 @@ ENV NODE_HTTPS_PORT=${EXPOSE_HTTPS_PORT}
 # Build validator
 RUN cd /spid-saml-check/src && \
     cp -R config-sample config && \
-    cd client && npm install --silent && cd .. && \
-    cd server && npm install --silent && cd .. && \
-    npm run build
+    cd client && npm install --silent && npm run build && cd .. && \
+    cd server && npm install --silent && cd ..
 
 # Ports exposed
 EXPOSE ${EXPOSE_HTTPS_PORT}
