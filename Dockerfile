@@ -1,4 +1,4 @@
-FROM Ubuntu:22
+FROM ubuntu:22
 
 # Metadata params
 ARG BUILD_DATE
