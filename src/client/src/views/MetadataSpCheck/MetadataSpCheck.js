@@ -139,24 +139,16 @@ class MetadataSpCheck extends Component {
     });
   }
 
-<<<<<<< HEAD:spid-validator/client/src/views/MetadataSpCheck/MetadataSpCheck.js
-    setEidas(eidas) {
-      this.setState({ eidas }, ()=> {
-        this.checkMetadata();
-      });
-    }
-
-    print() {
-        Utility.print("metadata-" + this.state.test);
-    }
-
-  render() {
-	return view(this);
-=======
   setProduction(production) {
     this.setState({
       production: production
     }, ()=> {
+      this.checkMetadata();
+    });
+  }
+
+  setEidas(eidas) {
+    this.setState({ eidas }, ()=> {
       this.checkMetadata();
     });
   }
@@ -167,7 +159,6 @@ class MetadataSpCheck extends Component {
 
   render() {    
 	  return view(this);
->>>>>>> origin/dev-2.0.0-merged:src/client/src/views/MetadataSpCheck/MetadataSpCheck.js
   }
 }
 
