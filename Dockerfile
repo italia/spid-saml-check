@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:22
 
 # Metadata params
 ARG BUILD_DATE
