@@ -70,5 +70,14 @@ ENV NODE_HTTPS_PORT=${EXPOSE_HTTPS_PORT}
 # Ports exposed
 EXPOSE ${EXPOSE_HTTPS_PORT}
 
+COPY <<EOF /entrypoint.sh
+#!/usr/bin/env bash
+. ~/.nvm/nvm.sh
+cd /spid-saml-check/src/
+node server/spid-saml-check.js
+EOF
 
-ENTRYPOINT cd src && node server/spid-saml-check.js
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
