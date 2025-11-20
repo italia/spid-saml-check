@@ -138,7 +138,7 @@ var getEntityDir = function(issuer) {
     return ENTITY_DIR;
 }
 
-var sendLogoutResponse = function(req, res) {
+var sendLogoutResponse = async function(req, res) {
 
     if(req.session!=null && req.session.request!=null && req.session.request.issuer!=null) {
 
@@ -184,7 +184,7 @@ var sendLogoutResponse = function(req, res) {
         defaults = Utility.defaultParam(defaults, "Issuer", config_idp.entityID);
 
         let testSuite = new TestSuite(config_idp, config_test);
-        let logoutResponse = testSuite.getTestTemplate("test-logout", "1", requestedAttributes, defaults, []);
+        let logoutResponse = await testSuite.getTestTemplate("test-logout", "1", requestedAttributes, defaults, []);
         let signature = null;
 
         let idp = new IdP(config_idp);

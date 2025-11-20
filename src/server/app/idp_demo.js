@@ -514,7 +514,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         return {result: false, data: "Utente non trovato. "};
     }
 
-    function sendResponse(res, params, user) {  
+    async function sendResponse(res, params, user) {  
 
         let suiteid = "test-suite-1";
         let caseid = "1";
@@ -582,7 +582,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         defaults = Utility.defaultParam(defaults, "Audience", serviceProviderEntityId);
         
         let testSuite = new TestSuite(config_demo, config_test);
-        let testResponse = testSuite.getTestTemplate(suiteid, caseid, requestedAttributes, defaults, userParams);
+        let testResponse = await testSuite.getTestTemplate(suiteid, caseid, requestedAttributes, defaults, userParams);
         let signed = testResponse.compiled;
         
         if(sign_response || sign_assertion) {
@@ -610,7 +610,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
  
     }
 
-    function sendErrorResponse(res, params, errorCode) {  
+    async function sendErrorResponse(res, params, errorCode) {  
         
         let suiteid = "test-suite-1";
 
@@ -674,7 +674,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         defaults = Utility.defaultParam(defaults, "Audience", serviceProviderEntityId);
         
         let testSuite = new TestSuite(config_demo, config_test);
-        let testResponse = testSuite.getTestTemplate(suiteid, caseid, [], defaults, []);
+        let testResponse = await testSuite.getTestTemplate(suiteid, caseid, [], defaults, []);
         let signed = testResponse.compiled;
         
         if(sign_response || sign_assertion) {
@@ -701,7 +701,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
     
     }
 
-    function sendLogoutResponse(res, samlRequest, relayState) {
+    async function sendLogoutResponse(res, samlRequest, relayState) {
         
         let xml = PayloadDecoder.decode(samlRequest);
         let requestParser = new RequestParser(xml);
@@ -741,7 +741,7 @@ module.exports = function(app, checkAuthorisation, getEntityDir, sendLogoutRespo
         defaults = Utility.defaultParam(defaults, "Issuer", config_demo.entityID);
 
         let testSuite = new TestSuite(config_demo, config_test);
-        let logoutResponse = testSuite.getTestTemplate("test-logout", "1", requestedAttributes, defaults, []);
+        let logoutResponse = await testSuite.getTestTemplate("test-logout", "1", requestedAttributes, defaults, []);
         let signature = null;
 
         let idp = new IdP(config_demo);
