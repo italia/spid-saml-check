@@ -11,6 +11,7 @@ const fs = require("fs");
 const crypto = require("crypto");
 const jose = require('node-jose');
 const moment = require('moment');
+const config_aa = require("../../config/aa.json")
 
 const select = xpath.useNamespaces({
     ...namespaces, 
@@ -190,7 +191,7 @@ class TestSuite {
     // Grant Token, prima firmato e po crittato
     async makeGrantToken(header, payload, aud, sid, acr, iss, sub, actsub) {
         const config_prv_key = fs.readFileSync(path.resolve(__dirname, '../../config/spid-saml-check.key'));
-        const config_pub_key = fs.readFileSync(path.resolve(__dirname, '../../config/spid-saml-check.crt'));
+        const config_pub_key = fs.readFileSync(path.resolve(__dirname, '../../config/' + config_aa['private_enc_key_path']));
         const keystore = jose.JWK.createKeyStore();
         
         const prv_key = await keystore.add(config_prv_key, 'pem');
