@@ -72,10 +72,21 @@ class Utils {
 
             const file_name = url.parse(src).pathname.split('/').pop();
             const file_extention = path.extname(file_name);
-            const cmd = 'wget -O "' + dest + '" "' + src + '" --no-check-certificate --no-cache --no-cookies  --user-agent="Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0"';   
+
+            // execFile (no shell) with an argument array: src and dest are passed
+            // as single argv entries, so a URL or path containing shell
+            // metacharacters cannot inject commands (CWE-78).
+            const args = [
+                '-O', dest,
+                src,
+                '--no-check-certificate',
+                '--no-cache',
+                '--no-cookies',
+                '--user-agent=Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
+            ];
 
             try {
-                child_process.exec(cmd, function (err, stdout, stderr) {
+                child_process.execFile('wget', args, function (err, stdout, stderr) {
                     return err ? reject(stderr) : resolve(file_name);
                 });
             } catch(e) {
@@ -86,51 +97,48 @@ class Utils {
 
     static metadataCheck(test, dir, profile, config, prod, eidas) {
         return new Promise((resolve, reject) => {
-            let cmd;
             let dirpath = config_dir["DATA"] + "/" + dir;
-            cmd = "env IDP_ENTITYID=\"" + config.entityID + "\" ";
-            cmd += " spid_sp_test ";
-            cmd += " --metadata-url file://" + dirpath + "/sp-metadata.xml ";
-            cmd += " --profile " + profile;
-            cmd += " --debug ERROR";
-            if(prod) cmd += " --production";
-            if(eidas) cmd += " --profile ficep-eidas-sp ";
 
+            // Build the argument list explicitly and run spid_sp_test through
+            // execFile (no shell). Every value - including the user-supplied
+            // `profile` and the metadata-derived `config.entityID` - is passed as
+            // a single argv entry (or via the environment), so shell
+            // metacharacters in them can no longer inject commands (CWE-78).
+            let args = [
+                '--metadata-url', 'file://' + dirpath + '/sp-metadata.xml',
+                '--profile', profile,
+                '--debug', 'ERROR'
+            ];
+            if(prod) args.push('--production');
+            if(eidas) args.push('--profile', 'ficep-eidas-sp');
 
             let reportfile = "";
             switch(test) {
-                case "strict": 
-                    reportfile = dirpath + "/sp-metadata-strict.json"; 
-                    cmd += " -rf json -o " + reportfile;
+                case "strict":
+                    reportfile = dirpath + "/sp-metadata-strict.json";
+                    args.push('-rf', 'json', '-o', reportfile);
                     break;
-                case "extra": 
-                    reportfile = dirpath + "/sp-metadata-extra.json"; 
-                    cmd += " -rf json -o " + reportfile + " --extra";
+                case "extra":
+                    reportfile = dirpath + "/sp-metadata-extra.json";
+                    args.push('-rf', 'json', '-o', reportfile, '--extra');
                     break;
             }
-             
+
+            const options = { env: Object.assign({}, process.env, { IDP_ENTITYID: config.entityID }) };
+
             try {
-                child_process.exec(cmd, function (err, stdout, stderr) {
-                    console.log("\n\n>>> " + cmd);
+                child_process.execFile('spid_sp_test', args, options, function (err, stdout, stderr) {
+                    console.log("\n\n>>> spid_sp_test " + args.join(" "));
                     console.log("[ERR] " + err);
                     console.log("[STDOUT] " + stdout);
                     console.log("[STDERR] " + stderr);
 
-                    
+
                     if(!fs.existsSync(reportfile)) {
                         return reject(err? stderr:stdout);
                     }
 
                     return resolve(stdout);
-                    
-                    /*
-                    if(err!=null && err!='' && stderr!=null && stderr!='') {
-                        return resolve(stdout);
-                    } else {
-                        return reject(stderr? stderr:stdout);
-                    }
-                    */
-
                 });
             } catch(e) {
                 return reject("Si è verificato un errore durante l'esecuzione di spid-sp-test: " + e.message);
@@ -140,31 +148,34 @@ class Utils {
 
     static requestCheck(test, dir, config, prod, eidas) {
         return new Promise((resolve, reject) => {
-            let cmd;
             let dirpath = config_dir["DATA"] + "/" + dir;
-            cmd = "env IDP_ENTITYID=\"" + config.entityID + "\" ";
-            cmd += " spid_sp_test ";
-            cmd += " --metadata-url file://" + dirpath + "/sp-metadata.xml ";
-            cmd += " --authn-url file://" + dirpath + "/authn-request.dump ";
-            cmd += " --debug ERROR";
-            if(prod) cmd += " --production";
-            if(eidas) cmd += " --profile ficep-eidas-sp"; // NOT IMPLEMENTED ON SPID_SP_TEST?!
+
+            // See metadataCheck: execFile with an argument array, no shell.
+            let args = [
+                '--metadata-url', 'file://' + dirpath + '/sp-metadata.xml',
+                '--authn-url', 'file://' + dirpath + '/authn-request.dump',
+                '--debug', 'ERROR'
+            ];
+            if(prod) args.push('--production');
+            if(eidas) args.push('--profile', 'ficep-eidas-sp'); // NOT IMPLEMENTED ON SPID_SP_TEST?!
 
             let reportfile = "";
             switch(test) {
-                case "strict": 
-                    reportfile = dirpath + "/sp-authn-request-strict.json"; 
-                    cmd += " -rf json -o " + reportfile;
+                case "strict":
+                    reportfile = dirpath + "/sp-authn-request-strict.json";
+                    args.push('-rf', 'json', '-o', reportfile);
                     break;
-                case "extra": 
-                    reportfile = dirpath + "/sp-authn-request-extra.json"; 
-                    cmd += " -rf json -o " + reportfile + " --extra";
+                case "extra":
+                    reportfile = dirpath + "/sp-authn-request-extra.json";
+                    args.push('-rf', 'json', '-o', reportfile, '--extra');
                     break;
             }
-             
+
+            const options = { env: Object.assign({}, process.env, { IDP_ENTITYID: config.entityID }) };
+
             try {
-                child_process.exec(cmd, function (err, stdout, stderr) {
-                    console.log("\n\n>>> " + cmd);
+                child_process.execFile('spid_sp_test', args, options, function (err, stdout, stderr) {
+                    console.log("\n\n>>> spid_sp_test " + args.join(" "));
                     console.log("[ERR] " + err);
                     console.log("[STDOUT] " + stdout);
                     console.log("[STDERR] " + stderr);
@@ -183,11 +194,8 @@ class Utils {
 
     static getSpidSPTestVersion() {
         return new Promise((resolve, reject) => {
-            let cmd;
-            cmd = "spid_sp_test --version";
-
             try {
-                child_process.exec(cmd, function (err, stdout, stderr) {
+                child_process.execFile('spid_sp_test', ['--version'], function (err, stdout, stderr) {
                     if(err) return reject(stderr);
                     else return resolve(stdout);
                 });
